@@ -1,0 +1,8 @@
+flask
+flask-cors
+flask-limiter
+flask-talisman
+supabase
+requests
+python-dotenv
+gunicorn
