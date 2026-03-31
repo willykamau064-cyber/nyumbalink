@@ -1,7 +1,7 @@
 {
-  "name": "nyumbalink-backend",
+  "name": "linkpoint-backend",
   "version": "1.0.0",
-  "description": "Premium Node.js + Supabase backend for NyumbaLink",
+  "description": "Premium Node.js + Supabase backend for LinkPoint",
   "main": "server.js",
   "type": "module",
   "scripts": {

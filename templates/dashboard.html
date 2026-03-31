@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | LinkPoint Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            /* Theme Variables */
+            --bg: #030712;
+            --sidebar-bg: rgba(3, 7, 18, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #F1F5F9;
+            --text-dim: #94A3B8;
+            
+            /* User Theme (Violet) */
+            --u-accent: #8B5CF6;
+            --u-accent-glow: rgba(139, 92, 246, 0.3);
+            
+            /* Host Theme (Orange/Gold) */
+            --h-accent: #FF5C00;
+            --h-accent-glow: rgba(255, 92, 0, 0.3);
+            
+            /* Current Theme Defaults (User) */
+            --accent: var(--u-accent);
+            --accent-glow: var(--u-accent-glow);
+            
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        [data-role="host"] {
+            --accent: var(--h-accent);
+            --accent-glow: var(--h-accent-glow);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            overflow: hidden; /* Main scroll handled by content area */
+            height: 100vh;
+        }
+
+        .mesh-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 80% 20%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 40%);
+            transition: var(--transition);
+        }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        aside {
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo span { color: var(--accent); font-style: italic; transition: color 0.3s; }
+
+        .nav-section { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dim);
+            padding: 0.85rem 1.2rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-link.active i { color: var(--accent); }
+
+        /* --- MAIN AREA --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            background: rgba(3, 7, 18, 0.4);
+        }
+
+        .search-wrap {
+            position: relative;
+            width: 400px;
+        }
+        .search-wrap i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 1.5rem; }
+
+        /* Role Toggle Switch */
+        .role-switcher {
+            display: flex;
+            background: rgba(255,255,255,0.03);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .role-btn {
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 9px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-dim);
+            background: transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .role-btn.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), #50E3C2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid var(--border);
+        }
+
+        /* --- CONTENT SCROLL --- */
+        .content-scroll {
+            padding: 2.5rem 3rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .view-section { display: none; animation: fadeIn 0.5s ease-out; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .stat-card {
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .stat-label { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; margin: 0.5rem 0; font-family: 'Space Grotesk', sans-serif; }
+        .stat-delta { font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .delta-up { color: #10B981; }
+        .delta-down { color: #EF4444; }
+
+        /* Chart Area */
+        .chart-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .glass-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: relative;
+        }
+        .panel-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .panel-h h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { text-align: left; padding: 1rem; color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        .data-table td { padding: 1.2rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .status-live { background: rgba(16, 185, 129, 0.1); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+        .btn-action { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: 0.3s; }
+        .btn-action:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.05); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-layout { grid-template-columns: 80px 1fr; }
+            .sidebar-text, .nav-label { display: none; }
+            aside { padding: 2rem 0.5rem; align-items: center; }
+            .nav-link { justify-content: center; padding: 1rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .chart-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body data-role="user">
+    <div class="mesh-bg"></div>
+
+    <div class="dashboard-layout">
+        <!-- SIDEBAR -->
+        <aside>
+            <a href="/" class="logo">
+                <i class="fas fa-link" style="color:var(--accent)"></i>
+                <span class="sidebar-text">Link<span>Point</span></span>
+            </a>
+
+            <div class="nav-section" id="user-nav">
+                <div class="nav-label">Seeker Menu</div>
+                <a href="#" class="nav-link active" onclick="showSubView('user-home')"><i class="fas fa-compass"></i> <span class="sidebar-text">Browse Listings</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('user-saved')"><i class="fas fa-heart"></i> <span class="sidebar-text">Saved Items</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('user-bookings')"><i class="fas fa-calendar-check"></i> <span class="sidebar-text">My Bookings</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('user-messages')"><i class="fas fa-comment-dots"></i> <span class="sidebar-text">Inquiries</span></a>
+            </div>
+
+            <div class="nav-section" id="host-nav" style="display:none">
+                <div class="nav-label">Host Command</div>
+                <a href="#" class="nav-link active" onclick="showSubView('host-overview')"><i class="fas fa-chart-line"></i> <span class="sidebar-text">Overview Stats</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('host-listings')"><i class="fas fa-home"></i> <span class="sidebar-text">My Properties</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('host-bookings')"><i class="fas fa-users"></i> <span class="sidebar-text">Bookings Received</span></a>
+                <a href="#" class="nav-link" onclick="showSubView('host-payments')"><i class="fas fa-wallet"></i> <span class="sidebar-text">Wallets &amp; Payouts</span></a>
+            </div>
+
+            <div style="margin-top:auto" class="nav-section">
+                <a href="#" class="nav-link"><i class="fas fa-cog"></i> <span class="sidebar-text">Settings</span></a>
+                <a href="#" class="nav-link" style="color:#EF4444" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> <span class="sidebar-text">Logout</span></a>
+            </div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <main>
+            <header>
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="Search for houses, shops, or offices...">
+                </div>
+
+                <div class="header-actions">
+                    <div class="role-switcher">
+                        <button class="role-btn active" id="btn-user" onclick="switchRole('user')">
+                            <i class="fas fa-user-circle"></i> Seeker
+                        </button>
+                        <button class="role-btn" id="btn-host" onclick="switchRole('host')">
+                            <i class="fas fa-briefcase"></i> Host
+                        </button>
+                    </div>
+
+                    <div class="user-profile" onclick="window.location.href='/account'">
+                        <div class="avatar" id="user-initials">UN</div>
+                        <div style="text-align:right" class="sidebar-text">
+                            <div style="font-size:0.85rem;font-weight:600" id="user-email">User Name</div>
+                            <div style="font-size:0.7rem;color:var(--text-dim)">Premium Member</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-scroll">
+                
+                <!-- ====== HOST VIEW ====== -->
+                <div id="host-view" class="view-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Listings</div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-arrow-up"></i> +2 this month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Month Views</div>
+                            <div class="stat-value">4.8k</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-arrow-up"></i> 15% increase</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Active Bookings</div>
+                            <div class="stat-value">7</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-circle" style="font-size:8px"></i> Full Capacity</div>
+                        </div>
+                        <div class="stat-card" style="border-color:var(--accent)">
+                            <div class="stat-label">Earnings (KES)</div>
+                            <div class="stat-value">142,500</div>
+                            <div class="stat-delta delta-up">Payout available</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="glass-panel">
+                            <div class="panel-h">
+                                <h3>Revenue Performance</h3>
+                                <div class="role-switcher" style="transform:scale(0.8)">
+                                    <button class="role-btn active">Weekly</button>
+                                    <button class="role-btn">Monthly</button>
+                                </div>
+                            </div>
+                            <canvas id="earningsChart" height="220"></canvas>
+                        </div>
+                        <div class="glass-panel">
+                            <div class="panel-h">
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:1.2rem">
+                                <div style="display:flex;gap:12px;font-size:0.85rem">
+                                    <div style="color:var(--accent)"><i class="fas fa-plus-circle"></i></div>
+                                    <div><strong>New Booking</strong><br><span style="color:var(--text-dim)">Villa Marwa - Today 2:15 PM</span></div>
+                                </div>
+                                <div style="display:flex;gap:12px;font-size:0.85rem">
+                                    <div style="color:#10B981"><i class="fas fa-check-circle"></i></div>
+                                    <div><strong>Payout Success</strong><br><span style="color:var(--text-dim)">KES 45,000 to M-Pesa</span></div>
+                                </div>
+                                <div style="display:flex;gap:12px;font-size:0.85rem">
+                                    <div style="color:var(--accent)"><i class="fas fa-eye"></i></div>
+                                    <div><strong>Trending</strong><br><span style="color:var(--text-dim)">Kilimani Shop has 500+ views</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="panel-h">
+                            <h3>My Listings</h3>
+                            <button class="role-btn active" style="background:var(--accent)">+ Add Property</button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Property Name</th>
+                                    <th>Type</th>
+                                    <th>Price/Month</th>
+                                    <th>Status</th>
+                                    <th>Views</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:6px;background:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=100') center/cover;"></div> Luxury Runda Villa</div></td>
+                                    <td>House</td>
+                                    <td>KES 250,000</td>
+                                    <td><span class="status-pill status-live">Live</span></td>
+                                    <td>1,240</td>
+                                    <td>
+                                        <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:6px;background:url('https://images.unsplash.com/photo-1582037928819-012014f8a7aa?w=100') center/cover;"></div> Westlands Office A1</div></td>
+                                    <td>Office</td>
+                                    <td>KES 85,000</td>
+                                    <td><span class="status-pill status-live">Live</span></td>
+                                    <td>890</td>
+                                    <td>
+                                        <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ====== USER VIEW ====== -->
+                <div id="user-view" class="view-section active">
+                    <div class="panel-h" style="margin-bottom:2rem">
+                        <h2 style="font-family:'Space Grotesk'">Welcome to your <em>Discovery</em> Portal</h2>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem">
+                        <!-- Property Cards (Mock) -->
+                        <div class="stat-card" style="padding:0;overflow:hidden">
+                            <div style="height:180px;background:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500') center/cover;"></div>
+                            <div style="padding:1.5rem">
+                                <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem">
+                                    <span style="font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Modern Apartment</span>
+                                    <span style="color:#10B981;font-weight:700">KES 45,000</span>
+                                </div>
+                                <h4 style="margin-bottom:0.5rem">Sunrise Valley Heights</h4>
+                                <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+                                <button class="role-btn active" style="width:100%;justify-content:center">View Details</button>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="padding:0;overflow:hidden">
+                            <div style="height:180px;background:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=500') center/cover;"></div>
+                            <div style="padding:1.5rem">
+                                <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem">
+                                    <span style="font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Premium Office</span>
+                                    <span style="color:#10B981;font-weight:700">KES 120,000</span>
+                                </div>
+                                <h4 style="margin-bottom:0.5rem">Capital Hub Plaza</h4>
+                                <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+                                <button class="role-btn active" style="width:100%;justify-content:center">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Init state
+        let currentRole = 'user';
+
+        // Load user data
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('linkpointUser');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                document.getElementById('user-email').innerText = user.email;
+                document.getElementById('user-initials').innerText = user.email.substring(0, 2).toUpperCase();
+            } else {
+                // If not logged in redirect
+                window.location.href = '/account';
+            }
+            initChart();
+        });
+
+        function switchRole(role) {
+            currentRole = role;
+            document.body.setAttribute('data-role', role);
+            
+            // Toggle view visibility
+            document.getElementById('user-view').classList.toggle('active', role === 'user');
+            document.getElementById('host-view').classList.toggle('active', role === 'host');
+            
+            // Toggle Nav items
+            document.getElementById('user-nav').style.display = (role === 'user' ? 'flex' : 'none');
+            document.getElementById('host-nav').style.display = (role === 'host' ? 'flex' : 'none');
+
+            // Button active state
+            document.getElementById('btn-user').classList.toggle('active', role === 'user');
+            document.getElementById('btn-host').classList.toggle('active', role === 'host');
+        }
+
+        function showSubView(viewId) {
+            alert("Navigating to " + viewId + ". (Sub-page content would load here)");
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('linkpointUser');
+            localStorage.removeItem('linkpointToken');
+            window.location.href = '/account';
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Revenue (KES)',
+                        data: [12000, 19000, 3000, 5000, 22000, 30000, 45000],
+                        borderColor: '#FF5C00',
+                        backgroundColor: 'rgba(255, 92, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#FF5C00'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94A3B8', font: { size: 10 } }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#94A3B8', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

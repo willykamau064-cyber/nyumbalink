@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy a Home | LinkPoint</title>
+    <meta name="description" content="Find your dream home to buy in Kenya. Browse luxury estates and investment properties on LinkPoint.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root{--accent:#8B5CF6;--accent-glow:rgba(139,92,246,0.32);--bg:#030712;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--shine:rgba(255,255,255,0.14);--text:#F1F5F9;--muted:#64748B;--display:'Playfair Display',serif;--body:'Space Grotesk',sans-serif;--ui:'Inter',sans-serif;}
+        *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+        body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 55% at 40% 30%,rgba(139,92,246,0.09) 0%,transparent 55%),radial-gradient(ellipse 45% 45% at 70% 70%,rgba(139,92,246,0.05) 0%,transparent 45%)}
+        .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:-1;animation:drift 24s ease-in-out infinite}
+        .orb1{width:400px;height:400px;background:rgba(139,92,246,0.11);top:10%;left:10%}
+        .orb2{width:290px;height:290px;background:rgba(100,60,200,0.07);bottom:15%;right:8%;animation-delay:-11s}
+        @keyframes drift{0%,100%{transform:translate(0,0)}40%{transform:translate(25px,-30px)}70%{transform:translate(-15px,20px)}}
+        nav{position:fixed;top:0;width:100%;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(3,7,18,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .logo{font-family:var(--display);font-size:1.8rem;font-weight:700;text-decoration:none;color:var(--text);letter-spacing:-1px}.logo em{color:#FF5C00;font-style:italic}
+        .nav-links{display:flex;gap:0.4rem}.nav-links a{font-family:var(--ui);font-size:0.82rem;font-weight:500;color:var(--muted);text-decoration:none;padding:0.55rem 1rem;border-radius:10px;transition:0.3s}.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+        .btn{font-family:var(--ui);font-weight:600;font-size:0.82rem;padding:0.65rem 1.4rem;border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);cursor:pointer;text-decoration:none;transition:0.3s;display:inline-flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}.btn:hover{background:rgba(255,255,255,0.07)}
+        .btn-accent{background:var(--accent);border-color:transparent;color:white;box-shadow:0 0 24px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.2)}.btn-accent:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 40px var(--accent-glow)}
+        .page-hero{padding:10rem 5% 3rem;text-align:center}
+        .eyebrow{font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+        .eyebrow::before,.eyebrow::after{content:'';width:40px;height:1px;background:var(--accent);opacity:0.4}
+        .page-hero h1{font-family:var(--display);font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-3px;margin-bottom:1rem}
+        .page-hero h1 em{color:var(--accent);font-style:italic;text-shadow:0 0 60px var(--accent-glow)}
+        .page-hero p{font-family:var(--ui);font-size:1.05rem;color:var(--muted);max-width:580px;margin:0 auto;line-height:1.75}
+        .form-wrap{max-width:860px;margin:3rem auto 7rem;padding:0 5%}
+        .glass-card{padding:3rem;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,0.045) 0%,rgba(255,255,255,0.01) 100%);border:1px solid var(--border);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+        .glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--shine),transparent)}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}@media(max-width:620px){.form-grid{grid-template-columns:1fr}}
+        .f-group label{display:block;font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.55rem}
+        .f-input{width:100%;padding:1rem 1.2rem;font-family:var(--body);font-size:0.95rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;transition:0.3s}
+        .f-input::placeholder{color:rgba(255,255,255,0.18)}.f-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 22px var(--accent-glow)}
+        textarea.f-input{min-height:120px;resize:vertical}
+        footer{padding:3rem 5% 2rem;border-top:1px solid var(--border);background:rgba(3,7,18,0.5)}
+        .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+        .foot-links{display:flex;gap:1.5rem;flex-wrap:wrap}.foot-links a{font-family:var(--ui);font-size:0.8rem;color:var(--muted);text-decoration:none;transition:0.3s}.foot-links a:hover{color:#FF5C00}
+        .foot-copy{font-family:var(--ui);font-size:0.76rem;color:var(--muted)}
+        #notif{position:fixed;bottom:2rem;right:2rem;z-index:9999}
+        .toast{background:var(--accent);color:white;padding:0.9rem 1.8rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.4);animation:slidein 0.3s ease;font-family:var(--ui);font-size:0.88rem;font-weight:700}
+        @keyframes slidein{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @media(max-width:768px){.nav-links{display:none}}
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_a9d3d922bc30a905a306bdfe1140df03189a0fcc',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh"></div><div class="orb orb1"></div><div class="orb orb2"></div>
+
+<nav>
+    <a href="/" class="logo">Link<em>Point</em></a>
+    <div class="nav-links">
+        <a href="/find-rental">Find Rental</a>
+        <a href="/list-rental">List Rental</a>
+        <a href="/buy-home" class="active">Buy Home</a>
+        <a href="/sell-home">Sell Home</a>
+        <a href="/bnb">BnB</a>
+        <a href="/commercial">Commercial</a>
+    </div>
+    <a href="/account" class="btn"><i class="fas fa-user"></i> Account</a>
+</nav>
+
+<div class="page-hero" data-aos="zoom-out">
+    <div class="eyebrow">SECTION 03 — BUYER PORTAL</div>
+    <h1>Find Your <em>Dream</em> Home</h1>
+    <p>Tell us about your ideal property. Our agents will reach out with exclusive, verified listings in your range.</p>
+</div>
+
+<div class="form-wrap">
+    <div class="glass-card" data-aos="fade-up">
+        <form onsubmit="event.preventDefault(); toast('Search preferences recorded! Matching you now...')">
+            <div class="form-grid">
+                <div class="f-group">
+                    <label>Preferred Location</label>
+                    <input type="text" class="f-input" placeholder="e.g. Karen, Runda, Muthaiga">
+                </div>
+                <div class="f-group">
+                    <label>Budget Range (KES)</label>
+                    <input type="text" class="f-input" placeholder="e.g. 15M – 30M">
+                </div>
+                <div class="f-group">
+                    <label>Number of Bedrooms</label>
+                    <input type="number" class="f-input" min="1" placeholder="e.g. 4">
+                </div>
+                <div class="f-group">
+                    <label>Property Type</label>
+                    <select class="f-input" style="appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 1rem center">
+                        <option>Bungalow</option>
+                        <option>Townhouse</option>
+                        <option>Apartment / Maisonette</option>
+                        <option>Villa</option>
+                        <option>Mansion / Estate</option>
+                    </select>
+                </div>
+                <div class="f-group" style="grid-column:1/-1">
+                    <label>Special Features (Kitchen Garden, Solar, SQ, etc.)</label>
+                    <textarea class="f-input" placeholder="e.g. Kitchen garden, solar power, servant quarters, gated community, large compound, borehole..."></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1.15rem;font-size:0.95rem;margin-top:2rem">
+                Begin Matchmaking <i class="fas fa-magic"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<footer><div class="foot-inner">
+    <a href="/" class="logo" style="font-size:1.4rem">Link<em>Point</em></a>
+    <div class="foot-links"><a href="/find-rental">Find Rental</a><a href="/list-rental">List Rental</a><a href="/buy-home">Buy Home</a><a href="/sell-home">Sell Home</a><a href="/bnb">BnB</a><a href="/commercial">Commercial</a></div>
+    <div class="foot-copy">&copy; 2026 LinkPoint Hub</div>
+</div></footer>
+<div id="notif"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>AOS.init({duration:850,once:true});function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.getElementById('notif').appendChild(t);setTimeout(()=>t.remove(),3000)}</script>
+</body>
+</html>

@@ -3,2526 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NyumbaLink Hub</title>
-    <!-- FontAwesome for Icons -->
+    <title>LinkPoint | Kenya's Premium Real Estate Hub</title>
+    <meta name="description" content="Kenya's most trusted real estate platform. Find rentals, buy homes, list properties, BnB, offices and shops.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- AOS Animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
-        /* LIGHT THEME (DEFAULT) */
         :root {
-            --primary: #2563eb;
-            --secondary: #10b981;
-            --accent: #f59e0b;
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-alt: #f1f5f9;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --danger: #ef4444;
-            --bg-overlay: rgba(255, 255, 255, 0.95);
-            --bg-glass: rgba(255, 255, 255, 0.7);
+            --primary: #FF5C00;
+            --primary-glow: rgba(255,92,0,0.35);
+            --bg-deep: #030712;
+            --glass-bg: rgba(255,255,255,0.03);
+            --glass-border: rgba(255,255,255,0.08);
+            --glass-shine: rgba(255,255,255,0.14);
+            --text: #F1F5F9;
+            --text-dim: #64748B;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-ui: 'Inter', sans-serif;
         }
-        /* DARK THEME */
-        [data-theme="dark"] {
-            --primary: #00d4ff;
-            --secondary: #39ff14;
-            --accent: #f59e0b;
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --bg-alt: #162032;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --danger: #ef4444;
-            --bg-overlay: rgba(15, 23, 42, 0.95);
-            --bg-glass: rgba(30, 41, 59, 0.7);
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text); overflow-x: hidden; }
+
+        /* === ANIMATED BG === */
+        .mesh-bg { position: fixed; inset: 0; z-index: -1;
+            background:
+                radial-gradient(ellipse 70% 50% at 20% 30%, rgba(255,92,0,0.09) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 60% at 80% 70%, rgba(0,212,255,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 55% 55%, rgba(139,92,246,0.04) 0%, transparent 40%); }
+        .orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: -1; animation: drift 22s ease-in-out infinite; }
+        .orb-1 { width: 420px; height: 420px; background: rgba(255,92,0,0.11); top: 5%; left: 5%; }
+        .orb-2 { width: 350px; height: 350px; background: rgba(0,212,255,0.07); bottom: 15%; right: 8%; animation-delay: -8s; }
+        .orb-3 { width: 280px; height: 280px; background: rgba(139,92,246,0.06); top: 55%; left: 42%; animation-delay: -15s; }
+        @keyframes drift { 0%,100%{transform:translate(0,0)} 33%{transform:translate(35px,-45px)} 66%{transform:translate(-25px,25px)} }
+
+        /* === NAV === */
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 1.1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(3,7,18,0.55); backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700;
+            text-decoration: none; color: var(--text); letter-spacing: -1px; }
+        .logo em { color: var(--primary); font-style: italic; }
+        .nav-cta { display: flex; gap: 0.75rem; }
+        .btn-glass { font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600;
+            padding: 0.6rem 1.3rem; border-radius: 12px; border: 1px solid var(--glass-border);
+            background: var(--glass-bg); color: var(--text); cursor: pointer; text-decoration: none;
+            transition: all 0.3s; backdrop-filter: blur(8px); }
+        .btn-glass:hover { background: rgba(255,255,255,0.07); border-color: var(--glass-shine); }
+
+        /* === HERO === */
+        .hero { min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 8rem 5% 4rem; }
+        .hero-eyebrow { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--primary);
+            margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; }
+        .hero-eyebrow::before, .hero-eyebrow::after { content: ''; flex: 1; max-width: 50px;
+            height: 1px; background: linear-gradient(90deg, transparent, var(--primary)); }
+        .hero-eyebrow::after { background: linear-gradient(90deg, var(--primary), transparent); }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 7.5rem);
+            font-weight: 800; line-height: 0.92; letter-spacing: -4px; margin-bottom: 1.8rem; }
+        .hero h1 em { color: var(--primary); font-style: italic; text-shadow: 0 0 80px var(--primary-glow); }
+        .hero-sub { font-family: var(--font-ui); font-size: 1.1rem; color: var(--text-dim);
+            max-width: 520px; line-height: 1.75; margin-bottom: 1rem; }
+
+        /* === STATS ROW === */
+        .stats { display: flex; justify-content: center; gap: 4rem; padding: 3rem 5%; flex-wrap: wrap; }
+        .stat-num { font-family: var(--font-display); font-size: 2.8rem; font-weight: 800; color: var(--primary); }
+        .stat-label { font-family: var(--font-ui); font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--text-dim); margin-top: 0.25rem; }
+
+        /* === SECTION LABEL / HEADING === */
+        .section-label { font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--primary); margin-bottom: 0.75rem; }
+
+        /* === 6-PAGE GRID === */
+        .pages-section { padding: 5rem 5%; max-width: 1400px; margin: 0 auto; }
+        .pages-section h2 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700; letter-spacing: -2px; margin-bottom: 3.5rem; }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        @media (max-width: 1024px) { .pages-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .pages-grid { grid-template-columns: 1fr; } }
+
+        .page-card {
+            position: relative; border-radius: 28px; overflow: hidden; cursor: pointer;
+            text-decoration: none; color: var(--text); display: flex; flex-direction: column;
+            padding: 2.5rem; min-height: 260px;
+            /* Liquid glass */
+            background: linear-gradient(145deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-main);
-        }
-        .section-title p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #0082c8);
-            color: var(--text-main);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
-        }
-        .btn-outline {
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            color: var(--primary);
-        }
-        .btn-outline:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: var(--primary);
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        .nav-active {
-            color: var(--primary) !important;
-            position: relative;
-        }
-        .nav-active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
+        /* Inner top shine line */
+        .page-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--glass-shine) 50%, transparent 100%); }
+        /* Radial glow on hover */
+        .page-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: radial-gradient(ellipse at 50% 0%, var(--card-glow, rgba(255,92,0,0.06)) 0%, transparent 65%);
+            opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+        .page-card:hover { transform: translateY(-10px) scale(1.01);
+            border-color: rgba(255,255,255,0.14);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.05); }
+        .page-card:hover::after { opacity: 1; }
+
+        .card-number { font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+            color: var(--card-accent, var(--primary)); opacity: 0.5; margin-bottom: 1rem; letter-spacing: 2px; }
+        .card-icon { width: 56px; height: 56px; border-radius: 16px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.5rem;
+            background: var(--card-icon-bg, rgba(255,92,0,0.1));
+            color: var(--card-accent, var(--primary));
+            border: 1px solid var(--card-icon-border, rgba(255,92,0,0.18)); }
+        .card-title { font-family: var(--font-display); font-size: 1.65rem; font-weight: 700;
+            letter-spacing: -0.5px; margin-bottom: 0.6rem; }
+        .card-desc { font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-dim);
+            line-height: 1.6; flex: 1; }
+        .card-arrow { font-family: var(--font-ui); font-size: 0.78rem; font-weight: 700;
+            color: var(--card-accent, var(--primary)); display: flex; align-items: center; gap: 6px;
+            margin-top: 1.5rem; }
+        .page-card:hover .card-arrow i { transform: translateX(6px); }
+        .card-arrow i { transition: transform 0.3s; }
+
+        /* LARGE CARD (spans 2 columns) */
+        .page-card.wide { grid-column: span 2; flex-direction: row; align-items: center; gap: 3rem; min-height: 200px; }
+        .page-card.wide .card-icon { flex-shrink: 0; width: 70px; height: 70px; font-size: 1.8rem; border-radius: 20px; }
+        @media (max-width: 1024px) { .page-card.wide { grid-column: span 1; flex-direction: column; } }
+
+        /* === FOOTER === */
+        footer { padding: 4rem 5% 2rem; border-top: 1px solid var(--glass-border);
+            background: rgba(3,7,18,0.5); backdrop-filter: blur(12px); margin-top: 4rem; }
+        .footer-inner { max-width: 1400px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-dim); font-family: var(--font-ui); font-size: 0.82rem; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-copy { color: var(--text-dim); font-family: var(--font-ui); font-size: 0.78rem; }
     </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_a9d3d922bc30a905a306bdfe1140df03189a0fcc',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
 </head>
 <body>
 
-<style>
-/* Custom styled forms */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-@media(max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
-.form-group label { display: block; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
-.form-input { width: 100%; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; transition: all 0.3s; }
-.form-input::placeholder { color: var(--text-muted); opacity: 0.7; }
-.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
-.checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
-.custom-checkbox { display: flex; align-items: center; gap: 0.5rem; color: var(--text-main); cursor: pointer; user-select: none; }
-.custom-checkbox input { accent-color: var(--primary); width: 1.2rem; height: 1.2rem; }
-.tab-btn { flex: 1; min-width: 150px; padding: 1rem; background: transparent; border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-weight: 600; cursor: pointer; transition: all 0.3s; }
-.tab-btn:hover { background: var(--bg-card); border-color: var(--primary); }
+<div class="mesh-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
 
-/* Force Dark Theme Variables on Services Portal due to its hardcoded dark background */
-#servicesPortal {
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --bg-card: rgba(30, 41, 59, 0.6);
-    --border-color: rgba(255, 255, 255, 0.1);
-}
-</style>
-
-<!-- AUTHENTICATION GATE -->
-<div id="authGate" style="position: fixed; inset: 0; z-index: 99999; background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=2000&auto=format&fit=crop') center/cover no-repeat; display: none; opacity: 0; transform: scale(0.98); align-items: center; justify-content: center; transition: all 0.4s ease;">
-    <div style="position: absolute; inset: 0; background: var(--bg-overlay); backdrop-filter: blur(8px);"></div>
-    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; z-index: 1;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="/static/logo_nyumba.jpg" alt="NyumbaLink Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
-            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">NyumbaLink.</h2>
-            <p style="color: var(--text-muted);" id="authSubtitle">Sign in to your premium real estate hub</p>
-        </div>
-        
-        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-            <button type="button" class="tab-btn" id="btn-login-tab" onclick="toggleAuthMode('login')" style="background: linear-gradient(135deg, var(--primary), #0082c8); color: white; border-color: transparent;">Login</button>
-            <button type="button" class="tab-btn" id="btn-register-tab" onclick="toggleAuthMode('register')">Register</button>
-        </div>
-
-        <form id="authForm" onsubmit="handleAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="authEmail" required class="form-input" placeholder="you@example.com">
-            </div>
-            <div class="form-group" id="phoneGroup" style="display: none;">
-                <label>Phone Number</label>
-                <input type="tel" id="authPhone" class="form-input" placeholder="+254 700 000000">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="authPassword" required class="form-input" placeholder="••••••••">
-            </div>
-            <div id="authError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
-            
-            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
-                Sign In <i class="fas fa-sign-in-alt"></i>
-            </button>
-
-            <!-- Reset Password Link -->
-            <div id="resetLinkArea" style="text-align: center; margin-top: 0.5rem;">
-                <a href="javascript:void(0)" onclick="toggleAuthMode('reset')" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;">Forgot Password?</a>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- UPDATE PASSWORD MODAL (Hidden by default) -->
-<div id="updatePasswordGate" style="position: fixed; inset: 0; z-index: 100000; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center;">
-    <div style="background: var(--bg-card); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-         <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">Update Password</h2>
-            <p style="color: var(--text-muted);">Enter your new secure password</p>
-        </div>
-        <form onsubmit="handleNewPasswordSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div class="form-group">
-                <label>New Password</label>
-                <input type="password" id="newPassword" required class="form-input" placeholder="••••••••">
-            </div>
-            <div id="updateError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
-            <button type="submit" id="updateSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
-                Set New Password <i class="fas fa-check"></i>
-            </button>
-        </form>
-    </div>
-</div>
-
-<script>
-const API_BASE = ""; // Use relative paths for maximum reliability
-let authMode = 'login';
-
-function toggleAuthMode(mode) {
-    authMode = mode;
-    document.getElementById('authError').style.display = 'none';
-    const loginBtn = document.getElementById('btn-login-tab');
-    const registerBtn = document.getElementById('btn-register-tab');
-    const phoneGrp = document.getElementById('phoneGroup');
-    const submitBtn = document.getElementById('authSubmitBtn');
-    const subtitle = document.getElementById('authSubtitle');
-    const phoneInput = document.getElementById('authPhone');
-    
-    // Reset styles
-    loginBtn.style.background = 'transparent'; loginBtn.style.color = 'var(--text-muted)'; loginBtn.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-    registerBtn.style.background = 'transparent'; registerBtn.style.color = 'var(--text-muted)'; registerBtn.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-    
-    if (mode === 'login') {
-        loginBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)'; loginBtn.style.color = 'white'; loginBtn.style.borderColor = 'transparent';
-        phoneGrp.style.display = 'none';
-        phoneInput.required = false;
-        submitBtn.innerHTML = 'Sign In <i class="fas fa-sign-in-alt"></i>';
-        subtitle.innerText = 'Sign in to your premium real estate hub';
-        document.getElementById('resetLinkArea').style.display = 'block';
-    } else if (mode === 'register') {
-        registerBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)'; registerBtn.style.color = 'white'; registerBtn.style.borderColor = 'transparent';
-        phoneGrp.style.display = 'block';
-        phoneInput.required = true;
-        submitBtn.innerHTML = 'Create Account <i class="fas fa-user-plus"></i>';
-        subtitle.innerText = 'Join our premium real estate hub';
-        document.getElementById('resetLinkArea').style.display = 'none';
-    } else if (mode === 'reset') {
-        submitBtn.innerHTML = 'Send Reset Link <i class="fas fa-paper-plane"></i>';
-        subtitle.innerText = 'Enter your email to receive a recovery link';
-        phoneGrp.style.display = 'none';
-        document.getElementById('resetLinkArea').style.display = 'none';
-        // Password field is not needed for Reset Request
-        document.getElementById('authPassword').required = false;
-        document.getElementById('authPassword').parentElement.style.display = 'none';
-    }
-}
-async function handleNewPasswordSubmit(e) {
-    e.preventDefault();
-    const password = document.getElementById('newPassword').value;
-    const errorDiv = document.getElementById('updateError');
-    const submitBtn = document.getElementById('updateSubmitBtn');
-    
-    // Get access token from URL fragment (Supabase style)
-    const hash = window.location.hash;
-    const token = hash.split('access_token=')[1]?.split('&')[0];
-    
-    if(!token) {
-        errorDiv.innerText = "Session expired. Please request a new link.";
-        errorDiv.style.display = 'block';
-        return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Updating...';
-    
-    try {
-        const res = await fetch(API_BASE + '/update-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password, access_token: token })
-        });
-        const data = await res.json();
-        if(res.ok && data.success) {
-            alert("Password updated successfully! Redirecting to login...");
-            window.location.hash = ""; // Clear token from URL
-            window.location.reload();
-        } else {
-            errorDiv.innerText = data.message;
-            errorDiv.style.display = 'block';
-        }
-    } catch {
-        errorDiv.innerText = "Network error. Make sure the Node server is running.";
-        errorDiv.style.display = 'block';
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Set New Password <i class="fas fa-check"></i>';
-    }
-}
-
-async function handleAuthSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-    const phone = document.getElementById('authPhone').value;
-    const errorDiv = document.getElementById('authError');
-    const submitBtn = document.getElementById('authSubmitBtn');
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
-    errorDiv.style.display = 'none';
-    
-    try {
-        const endpoint = authMode === 'login' ? '/login' : (authMode === 'register' ? '/register' : '/reset-password');
-        const payload = authMode === 'login' ? { email, password } : (authMode === 'register' ? { email, password, phone } : { email });
-        
-        const res = await fetch(API_BASE + endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        
-        const data = await res.json();
-        if (res.ok && data.success) {
-            if (authMode === 'reset') {
-                 alert("Reset link sent to your email!");
-                 toggleAuthMode('login');
-                 return;
-            }
-            // Authentication successful!
-            localStorage.setItem('nyumbaToken', data.token); // Save JWT
-            localStorage.setItem('nyumbaUser', JSON.stringify(data.user));
-            closeAuthGate();
-            updateUIAfterLogin();
-        } else {
-            errorDiv.innerText = data.message || 'Authentication failed';
-            errorDiv.style.display = 'block';
-        }
-    } catch (err) {
-        errorDiv.innerText = 'Network error. Make sure the Python backend is running on port 3000.';
-        errorDiv.style.display = 'block';
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = authMode === 'login' ? 'Sign In <i class="fas fa-sign-in-alt"></i>' : 'Create Account <i class="fas fa-user-plus"></i>';
-    }
-}
-
-function closeAuthGate() {
-    document.getElementById('authGate').style.opacity = '0';
-    document.getElementById('authGate').style.transform = 'scale(0.98)';
-    setTimeout(() => {
-        document.getElementById('authGate').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }, 400);
-}
-
-function updateUIAfterLogin() {
-    const user = JSON.parse(localStorage.getItem('nyumbaUser'));
-    if (user) {
-        const loginBtn = document.querySelector('button[onclick="openAuth()"]');
-        if (loginBtn) {
-            loginBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email.split('@')[0]}`;
-            loginBtn.onclick = () => {
-                if(confirm("Do you want to logout?")) {
-                    localStorage.removeItem('nyumbaUser');
-                    location.reload();
-                }
-            };
-        }
-    }
-}
-
-window.addEventListener('scroll', () => {
-    const sections = ['featured', 'servicesPortal', 'agentVerification', 'neighborhoodGuides'];
-    const navLinks = document.querySelectorAll('.desktop-nav a');
-    
-    let current = '';
-    sections.forEach(id => {
-        const section = document.getElementById(id);
-        if (section) {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 100) {
-                current = id;
-            }
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('nav-active');
-        if (link.getAttribute('href') === '#' + current || (current === '' && link.getAttribute('href') === '#')) {
-            link.classList.add('nav-active');
-        }
-    });
-
-    // Navbar transparency effect
-    const nav = document.querySelector('nav');
-    if (window.scrollY > 50) {
-        nav.style.background = 'var(--bg-overlay)';
-        nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-    } else {
-        nav.style.background = 'transparent';
-        nav.style.boxShadow = 'none';
-    }
-});
-
-
-
-let allProperties = [];
-
-async function loadFeaturedProperties() {
-    console.log("Loading properties from:", API_BASE + '/listings');
-    const grid = document.getElementById('featured-properties-grid');
-    if (!grid) return;
-    try {
-        const res = await fetch(API_BASE + '/listings');
-        if (!res.ok) throw new Error("Backend error: " + res.status);
-        const properties = await res.json();
-        console.log("Fetched Properties:", properties);
-        
-        if (!properties || properties.length === 0) {
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">No properties found. Be the first to list!</div>';
-            return;
-        }
-
-        grid.innerHTML = ''; // Clear loader
-        allProperties = properties; // Cache for filtering
-        renderProperties(allProperties);
-        
-    } catch (err) {
-        console.error("Load properties error:", err);
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--danger); padding: 3rem;">Failed to load properties. Ensure the Python backend is running on port 3000.</div>';
-    }
-}
-
-function getBadgeStyle(status) {
-    if (!status) return 'background: var(--text-muted);';
-    const s = status.toUpperCase();
-    if (s.includes('SALE')) return 'background: var(--danger);';
-    if (s.includes('RENT')) return 'background: var(--secondary);';
-    if (s.includes('BNB')) return 'background: var(--primary);';
-    return 'background: var(--accent);';
-}
-
-
-function renderProperties(properties) {
-    const grid = document.getElementById('featured-properties-grid');
-    if (!grid) return;
-
-    if (!properties || properties.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">No properties found. Try a different search!</div>';
-        return;
-    }
-
-    grid.innerHTML = ''; 
-    properties.forEach((prop, index) => {
-        const badgeStyle = getBadgeStyle(prop.status);
-        const formattedPrice = "KSh " + parseInt(prop.price).toLocaleString();
-        const delay = (index % 3 + 1) * 100;
-        const images = prop.images && prop.images.length > 0 ? prop.images : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800'];
-        // Use villa_karen.png for the first card or if it mentions Karen
-        const isKaren = prop.title.toLowerCase().includes('karen');
-        const thumb = (index === 0 || isKaren) ? '/static/villa_karen.png' : images[0]; 
-        const imgCount = images.length;
-
-        const cardHTML = `
-        <div class="property-card" data-aos="fade-up" data-aos-delay="${delay}" style="cursor:pointer;" onclick="viewPropertyDetails('${prop.id}')">
-            <div style="height: 220px; background: url('${thumb}') center/cover no-repeat; position: relative; overflow:hidden;">
-                <div class="property-badge" style="${badgeStyle}">${prop.status}</div>
-                ${imgCount > 1 ? `<div style="position:absolute; bottom:0.75rem; right:0.75rem; background:rgba(0,0,0,0.6); color:#fff; padding:0.25rem 0.6rem; border-radius:99px; font-size:0.75rem; font-weight:700;"><i class="fas fa-images"></i> ${imgCount}</div>` : ''}
-            </div>
-            <div style="padding: 1.5rem;">
-                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.4rem;">
-                    <span style="font-size:0.75rem; color:var(--text-muted);"><i class="fas fa-bed"></i> ${prop.beds || 2} bed</span>
-                    <span style="font-size:0.75rem; color:var(--text-muted);">·</span>
-                    <span style="font-size:0.75rem; color:var(--text-muted);"><i class="fas fa-bath"></i> ${prop.baths || 1} bath</span>
-                </div>
-                <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${prop.title}</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> ${prop.location}</p>
-                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--secondary);">${formattedPrice}</div>
-                    <button class="btn btn-outline" onclick="event.stopPropagation(); viewPropertyDetails('${prop.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fas fa-eye"></i> Details</button>
-                </div>
-            </div>
-        </div>`;
-        grid.insertAdjacentHTML('beforeend', cardHTML);
-    });
-}
-
-function filterProperties() {
-    const loc = document.getElementById('searchLocation').value.toLowerCase();
-    const type = document.getElementById('searchType').value;
-    const maxPrice = document.getElementById('searchMaxPrice').value;
-
-    const filtered = allProperties.filter(p => {
-        const matchLoc = p.location.toLowerCase().includes(loc) || p.title.toLowerCase().includes(loc);
-        const matchType = type === 'Any' || (p.type && p.type.toLowerCase() === type.toLowerCase());
-        const matchPrice = !maxPrice || parseInt(p.price) <= parseInt(maxPrice);
-        return matchLoc && matchType && matchPrice;
-    });
-
-    renderProperties(filtered);
-    document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
-}
-
-function filterPropertiesByLocation(location) {
-    const filtered = allProperties.filter(p => {
-        return p.location.toLowerCase().includes(location.toLowerCase()) || 
-               p.title.toLowerCase().includes(location.toLowerCase());
-    });
-    renderProperties(filtered);
-    document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
-}
-
-function viewPropertyDetails(id) {
-    const prop = allProperties.find(p => p.id === id);
-    if (!prop) return;
-
-    const images = (prop.images && prop.images.length > 0)
-        ? prop.images
-        : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800'];
-    let currentImgIdx = 0;
-
-    const modal = document.createElement('div');
-    modal.id = 'detailsModal';
-    modal.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:1rem;';
-
-    const formattedPrice = 'KSh ' + parseInt(prop.price).toLocaleString();
-
-    function buildThumbStrip() {
-        if (images.length <= 1) return '';
-        return images.map((img, i) =>
-            `<div onclick="setGalleryImg(${i})" id="gthumb-${i}" style="width:70px;height:55px;border-radius:10px;background:url('${img}')center/cover;cursor:pointer;flex-shrink:0;border:2px solid ${i===0?'var(--primary)':'transparent'};transition:border 0.2s;"></div>`
-        ).join('');
-    }
-
-    modal.innerHTML = `
-        <div style="background:var(--bg-card);width:100%;max-width:950px;max-height:95vh;border-radius:24px;overflow-y:auto;position:relative;border:1px solid var(--border-color);box-shadow:0 30px 80px rgba(0,0,0,0.5);">
-            <button id="closeDetailBtn" style="position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,0.6);color:white;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;z-index:10;font-size:1rem;"><i class="fas fa-times"></i></button>
-
-            <!-- IMAGE GALLERY -->
-            <div style="position:relative;height:420px;background:var(--bg-alt);overflow:hidden;border-radius:24px 24px 0 0;">
-                <img id="galleryMainImg" src="${images[0]}" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.3s;" alt="Property image">
-                ${images.length > 1 ? `
-                <button onclick="shiftGallery(-1)" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;z-index:5;"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="shiftGallery(1)" style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;z-index:5;"><i class="fas fa-chevron-right"></i></button>
-                <div id="galleryCounter" style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:white;padding:0.3rem 0.8rem;border-radius:99px;font-size:0.8rem;font-weight:700;">1 / ${images.length}</div>` : ''}
-            </div>
-
-            <!-- THUMBNAIL STRIP -->
-            ${images.length > 1 ? `
-            <div id="thumbStrip" style="display:flex;gap:0.5rem;padding:0.75rem 1.5rem;overflow-x:auto;background:var(--bg-alt);border-bottom:1px solid var(--border-color);">
-                ${buildThumbStrip()}
-            </div>` : ''}
-
-            <div style="padding:2.5rem;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
-                    <div>
-                        <h2 style="color:var(--text-main);font-size:2rem;margin-bottom:0.4rem;">${prop.title}</h2>
-                        <p style="color:var(--text-muted);font-size:1rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> ${prop.location}</p>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:2rem;font-weight:800;color:var(--secondary);">${formattedPrice}</div>
-                        <span style="background:var(--primary);color:white;padding:0.25rem 1rem;border-radius:99px;font-weight:700;font-size:0.85rem;">${prop.status}</span>
-                    </div>
-                </div>
-
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-bottom:2rem;background:var(--bg-alt);padding:1.25rem;border-radius:16px;">
-                    <div style="text-align:center;">
-                        <i class="fas fa-bed" style="color:var(--primary);font-size:1.4rem;margin-bottom:0.4rem;"></i>
-                        <div style="color:var(--text-muted);font-size:0.8rem;">Bedrooms</div>
-                        <div style="font-weight:700;color:var(--text-main);">${prop.beds || 2} Beds</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <i class="fas fa-bath" style="color:var(--primary);font-size:1.4rem;margin-bottom:0.4rem;"></i>
-                        <div style="color:var(--text-muted);font-size:0.8rem;">Bathrooms</div>
-                        <div style="font-weight:700;color:var(--text-main);">${prop.baths || 1} Baths</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <i class="fas fa-images" style="color:var(--accent);font-size:1.4rem;margin-bottom:0.4rem;"></i>
-                        <div style="color:var(--text-muted);font-size:0.8rem;">Photos</div>
-                        <div style="font-weight:700;color:var(--text-main);">${images.length} Photos</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <i class="fas fa-parking" style="color:var(--primary);font-size:1.4rem;margin-bottom:0.4rem;"></i>
-                        <div style="color:var(--text-muted);font-size:0.8rem;">Parking</div>
-                        <div style="font-weight:700;color:var(--text-main);">Available</div>
-                    </div>
-                </div>
-
-                <h3 style="color:var(--text-main);margin-bottom:0.75rem;">Description</h3>
-                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:2rem;">
-                    This stunning ${prop.type || 'property'} located in the heart of ${prop.location} offers the perfect blend of luxury and convenience. Featuring modern finishes, spacious living areas, and top-tier security.
-                </p>
-
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-                    <button class="btn btn-outline" onclick="unlockContact('${prop.id}')" style="width:100%;padding:1rem;font-size:1rem;"><i class="fas fa-lock"></i> Unlock Contact (KSh 100)</button>
-                    <button class="btn btn-primary" onclick="openPayment('${prop.id}')" style="width:100%;padding:1rem;font-size:1rem;"><i class="fas fa-shopping-cart"></i> Book / Buy Now</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-
-    // Gallery controls
-    window.setGalleryImg = function(idx) {
-        currentImgIdx = idx;
-        const mainImg = document.getElementById('galleryMainImg');
-        const counter = document.getElementById('galleryCounter');
-        if (mainImg) { mainImg.style.opacity = '0'; setTimeout(() => { mainImg.src = images[idx]; mainImg.style.opacity = '1'; }, 200); }
-        if (counter) counter.textContent = (idx + 1) + ' / ' + images.length;
-        document.querySelectorAll('[id^="gthumb-"]').forEach((el, i) => { el.style.border = i === idx ? '2px solid var(--primary)' : '2px solid transparent'; });
-    };
-    window.shiftGallery = function(dir) {
-        let next = (currentImgIdx + dir + images.length) % images.length;
-        setGalleryImg(next);
-    };
-
-    document.getElementById('closeDetailBtn').onclick = () => {
-        modal.remove();
-        document.body.style.overflow = 'auto';
-    };
-}
-
-async function submitProperty(e, status) {
-    e.preventDefault();
-    const form = e.target;
-    const inputs = form.querySelectorAll('input, select');
-    const formData = new FormData();
-    
-    formData.append('status', status);
-    
-    let title = "Property Listing";
-    if (status === 'FOR RENT') title = "Rental Property";
-    if (status === 'FOR SALE') title = "Home for Sale";
-    if (status === 'BNB') title = "BnB Listing";
-    
-    let location = "";
-    let price = 0;
-    
-    inputs.forEach(input => {
-        const type = input.type;
-        const placeholder = input.placeholder || "";
-        const label = input.previousElementSibling ? input.previousElementSibling.innerText.toLowerCase() : "";
-        
-        if (type === 'text' && !location && (label.includes('location') || placeholder.includes('Location'))) {
-            location = input.value;
-        } else if (type === 'text' && title.includes('Listing')) {
-            title = input.value + " " + title;
-        }
-        
-        if (type === 'number' && (label.includes('price') || label.includes('rent') || label.includes('budget'))) {
-            price = input.value;
-        }
-        
-        if (type === 'file' && input.files.length > 0) {
-            const fieldName = input.accept.includes('image') ? 'images' : 'videos';
-            for (let i = 0; i < input.files.length; i++) {
-                formData.append(fieldName, input.files[i]);
-            }
-        }
-    });
-
-    const firstText = form.querySelector('input[type="text"]')?.value;
-    formData.append('title', firstText || title);
-    formData.append('location', location || "Kenya");
-    formData.append('price', price);
-    formData.append('type', status === 'FOR RENT' ? "apartment" : status === 'FOR SALE' ? "house" : "bnb");
-    formData.append('beds', 2);
-    formData.append('baths', 1);
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submitting...';
-    submitBtn.disabled = true;
-
-    try {
-        const token = localStorage.getItem('nyumbaToken');
-        if(!token) {
-            alert("Please sign in first to list a property.");
-            openAuth();
-            return;
-        }
-
-        const res = await fetch(API_BASE + '/listings', { // Updated to /listings for Node
-            method: 'POST',
-            headers: { 
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: firstText || title,
-                location: location || "Kenya",
-                price: parseInt(price),
-                type: status === 'FOR RENT' ? "apartment" : status === 'FOR SALE' ? "house" : "bnb",
-                status: status,
-                beds: 2,
-                baths: 1
-            })
-        });
-        const data = await res.json();
-        if (res.ok && data.success) {
-            alert("Property listed successfully! Refresh page to see it.");
-            form.reset();
-        } else {
-            alert("Error: " + data.message);
-        }
-    } catch(err) {
-        alert("Network error: Make sure the Python backend is running on port 3000.");
-    } finally {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }
-}
-
-function previewImages(input, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-    const files = Array.from(input.files);
-    files.forEach((file, i) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const wrap = document.createElement('div');
-            wrap.style.cssText = 'position:relative;width:90px;height:70px;border-radius:10px;overflow:hidden;border:2px solid var(--primary);flex-shrink:0;';
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-            const lbl = document.createElement('div');
-            lbl.style.cssText = 'position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);color:#fff;font-size:0.6rem;padding:2px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
-            lbl.textContent = file.name;
-            const badge = document.createElement('div');
-            badge.style.cssText = 'position:absolute;top:3px;left:3px;background:var(--primary);color:#fff;border-radius:99px;font-size:0.6rem;padding:1px 5px;font-weight:700;';
-            badge.textContent = i + 1;
-            wrap.appendChild(img); wrap.appendChild(lbl); wrap.appendChild(badge);
-            container.appendChild(wrap);
-        };
-        reader.readAsDataURL(file);
-    });
-    if (files.length > 0) {
-        const info = document.createElement('div');
-        info.style.cssText = 'display:flex;align-items:center;padding:0.4rem 0.8rem;background:rgba(0,212,255,0.08);border-radius:8px;font-size:0.8rem;color:var(--text-muted);flex-shrink:0;height:70px;border:1px solid rgba(0,212,255,0.2);';
-        info.innerHTML = `<i class="fas fa-check-circle" style="color:var(--secondary);margin-right:0.4rem;"></i>&nbsp;${files.length} image${files.length>1?'s':''} selected`;
-        container.appendChild(info);
-    }
-}
-
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-    document.querySelectorAll('.tab-btn').forEach(b => {
-        b.style.background = 'transparent';
-        b.style.color = 'var(--text-muted)';
-        b.style.borderColor = 'rgba(0, 212, 255, 0.3)';
-    });
-    
-    document.getElementById(tabId).style.display = 'block';
-    const activeBtn = document.getElementById('btn-' + tabId);
-    if(activeBtn) {
-        activeBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)';
-        activeBtn.style.color = 'white';
-        activeBtn.style.borderColor = 'transparent';
-    }
-}
-function unlockContact(id) {
-    if(confirm("Unlock direct contact for this property? (Cost: KSh 100)")) {
-        openPayment(id, 100, "Unlock Contact & Direct Link");
-    }
-}
-
-function boostListing(id) {
-    if(confirm("Boost this property to the 'Featured' section for 30 days? (Cost: KSh 1,000)")) {
-        openPayment(id, 1000, "Property Boost - Featured Status");
-    }
-}
-// Init body overflow
-document.body.style.overflow = 'auto';
-function openAuth() {
-    const gate = document.getElementById('authGate');
-    gate.style.display = 'flex';
-    setTimeout(() => { gate.style.opacity = '1'; gate.style.transform = 'scale(1)'; }, 10);
-    document.body.style.overflow = 'hidden';
-}
-function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if(isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        document.getElementById('themeIcon').className = 'fas fa-moon';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.getElementById('themeIcon').className = 'fas fa-sun';
-    }
-}
-document.documentElement.removeAttribute('data-theme'); // default Light Mode
-// THE VERY LAST STEP - Load everything
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM ready — loading properties...");
-    updateUIAfterLogin();
-    loadFeaturedProperties();
-    setTimeout(() => switchTab('tabRenting'), 100);
-
-    // Check for password reset link in URL
-    if (window.location.hash.includes('access_token=') && window.location.hash.includes('type=recovery')) {
-        document.getElementById('updatePasswordGate').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-});
-</script>
-
-
-<!-- MAIN NAVBAR -->
-<nav style="padding: 1rem 5%; background: var(--bg-overlay); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; transition: background 0.3s ease;">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-        <img src="/static/logo_nyumba.jpg" alt="NyumbaLink" style="height: 50px; border-radius: 12px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
-        <h1 style="color: var(--text-main); font-size: 1.5rem; margin: 0; letter-spacing: -0.5px; font-weight: 800;">Nyumba<span style="color: var(--primary);">Link</span></h1>
-    </div>
-    
-    <!-- Nav Links (Desktop) -->
-    <div style="display: flex; gap: 2rem; align-items: center; font-weight: 600;" class="desktop-nav">
-        <a href="#" style="color: var(--text-main); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-main)'">Home</a>
-        <a href="#featured" style="color: var(--text-main); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-main)'">Listings</a>
-        <a href="#servicesPortal" style="color: var(--text-main); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-main)'">Services</a>
-    </div>
-
-    <div style="display: flex; gap: 1rem; align-items: center;">
-        <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;"><i class="fas fa-moon" id="themeIcon"></i></button>
-        <button class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;" onclick="openAuth()"><i class="fas fa-user-circle"></i> Sign In</button>
+<nav>
+    <a href="/" class="logo">Link<em>Point</em></a>
+    <div class="nav-cta">
+        <a href="/account" class="btn-glass"><i class="fas fa-user"></i> Account</a>
     </div>
 </nav>
 
-<!-- HERO SLIDESHOW & SMART SEARCH -->
-<style>
-@keyframes slide {
-    0%, 25% { background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=2000&auto=format&fit=crop'); }
-    33%, 58% { background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=2000&auto=format&fit=crop'); }
-    66%, 91% { background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=2000&auto=format&fit=crop'); }
-    100% { background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=2000&auto=format&fit=crop'); }
-}
-.hero-slider {
-    height: 80vh;
-    min-height: 600px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    object-fit: cover;
-}
-.hero-fallback {
-    position: absolute;
-    inset: 0;
-    animation: slide 18s infinite linear;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-}
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
-}
-.smart-search {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    padding: 2rem;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.3);
-    position: relative;
-    z-index: 2;
-    width: 90%;
-    max-width: 900px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-    margin: 0 auto;
-}
-.search-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 1rem;
-    align-items: end;
-}
-.search-input {
-    width: 100%;
-    padding: 1rem 1rem 1rem 3rem;
-    border-radius: 12px;
-    border: none;
-    font-size: 1rem;
-    font-family: inherit;
-    background: white;
-    color: #333;
-    outline: none;
-}
-.search-input:focus { box-shadow: 0 0 0 3px var(--primary); }
-.search-field { position: relative; }
-.search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary); }
-@media(max-width: 768px) {
-    .search-grid { grid-template-columns: 1fr; }
-    .desktop-nav { display: none !important; }
-}
-
-/* Feature Cards CSS */
-.property-card {
-    background: var(--bg-card);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.property-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-.property-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: var(--text-main);
-    padding: 0.5rem 1rem;
-    border-radius: 99px;
-    font-weight: 800;
-    font-size: 0.85rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-</style>
-
-<header class="hero-slider">
-    <!-- Video Background Overlay -->
-    <video autoplay muted loop class="hero-video">
-        <source src="nairobi.mp4" type="video/mp4">
-        <!-- Fallback to Pexels high-quality real estate video if local is missing -->
-        <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=231da6488a0346ca09da02967667d4fdf807e15d&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
-    </video>
-    <div class="hero-fallback"></div>
-    <div class="hero-overlay"></div>
-    <div style="position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 5%;">
-        <h1 data-aos="fade-up" style="color: var(--text-main); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Find Your <span style="color: var(--primary);">Dream</span> Home</h1>
-        <p data-aos="fade-up" data-aos-delay="100" style="color: rgba(255,255,255,0.9); font-size: 1.2rem; margin-bottom: 3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">Kenya's most trusted real estate platform. Buy, Rent, or List securely.</p>
-        
-        <div class="smart-search" data-aos="fade-up" data-aos-delay="200">
-            <div class="search-grid">
-                <div class="search-field">
-                    <label style="display: block; text-align: left; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Location</label>
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" id="searchLocation" class="search-input" placeholder="e.g. Kilimani">
-                </div>
-                <div class="search-field">
-                    <label style="display: block; text-align: left; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Property Type</label>
-                    <i class="fas fa-home"></i>
-                    <select id="searchType" class="search-input" style="appearance: none;">
-                        <option value="Any">Any Type</option>
-                        <option value="apartment">Apartment</option>
-                        <option value="house">House/Villa</option>
-                        <option value="office">Office Space</option>
-                        <option value="shop">Shop/Retail</option>
-                        <option value="bnb">BnB</option>
-                    </select>
-                </div>
-                <div class="search-field">
-                    <label style="display: block; text-align: left; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Max Price</label>
-                    <i class="fas fa-money-bill-wave"></i>
-                    <input type="number" id="searchMaxPrice" class="search-input" placeholder="e.g. 30000">
-                </div>
-                <button class="btn btn-primary" onclick="filterProperties()" style="padding: 1rem 2rem; font-size: 1.1rem; height: 52px; width: 100%;"><i class="fas fa-search"></i> Search</button>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- FEATURED PROPERTY CARDS -->
-<section id="featured" style="padding: 5rem 5%; background: var(--bg-main);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="section-title" data-aos="fade-up">
-            <h2 style="color: var(--text-main);">Featured Properties</h2>
-            <p style="color: var(--text-muted);">Explore hand-picked homes, apartments, and BnBs available right now.</p>
-        </div>
-        
-        <div id="featured-properties-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">
-                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary); margin-bottom: 1rem;"></i>
-                <p>Loading the latest properties...</p>
-            </div>
-        </div>
-    </div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-eyebrow" data-aos="fade-down">KENYA'S PREMIUM REAL ESTATE HUB</div>
+    <h1 data-aos="zoom-out" data-aos-duration="1100">Find Your<br><em>Perfect</em> Space.</h1>
+    <p class="hero-sub" data-aos="fade-up" data-aos-delay="200">Verified rentals, dream homes, BnBs, offices and retail — all in one premium platform.</p>
 </section>
 
-
-
-
-<!-- TESTIMONIALS -->
-<section style="padding: 6rem 5%; background: var(--bg-alt); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-        <h2 style="color: var(--text-main); font-size: 2.5rem; margin-bottom: 3rem;" data-aos="fade-up">Trusted by Thousands</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-aos="fade-up" data-aos-delay="100">
-                <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem;">"Aki NyumbaLink is a lifesaver. Found a great 2BR house in Kikuyu in just 2 days. The M-Pesa escrow is so safe!"</p>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                    <img src="/uploads/james.png" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
-                    <h4 style="color: var(--text-main); font-weight: 700; margin: 0;">Brian K. <i class="fas fa-check-circle" style="color: var(--secondary); font-size: 0.8rem;"></i></h4>
-                </div>
-            </div>
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-aos="fade-up" data-aos-delay="200">
-                <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem;">"The escrow payment system gave me so much peace of mind. No more losing deposits to 'fake' agents. Safi sana!"</p>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                    <img src="/uploads/mercy.png" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
-                    <h4 style="color: var(--text-main); font-weight: 700; margin: 0;">Mercy W. <i class="fas fa-check-circle" style="color: var(--secondary); font-size: 0.8rem;"></i></h4>
-                </div>
-            </div>
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-aos="fade-up" data-aos-delay="300">
-                <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem;">"Smooth BnB booking for my vacation. No more worrying about scammers. Safe, legit, and very easy to use."</p>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                    <img src="/uploads/mercy.png" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
-                    <h4 style="color: var(--text-main); font-weight: 700; margin: 0;">Vivian K. <i class="fas fa-check-circle" style="color: var(--secondary); font-size: 0.8rem;"></i></h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-<!-- 4-SECTION SERVICES PORTAL -->
-<section id="servicesPortal" style="padding: 6rem 5%; background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2000&auto=format&fit=crop') center/cover fixed; position: relative;">
-    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.9));"></div>
-    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
-        <div class="section-title">
-            <h2>How Can We Help You?</h2>
-            <p>Select a service below whether you are looking to rent, buy, list, or sell properties.</p>
-        </div>
-
-        <!-- TABS -->
-            <button id="btn-tabRenting" class="tab-btn" onclick="switchTab('tabRenting')"><i class="fas fa-search"></i> Rent home</button>
-            <button id="btn-tabBuying" class="tab-btn" onclick="switchTab('tabBuying')"><i class="fas fa-key"></i> Buy home</button>
-            <button id="btn-tabFindOffice" class="tab-btn" onclick="switchTab('tabFindOffice')"><i class="fas fa-building"></i> Find Office</button>
-            <button id="btn-tabFindShop" class="tab-btn" onclick="switchTab('tabFindShop')"><i class="fas fa-store"></i> Find Shop</button>
-            <button id="btn-tabListRental" class="tab-btn" onclick="switchTab('tabListRental')"><i class="fas fa-sign"></i> List Rental</button>
-            <button id="btn-tabListOffice" class="tab-btn" onclick="switchTab('tabListOffice')"><i class="fas fa-briefcase"></i> List Office</button>
-            <button id="btn-tabListShop" class="tab-btn" onclick="switchTab('tabListShop')"><i class="fas fa-shopping-cart"></i> List Shop</button>
-            <button id="btn-tabSellHome" class="tab-btn" onclick="switchTab('tabSellHome')"><i class="fas fa-tags"></i> Sell home</button>
-            <button id="btn-tabFindBnB" class="tab-btn" onclick="switchTab('tabFindBnB')"><i class="fas fa-bed"></i> Find BnB</button>
-            <button id="btn-tabListBnB" class="tab-btn" onclick="switchTab('tabListBnB')"><i class="fas fa-concierge-bell"></i> List BnB</button>
-
-        <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 3rem;">
-            
-            <!-- SECTION 1: RENTING -->
-            <div id="tabRenting" class="tab-content">
-                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Looking for an Apartment to Rent</h3>
-                <form class="form-grid" onsubmit="event.preventDefault(); alert('Request submitted successfully!');">
-                    <div class="form-group">
-                        <label>Preferred Location</label>
-                        <input type="text" class="form-input" required placeholder="e.g. Kilimani, Karen">
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Rooms</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 2">
-                    </div>
-                    <div class="form-group">
-                        <label>Monthly Budget (KSh)</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 30000">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Additional Information</label>
-                        <textarea class="form-input" rows="3" placeholder="Any specific requirements..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Submit Request</button>
-                </form>
-            </div>
-
-            <!-- SECTION 2: BUYING -->
-            <div id="tabBuying" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--secondary); padding-left: 1rem;">Buy Your Dream Home</h3>
-                <form class="form-grid" onsubmit="event.preventDefault(); alert('Request submitted successfully!');">
-                    <div class="form-group">
-                        <label>Preferred Location</label>
-                        <input type="text" class="form-input" required placeholder="e.g. Lavington, Runda">
-                    </div>
-                    <div class="form-group">
-                        <label>Total Budget (KSh)</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 13000000">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Number of Rooms</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 4">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Additional Requirements (Kitchen, Garden, Staff quarters etc)</label>
-                        <textarea class="form-input" rows="3" placeholder="Specify any must-haves..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--secondary), #00c853);">Find My Dream Home</button>
-                </form>
-            </div>
-
-            <!-- SECTION 3: LIST A RENTAL -->
-            <div id="tabListRental" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">Find Tenants for Your Property</h3>
-                <form class="form-grid" id="form-rental" onsubmit="submitProperty(event, 'FOR RENT')">
-                    
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Property Details</h4></div>
-                    
-                    <div class="form-group">
-                        <label>Name of Apartment/Building</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Rent per Month (KSh)</label>
-                        <input type="number" class="form-input" required>
-                    </div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Amenities</h4></div>
-
-                    <div class="form-group">
-                        <label>Upload Images</label>
-                        <input type="file" class="form-input" multiple accept="image/*" onchange="previewImages(this, 'preview-rental')">
-                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.5rem; display: block;">Select high-quality images (multiple allowed)</small>
-                        <div id="preview-rental" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Videos</label>
-                        <input type="file" class="form-input" multiple accept="video/*">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Social Amenities Nearby</label>
-                        <input type="text" class="form-input" placeholder="Malls, Hospitals, Schools...">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Property Features</label>
-                        <div class="checkbox-grid">
-                            <label class="custom-checkbox"><input type="checkbox"> CCTV</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Free WiFi</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Ample Parking</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Gym</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Contact Information</h4></div>
-
-                    <div class="form-group">
-                        <label>Landlord Name</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Landlord Phone</label>
-                        <input type="tel" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Landlord Email</label>
-                        <input type="email" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Caretaker Name</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Caretaker Phone</label>
-                        <input type="tel" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Caretaker Email</label>
-                        <input type="email" class="form-input" required>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit Listing (KSh 200)</button>
-                </form>
-            </div>
-
-            <!-- SECTION 4: SELL A HOME -->
-            <div id="tabSellHome" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(239, 68, 68, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--danger); padding-left: 1rem;">Sell A Home</h3>
-                <form class="form-grid" id="form-sale" onsubmit="submitProperty(event, 'FOR SALE')">
-                    
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Sale Details</h4></div>
-                    
-                    <div class="form-group">
-                        <label>Asking Price (KSh)</label>
-                        <input type="number" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Features</h4></div>
-
-                    <div class="form-group">
-                        <label>Upload Images</label>
-                        <input type="file" class="form-input" multiple accept="image/*" onchange="previewImages(this, 'preview-sale')">
-                        <div id="preview-sale" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Videos</label>
-                        <input type="file" class="form-input" multiple accept="video/*">
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Neighborhood Social Amenities</label>
-                        <input type="text" class="form-input" placeholder="Schools, Malls, Hospitals...">
-                    </div>
-                    
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Home Amenities</label>
-                        <div class="checkbox-grid">
-                            <label class="custom-checkbox"><input type="checkbox"> WiFi Ready</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Parking</label>
-                            <label class="custom-checkbox"><input type="checkbox"> CCTV</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Gym</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Garden</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Balcony</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Playground</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Pet Friendly</label>
-                            <label class="custom-checkbox"><input type="checkbox"> Backup Generator</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Owner Contact Information</h4></div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Owner Name</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Owner Phone</label>
-                        <input type="tel" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Owner Email</label>
-                        <input type="email" class="form-input" required>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--danger), #991b1b);">List Property For Sale (KSh 1,000)</button>
-                </form>
-            </div>
-
-            <!-- SECTION 5: FIND BNB -->
-            <div id="tabFindBnB" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Looking for a BnB</h3>
-                <form class="form-grid" onsubmit="event.preventDefault(); alert('BnB search started!');">
-                    <div class="form-group">
-                        <label>Preferred Location</label>
-                        <input type="text" class="form-input" required placeholder="e.g. Westlands, Nyali">
-                    </div>
-                    <div class="form-group">
-                        <label>Budget per Night (KSh)</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 3000">
-                    </div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search BnBs</button>
-                </form>
-            </div>
-
-            <!-- SECTION 6: LIST BNB -->
-            <div id="tabListBnB" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('/static/villa_karen.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a BnB</h3>
-                <form class="form-grid" id="form-bnb" onsubmit="submitProperty(event, 'BNB')">
-                    <div class="form-group">
-                        <label>Property Location</label>
-                        <input type="text" class="form-input" required placeholder="e.g. Kilimani">
-                    </div>
-                    <div class="form-group">
-                        <label>Price per Night (KSh)</label>
-                        <input type="number" class="form-input" required placeholder="e.g. 4500">
-                    </div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--accent); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Contact Details</h4></div>
-
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Upload Property Images</label>
-                        <input type="file" class="form-input" multiple accept="image/*" required onchange="previewImages(this, 'preview-bnb')">
-                        <div id="preview-bnb" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Your Name</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Your Phone Number</label>
-                        <input type="tel" class="form-input" required>
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Your Email Address</label>
-                        <input type="email" class="form-input" required>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit BnB Listing (KSh 300)</button>
-                </form>
-            </div>
-
-            <!-- SECTION 7: FIND OFFICE -->
-            <div id="tabFindOffice" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('/static/office_bg.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Rent an Office Space</h3>
-                <form class="form-grid" onsubmit="event.preventDefault(); alert('Office search started!');">
-                    <div class="form-group">
-                        <label>Location (e.g. Upperhill, Westlands)</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Needed Area (Sq Ft)</label>
-                        <input type="number" class="form-input" placeholder="e.g. 500">
-                    </div>
-                    <div class="form-group">
-                        <label>Max Budget (KSh/Month)</label>
-                        <input type="number" class="form-input">
-                    </div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search Offices</button>
-                    <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Premium members see exclusive off-market listings first! <a href="#pricing" style="color: var(--primary); text-decoration: none;">Go Premium KES 300</a></p>
-                </form>
-            </div>
-
-            <!-- SECTION 8: LIST OFFICE -->
-            <div id="tabListOffice" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('/static/office_bg.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List an Office Space</h3>
-                <form class="form-grid" onsubmit="submitProperty(event, 'OFFICE')">
-                    <div class="form-group"><label>Building Name</label><input type="text" class="form-input" required></div>
-                    <div class="form-group"><label>Rent (KSh/Month)</label><input type="number" class="form-input" required></div>
-                    <div class="form-group" style="grid-column: 1 / -1;"><label>Upload Office Photos</label><input type="file" class="form-input" multiple accept="image/*" required onchange="previewImages(this, 'preview-off')"><div id="preview-off" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;"></div></div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Submit Office (KSh 1,000)</button>
-                </form>
-            </div>
-
-            <!-- SECTION 9: FIND SHOP -->
-            <div id="tabFindShop" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('/static/shop_bg.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Find a Shop/Retail Space</h3>
-                <form class="form-grid" onsubmit="event.preventDefault(); alert('Shop search started!');">
-                    <div class="form-group"><label>Mall or Street Location</label><input type="text" class="form-input" required></div>
-                    <div class="form-group"><label>Business Type</label><input type="text" class="form-input" placeholder="e.g. Boutique, Salon"></div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search Shops</button>
-                    <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Browsing is FREE! Want direct landlord contacts? <a href="#pricing" style="color: var(--primary); text-decoration: none;">Get Premium KES 300</a></p>
-                </form>
-            </div>
-
-            <!-- SECTION 10: LIST SHOP -->
-            <div id="tabListShop" class="tab-content" style="display:none;">
-                <div style="height: 250px; background: url('/static/list_shop_bg.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
-                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a Shop/Retail Space</h3>
-                <form class="form-grid" onsubmit="submitProperty(event, 'SHOP')">
-                    <div class="form-group"><label>Shop Name/No.</label><input type="text" class="form-input" required></div>
-                    <div class="form-group"><label>Rent (KSh/Month)</label><input type="number" class="form-input" required></div>
-                    <div class="form-group" style="grid-column: 1 / -1;"><label>Upload Shop Photos</label><input type="file" class="form-input" multiple accept="image/*" required onchange="previewImages(this, 'preview-shp')"><div id="preview-off" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;"></div></div>
-                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Submit Shop (KSh 1,000)</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-<!-- ========================================== -->
-<!-- MODULE 1: M-PESA PAYMENT INTEGRATION -->
-<!-- Add this section after the listings or as a modal -->
-<!-- ========================================== -->
-
-<section id="paymentSystem" style="padding: 6rem 5%; background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(57, 255, 20, 0.05)); position: relative; display: none;">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="section-title">
-            <h2>Secure M-Pesa Payments</h2>
-            <p>Your money is held safely until you confirm the property is as advertised</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
-            <!-- Payment Flow -->
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 1px solid rgba(0, 212, 255, 0.2);">
-                <h3 style="color: var(--text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
-                    <i class="fas fa-shield-alt" style="color: var(--secondary);"></i>
-                    How Escrow Works
-                </h3>
-                
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--primary);">
-                        <div style="width: 40px; height: 40px; background: var(--primary); color: var(--bg-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</div>
-                        <div>
-                            <h4 style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.25rem;">Deposit Funds</h4>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Pay via M-Pesa STK Push. Funds held securely by NyumbaLink, not the agent.</p>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--secondary);">
-                        <div style="width: 40px; height: 40px; background: var(--secondary); color: var(--bg-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</div>
-                        <div>
-                            <h4 style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.25rem;">View & Verify</h4>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Visit the property. Confirm utilities work, amenities match listing, documents are valid.</p>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--accent);">
-                        <div style="width: 40px; height: 40px; background: var(--accent); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">3</div>
-                        <div>
-                            <h4 style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.25rem;">Release Payment</h4>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Satisfied? Release funds to landlord. Not satisfied? Full refund via M-Pesa within 24hrs.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 2rem; padding: 1rem; background: rgba(57, 255, 20, 0.1); border-radius: 12px; border: 1px solid var(--secondary);">
-                    <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--secondary); font-weight: 700; margin-bottom: 0.5rem;">
-                        <i class="fas fa-check-circle"></i>
-                        Buyer Protection Guarantee
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">If property doesn't match listing description, we mediate disputes and refund your deposit.</p>
-                </div>
-            </div>
-
-            <!-- M-Pesa Payment Simulator -->
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 1px solid rgba(0, 212, 255, 0.2); position: sticky; top: 100px;">
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" style="height: 40px; filter: brightness(0) invert(1);">
-                </div>
-
-                <form id="paymentForm" style="display: flex; flex-direction: column; gap: 1rem;">
-                    
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Payment Method</label>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <label style="flex: 1; min-width: 120px; padding: 1rem; background: rgba(0,212,255,0.1); border: 1px solid var(--primary); border-radius: 12px; cursor: pointer; text-align: center; color: var(--text-main); transition: all 0.3s;" id="label-mpesa">
-                                <input type="radio" name="payMethod" value="mpesa" checked style="display: none;"> 
-                                <i class="fas fa-mobile-alt"></i> M-Pesa Only
-                            </label>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Property</label>
-                        <input type="text" value="Modern 4BR Villa - Karen" readonly style="width: 100%; padding: 1rem; background: var(--bg-main); border: 1px solid var(--light-gray); border-radius: 12px; color: var(--text-main); font-family: inherit;">
-                    </div>
-
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">Amount (KSh)</label>
-                        <input type="number" id="paymentAmount" value="18300000" readonly style="width: 100%; padding: 1rem; background: var(--bg-main); border: 1px solid var(--light-gray); border-radius: 12px; color: var(--secondary); font-weight: 800; font-size: 1.25rem; font-family: inherit;">
-                    </div>
-
-                    <div id="mpesaFields" style="margin-bottom: 1.5rem;">
-                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600;">M-Pesa Number</label>
-                        <input type="tel" id="mpesaPhone" placeholder="2547XXXXXXXX" style="width: 100%; padding: 1rem; background: var(--bg-main); border: 1px solid var(--light-gray); border-radius: 12px; color: var(--text-main); font-family: inherit; border-color: var(--primary);">
-                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.5rem; display: block;">Enter number in format 2547...</small>
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 12px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            <span style="color: var(--text-muted);">Property Price</span>
-                            <span style="color: var(--text-main); font-weight: 600;">KSh 18,500,000</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            <span style="color: var(--text-muted);">Escrow Fee (0.5%)</span>
-                            <span style="color: var(--text-main); font-weight: 600;">KSh 92,500</span>
-                        </div>
-                        <div style="border-top: 1px solid var(--light-gray); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 800;">
-                            <span style="color: var(--primary);">Total</span>
-                            <span style="color: var(--secondary);">KSh 18,592,500</span>
-                        </div>
-                    </div>
-
-                    <button type="button" id="btnSubmitPayment" onclick="pay()" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #00a650, #00c853); color: var(--text-main); border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.3);">
-                        <i class="fas fa-mobile-alt" id="iconSubmitPayment"></i>
-                        <span id="textSubmitPayment">Pay with M-Pesa</span>
-                    </button>
-
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; color: var(--text-muted); font-size: 0.8rem;">
-                        <i class="fas fa-lock"></i>
-                        <span>256-bit SSL Encrypted</span>
-                    </div>
-                </form>
-
-                <script>
-                function togglePaymentMethod() {
-                    // Consistently show M-Pesa only
-                    return;
-                }
-                </script>
-
-                <!-- Payment Status Overlay (Hidden by default) -->
-                <div id="paymentStatus" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-card); border-radius: 24px; padding: 2rem; text-align: center; align-items: center; justify-content: center; flex-direction: column;">
-                    <div id="stkPushSpinner" style="width: 60px; height: 60px; border: 4px solid rgba(0, 212, 255, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-                    <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Sending STK Push...</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Check your phone for the M-Pesa prompt</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Trust Indicators -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
-            <div style="text-align: center; padding: 2rem; background: var(--bg-card); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
-                <i class="fas fa-undo-alt" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Instant Refunds</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Money back to your M-Pesa within 24 hours if deal fails</p>
-            </div>
-            <div style="text-align: center; padding: 2rem; background: var(--bg-card); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
-                <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--secondary); margin-bottom: 1rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Dispute Resolution</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Professional mediators handle disagreements fairly</p>
-            </div>
-            <div style="text-align: center; padding: 2rem; background: var(--bg-card); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
-                <i class="fas fa-receipt" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Automatic Receipts</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">KRA-compliant invoices generated for every transaction</p>
-            </div>
-            <div style="text-align: center; padding: 2rem; background: var(--bg-card); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
-                <i class="fas fa-history" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Transaction History</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Track all your payments and refunds in one dashboard</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-<style>
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-}
-</style>
-
-<script>
-async function sendSTKPush() {
-    const phone = document.getElementById('mpesaPhone').value.trim();
-    const amount = document.getElementById('paymentAmount').value;
-    const status = document.getElementById('paymentStatus');
-    
-    if (!phone.startsWith('254') || phone.length !== 12) {
-        alert("Please enter a valid phone number starting with 254 (e.g., 254712345678)");
-        return;
-    }
-
-    status.style.display = 'flex';
-    status.innerHTML = `
-        <div id="stkPushSpinner" style="width: 60px; height: 60px; border: 4px solid rgba(0, 212, 255, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-        <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Requesting STK Push...</h4>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Connecting to M-Pesa Safaricom Gateway</p>
-    `;
-    
-    try {
-        const res = await fetch('/pay', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone, amount })
-        });
-        
-        const data = await res.json();
-        
-        if (data.ResponseCode === "0" || data.success) {
-            status.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 3.5rem; color: var(--secondary); margin-bottom: 1.5rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">STK Push Sent!</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Check your phone for the M-Pesa PIN prompt to complete payment.</p>
-                <button onclick="document.getElementById('paymentSystem').style.display='none'; document.body.style.overflow='auto';" class="btn btn-primary" style="width:100%">I have paid</button>
-            `;
-        } else {
-            status.innerHTML = `
-                <i class="fas fa-exclamation-circle" style="font-size: 3.5rem; color: var(--danger); margin-bottom: 1.5rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Push Failed</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">${data.errorMessage || data.message || "Request failed"}</p>
-                <button onclick="document.getElementById('paymentStatus').style.display='none';" class="btn btn-outline" style="width:100%">Try Again</button>
-            `;
-        }
-    } catch (err) {
-        status.innerHTML = `
-            <i class="fas fa-wifi" style="font-size: 3.5rem; color: var(--danger); margin-bottom: 1.5rem;"></i>
-            <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Connection Error</h4>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Could not reach the server. Make sure the backend is running.</p>
-            <button onclick="document.getElementById('paymentStatus').style.display='none';" class="btn btn-outline" style="width:100%">Back</button>
-        `;
-    }
-}
-
-// User-friendly alias
-async function pay() {
-    const method = document.querySelector('input[name="payMethod"]:checked').value;
-    if (method === 'mpesa') {
-        sendSTKPush();
-    } else if (method === 'bitcoin') {
-        sendBitcoinPayment();
-    }
-}
-
-async function sendBitcoinPayment() {
-    const txid = document.getElementById('btcTxID').value.trim();
-    const amount = document.getElementById('btcAmountDisplay').innerText;
-    const status = document.getElementById('paymentStatus');
-
-    if (!txid) {
-        alert("Please enter the Transaction Hash (TxID) to confirm your payment.");
-        return;
-    }
-
-    status.style.display = 'flex';
-    status.innerHTML = `
-        <div id="stkPushSpinner" style="width: 60px; height: 60px; border: 4px solid rgba(245, 158, 11, 0.2); border-top-color: #f59e0b; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-        <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Verifying Bitcoin Tx...</h4>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Checking blockchain for confirmation</p>
-    `;
-
-    try {
-        const res = await fetch('/bitcoin/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ txid, amount })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-            status.innerHTML = `
-                <i class="fab fa-bitcoin" style="font-size: 3.5rem; color: #f59e0b; margin-bottom: 1.5rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Payment Submitted!</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Your transaction is pending blockchain confirmation. We will notify you once confirmed.</p>
-                <button onclick="document.getElementById('paymentSystem').style.display='none'; document.body.style.overflow='auto';" class="btn btn-primary" style="width:100%">Got it</button>
-            `;
-        } else {
-            status.innerHTML = `
-                <i class="fas fa-exclamation-circle" style="font-size: 3.5rem; color: var(--danger); margin-bottom: 1.5rem;"></i>
-                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Validation Failed</h4>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">${data.message || "Invalid Transaction ID"}</p>
-                <button onclick="document.getElementById('paymentStatus').style.display='none';" class="btn btn-outline" style="width:100%">Try Again</button>
-            `;
-        }
-    } catch (err) {
-        status.innerHTML = `
-            <i class="fas fa-wifi" style="font-size: 3.5rem; color: var(--danger); margin-bottom: 1.5rem;"></i>
-            <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Connection Error</h4>
-            <button onclick="document.getElementById('paymentStatus').style.display='none';" class="btn btn-outline" style="width:100%">Back</button>
-        `;
-    }
-}
-
-function openPayment(propertyId, customAmount, customTitle) {
-    const paymentSec = document.getElementById('paymentSystem');
-    paymentSec.style.display = 'block';
-    
-    // Select the name/property input and the amount input
-    const inputs = document.getElementById('paymentForm').querySelectorAll('input[readonly]');
-    const totalsDiv = document.querySelector('#paymentForm > div:nth-last-child(3)');
-    
-    if (customAmount && customTitle) {
-        // Special case for Boosts, Lead Gen, or Subscriptions
-        inputs[0].value = customTitle;
-        inputs[1].value = customAmount;
-        
-        const price = parseInt(customAmount);
-        const fee = 0; // No escrow fee for platform services
-        const total = price + fee;
-        
-        if (totalsDiv) {
-            totalsDiv.innerHTML = `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                    <span style="color: var(--text-muted);">Service Title</span>
-                    <span style="color: var(--text-main); font-weight: 600;">${customTitle}</span>
-                </div>
-                <div style="border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 800;">
-                    <span style="color: var(--primary);">Total</span>
-                    <span style="color: var(--secondary);">KSh ${total.toLocaleString()}</span>
-                </div>
-            `;
-        }
-    } else if (propertyId) {
-        // Normal property payment
-        const prop = allProperties.find(p => p.id == propertyId);
-        if (prop) {
-            inputs[0].value = prop.title;
-            inputs[1].value = prop.price;
-            
-            const price = parseInt(prop.price);
-            const fee = Math.round(price * 0.005);
-            const total = price + fee;
-            
-            if (totalsDiv) {
-                totalsDiv.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                        <span style="color: var(--text-muted);">Property Price</span>
-                        <span style="color: var(--text-main); font-weight: 600;">KSh ${price.toLocaleString()}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                        <span style="color: var(--text-muted);">Escrow Fee (0.5%)</span>
-                        <span style="color: var(--text-main); font-weight: 600;">KSh ${fee.toLocaleString()}</span>
-                    </div>
-                    <div style="border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 800;">
-                        <span style="color: var(--primary);">Total</span>
-                        <span style="color: var(--secondary);">KSh ${total.toLocaleString()}</span>
-                    </div>
-                `;
-            }
-        }
-    }
-    
-    paymentSec.scrollIntoView({ behavior: 'smooth' });
-}
-
-function launchMap(location) {
-    const modal = document.getElementById('mapModal');
-    const title = document.getElementById('mapModalTitle');
-    const frame = document.getElementById('mapIframe');
-    
-    title.innerText = location + " - Area Intelligence Map";
-    frame.src = `https://www.google.com/maps?q=${encodeURIComponent(location + ', Nairobi, Kenya')}&output=embed`;
-
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeMap() {
-    document.getElementById('mapModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-</script>
-
-<!-- ========================================== -->
-<!-- MODULE 2: AGENT VERIFICATION PORTAL -->
-<!-- Add as a separate page or section -->
-<!-- ========================================== -->
-
-<section id="agentVerification" style="padding: 6rem 5%; background: var(--bg-main);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="section-title">
-            <h2>Verified Agents Only</h2>
-            <p>Every agent on NyumbaLink is registered with the Estate Agents Registration Board (EARB) and fully KYC compliant</p>
-        </div>
-
-        <!-- Verification Tiers -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 2px solid rgba(0, 212, 255, 0.3); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary); color: var(--bg-main); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">REQUIRED</div>
-                <div style="width: 60px; height: 60px; background: rgba(0, 212, 255, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <i class="fas fa-id-card" style="font-size: 1.5rem; color: var(--primary);"></i>
-                </div>
-                <h3 style="color: var(--text-main); margin-bottom: 1rem;">EARB Registration</h3>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>Valid EARB License Number</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>Annual Practicing Certificate</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>Clean Criminal Record (Certificate of Good Conduct)</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 2px solid rgba(57, 255, 20, 0.3); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 1rem; right: 1rem; background: var(--secondary); color: var(--bg-main); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">MANDATORY</div>
-                <div style="width: 60px; height: 60px; background: rgba(57, 255, 20, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <i class="fas fa-user-check" style="font-size: 1.5rem; color: var(--secondary);"></i>
-                </div>
-                <h3 style="color: var(--text-main); margin-bottom: 1rem;">KYC Compliance (POCAMLA)</h3>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>National ID or Passport Verification</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>KRA PIN Certificate</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>Proof of Address (Utility Bill/Bank Statement)</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-check" style="color: var(--secondary); margin-top: 0.25rem;"></i>
-                        <span>Biometric Verification (Face Match)</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 2px solid rgba(245, 158, 11, 0.3); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 1rem; right: 1rem; background: var(--accent); color: var(--text-main); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">PREMIUM</div>
-                <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <i class="fas fa-award" style="font-size: 1.5rem; color: var(--accent);"></i>
-                </div>
-                <h3 style="color: var(--text-main); margin-bottom: 1rem;">NyumbaLink Gold Badge</h3>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-star" style="color: var(--accent); margin-top: 0.25rem;"></i>
-                        <span>50+ Successful Transactions</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-star" style="color: var(--accent); margin-top: 0.25rem;"></i>
-                        <span>4.8+ Star Rating from Clients</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-star" style="color: var(--accent); margin-top: 0.25rem;"></i>
-                        <span>Property Ownership Verification</span>
-                    </li>
-                    <li style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem;">
-                        <i class="fas fa-star" style="color: var(--accent); margin-top: 0.25rem;"></i>
-                        <span>Professional Indemnity Insurance</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Sample Agent Card -->
-        <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(57, 255, 20, 0.05)); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 24px; padding: 2.5rem; margin-bottom: 3rem;">
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
-                <div style="position: relative;">
-                    <img src="/uploads/james.png" alt="Agent" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary);">
-                    <div style="position: absolute; bottom: 0; right: 0; background: var(--secondary); color: var(--bg-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; border: 3px solid var(--bg-main);" title="EARB Verified">
-                        <i class="fas fa-check"></i>
-                    </div>
-                </div>
-                
-                <div style="flex: 1; min-width: 250px;">
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-                        <h3 style="color: var(--text-main); font-size: 1.5rem;">James Mwangi</h3>
-                        <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--bg-main); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
-                            <i class="fas fa-shield-alt"></i> EARB Verified
-                        </span>
-                        <span style="background: var(--accent); color: var(--text-main); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
-                            <i class="fas fa-crown"></i> Gold Agent
-                        </span>
-                    </div>
-                    
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
-                        <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 
-                        Karen, Nairobi • Specializing in Luxury Homes
-                    </p>
-                    
-                    <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">4.9</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">127</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Sales</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">8</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Years Exp.</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">15m</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Response Time</div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                        <span style="padding: 0.5rem 1rem; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; font-size: 0.85rem; color: var(--primary);">
-                            <i class="fas fa-check-circle"></i> ID Verified
-                        </span>
-                        <span style="padding: 0.5rem 1rem; background: rgba(57, 255, 20, 0.1); border: 1px solid rgba(57, 255, 20, 0.3); border-radius: 8px; font-size: 0.85rem; color: var(--secondary);">
-                            <i class="fas fa-check-circle"></i> KRA Compliant
-                        </span>
-                        <span style="padding: 0.5rem 1rem; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; font-size: 0.85rem; color: var(--accent);">
-                            <i class="fas fa-check-circle"></i> EARB #EARB/2023/0123
-                        </span>
-                    </div>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px;">
-                    <a href="https://wa.me/254112012816?text=Hello%20NyumbaLink,%20I'm%20interested%20in%20a%20property." target="_blank" class="btn btn-primary" style="width: 100%; justify-content: center; text-decoration: none;">
-                        <i class="fab fa-whatsapp"></i> Contact Agent
-                    </a>
-
-                    <button class="btn btn-outline" style="width: 100%; justify-content: center;">
-                        <i class="fas fa-calendar"></i> Schedule Viewing
-                    </button>
-                    <button class="btn" style="width: 100%; background: rgba(255,255,255,0.1); color: var(--text-main); justify-content: center;">
-                        <i class="fas fa-file-alt"></i> View Documents
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Why Verification Matters -->
-        <div style="background: var(--bg-card); padding: 3rem; border-radius: 24px; border: 1px solid rgba(239, 68, 68, 0.3);">
-            <h3 style="color: var(--text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
-                <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
-                Why We Verify Every Agent
-            </h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1rem;">Protection Against Fraud</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Unverified agents can disappear with your deposit. Our EARB verification ensures agents are licensed, traceable, and accountable to professional standards.</p>
-                </div>
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1rem;">Legal Compliance (POCAMLA)</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Under Kenyan law, all real estate agents must be registered. We enforce this to protect you from illegal operators and ensure all transactions comply with anti-money laundering regulations.</p>
-                </div>
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1rem;">Quality Assurance</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Verified agents maintain professional standards, provide accurate property information, and handle disputes according to EARB ethical guidelines.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- PRICING & PACKAGES SECTION -->
-<section id="pricing" style="padding: 6rem 5%; background: var(--bg-alt); border-top: 1px solid var(--border-color);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="section-title">
-            <h2 style="color: var(--text-main);">Pricing & Packages</h2>
-            <p style="color: var(--text-muted);">Choose the right plan to get your property noticed by thousands of buyers and renters</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 5rem;">
-            <!-- LANDLORD: Basic Listing -->
-            <div class="card" data-aos="fade-up" style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: all 0.3s ease;">
-                <div style="font-size: 0.8rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">For Landlords & Agents</div>
-                <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem;">Standard Listing</div>
-                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem;">KES 1,000</div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> Houses, Offices & Shops</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> UNLIMITED high-res photos</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> 24/7 Support</li>
-                </ul>
-                <button class="btn btn-outline" onclick="openPayment(null, 1000, 'Standard Listing')" style="width: 100%; padding: 1rem;">Pay & List Now</button>
-            </div>
-
-            <!-- LANDLORD: Featured Listing -->
-            <div class="card" data-aos="fade-up" data-aos-delay="100" style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 2px solid var(--primary); transform: scale(1.05); position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,212,255,0.1);">
-                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 0.4rem 1.2rem; border-radius: 99px; font-size: 0.8rem; font-weight: 800; letter-spacing: 1px;">MOST EFFECTIVE</div>
-                <div style="font-size: 0.8rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">For Landlords & Agents</div>
-                <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem;">🚀 Featured List</div>
-                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem;">KES 3,000</div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="color: var(--text-main); display: flex; gap: 0.75rem; align-items: center; font-weight: 600;"><i class="fas fa-fire" style="color: var(--danger);"></i> Top Homepage Placement</li>
-                    <li style="color: var(--text-main); display: flex; gap: 0.75rem; align-items: center; font-weight: 600;"><i class="fas fa-check" style="color: var(--secondary);"></i> 10x More Client Clicks</li>
-                    <li style="color: var(--text-main); display: flex; gap: 0.75rem; align-items: center; font-weight: 600;"><i class="fas fa-check" style="color: var(--secondary);"></i> Priority Verified Badge</li>
-                </ul>
-                <button class="btn btn-primary" onclick="openPayment(null, 3000, 'Featured Listing')" style="width: 100%; padding: 1rem;">Boost & Sell Faster</button>
-            </div>
-
-            <!-- CLIENT: Premium Access -->
-            <div class="card" data-aos="fade-up" data-aos-delay="200" style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color); display: flex; flex-direction: column;">
-                <div style="font-size: 0.8rem; color: var(--secondary); font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">For Property Seekers</div>
-                <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem;">💎 Premium Access</div>
-                <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 1.5rem;">KES 300</div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> EARLY Access to new listings</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> Direct Landlord Contacts</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-check" style="color: var(--secondary);"></i> Verified Property Reports</li>
-                </ul>
-                <button class="btn btn-outline" onclick="openPayment(null, 300, 'Premium Access')" style="width: 100%; padding: 1rem;">Get Premium</button>
-            </div>
-            
-            <!-- OPTIONAL: Viewing Fee -->
-            <div class="card" data-aos="fade-up" data-aos-delay="300" style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color); display: flex; flex-direction: column;">
-                <div style="font-size: 0.8rem; color: var(--accent); font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">Optional Service</div>
-                <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem;">🏠 Physical Viewing</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.5rem;">KES 500 - 1,500</div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-car" style="color: var(--secondary);"></i> Transport to site</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-eye" style="color: var(--secondary);"></i> Expert Guided Tour</li>
-                    <li style="color: var(--text-muted); display: flex; gap: 0.75rem; align-items: center;"><i class="fas fa-times-circle" style="color: var(--danger);"></i> No Hidden Broker Fees</li>
-                </ul>
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center;">*Paid directly to agent upon booking</p>
-            </div>
-        </div>
-
-        <!-- Commission Model -->
-        <div style="margin-top: 5rem; text-align: center;">
-            <h3 style="color: var(--text-main); font-size: 2rem; margin-bottom: 3rem;">Commission Model</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div style="background: rgba(0,212,255,0.05); padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(0,212,255,0.1);">
-                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Big Deals & Sales</div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--secondary); margin-bottom: 1rem;">5% Commission</div>
-                    <p style="color: var(--text-muted);">Applied on successful high-value deals 💰. Full mediation and legal support included 🤝.</p>
-                </div>
-                <div style="background: rgba(57,255,20,0.05); padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(57,255,20,0.1);">
-                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Rental / BnB Bookings</div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--secondary); margin-bottom: 1rem;">5% - 15%</div>
-                    <p style="color: var(--text-muted);">Per booking commission 🛏️. Secure escrow handling 💳.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Property Types Icons -->
-        <div style="margin-top: 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; text-align: center;">
-            <div style="padding: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); color: var(--text-main); font-weight: 700;"><i class="fas fa-home" style="color: var(--primary); margin-right: 0.5rem;"></i> Houses</div>
-            <div style="padding: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); color: var(--text-main); font-weight: 700;"><i class="fas fa-bed" style="color: var(--primary); margin-right: 0.5rem;"></i> BnBs</div>
-            <div style="padding: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); color: var(--text-main); font-weight: 700;"><i class="fas fa-building" style="color: var(--primary); margin-right: 0.5rem;"></i> Offices</div>
-            <div style="padding: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); color: var(--text-main); font-weight: 700;"><i class="fas fa-store" style="color: var(--primary); margin-right: 0.5rem;"></i> Shops</div>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========================================== -->
-<!-- MODULE 3: NEIGHBORHOOD GUIDES -->
-<!-- Interactive area profiles -->
-<!-- ========================================== -->
-
-<section id="neighborhoodGuides" style="padding: 6rem 5%; background: var(--bg-alt);">
-    <div style="max-width: 1400px; margin: 0 auto;">
-        <div class="section-title">
-            <h2>Neighborhood Intelligence</h2>
-            <p>Detailed safety scores, amenities, and lifestyle data for every area in Nairobi, Mombasa & beyond</p>
-        </div>
-
-        <!-- Search Areas -->
-        <div style="max-width: 600px; margin: 0 auto 3rem; position: relative;">
-            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary);"></i>
-            <input type="text" placeholder="Search neighborhoods (e.g., Karen, Kilimani, Nyali)..." 
-                   style="width: 100%; padding: 1.25rem 1rem 1.25rem 3rem; background: var(--bg-card); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 16px; color: var(--text-main); font-family: inherit; font-size: 1rem;">
-        </div>
-
-        <!-- Featured Neighborhoods Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2rem;">
-            
-            <!-- Karen -->
-            <div style="background: var(--bg-card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.1); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.1)'; this.style.transform='translateY(0)';">
-                <div style="height: 200px; position: relative; background: linear-gradient(135deg, #1e3c72, #2a5298);">
-                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" alt="Karen">
-                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-shield-alt" style="color: var(--secondary);"></i>
-                        <span style="color: var(--text-main); font-weight: 700; font-size: 0.9rem;">Safety: 9.5/10</span>
-                    </div>
-                    <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem;">
-                        <h3 style="color: var(--text-main); font-size: 1.75rem; margin-bottom: 0.25rem;">Karen</h3>
-                        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Suburban • Family Friendly • Leafy</p>
-                    </div>
-                </div>
-                
-                <div style="padding: 1.5rem;">
-                    <!-- Key Stats -->
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <div style="text-align: center;">
-                            <i class="fas fa-home" style="color: var(--primary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Avg. Price</div>
-                            <div style="font-weight: 700; color: var(--text-main);">KSh 45M</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-bus" style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Transport</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Moderate</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-wifi" style="color: var(--accent); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Internet</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Excellent</div>
-                        </div>
-                    </div>
-
-                    <!-- Amenities -->
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.9rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Top Amenities</h4>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-hospital"></i> Karen Hospital</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-school"></i> Brookhouse</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-shopping-bag"></i> The Hub</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-tree"></i> Karura Forest</span>
-                        </div>
-                    </div>
-
-                    <!-- Safety Breakdown -->
-                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.75rem;">Safety Breakdown</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Night Safety</span>
-                                    <span>Excellent</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 95%; height: 100%; background: linear-gradient(90deg, var(--secondary), #00c853); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Police Response</span>
-                                    <span>Fast</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 90%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Street Lighting</span>
-                                    <span>Good</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 85%; height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resident Reviews -->
-                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-                        <div style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.75rem;">
-                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?w=100&auto=format&fit=crop" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" alt="User">
-                            <div>
-                                <div style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Wanjiku Kamau</div>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">"Very secure for families. Love the proximity to Karura Forest for weekend runs."</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.85rem;" onclick="filterPropertiesByLocation('Karen')">
-                                View 45 Properties 
-                            </button>
-                            <button class="btn btn-primary" style="flex: 1; font-size: 0.85rem;" onclick="launchMap('Karen')">
-                                <i class="fas fa-map-marked-alt"></i> Launch Map
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kilimani -->
-            <div style="background: var(--bg-card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.1); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.1)'; this.style.transform='translateY(0)';">
-                <div style="height: 200px; position: relative; background: linear-gradient(135deg, #667db6, #0082c8);">
-                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" alt="Kilimani">
-                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-shield-alt" style="color: var(--secondary);"></i>
-                        <span style="color: var(--text-main); font-weight: 700; font-size: 0.9rem;">Safety: 8.2/10</span>
-                    </div>
-                    <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem;">
-                        <h3 style="color: var(--text-main); font-size: 1.75rem; margin-bottom: 0.25rem;">Kilimani</h3>
-                        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Urban • Cosmopolitan • Business Hub</p>
-                    </div>
-                </div>
-                
-                <div style="padding: 1.5rem;">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <div style="text-align: center;">
-                            <i class="fas fa-home" style="color: var(--primary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Avg. Price</div>
-                            <div style="font-weight: 700; color: var(--text-main);">KSh 28M</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-bus" style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Transport</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Excellent</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-wifi" style="color: var(--accent); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Internet</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Excellent</div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.9rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Top Amenities</h4>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-hospital"></i> Nairobi Hospital</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-shopping-bag"></i> Yaya Centre</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-utensils"></i> Restaurants</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-bus"></i> CBD Access</span>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.75rem;">Safety Breakdown</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Night Safety</span>
-                                    <span>Moderate</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 75%; height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Police Response</span>
-                                    <span>Fast</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 85%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Street Lighting</span>
-                                    <span>Excellent</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 90%; height: 100%; background: linear-gradient(90deg, var(--secondary), #00c853); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-                        <div style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.75rem;">
-                            <img src="/uploads/james.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" alt="User">
-                            <div>
-                                <div style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Brian K.</div>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">"Perfect for young professionals. Close to work but can get noisy on weekends."</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.85rem;" onclick="filterPropertiesByLocation('Kilimani')">
-                                View 82 Properties 
-                            </button>
-                            <button class="btn btn-primary" style="flex: 1; font-size: 0.85rem;" onclick="launchMap('Kilimani')">
-                                <i class="fas fa-map-marked-alt"></i> Launch Map
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Westlands -->
-            <div style="background: var(--bg-card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.1); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.1)'; this.style.transform='translateY(0)';">
-                <div style="height: 200px; position: relative; background: linear-gradient(135deg, #141e30, #243b55);">
-                    <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" alt="Westlands">
-                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-shield-alt" style="color: var(--secondary);"></i>
-                        <span style="color: var(--text-main); font-weight: 700; font-size: 0.9rem;">Safety: 8.8/10</span>
-                    </div>
-                    <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem;">
-                        <h3 style="color: var(--text-main); font-size: 1.75rem; margin-bottom: 0.25rem;">Westlands</h3>
-                        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Commercial • Entertainment • Connected</p>
-                    </div>
-                </div>
-                
-                <div style="padding: 1.5rem;">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <div style="text-align: center;">
-                            <i class="fas fa-home" style="color: var(--primary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Avg. Price</div>
-                            <div style="font-weight: 700; color: var(--text-main);">KSh 35M</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-bus" style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Transport</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Excellent</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <i class="fas fa-wifi" style="color: var(--accent); font-size: 1.25rem; margin-bottom: 0.25rem;"></i>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Internet</div>
-                            <div style="font-weight: 700; color: var(--text-main);">Excellent</div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.9rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Top Amenities</h4>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-building"></i> Sarit Centre</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-glass-cheers"></i> Nightlife</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-briefcase"></i> Offices</span>
-                            <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 6px; font-size: 0.8rem; color: var(--primary);"><i class="fas fa-subway"></i> Expressway</span>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.75rem;">Safety Breakdown</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Night Safety</span>
-                                    <span>Good</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 80%; height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div style="margin-bottom: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Police Response</span>
-                                    <span>Very Fast</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 90%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
-                                    <span>Street Lighting</span>
-                                    <span>Excellent</span>
-                                </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 95%; height: 100%; background: linear-gradient(90deg, var(--secondary), #00c853); border-radius: 3px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-                        <div style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.75rem;">
-                            <img src="/uploads/mercy.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" alt="User">
-                            <div>
-                                <div style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Mercy W.</div>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">"Great for business. Love the Expressway access to JKIA."</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.85rem;" onclick="filterPropertiesByLocation('Westlands')">
-                                View 67 Properties 
-                            </button>
-                            <button class="btn btn-primary" style="flex: 1; font-size: 0.85rem;" onclick="launchMap('Westlands')">
-                                <i class="fas fa-map-marked-alt"></i> Launch Map
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Interactive Map Preview -->
-        <div style="margin-top: 4rem; background: var(--bg-card); padding: 2rem; border-radius: 24px; border: 1px solid rgba(0, 212, 255, 0.2);">
-            <h3 style="color: var(--text-main); margin-bottom: 1.5rem; text-align: center;">Explore by Map</h3>
-            <div style="height: 400px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(57, 255, 20, 0.05)); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(0, 212, 255, 0.3); position: relative; overflow: hidden;">
-                <div style="text-align: center; color: var(--text-muted);">
-                    <i class="fas fa-map-marked-alt" style="font-size: 4rem; margin-bottom: 1rem; color: var(--primary); opacity: 0.5;"></i>
-                    <p>Interactive Map Integration</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Filter by safety score, price range, and amenities</p>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="launchMap('Nairobi')">Launch Map View</button>
-                </div>
-                
-                <!-- Simulated Map Pins -->
-                <div style="position: absolute; top: 30%; left: 20%; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; box-shadow: 0 0 20px var(--secondary); animation: pulse 2s infinite;"></div>
-                <div style="position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 20px var(--primary); animation: pulse 2s infinite 0.5s;"></div>
-                <div style="position: absolute; top: 40%; left: 70%; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 20px var(--accent); animation: pulse 2s infinite 1s;"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-    <!-- FOOTER -->
-    <footer style="background: var(--bg-card); padding: 5rem 5% 2rem; border-top: 1px solid var(--border-color); margin-top: 4rem;">
-        <div style="max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 4rem;">
-            <!-- Brand Column -->
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <img src="/static/logo_nyumba.jpg" alt="NyumbaLink" style="height: 60px; border-radius: 12px;">
-                    <h2 style="color: var(--text-main); font-size: 1.75rem; font-weight: 800; margin: 0;">Nyumba<span style="color: var(--primary);">Link</span></h2>
-                </div>
-                <p style="color: var(--text-muted); line-height: 1.6; max-width: 300px;">
-                    Kenya's first integrated escrow real estate platform. We make buying, renting, and listing properties secure, transparent, and seamless.
-                </p>
-                <div style="display: flex; gap: 1rem;">
-                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-
-            <!-- Quick Links -->
+<!-- STATS -->
+<div class="stats" data-aos="fade-up">
+    <div class="stat"><div class="stat-num">2,400+</div><div class="stat-label">Verified Listings</div></div>
+    <div class="stat"><div class="stat-num">850+</div><div class="stat-label">Vetted Agents</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Client Satisfaction</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Secure Escrow</div></div>
+</div>
+
+<!-- 6 PAGES GRID -->
+<section class="pages-section">
+    <div class="section-label" data-aos="fade-up">6 DEDICATED PORTALS</div>
+    <h2 data-aos="fade-up">What Do You<br>Need Today?</h2>
+
+    <div class="pages-grid">
+
+        <!-- PAGE 1 -->
+        <a href="/find-rental" class="page-card" data-aos="fade-up"
+           style="--card-accent:#FF5C00; --card-glow:rgba(255,92,0,0.08); --card-icon-bg:rgba(255,92,0,0.1); --card-icon-border:rgba(255,92,0,0.2);">
+            <div class="card-number">01</div>
+            <div class="card-icon"><i class="fas fa-search"></i></div>
+            <div class="card-title">Find a Rental</div>
+            <div class="card-desc">Looking for an apartment? Set your location, budget, and room count to find your next home.</div>
+            <div class="card-arrow">Explore <i class="fas fa-arrow-right"></i></div>
+        </a>
+
+        <!-- PAGE 2 -->
+        <a href="/list-rental" class="page-card" data-aos="fade-up" data-aos-delay="80"
+           style="--card-accent:#00D4FF; --card-glow:rgba(0,212,255,0.07); --card-icon-bg:rgba(0,212,255,0.08); --card-icon-border:rgba(0,212,255,0.18);">
+            <div class="card-number">02</div>
+            <div class="card-icon"><i class="fas fa-key"></i></div>
+            <div class="card-title">List for Rent</div>
+            <div class="card-desc">Landlords: post your apartment with HD photos, videos, amenities, and direct contact details.</div>
+            <div class="card-arrow" style="color:#00D4FF">Explore <i class="fas fa-arrow-right"></i></div>
+        </a>
+
+        <!-- PAGE 3 -->
+        <a href="/buy-home" class="page-card" data-aos="fade-up" data-aos-delay="160"
+           style="--card-accent:#8B5CF6; --card-glow:rgba(139,92,246,0.07); --card-icon-bg:rgba(139,92,246,0.08); --card-icon-border:rgba(139,92,246,0.18);">
+            <div class="card-number">03</div>
+            <div class="card-icon"><i class="fas fa-home"></i></div>
+            <div class="card-title">Buy a Home</div>
+            <div class="card-desc">Browse luxury estates, family homes, and investment properties across Kenya's prime areas.</div>
+            <div class="card-arrow" style="color:#8B5CF6">Explore <i class="fas fa-arrow-right"></i></div>
+        </a>
+
+        <!-- PAGE 4 -->
+        <a href="/sell-home" class="page-card" data-aos="fade-up" data-aos-delay="240"
+           style="--card-accent:#10B981; --card-glow:rgba(16,185,129,0.07); --card-icon-bg:rgba(16,185,129,0.08); --card-icon-border:rgba(16,185,129,0.18);">
+            <div class="card-number">04</div>
+            <div class="card-icon"><i class="fas fa-tag"></i></div>
+            <div class="card-title">Sell a Home</div>
+            <div class="card-desc">Owners: showcase your property with 8 images, 4 videos, full amenities and neighborhood details.</div>
+            <div class="card-arrow" style="color:#10B981">Explore <i class="fas fa-arrow-right"></i></div>
+        </a>
+
+        <!-- PAGE 5 — WIDE -->
+        <a href="/bnb" class="page-card wide" data-aos="fade-up" data-aos-delay="320"
+           style="--card-accent:#F59E0B; --card-glow:rgba(245,158,11,0.07); --card-icon-bg:rgba(245,158,11,0.08); --card-icon-border:rgba(245,158,11,0.18);">
+            <div class="card-icon"><i class="fas fa-bed"></i></div>
             <div>
-                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
-                    Quick Links
-                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--primary); border-radius: 3px;"></span>
-                </h3>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Apartments for Rent</a></li>
-                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Houses for Sale</a></li>
-                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">BnB Listings</a></li>
-                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Verified Agents</a></li>
-                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Escrow Safety</a></li>
-                </ul>
+                <div class="card-number">05</div>
+                <div class="card-title">BnB — Find & Host</div>
+                <div class="card-desc">Short-stay luxury experiences. Whether you're searching for a cozy stay or ready to list your BnB space with photos and pricing.</div>
+                <div class="card-arrow" style="color:#F59E0B; margin-top:1rem">Explore <i class="fas fa-arrow-right"></i></div>
             </div>
+        </a>
 
-            <!-- Contact Info -->
+        <!-- PAGE 6 — WIDE -->
+        <a href="/commercial" class="page-card wide" data-aos="fade-up" data-aos-delay="400"
+           style="--card-accent:#F43F5E; --card-glow:rgba(244,63,94,0.07); --card-icon-bg:rgba(244,63,94,0.08); --card-icon-border:rgba(244,63,94,0.18);">
+            <div class="card-icon"><i class="fas fa-city"></i></div>
             <div>
-                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
-                    Contact Us
-                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--secondary); border-radius: 3px;"></span>
-                </h3>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.5rem;">
-                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
-                        <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.25rem; margin-top: 0.25rem;"></i>
-                        <span>12th Floor, Westlands Business Park,<br>Nairobi, Kenya</span>
-                    </li>
-                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
-                        <i class="fas fa-phone-alt" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
-                        <span>+254 112 012 816</span>
-                    </li>
-                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
-                        <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
-                        <span>nyumbalinknyumba@gmail.com</span>
-                    </li>
-                </ul>
+                <div class="card-number">06</div>
+                <div class="card-title">Offices & Shops</div>
+                <div class="card-desc">Find or host corporate office suites, co-working desks, mall retail units, and street-front shops in prime Nairobi locations.</div>
+                <div class="card-arrow" style="color:#F43F5E; margin-top:1rem">Explore <i class="fas fa-arrow-right"></i></div>
             </div>
+        </a>
 
-            <!-- Newsletter -->
+        <!-- PAGE 7 — WIDE -->
+        <a href="/pricing" class="page-card wide" data-aos="fade-up" data-aos-delay="480"
+           style="--card-accent:#00A651; --card-glow:rgba(0,166,81,0.07); --card-icon-bg:rgba(0,166,81,0.1); --card-icon-border:rgba(0,166,81,0.2);">
+            <div class="card-icon" style="font-size:1.5rem; font-weight:900; font-family:var(--font-ui);"><i class="fas fa-credit-card"></i></div>
             <div>
-                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
-                    Newsletter
-                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--accent); border-radius: 3px;"></span>
-                </h3>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
-                    Subscribe to get the latest listings and market trends delivered to your inbox.
-                </p>
-                <form style="display: flex; flex-wrap: wrap; gap: 0.5rem;" onsubmit="event.preventDefault(); alert('Subscribed!')">
-                    <input type="email" placeholder="Your Email" required 
-                           style="flex: 1; min-width: 180px; padding: 0.75rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: inherit;">
-                    <button class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Join</button>
-                </form>
+                <div class="card-number">07</div>
+                <div class="card-title">Pricing & Payments</div>
+                <div class="card-desc">Transparent listing fees from KES 500. Pay instantly via Paystack — secure, fast, and multi-channel.</div>
+                <div class="card-arrow" style="color:#00A651; margin-top:1rem">View Pricing <i class="fas fa-arrow-right"></i></div>
             </div>
-        </div>
+        </a>
 
-        <!-- Bottom Footer -->
-        <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
-            <p style="color: var(--text-muted); font-size: 0.85rem;">
-                © 2026 NyumbaLink Hub. All rights reserved. Registered with EARB & POCAMLA.
-            </p>
-            <div style="display: flex; gap: 2rem; font-size: 0.85rem;">
-                <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
-                <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
-                <a href="#" style="color: var(--text-muted); text-decoration: none;">Escrow Rules</a>
-            </div>
-        </div>
-    </footer>
-
-
-   <!-- MODULE 4: SPONSORED ADS (MONETIZATION) -->
-<section style="padding: 4rem 5%; background: var(--bg-main);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-            <h3 style="color: var(--text-main); font-size: 1.25rem;">Sponsored Partners</h3>
-            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
-            <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(0, 212, 255, 0.05)); padding: 2rem; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.5rem; cursor: pointer;" onclick="window.open('https://findit.co.ke', '_blank')">
-                <div style="font-size: 2.5rem; color: var(--primary);"><i class="fas fa-search-location"></i></div>
-                <div>
-                    <h4 style="color: var(--text-main); margin-bottom: 0.25rem;">Findit.co.ke</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Kenya's leading business directory and search engine.</p>
-                </div>
-            </div>
-            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(57, 255, 20, 0.05)); padding: 2rem; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.5rem; cursor: pointer;" onclick="window.open('https://findit.co.ke', '_blank')">
-                <div style="font-size: 2.5rem; color: var(--secondary);"><i class="fas fa-bullhorn"></i></div>
-                <div>
-                    <h4 style="color: var(--text-main); margin-bottom: 0.25rem;">Market with Findit</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Get your business listed and reach millions of Kenyans.</p>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
-
-
-
-<!-- MODULE 5: AGENT PREMIUM PLANS -->
-<section style="padding: 6rem 5%; background: var(--bg-alt);">
-    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-        <div class="section-title">
-            <h2>Accelerate Your Business</h2>
-            <p>Join our premium agent plans to unlock unlimited listings and priority verification.</p>
+<footer>
+    <div class="footer-inner">
+        <div class="logo" style="font-size:1.4rem">Link<em>Point</em></div>
+        <div class="footer-links">
+            <a href="/find-rental">Find Rental</a>
+            <a href="/list-rental">List Rental</a>
+            <a href="/buy-home">Buy Home</a>
+            <a href="/sell-home">Sell Home</a>
+            <a href="/bnb">BnB</a>
+            <a href="/commercial">Commercial</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/account">Account</a>
         </div>
-        <div style="display: flex; justify-content: center;">
-            <div style="background: var(--bg-card); max-width: 400px; width: 100%; padding: 3rem; border-radius: 24px; border: 2px solid var(--primary); box-shadow: 0 20px 50px rgba(0, 212, 255, 0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 1.5rem; right: -2rem; background: var(--primary); color: white; padding: 0.5rem 3rem; transform: rotate(45deg); font-weight: 800; font-size: 0.75rem;">POPULAR</div>
-                <h3 style="color: var(--text-main); font-size: 2rem; margin-bottom: 1rem;">Agent Pro</h3>
-                <div style="font-size: 3rem; font-weight: 800; color: var(--text-main); margin-bottom: 2rem;">KSh 2,000<span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/month</span></div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; text-align: left;">
-                    <li style="color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 0.5rem;"></i> Unlimited Property Listings</li>
-                    <li style="color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 0.5rem;"></i> Featured Badge on all listings</li>
-                    <li style="color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 0.5rem;"></i> Priority EARB Verification</li>
-                    <li style="color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 0.5rem;"></i> Direct WhatsApp Leads Tracking</li>
-                </ul>
-                <button class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.1rem;" onclick="openPayment(null, 2000, 'Agent Pro Subscription')">Subscribe Now</button>
-            </div>
-        </div>
+        <div class="footer-copy">&copy; 2026 LinkPoint Hub</div>
     </div>
-</section>
+</footer>
 
-
-
-    <div style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999;">
-        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #00a650, #00c853); border: none; border-radius: 50%; color: var(--text-main); font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.4); display: flex; align-items: center; justify-content: center;" title="M-Pesa Payment">
-            <i class="fas fa-mobile-alt"></i>
-        </button>
-        <button onclick="document.getElementById('agentVerification').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); display: flex; align-items: center; justify-content: center;" title="Verify Agent">
-            <i class="fas fa-shield-alt"></i>
-        </button>
-        <button onclick="document.getElementById('neighborhoodGuides').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); border: 2px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center;" title="Neighborhood Guide">
-            <i class="fas fa-map-marker-alt"></i>
-        </button>
-    </div>
-
-    <!-- FLOATING WHATSAPP BUTTON (Bottom Left to avoid overlap) -->
-    <a href="https://wa.me/254112012816?text=Hello%20NyumbaLink,%20I'm%20interested%20in%20a%20property." 
-       target="_blank" 
-       style="position: fixed; bottom: 2rem; left: 2rem; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; text-decoration: none; transition: transform 0.3s;"
-       onmouseover="this.style.transform='scale(1.1)'"
-       onmouseout="this.style.transform='scale(1)'">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <div id="mapModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 2rem;">
-        <div style="background: var(--bg-card); width: 100%; max-width: 1000px; height: 80vh; border-radius: 24px; position: relative; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
-                <h3 id="mapModalTitle" style="color: var(--text-main); margin: 0;">Area Map</h3>
-                <button onclick="closeMap()" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;"><i class="fas fa-times"></i></button>
-            </div>
-            <div style="flex: 1; position: relative;">
-                <iframe id="mapIframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <div style="padding: 1rem; background: var(--bg-alt); text-align: center; color: var(--text-muted); font-size: 0.8rem;">
-                <i class="fas fa-info-circle"></i> Zoom in to see amenities, safety clusters, and transit lines.
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>AOS.init({ duration: 800, once: true });</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>AOS.init({ duration: 900, once: true, offset: 40 });</script>
 </body>
 </html>

@@ -12,41 +12,80 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5000', 'http://127.0.0.1:3000', 'http://127.0.0.1:5000'],
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization','X-Admin-Token']
+}));
 app.use(express.json());
 
 // Serve static files (logo, images, etc.) from /static and /uploads
 app.use("/static", express.static(path.join(__dirname, "static")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Root route to serve the main frontend
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "templates", "index.html"));
-});
+// ============================
+// 📄 PAGE ROUTES — 6 Dedicated Pages + Home + Account
+// ============================
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "templates", "index.html")));
+app.get("/find-rental", (req, res) => res.sendFile(path.join(__dirname, "templates", "find-rental.html")));
+app.get("/list-rental", (req, res) => res.sendFile(path.join(__dirname, "templates", "list-rental.html")));
+app.get("/buy-home", (req, res) => res.sendFile(path.join(__dirname, "templates", "buy-home.html")));
+app.get("/sell-home", (req, res) => res.sendFile(path.join(__dirname, "templates", "sell-home.html")));
+app.get("/bnb", (req, res) => res.sendFile(path.join(__dirname, "templates", "bnb.html")));
+app.get("/commercial", (req, res) => res.sendFile(path.join(__dirname, "templates", "commercial.html")));
+app.get("/pricing", (req, res) => res.sendFile(path.join(__dirname, "templates", "pricing.html")));
+app.get("/account", (req, res) => res.sendFile(path.join(__dirname, "templates", "account.html")));
+app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "templates", "dashboard.html")));
+// Legacy redirects
+app.get("/rentals", (req, res) => res.redirect("/find-rental"));
+app.get("/sales", (req, res) => res.redirect("/buy-home"));
+app.get("/offices", (req, res) => res.redirect("/commercial"));
+app.get("/shops", (req, res) => res.redirect("/commercial"));
 
-// 🔐 Supabase Setup (Credentials from .env or placeholder)
+
+
+// 🔐 Supabase Setup
 const supabase = createClient(
   process.env.SUPABASE_URL || "https://laqcnqhyhvtawzvmxlkw.supabase.co",
-  process.env.SUPABASE_ANON_KEY || "sb_publishable_xV0mj5rXsvJb9qgW2fSANQ_5D4OJaFz"
+  process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || "sb_publishable_xV0mj5rXsvJb9qgW2fSANQ_5D4OJaFz"
 );
+console.log(`📡 Supabase URL: ${process.env.SUPABASE_URL || 'using default'}`);
 
 // ============================
 // 🧑 USER REGISTER
 // ============================
 app.post("/register", async (req, res) => {
-  const { email, password, phone } = req.body;
+  const { email, password, phone } = req.body || {};
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { phone: phone }
-    }
-  });
+  if (!email || !password)
+    return res.status(400).json({ success: false, message: "Email and password are required" });
+  if (password.length < 6)
+    return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
 
-  if (error) return res.status(400).json({ success: false, message: error.message });
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { phone: phone || '' } }
+    });
 
-  res.json({ success: true, message: "User registered", data });
+    if (error) return res.status(400).json({ success: false, message: error.message });
+
+    // signUp returns a user even if email confirmation is required
+    const user = data.user;
+    const session = data.session;
+    res.json({
+      success: true,
+      message: session
+        ? "Account created! Welcome to LinkPoint."
+        : "Account created! Please check your email to confirm your account.",
+      token: session ? session.access_token : null,
+      user: user ? { id: user.id, email: user.email } : null
+    });
+  } catch(e) {
+    console.error('Register error:', e);
+    res.status(500).json({ success: false, message: "Server error during registration" });
+  }
 });
 
 // ============================
@@ -81,16 +120,54 @@ app.post("/update-password", async (req, res) => {
 // 🔑 LOGIN
 // ============================
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  if (!email || !password)
+    return res.status(400).json({ success: false, message: "Email and password are required" });
 
-  if (error) return res.status(400).json({ success: false, message: error.message });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-  res.json({ success: true, message: "Login success", token: data.session.access_token, user: data.user });
+    if (error) return res.status(401).json({ success: false, message: error.message });
+    if (!data.session) return res.status(401).json({ success: false, message: "Login failed – no session returned" });
+
+    res.json({
+      success: true,
+      message: "Login successful!",
+      token: data.session.access_token,
+      user: { id: data.user.id, email: data.user.email }
+    });
+  } catch(e) {
+    console.error('Login error:', e);
+    res.status(500).json({ success: false, message: "Server error during login" });
+  }
+});
+
+// ============================
+// 👤 GET CURRENT USER (verify token)
+// ============================
+app.get("/me", async (req, res) => {
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  if (!token) return res.status(401).json({ success: false, message: "No token" });
+
+  try {
+    const { data, error } = await supabase.auth.getUser(token);
+    if (error || !data.user) return res.status(401).json({ success: false, message: "Invalid or expired token" });
+    res.json({ success: true, user: { id: data.user.id, email: data.user.email } });
+  } catch(e) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// ============================
+// 🚪 LOGOUT
+// ============================
+app.post("/logout", async (req, res) => {
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  if (token) {
+    try { await supabase.auth.admin.signOut(token); } catch(e) {}
+  }
+  res.json({ success: true, message: "Logged out" });
 });
 
 // ============================
@@ -101,13 +178,25 @@ app.post("/listings", async (req, res) => {
     title,
     location,
     price,
-    type, // house, bnb, office, shop
+    type, // house_rent, house_sale, bnb, office, shop
     description,
     images,
+    videos, // Added as requested
     is_featured,
     status,
     beds,
-    baths
+    baths,
+    rooms, // Added as requested (e.g. number of rooms)
+    amenities, // Array: CCTV, WiFi, Parking, Gym
+    neighborhood_amenities, // For Section 4 (Sale): Balcony, Playground, Pet Friendly, Backup Generator
+    contact_name,
+    contact_phone,
+    contact_email,
+    caretaker_name,
+    caretaker_phone,
+    caretaker_email,
+    owner_name,
+    owner_email
   } = req.body;
 
   const { data, error } = await supabase.from("properties").insert([
@@ -118,10 +207,24 @@ app.post("/listings", async (req, res) => {
       type,
       description,
       images: images || ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"],
+      videos: videos || [],
       is_featured: is_featured || false,
       status: status || 'FOR RENT',
-      beds: parseInt(beds) || 2,
-      baths: parseInt(baths) || 1
+      beds: parseInt(beds) || 0,
+      baths: parseInt(baths) || 0,
+      rooms: parseInt(rooms) || 0,
+      amenities: amenities || [],
+      neighborhood_amenities: neighborhood_amenities || [],
+      contact_info: {
+        name: contact_name,
+        phone: contact_phone,
+        email: contact_email,
+        caretaker_name,
+        caretaker_phone,
+        caretaker_email,
+        owner_name,
+        owner_email
+      }
     },
   ]);
 
@@ -221,81 +324,22 @@ app.post("/upload", async (req, res) => {
 });
 
 // ============================
-// 💳 M-PESA STK PUSH (Ported from existing Python code)
+// 💳 PAYSTACK INTEGRATION
 // ============================
-const MPESA_CONSUMER_KEY = process.env.MPESA_CONSUMER_KEY || "your_consumer_key";
-const MPESA_CONSUMER_SECRET = process.env.MPESA_CONSUMER_SECRET || "your_consumer_secret";
-const MPESA_SHORTCODE = process.env.MPESA_SHORTCODE || "174379";
-const MPESA_PASSKEY = process.env.MPESA_PASSKEY || "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
-
-async function getMpesaToken() {
-  const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-  const auth = Buffer.from(`${MPESA_CONSUMER_KEY}:${MPESA_CONSUMER_SECRET}`).toString("base64");
-  try {
-    const res = await axios.get(url, {
-      headers: { Authorization: `Basic ${auth}` }
-    });
-    return res.data.access_token;
-  } catch (err) {
-    console.error("M-Pesa Token Error:", err.response?.data || err.message);
-    return null;
-  }
-}
-
-app.post("/mpesa/stk-push", async (req, res) => {
-  const { phone, amount } = req.body;
-  
-  const token = await getMpesaToken();
-  if (!token) return res.status(500).json({ success: false, message: "Could not authenticate with Safaricom" });
-
-  const date = new Date();
-  const timestamp = date.getFullYear() +
-    ("0" + (date.getMonth() + 1)).slice(-2) +
-    ("0" + date.getDate()).slice(-2) +
-    ("0" + date.getHours()).slice(-2) +
-    ("0" + date.getMinutes()).slice(-2) +
-    ("0" + date.getSeconds()).slice(-2);
-    
-  const password = Buffer.from(`${MPESA_SHORTCODE}${MPESA_PASSKEY}${timestamp}`).toString("base64");
-
-  const payload = {
-    BusinessShortCode: MPESA_SHORTCODE,
-    Password: password,
-    Timestamp: timestamp,
-    TransactionType: "CustomerPayBillOnline",
-    Amount: parseInt(amount),
-    PartyA: phone,
-    PartyB: MPESA_SHORTCODE,
-    PhoneNumber: phone,
-    CallBackURL: "https://yourdomain.com/mpesa/callback",
-    AccountReference: "NyumbaLinkHub",
-    TransactionDesc: "Property Payment"
-  };
-
-  try {
-    const response = await axios.post("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", payload, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    
-    if (response.data.ResponseCode === "0") {
-      res.json({ success: true, message: "STK Push sent!", data: response.data });
-    } else {
-      res.json({ success: false, message: response.data.CustomerMessage || "STK Push failed", error: response.data });
-    }
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.response?.data?.errorMessage || "STK Push Request error" });
-  }
+// Note: Currently Paystack is handled client-side via the inline.js popup.
+// If you need server-side verification, add a /paystack/verify endpoint here.
+app.post("/paystack/webhook", (req, res) => {
+  // Handle Paystack webhooks (e.g. successful payment verification)
+  const event = req.body;
+  console.log("Paystack Webhook received:", event.event);
+  res.sendStatus(200);
 });
 
-app.post("/mpesa/callback", (req, res) => {
-  console.log("M-Pesa Callback Status:", JSON.stringify(req.body, null, 2));
-  res.json({ ResultCode: 0, ResultDesc: "Accepted" });
-});
 
 // ============================
 // 🚀 START SERVER
 // ============================
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Premium NyumbaLink backend running on port ${PORT}`);
+  console.log(`🚀 Premium LinkPoint backend running on port ${PORT}`);
 });

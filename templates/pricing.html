@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Payments | LinkPoint</title>
+    <meta name="description" content="Transparent pricing for all LinkPoint services. Pay securely via Paystack — Africa's most trusted payment gateway.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary: #FF5C00;
+            --primary-glow: rgba(255,92,0,0.35);
+            --paystack: #011b33;
+            --paystack-accent: #00d382;
+            --paystack-glow: rgba(0,211,130,0.35);
+            --bg: #030712;
+            --glass: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+            --shine: rgba(255,255,255,0.14);
+            --text: #F1F5F9;
+            --muted: #64748B;
+            --display: 'Playfair Display', serif;
+            --body: 'Space Grotesk', sans-serif;
+            --ui: 'Inter', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--body); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+        .mesh { position: fixed; inset: 0; z-index: -1;
+            background:
+                radial-gradient(ellipse 60% 55% at 25% 35%, rgba(0,211,130,0.07) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 75% 65%, rgba(255,92,0,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 55% 15%, rgba(0,211,130,0.04) 0%, transparent 40%); }
+        .orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: -1; animation: drift 22s ease-in-out infinite; }
+        .orb1 { width: 420px; height: 420px; background: rgba(0,211,130,0.1); top: 5%; left: 5%; }
+        .orb2 { width: 320px; height: 320px; background: rgba(255,92,0,0.08); bottom: 15%; right: 8%; animation-delay: -9s; }
+        .orb3 { width: 250px; height: 250px; background: rgba(0,211,130,0.05); top: 50%; right: 30%; animation-delay: -15s; }
+        @keyframes drift { 0%,100%{transform:translate(0,0)} 35%{transform:translate(30px,-35px)} 70%{transform:translate(-20px,20px)} }
+
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(3,7,18,0.6); backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid var(--border); }
+        .logo { font-family: var(--display); font-size: 1.8rem; font-weight: 700;
+            text-decoration: none; color: var(--text); letter-spacing: -1px; }
+        .logo em { color: var(--primary); font-style: italic; }
+        .nav-links { display: flex; gap: 0.4rem; }
+        .nav-links a { font-family: var(--ui); font-size: 0.82rem; font-weight: 500; color: var(--muted);
+            text-decoration: none; padding: 0.55rem 1rem; border-radius: 10px; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+        .btn { font-family: var(--ui); font-weight: 600; font-size: 0.82rem; padding: 0.65rem 1.4rem;
+            border-radius: 12px; border: 1px solid var(--border); background: var(--glass);
+            color: var(--text); cursor: pointer; text-decoration: none; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 6px; backdrop-filter: blur(8px); }
+        .btn:hover { background: rgba(255,255,255,0.07); }
+
+        /* PAGE HERO */
+        .page-hero { padding: 10rem 5% 4rem; text-align: center; }
+        .eyebrow { font-family: var(--ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--paystack-accent); margin-bottom: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .eyebrow::before, .eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--paystack-accent); opacity: 0.4; }
+        .page-hero h1 { font-family: var(--display); font-size: clamp(3rem,8vw,5.5rem);
+            font-weight: 800; letter-spacing: -3px; margin-bottom: 1rem; }
+        .page-hero h1 em { color: var(--paystack-accent); font-style: italic; text-shadow: 0 0 60px var(--paystack-glow); }
+        .page-hero p { font-family: var(--ui); font-size: 1.05rem; color: var(--muted);
+            max-width: 580px; margin: 0 auto; line-height: 1.75; }
+
+        /* PRICING GRID */
+        .section { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
+        .section-title { font-family: var(--display); font-size: 2.2rem; font-weight: 700;
+            letter-spacing: -1.5px; margin-bottom: 0.5rem; }
+        .section-sub { font-family: var(--ui); font-size: 0.9rem; color: var(--muted); margin-bottom: 2.5rem; }
+
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 5rem; }
+        @media (max-width: 900px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 580px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+        .price-card { padding: 2.5rem; border-radius: 28px; position: relative; overflow: hidden;
+            background: linear-gradient(145deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .price-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--shine), transparent); }
+        .price-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .price-card.featured { border-color: var(--paystack-accent); box-shadow: 0 0 40px rgba(0,211,130,0.1); }
+        .price-card.featured::after { content: 'POPULAR'; position: absolute; top: 1.5rem; right: 1.5rem;
+            font-family: var(--ui); font-size: 0.65rem; font-weight: 700; letter-spacing: 2px;
+            color: var(--paystack-accent); background: rgba(0,211,130,0.12); border: 1px solid rgba(0,211,130,0.25);
+            padding: 0.3rem 0.7rem; border-radius: 8px; }
+
+        .price-service-icon { width: 52px; height: 52px; border-radius: 14px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.5rem;
+            background: rgba(0,211,130,0.08); color: var(--paystack-accent); border: 1px solid rgba(0,211,130,0.18); }
+        .price-service { font-family: var(--ui); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+        .price-name { font-family: var(--display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .price-amount { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 1.5rem; }
+        .price-currency { font-family: var(--ui); font-size: 1rem; font-weight: 600; color: var(--paystack-accent); }
+        .price-number { font-family: var(--display); font-size: 3.5rem; font-weight: 800;
+            color: var(--paystack-accent); line-height: 1; }
+        .price-period { font-family: var(--ui); font-size: 0.8rem; color: var(--muted); }
+        .price-features { list-style: none; margin-bottom: 2rem; }
+        .price-features li { font-family: var(--ui); font-size: 0.84rem; color: var(--muted);
+            padding: 0.4rem 0; display: flex; align-items: center; gap: 0.6rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .price-features li:last-child { border-bottom: none; }
+        .price-features li i { color: var(--paystack-accent); font-size: 0.7rem; flex-shrink: 0; }
+        .price-pay-btn { width: 100%; padding: 1rem; border-radius: 14px; border: none; cursor: pointer;
+            font-family: var(--ui); font-size: 0.88rem; font-weight: 700; display: flex;
+            align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s;
+            background: linear-gradient(135deg, #00d382, #00b56e);
+            color: white; box-shadow: 0 0 24px var(--paystack-glow), inset 0 1px 0 rgba(255,255,255,0.2); }
+        .price-pay-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px var(--paystack-glow); }
+        .price-pay-btn.outline { background: transparent; border: 1px solid var(--border);
+            color: var(--text); box-shadow: none; }
+        .price-pay-btn.outline:hover { background: rgba(255,255,255,0.06); border-color: var(--shine); box-shadow: none; }
+
+        /* PAYSTACK PAYMENT SECTION */
+        .paystack-section { max-width: 720px; margin: 0 auto 6rem; padding: 0 5%; }
+        .glass-card { padding: 3rem; border-radius: 28px; position: relative; overflow: hidden;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border); backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%); }
+        .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--shine), transparent); }
+
+        .paystack-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; }
+        .paystack-logo { width: 70px; height: 70px; border-radius: 20px; background: linear-gradient(135deg, #011b33, #00d382);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900;
+            color: white; font-family: var(--ui); flex-shrink: 0;
+            box-shadow: 0 8px 24px var(--paystack-glow), inset 0 1px 0 rgba(255,255,255,0.3); }
+        .payment-header h2 { font-family: var(--display); font-size: 2rem; font-weight: 700; }
+        .payment-header p { font-family: var(--ui); font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+        .form-divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+        .f-label { display: block; font-family: var(--ui); font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.55rem; }
+        .f-input { width: 100%; padding: 1rem 1.2rem; font-family: var(--body); font-size: 0.95rem;
+            color: var(--text); background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            border-radius: 14px; transition: 0.3s; margin-bottom: 1.5rem; }
+        .f-input::placeholder { color: rgba(255,255,255,0.2); }
+        .f-input:focus { outline: none; border-color: var(--paystack-accent); box-shadow: 0 0 22px var(--paystack-glow); }
+        select.f-input { appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 1rem center; }
+
+        .phone-row { display: flex; gap: 0.75rem; }
+        .phone-prefix { padding: 1rem 1.2rem; background: rgba(0,211,130,0.1); border: 1px solid rgba(0,211,130,0.25);
+            border-radius: 14px; font-family: var(--body); font-size: 0.95rem; color: var(--paystack-accent);
+            font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; margin-bottom: 1.5rem; }
+        .phone-row .f-input { flex: 1; margin-bottom: 0; }
+        .phone-row { align-items: flex-start; }
+
+        .amount-display { padding: 1.5rem; border-radius: 18px; background: rgba(0,166,81,0.06);
+            border: 1px solid rgba(0,166,81,0.15); margin-bottom: 1.5rem; text-align: center; }
+        .amount-label { font-family: var(--ui); font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+        .amount-value { font-family: var(--display); font-size: 2.5rem; font-weight: 800; color: var(--paystack-accent); }
+        .amount-note { font-family: var(--ui); font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+
+        .stk-btn { width: 100%; padding: 1.25rem; border-radius: 16px; border: none; cursor: pointer;
+            font-family: var(--ui); font-size: 1rem; font-weight: 700; letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+            background: linear-gradient(135deg, #011b33 0%, #00d382 100%);
+            color: white; box-shadow: 0 0 30px var(--paystack-glow), inset 0 1px 0 rgba(255,255,255,0.25);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .stk-btn:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 16px 45px var(--paystack-glow); }
+        .stk-btn:active { transform: translateY(0) scale(0.99); }
+        .stk-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* STK PUSH STATUS */
+        .stk-status { display: none; padding: 1.5rem; border-radius: 18px; margin-top: 1.5rem;
+            text-align: center; border: 1px solid; }
+        .stk-status.pending { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
+        .stk-status.success { background: rgba(0,166,81,0.08); border-color: rgba(0,166,81,0.2); }
+        .stk-status.error { background: rgba(244,63,94,0.08); border-color: rgba(244,63,94,0.2); }
+        .stk-status i { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+        .stk-status.pending i { color: #F59E0B; }
+        .stk-status.success i { color: var(--paystack-accent); }
+        .stk-status.error i { color: #F43F5E; }
+        .stk-status h3 { font-family: var(--display); font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .stk-status p { font-family: var(--ui); font-size: 0.85rem; color: var(--muted); }
+
+        /* SECURITY BADGES */
+        .security-row { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+        .sec-badge { display: flex; align-items: center; gap: 0.5rem; font-family: var(--ui);
+            font-size: 0.75rem; color: var(--muted); }
+        .sec-badge i { color: var(--paystack-accent); }
+
+        /* FAQ */
+        .faq-section { max-width: 720px; margin: 0 auto 6rem; padding: 0 5%; }
+        .faq-item { padding: 1.5rem; border-radius: 16px; background: var(--glass); border: 1px solid var(--border);
+            margin-bottom: 0.75rem; cursor: pointer; transition: 0.3s; }
+        .faq-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+        .faq-q { font-family: var(--body); font-size: 0.95rem; font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .faq-q i { color: var(--muted); font-size: 0.8rem; transition: transform 0.3s; flex-shrink: 0; }
+        .faq-a { font-family: var(--ui); font-size: 0.85rem; color: var(--muted); margin-top: 1rem;
+            line-height: 1.7; display: none; }
+        .faq-item.open .faq-a { display: block; }
+        .faq-item.open .faq-q i { transform: rotate(180deg); color: var(--paystack-accent); }
+
+        footer { padding: 3rem 5% 2rem; border-top: 1px solid var(--border); background: rgba(3,7,18,0.5); }
+        .foot-inner { max-width: 1200px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+        .foot-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .foot-links a { font-family: var(--ui); font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: 0.3s; }
+        .foot-links a:hover { color: var(--primary); }
+        .foot-copy { font-family: var(--ui); font-size: 0.76rem; color: var(--muted); }
+
+        #notif { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; }
+        .toast { background: var(--paystack-accent); color: white; padding: 0.9rem 1.8rem; border-radius: 14px;
+            margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            animation: slidein 0.3s ease; font-family: var(--ui); font-size: 0.88rem; font-weight: 700; }
+        @keyframes slidein { from{transform:translateX(110%);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        .pulsing { animation: pulse 1.5s ease-in-out infinite; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_a9d3d922bc30a905a306bdfe1140df03189a0fcc',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh"></div>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+
+<nav>
+    <a href="/" class="logo">Link<em>Point</em></a>
+    <div class="nav-links">
+        <a href="/find-rental">Find Rental</a>
+        <a href="/list-rental">List Rental</a>
+        <a href="/buy-home">Buy Home</a>
+        <a href="/sell-home">Sell Home</a>
+        <a href="/bnb">BnB</a>
+        <a href="/commercial">Commercial</a>
+        <a href="/pricing" class="active">Pricing</a>
+    </div>
+    <a href="/account" class="btn"><i class="fas fa-user"></i> Account</a>
+</nav>
+
+<div class="page-hero" data-aos="zoom-out">
+    <div class="eyebrow">SECTION 07 — PAYMENTS</div>
+    <h1>Simple, <em>Transparent</em> Pricing</h1>
+    <p>One-time listing fees. No hidden charges. Pay via Card or M-Pesa securely directly from this page.</p>
+</div>
+
+<!-- PRICING TIERS -->
+<div class="section">
+    <div class="section-title" data-aos="fade-up">Our Service Plans</div>
+    <div class="section-sub" data-aos="fade-up">Choose the plan that matches your need. Activate instantly via Paystack.</div>
+
+    <div class="pricing-grid">
+
+        <!-- FIND RENTAL -->
+        <div class="price-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="price-service-icon"><i class="fas fa-search"></i></div>
+            <div class="price-service">Tenant Portal</div>
+            <div class="price-name">Find a Rental</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">500</span>
+                <span class="price-period">/ once</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Verified match list</li>
+                <li><i class="fas fa-check-circle"></i> Direct landlord contacts</li>
+                <li><i class="fas fa-check-circle"></i> 30-day active search</li>
+                <li><i class="fas fa-check-circle"></i> WhatsApp support</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 500, 'Find a Rental')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+        <!-- LIST RENTAL -->
+        <div class="price-card featured" data-aos="fade-up" data-aos-delay="100">
+            <div class="price-service-icon" style="background:rgba(0,212,255,0.1);color:#00D4FF;border-color:rgba(0,212,255,0.2)"><i class="fas fa-key"></i></div>
+            <div class="price-service">Landlord Portal</div>
+            <div class="price-name">List for Rent</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">1,500</span>
+                <span class="price-period">/ listing</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Featured listing for 60 days</li>
+                <li><i class="fas fa-check-circle"></i> 6 HD images + 2 videos</li>
+                <li><i class="fas fa-check-circle"></i> Highlighted on homepage</li>
+                <li><i class="fas fa-check-circle"></i> Tenant screening support</li>
+                <li><i class="fas fa-check-circle"></i> WhatsApp notifications</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 1500, 'List for Rent')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+        <!-- BUY HOME -->
+        <div class="price-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="price-service-icon" style="background:rgba(139,92,246,0.1);color:#8B5CF6;border-color:rgba(139,92,246,0.2)"><i class="fas fa-home"></i></div>
+            <div class="price-service">Buyer Portal</div>
+            <div class="price-name">Buy a Home</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">2,000</span>
+                <span class="price-period">/ once</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Curated property match</li>
+                <li><i class="fas fa-check-circle"></i> Agent-assisted viewings</li>
+                <li><i class="fas fa-check-circle"></i> Legal document guidance</li>
+                <li><i class="fas fa-check-circle"></i> 90-day search window</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 2000, 'Buy a Home')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+        <!-- SELL HOME -->
+        <div class="price-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="price-service-icon" style="background:rgba(16,185,129,0.1);color:#10B981;border-color:rgba(16,185,129,0.2)"><i class="fas fa-tag"></i></div>
+            <div class="price-service">Seller Portal</div>
+            <div class="price-name">Sell a Home</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">5,000</span>
+                <span class="price-period">/ listing</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Premium 90-day listing</li>
+                <li><i class="fas fa-check-circle"></i> 8 images + 4 videos</li>
+                <li><i class="fas fa-check-circle"></i> Serious buyer leads only</li>
+                <li><i class="fas fa-check-circle"></i> Escrow payment setup</li>
+                <li><i class="fas fa-check-circle"></i> Dedicated agent assigned</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 5000, 'Sell a Home')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+        <!-- BNB -->
+        <div class="price-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="price-service-icon" style="background:rgba(245,158,11,0.1);color:#F59E0B;border-color:rgba(245,158,11,0.2)"><i class="fas fa-bed"></i></div>
+            <div class="price-service">BnB Portal</div>
+            <div class="price-name">Host a BnB</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">500</span>
+                <span class="price-period">/ listing</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Live listing for 60 days</li>
+                <li><i class="fas fa-check-circle"></i> Booking inquiry system</li>
+                <li><i class="fas fa-check-circle"></i> Guest WhatsApp alerts</li>
+                <li><i class="fas fa-check-circle"></i> Calendar availability</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 500, 'Host a BnB')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+        <!-- COMMERCIAL -->
+        <div class="price-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="price-service-icon" style="background:rgba(244,63,94,0.1);color:#F43F5E;border-color:rgba(244,63,94,0.2)"><i class="fas fa-city"></i></div>
+            <div class="price-service">Commercial Portal</div>
+            <div class="price-name">Office / Shop</div>
+            <div class="price-amount">
+                <span class="price-currency">KES</span>
+                <span class="price-number">3,000</span>
+                <span class="price-period">/ listing</span>
+            </div>
+            <ul class="price-features">
+                <li><i class="fas fa-check-circle"></i> Business-class listing</li>
+                <li><i class="fas fa-check-circle"></i> Prime location promotion</li>
+                <li><i class="fas fa-check-circle"></i> Verified tenant vetting</li>
+                <li><i class="fas fa-check-circle"></i> 90-day active window</li>
+            </ul>
+            <button class="price-pay-btn" onclick="openPayment(null, 3000, 'Office / Shop')">
+                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- PAYSTACK PAYMENT FORM -->
+<div class="paystack-section" id="payment-section">
+    <div class="glass-card" data-aos="fade-up">
+        <div class="paystack-header">
+            <div class="paystack-logo"><i class="fas fa-credit-card"></i></div>
+            <div class="payment-header">
+                <h2>Complete Secure Payment</h2>
+                <p>Select your tier and pay via Paystack (Multi-channel)</p>
+            </div>
+        </div>
+
+        <label class="f-label">Select Service</label>
+        <select class="f-input" id="selectedPlan" onchange="updateAmount()">
+            <option value="500">Find a Rental — KES 500</option>
+            <option value="1500">List for Rent — KES 1,500</option>
+            <option value="2000">Buy a Home — KES 2,000</option>
+            <option value="5000">Sell a Home — KES 5,000</option>
+            <option value="500">Host a BnB — KES 500</option>
+            <option value="3000">Office / Shop — KES 3,000</option>
+        </select>
+
+        <div class="amount-display">
+            <div class="amount-label">Amount to Pay</div>
+            <div class="amount-value" id="amountDisplay">KES 500</div>
+            <div class="amount-note">One-time, non-refundable listing fee</div>
+        </div>
+
+        <!-- M-Pesa Phone Label Hidden -->
+        <div class="phone-row">
+            <div class="phone-prefix" style="display:none"><i class="fas fa-flag"></i> +254</div>
+            <input type="tel" class="f-input" id="paystackPhone" style="display:none" placeholder="7XX XXX XXX" maxlength="9">
+        </div>
+
+        <!-- Name Label Hidden -->
+        <input type="text" class="f-input" id="payerName" style="display:none" placeholder="Used for payment receipt">
+
+        <button class="stk-btn" id="stkBtn" onclick="startPaystackFromForm()">
+            <i class="fas fa-credit-card"></i> Pay Securely Now
+        </button>
+
+        <div class="stk-status pending" id="statusPending">
+            <i class="fas fa-spinner fa-spin pulsing"></i>
+            <h3>Waiting for Payment…</h3>
+            <p>Your payment is being processed to your phone.<br>Enter your PIN to complete the payment.</p>
+        </div>
+        <div class="stk-status success" id="statusSuccess">
+            <i class="fas fa-check-circle"></i>
+            <h3>Payment Confirmed! 🎉</h3>
+            <p>Your listing is now active. You'll receive a confirmation SMS and email shortly.</p>
+        </div>
+        <div class="stk-status error" id="statusError">
+            <i class="fas fa-times-circle"></i>
+            <h3>Payment Failed</h3>
+            <p id="errorMsg">Please check your phone number and M-Pesa balance, then try again.</p>
+        </div>
+
+        <div class="security-row">
+            <div class="sec-badge"><i class="fas fa-shield-alt"></i> 256-bit Encrypted</div>
+            <div class="sec-badge"><i class="fas fa-lock"></i> Paystack Secure</div>
+            <div class="sec-badge"><i class="fas fa-receipt"></i> Instant Receipt</div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+    <div class="section-title" data-aos="fade-up" style="margin-bottom:0.5rem">Common Questions</div>
+    <div class="section-sub" data-aos="fade-up">About payments and listings</div>
+
+    <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Is my payment secure? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Yes. All payments are processed via Paystack's official secure gateway with 256-bit encryption. LinkPoint never stores your card details or PINs.</div>
+    </div>
+    <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">What happens after I pay? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Your listing is activated immediately after payment confirmation from Paystack. You'll receive an email confirming your plan is live.</div>
+    </div>
+    <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I get a refund? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">All fees are one-time and non-refundable once the listing is activated. If you experience a technical issue, contact us within 24 hours at linkpoint-hub@gmail.com.</div>
+    </div>
+    <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">How long does my listing stay active? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Tenant search listings are active for 30 days. Rental listings run 60 days. Sales and commercial listings get 90 days of premium visibility.</div>
+    </div>
+    <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">What payment methods are supported? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and M-Pesa via Paystack.</div>
+    </div>
+</div>
+
+<footer>
+    <div class="foot-inner">
+        <a href="/" class="logo" style="font-size:1.4rem">Link<em>Point</em></a>
+        <div class="foot-links">
+            <a href="/find-rental">Find Rental</a><a href="/list-rental">List Rental</a>
+            <a href="/buy-home">Buy Home</a><a href="/sell-home">Sell Home</a>
+            <a href="/bnb">BnB</a><a href="/commercial">Commercial</a>
+            <a href="/pricing">Pricing</a>
+        </div>
+        <div class="foot-copy">&copy; 2026 LinkPoint Hub</div>
+    </div>
+</footer>
+
+<div id="notif"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({ duration: 850, once: true });
+
+const amounts = { 500: 'KES 500', 1500: 'KES 1,500', 2000: 'KES 2,000', 5000: 'KES 5,000', 3000: 'KES 3,000' };
+
+function updateAmount() {
+    const val = document.getElementById('selectedPlan').value;
+    document.getElementById('amountDisplay').innerText = amounts[val] || 'KES ' + val;
+}
+
+function selectPlan(name, amount) {
+    const sel = document.getElementById('selectedPlan');
+    for (let opt of sel.options) { if (opt.value == amount) { opt.selected = true; break; } }
+    updateAmount();
+    document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+
+function startPaystackFromForm() {
+    const val = document.getElementById('selectedPlan').value;
+    const planName = document.getElementById('selectedPlan').options[document.getElementById('selectedPlan').selectedIndex].text.split(' — ')[0];
+    openPayment(null, parseInt(val), planName);
+}
+
+function showSuccessStatus() {
+    hide('statusPending');
+    show('statusSuccess');
+    document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetBtn() {
+    const btn = document.getElementById('stkBtn');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-mobile-alt"></i> Pay Securely Now';
+}
+function show(id) { document.getElementById(id).style.display = 'block'; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+
+function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.innerText = msg;
+    document.getElementById('notif').appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+}
+
+function toggleFaq(el) {
+    el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
