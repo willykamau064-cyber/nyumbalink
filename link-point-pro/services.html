@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPoint Hub</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- AOS Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* LIGHT THEME (DEFAULT) */
+        :root {
+            --primary: #F05A28; /* RentIt Orange */
+            --secondary: #2563eb; /* Blue Accent */
+            --accent: #f59e0b;
+            --bg-main: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.55);
+            --bg-alt: #f8fafc;
+            --text-main: #000000;
+            --text-muted: #64748b;
+            --border-color: rgba(226, 232, 240, 0.6);
+            --danger: #ef4444;
+            --bg-overlay: rgba(255, 255, 255, 0.98);
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Outfit', sans-serif;
+        }
+        /* DARK THEME */
+        [data-theme="dark"] {
+            --primary: #00d4ff;
+            --secondary: #39ff14;
+            --accent: #f59e0b;
+            --bg-main: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.55);
+            --bg-alt: #162032;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --danger: #ef4444;
+            --bg-overlay: rgba(15, 23, 42, 0.95);
+            --bg-glass: rgba(30, 41, 59, 0.7);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+        .section-title p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(240, 90, 40, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+        .btn-outline {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-active {
+            color: var(--primary) !important;
+            position: relative;
+        }
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        /* New Hero Styles */
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .hero-title span {
+            color: var(--primary);
+            font-style: italic;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3.5rem;
+            font-weight: 500;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Search Trigger Button */
+        .search-trigger {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1.25rem 2.5rem;
+            border-radius: 100px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .search-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .search-trigger i {
+            background: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    .solid-nav .nav-link { color: #000000 !important; }
+    .solid-nav h1 { color: #000000 !important; }
+    .solid-nav i { color: #000000 !important; }
+
+        /* LIQUID MESH GRADIENT & CREATIVE TYPOGRAPHY */
+        body {
+            background-color: var(--bg-main) !important;
+            background-image: 
+                radial-gradient(circle at 10% 50%, rgba(240, 90, 40, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(245, 158, 11, 0.06) 0%, transparent 40%) !important;
+            background-attachment: fixed !important;
+            background-size: cover !important;
+        }
+
+        h1, h2 { 
+            font-family: var(--font-serif); 
+            font-weight: 700; 
+            letter-spacing: -0.5px; 
+        }
+        h3, h4, h5, .btn, .nav-link, input, select, button { 
+            font-family: var(--font-sans) !important; 
+            letter-spacing: -0.2px; 
+        }
+
+        .property-card {
+            background: rgba(255, 255, 255, 0.35) !important;
+            backdrop-filter: blur(24px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        }
+        [data-theme="dark"] .property-card {
+            background: rgba(30, 41, 59, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .solid-nav, nav.solid-nav {
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(24px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03) !important;
+        }
+        [data-theme="dark"] .solid-nav {
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .smart-search {
+            background: rgba(255, 255, 255, 0.3) !important;
+            backdrop-filter: blur(24px) saturate(200%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(0,0,0,0.05) !important;
+        }
+
+</style>
+</head>
+<body style="padding-top: 80px;">
+
+<style>
+/* Custom styled forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media(max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group label { display: block; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
+.form-input { width: 100%; padding: 1rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; transition: all 0.3s; }
+.form-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+.checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+.custom-checkbox { display: flex; align-items: center; gap: 0.5rem; color: var(--text-main); cursor: pointer; user-select: none; }
+.custom-checkbox input { accent-color: var(--primary); width: 1.2rem; height: 1.2rem; }
+.tab-btn { flex: 1; min-width: 150px; padding: 1rem; background: transparent; border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.tab-btn:hover { background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-color: var(--primary); }
+
+/* Force Dark Theme Variables on Services Portal due to its hardcoded dark background */
+#servicesPortal {
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --bg-card: rgba(30, 41, 59, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    .solid-nav .nav-link { color: #000000 !important; }
+    .solid-nav h1 { color: #000000 !important; }
+    .solid-nav i { color: #000000 !important; }
+</style>
+
+<!-- AUTHENTICATION GATE -->
+<div id="authGate" style="position: fixed; inset: 0; z-index: 99999; background: url('villa.png') center/cover no-repeat; display: none; opacity: 0; transform: scale(0.98); align-items: center; justify-content: center; transition: all 0.4s ease;">
+    <div style="position: absolute; inset: 0; background: var(--bg-overlay); backdrop-filter: blur(8px);"></div>
+    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; z-index: 1;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <img src="logo.jpg?v=3" alt="LinkPoint Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
+            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">LinkPoint.</h2>
+            <p style="color: var(--text-muted);" id="authSubtitle">Sign in to your premium real estate hub</p>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <button type="button" class="tab-btn" id="btn-login-tab" onclick="toggleAuthMode('login')" style="background: linear-gradient(135deg, var(--primary), #0082c8); color: white; border-color: transparent;">Login</button>
+            <button type="button" class="tab-btn" id="btn-register-tab" onclick="toggleAuthMode('register')">Register</button>
+        </div>
+
+        <form id="authForm" onsubmit="handleAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" required class="form-input" placeholder="you@example.com">
+            </div>
+            <div class="form-group" id="phoneGroup" style="display: none;">
+                <label>Phone Number</label>
+                <input type="tel" id="authPhone" class="form-input" placeholder="+254 700 000000">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" required class="form-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+            </div>
+            <div id="authError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
+            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
+                Sign In <i class="fas fa-sign-in-alt"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+// Automatically detect if we should use localhost, the computer's IP, or a deployed backend
+const getApiBase = () => {
+    const host = window.location.hostname;
+    const protocol = window.location.protocol;
+    
+    // If we're opening as a file or on localhost/127.0.0.1
+    if (!host || host === 'localhost' || host === '127.0.0.1' || protocol === 'file:') {
+        return "http://localhost:3000";
+    }
+    
+    // If it's your specific Vercel URL, keep trying local or suggest moving to a hosted API later
+    if (host.includes('vercel.app')) {
+        return "http://localhost:3000"; // Still try local for user testing
+    }
+    
+    return `http://${host}:3000`; // LAN IP testing
+};
+
+const API_BASE = getApiBase();
+let authMode = 'login';
+
+function toggleAuthMode(mode) {
+    authMode = mode;
+    document.getElementById('authError').style.display = 'none';
+    const loginBtn = document.getElementById('btn-login-tab');
+    const registerBtn = document.getElementById('btn-register-tab');
+    const phoneGrp = document.getElementById('phoneGroup');
+    const submitBtn = document.getElementById('authSubmitBtn');
+    const subtitle = document.getElementById('authSubtitle');
+    const phoneInput = document.getElementById('authPhone');
+    
+    // Reset styles
+    loginBtn.style.background = 'transparent'; loginBtn.style.color = 'var(--text-muted)'; loginBtn.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+    registerBtn.style.background = 'transparent'; registerBtn.style.color = 'var(--text-muted)'; registerBtn.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+    
+    if (mode === 'login') {
+        loginBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)'; loginBtn.style.color = 'white'; loginBtn.style.borderColor = 'transparent';
+        phoneGrp.style.display = 'none';
+        phoneInput.required = false;
+        submitBtn.innerHTML = 'Sign In <i class="fas fa-sign-in-alt"></i>';
+        subtitle.innerText = 'Sign in to your premium real estate hub';
+    } else {
+        registerBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)'; registerBtn.style.color = 'white'; registerBtn.style.borderColor = 'transparent';
+        phoneGrp.style.display = 'block';
+        phoneInput.required = true;
+        submitBtn.innerHTML = 'Create Account <i class="fas fa-user-plus"></i>';
+        subtitle.innerText = 'Join our premium real estate hub';
+    }
+}
+
+async function handleAuthSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const phone = document.getElementById('authPhone').value;
+    const errorDiv = document.getElementById('authError');
+    const submitBtn = document.getElementById('authSubmitBtn');
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+    errorDiv.style.display = 'none';
+    
+    try {
+        const endpoint = authMode === 'login' ? '/login' : '/signup';
+        const payload = authMode === 'login' ? { email, password } : { email, password, phone };
+        
+        const res = await fetch(API_BASE + endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        if (res.ok && data.success) {
+            // Authentication successful!
+            localStorage.setItem('LinkPointToken', data.token); // Save JWT
+            localStorage.setItem('LinkPointUser', JSON.stringify(data.user));
+            closeAuthGate();
+            updateUIAfterLogin();
+        } else {
+            errorDiv.innerText = data.message || 'Authentication failed';
+            errorDiv.style.display = 'block';
+        }
+    } catch (err) {
+        errorDiv.innerText = 'Network error. Make sure the Node server is running on port 3000.';
+        errorDiv.style.display = 'block';
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = authMode === 'login' ? 'Sign In <i class="fas fa-sign-in-alt"></i>' : 'Create Account <i class="fas fa-user-plus"></i>';
+    }
+}
+
+function closeAuthGate() {
+    document.getElementById('authGate').style.opacity = '0';
+    document.getElementById('authGate').style.transform = 'scale(0.98)';
+    setTimeout(() => {
+        document.getElementById('authGate').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }, 400);
+}
+
+function updateUIAfterLogin() {
+    try {
+        const userData = localStorage.getItem('LinkPointUser');
+        if (!userData) return;
+        const user = JSON.parse(userData);
+        if (user && user.email) {
+            const loginBtn = document.querySelector('button[onclick="openMpesa('1,500', 'Secure Escrow Payment')"]');
+            if (loginBtn) {
+                loginBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email.split('@')[0]}`;
+                loginBtn.onclick = () => {
+                    if (confirm("Do you want to logout?")) {
+                        localStorage.removeItem('LinkPointUser');
+                        location.reload();
+                    }
+                };
+            }
+        }
+    } catch (e) {
+        console.error("Auth UI Update error:", e);
+    }
+}
+
+window.addEventListener('scroll', () => {
+    const sections = ['featured', 'servicesPortal', 'agentVerification', 'neighborhoodGuides'];
+    const navLinks = document.querySelectorAll('.desktop-nav a');
+    
+    let current = '';
+    sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                current = id;
+            }
+        }
+    });
+
+    // Navbar transparency effect
+    const nav = document.querySelector('nav');
+    const navHeader = document.querySelector('nav h1');
+    
+    if (window.scrollY > 50) {
+        nav.style.background = '#ffffff';
+        nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.05)';
+        nav.style.padding = '0.75rem 5%';
+        if(navHeader) navHeader.style.color = '#000000';
+        navLinks.forEach(link => link.style.color = '#000000');
+    } else {
+        nav.style.background = 'transparent';
+        nav.style.boxShadow = 'none';
+        nav.style.padding = '1.25rem 5%';
+        if(navHeader) navHeader.style.color = '#ffffff';
+        navLinks.forEach(link => link.style.color = '#ffffff');
+    }
+});
+
+
+
+let allProperties = [];
+
+async function loadFeaturedProperties() {
+    console.log("Loading properties from:", API_BASE + '/listings');
+    const grid = document.getElementById('featured-properties-grid');
+    if (!grid) return;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout
+
+    try {
+        const res = await fetch(API_BASE + '/listings', { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error("Backend error: " + res.status);
+        const properties = await res.json();
+        console.log("Fetched Properties:", properties);
+        
+        if (!properties || properties.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">No properties found. Be the first to list!</div>';
+            return;
+        }
+
+        grid.innerHTML = ''; // Clear loader
+        allProperties = properties; // Cache for filtering
+        renderProperties(allProperties);
+        
+    } catch (err) {
+        clearTimeout(timeoutId);
+        console.warn("Load properties from backend failed (likely local dev), using local fallbacks:", err);
+        allProperties = [
+            { id: '1', title: 'Modern 4BR Villa', location: 'Karen, Nairobi', price: 18500000, status: 'FOR SALE', type: 'house', beds: 4, baths: 3, images: ['villa.png'] },
+            { id: '2', title: 'Luxury 2BR Apartment', location: 'Kilimani, Nairobi', price: 65000, status: 'FOR RENT', type: 'apartment', beds: 2, baths: 2, images: ['apartment.png'] },
+            { id: '3', title: 'Sunny Vacation BnB', location: 'Diani Beach', price: 8500, status: 'BNB', type: 'bnb', beds: 1, baths: 1, images: ['bnb.png'] },
+            { id: '4', title: 'Prime Retail Shop', location: 'CBD, Nairobi', price: 45000, status: 'FOR RENT', type: 'shop', beds: 0, baths: 1, images: ['kenyan_apartment.png'] },
+            { id: '5', title: 'Executive Office Space', location: 'Westlands', price: 120000, status: 'FOR RENT', type: 'office', beds: 0, baths: 2, images: ['kenya_shop.png'] },
+            { id: '6', title: 'Cozy 3BR Bungalow', location: 'Ruiru, Kiambu', price: 7500000, status: 'FOR SALE', type: 'house', beds: 3, baths: 2, images: ['kenya_bnb.png'] }
+        ];
+        renderProperties(allProperties);
+    }
+}
+
+function getBadgeStyle(status) {
+    if (!status) return 'background: var(--text-muted);';
+    const s = status.toUpperCase();
+    if (s.includes('SALE')) return 'background: var(--danger);';
+    if (s.includes('RENT')) return 'background: var(--secondary);';
+    if (s.includes('BNB')) return 'background: var(--primary);';
+    return 'background: var(--accent);';
+}
+
+
+function renderProperties(properties) {
+    const grid = document.getElementById('featured-properties-grid');
+    if (!grid) return;
+
+    if (!properties || properties.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">No properties found. Try a different search!</div>';
+        return;
+    }
+
+    grid.innerHTML = ''; 
+    properties.forEach((prop, index) => {
+        const badgeStyle = getBadgeStyle(prop.status);
+        const formattedPrice = "KSh " + parseInt(prop.price).toLocaleString();
+        const delay = (index % 3 + 1) * 100;
+        const thumb = prop.images && prop.images.length > 0 ? prop.images[0] : 'nairobi_street.png';
+
+        const cardHTML = `
+        <div class="property-card" data-aos="fade-up" data-aos-delay="${delay}">
+            <div style="height: 240px; background: url('${thumb}') center/cover; position: relative;">
+                <div class="property-badge" style="${badgeStyle}; border-radius: 6px; font-size: 0.75rem; letter-spacing: 1px;">${prop.status}</div>
+            </div>
+            <div style="padding: 1.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.75rem; color: #f59e0b; font-weight: 700; letter-spacing: 1px;">
+                    <i class="fas fa-star"></i> PREMIUM
+                </div>
+                <h3 style="color: var(--text-main); font-size: 1.4rem; margin-bottom: 0.5rem; font-family: var(--font-serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${prop.title}</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> ${prop.location}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+                    <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">${formattedPrice}<span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;"> / mo</span></div>
+                </div>
+                <button class="btn" onclick="viewPropertyDetails('${prop.id}')" style="width: 100%; margin-top: 1.5rem; background: #2563eb; color: white; padding: 1rem; border-radius: 12px; font-weight: 700;">Quick View Property</button>
+            </div>
+        </div>`;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+    });
+}
+
+function filterProperties() {
+    const loc = document.getElementById('searchLocation').value.toLowerCase();
+    const type = document.getElementById('searchType').value;
+    const maxPrice = document.getElementById('searchMaxPrice').value;
+
+    const filtered = allProperties.filter(p => {
+        const matchLoc = p.location.toLowerCase().includes(loc) || p.title.toLowerCase().includes(loc);
+        const matchType = type === 'Any' || (p.type && p.type.toLowerCase() === type.toLowerCase());
+        const matchPrice = !maxPrice || parseInt(p.price) <= parseInt(maxPrice);
+        return matchLoc && matchType && matchPrice;
+    });
+
+    renderProperties(filtered);
+    document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+}
+
+function viewPropertyDetails(id) {
+    const prop = allProperties.find(p => p.id === id);
+    if (!prop) return;
+    
+    // Create a detail modal dynamically or use a hidden one
+    const modal = document.createElement('div');
+    modal.id = 'detailsModal';
+    modal.style = "position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 2rem;";
+    
+    const formattedPrice = "KSh " + parseInt(prop.price).toLocaleString();
+    const mainImg = prop.images && prop.images.length > 0 ? prop.images[0] : 'nairobi360.png';
+    
+    modal.innerHTML = `
+        <div style="background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); width: 100%; max-width: 900px; max-height: 90vh; border-radius: 24px; overflow-y: auto; position: relative; border: 1px solid var(--border-color);">
+            <button onclick="this.closest('#detailsModal').remove(); document.body.style.overflow='auto';" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(0,0,0,0.5); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
+            <div style="height: 400px; background: url('${mainImg}') center/cover;"></div>
+            <div style="padding: 3rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 style="color: var(--text-main); font-size: 2.5rem; margin-bottom: 0.5rem;">${prop.title}</h2>
+                        <p style="color: var(--text-muted); font-size: 1.1rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> ${prop.location}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary);">${formattedPrice}</div>
+                        <span style="background: var(--primary); color: white; padding: 0.25rem 1rem; border-radius: 99px; font-weight: 700;">${prop.status}</span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; background: rgba(248, 250, 252, 0.4); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px); border-radius: 20px; padding: 1.5rem; border-radius: 16px;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-bed" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Bedrooms</div>
+                        <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;">${prop.beds || 2} Beds</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-bath" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Bathrooms</div>
+                        <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;">${prop.baths || 1} Baths</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-rocket" style="color: var(--accent); font-size: 1.5rem; margin-bottom: 0.5rem; cursor:pointer;" onclick="boostListing(${prop.id})" title="Boost to Featured"></i>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Featured</div>
+                        <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;">Available</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-parking" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Parking</div>
+                        <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;">Available</div>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--text-main); margin-bottom: 1rem;">Description</h3>
+                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 3rem;">
+                    This stunning ${prop.type || 'property'} located in the heart of ${prop.location} offers the perfect blend of luxury and convenience. Featuring modern finishes, spacious living areas, and top-tier security.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <button class="btn btn-outline" onclick="unlockContact(${prop.id})" style="width: 100%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-lock"></i> Unlock Contact</button>
+                    <button class="btn btn-primary" onclick="openPayment('${prop.id}')" style="width: 100%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-shopping-cart"></i> Book / Buy Now (Escrow)</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+async function submitProperty(e, status) {
+    e.preventDefault();
+    const form = e.target;
+    const inputs = form.querySelectorAll('input, select');
+    const formData = new FormData();
+    
+    formData.append('status', status);
+    
+    let title = "Property Listing";
+    if (status === 'FOR RENT') title = "Rental Property";
+    if (status === 'FOR SALE') title = "Home for Sale";
+    if (status === 'BNB') title = "BnB Listing";
+    
+    let location = "";
+    let price = 0;
+    
+    inputs.forEach(input => {
+        const type = input.type;
+        const placeholder = input.placeholder || "";
+        const label = input.previousElementSibling ? input.previousElementSibling.innerText.toLowerCase() : "";
+        
+        if (type === 'text' && !location && (label.includes('location') || placeholder.includes('Location'))) {
+            location = input.value;
+        } else if (type === 'text' && title.includes('Listing')) {
+            title = input.value + " " + title;
+        }
+        
+        if (type === 'number' && (label.includes('price') || label.includes('rent') || label.includes('budget'))) {
+            price = input.value;
+        }
+        
+        if (type === 'file' && input.files.length > 0) {
+            const fieldName = input.accept.includes('image') ? 'images' : 'videos';
+            for (let i = 0; i < input.files.length; i++) {
+                formData.append(fieldName, input.files[i]);
+            }
+        }
+    });
+
+    const firstText = form.querySelector('input[type="text"]')?.value;
+    formData.append('title', firstText || title);
+    formData.append('location', location || "Kenya");
+    formData.append('price', price);
+    formData.append('type', status === 'FOR RENT' ? "apartment" : status === 'FOR SALE' ? "house" : "bnb");
+    formData.append('beds', 2);
+    formData.append('baths', 1);
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submitting...';
+    submitBtn.disabled = true;
+
+    try {
+        const token = localStorage.getItem('nyumbaToken');
+        if(!token) {
+            alert("Please sign in first to list a property.");
+            openAuth();
+            return;
+        }
+
+        const res = await fetch(API_BASE + '/add-listing', {
+            method: 'POST',
+            headers: { 'Authorization': token },
+            body: formData
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            alert("Property listed successfully! Refresh page to see it.");
+            form.reset();
+        } else {
+            alert("Error: " + data.message);
+        }
+    } catch(err) {
+        alert("Network error: Make sure Node server is running on port 3000.");
+    } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.style.background = 'transparent';
+        b.style.color = 'var(--text-muted)';
+        b.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+    });
+    
+    document.getElementById(tabId).style.display = 'block';
+    const activeBtn = document.getElementById('btn-' + tabId);
+    if(activeBtn) {
+        activeBtn.style.background = 'linear-gradient(135deg, var(--primary), #0082c8)';
+        activeBtn.style.color = 'white';
+        activeBtn.style.borderColor = 'transparent';
+    }
+}
+function unlockContact(id) {
+    if(confirm("Unlock direct contact for this property? (Cost: KSh 100)")) {
+        openPayment(id, 100, "Unlock Contact & Direct Link");
+    }
+}
+
+function boostListing(id) {
+    if(confirm("Boost this property to the 'Featured' section for 30 days? (Cost: KSh 1,000)")) {
+        openPayment(id, 1000, "Property Boost - Featured Status");
+    }
+}
+// Init body overflow
+document.body.style.overflow = 'auto';
+function openAuth() {
+    const gate = document.getElementById('authGate');
+    gate.style.display = 'flex';
+    setTimeout(() => { gate.style.opacity = '1'; gate.style.transform = 'scale(1)'; }, 10);
+    document.body.style.overflow = 'hidden';
+}
+function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if(isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        document.getElementById('themeIcon').className = 'fas fa-moon';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeIcon').className = 'fas fa-sun';
+    }
+}
+document.documentElement.removeAttribute('data-theme'); // default Light Mode
+// THE VERY LAST STEP - Load everything
+window.addEventListener('load', function() {
+    console.log("Starting LinkPoint Initialization...");
+    updateUIAfterLogin();
+    loadFeaturedProperties();
+    setTimeout(() => switchTab('tabRenting'), 100);
+});
+</script>
+
+
+<!-- MAIN NAVBAR -->
+<nav class="solid-nav" style="padding: 1.25rem 5%; background: transparent; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.2rem;">R</div>
+        <h1 style="color: #ffffff; font-size: 1.5rem; margin: 0; letter-spacing: -0.5px; font-weight: 800; font-family: var(--font-sans);">Rent<span style="color: var(--primary);">Point</span></h1>
+    </div>
+    
+    <!-- Nav Links (Desktop) -->
+        <div style="display: flex; gap: 2.5rem; align-items: center; font-weight: 600;" class="desktop-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="listings.html" class="nav-link">Listings</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="agents.html" class="nav-link">Agents</a>
+        <a href="neighborhoods.html" class="nav-link">Guides</a>
+        <a href="pricing.html" class="nav-link">Pricing</a>
+    </div>
+
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; color: inherit;"><i class="fas fa-moon" id="themeIcon"></i></button>
+        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem;" onclick="openMpesa('1,500', 'Secure Escrow Payment')">Sign In</button>
+    </div>
+</nav>
+
+<!-- HERO SLIDESHOW & SMART SEARCH -->
+<style>
+@keyframes slide {
+    0%, 25% { background-image: url('villa.png'); }
+    33%, 58% { background-image: url('kenya_house.png'); }
+    66%, 91% { background-image: url('kenyan_apartment.png'); }
+    100% { background-image: url('villa.png'); }
+}
+.hero-slider {
+    height: 80vh;
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    object-fit: cover;
+}
+.hero-fallback {
+    position: absolute;
+    inset: 0;
+    animation: slide 18s infinite linear;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+}
+.smart-search {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    margin: 0 auto;
+}
+.search-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    color: #333;
+    outline: none;
+}
+.search-input:focus { box-shadow: 0 0 0 3px var(--primary); }
+.search-field { position: relative; }
+.search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary); }
+@media(max-width: 768px) {
+    .search-grid { grid-template-columns: 1fr; }
+    .desktop-nav { display: none !important; }
+}
+
+/* Feature Cards CSS */
+.property-card {
+    background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.property-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    .solid-nav .nav-link { color: #000000 !important; }
+    .solid-nav h1 { color: #000000 !important; }
+    .solid-nav i { color: #000000 !important; }
+</style>
+
+
+
+
+
+
+
+<!-- 4-SECTION SERVICES PORTAL -->
+<section id="servicesPortal" style="padding: 6rem 5%; background: url('kenya_shop.png') center/cover fixed; position: relative;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.9));"></div>
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
+        <div class="section-title">
+            <h2>How Can We Help You?</h2>
+            <p>Select a service below whether you are looking to rent, buy, list, or sell properties.</p>
+        </div>
+
+        <!-- TABS -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; justify-content: center;">
+            <button id="btn-tabRenting" class="tab-btn" onclick="switchTab('tabRenting')"><i class="fas fa-search"></i> Rent an Apartment</button>
+            <button id="btn-tabBuying" class="tab-btn" onclick="switchTab('tabBuying')"><i class="fas fa-key"></i> Buy a Dream Home</button>
+            <button id="btn-tabListRental" class="tab-btn" onclick="switchTab('tabListRental')"><i class="fas fa-sign"></i> List a Rental (Landlord)</button>
+            <button id="btn-tabSellHome" class="tab-btn" onclick="switchTab('tabSellHome')"><i class="fas fa-tags"></i> Sell a Home</button>
+            <button id="btn-tabFindBnB" class="tab-btn" onclick="switchTab('tabFindBnB')"><i class="fas fa-bed"></i> Find a BnB</button>
+            <button id="btn-tabListBnB" class="tab-btn" onclick="switchTab('tabListBnB')"><i class="fas fa-concierge-bell"></i> List a BnB</button>
+            <button id="btn-tabFindOffice" class="tab-btn" onclick="switchTab('tabFindOffice')"><i class="fas fa-building"></i> Find Office</button>
+            <button id="btn-tabFindShop" class="tab-btn" onclick="switchTab('tabFindShop')"><i class="fas fa-store"></i> Find Shop</button>
+            <button id="btn-tabListShops" class="tab-btn" onclick="switchTab('tabListShops')"><i class="fas fa-bullhorn"></i> List Shops</button>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.15); backdrop-filter: blur(12px) saturate(180%); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 3rem;">
+            
+            <!-- SECTION 1: RENTING -->
+            <div id="tabRenting" class="tab-content">
+                <div style="height: 250px; background: url('kenya_bnb.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Looking for an Apartment to Rent</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); alert('Request submitted successfully!');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Kilimani, Karen">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Rooms</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 2">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 30000">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Additional Information</label>
+                        <textarea class="form-input" rows="3" placeholder="Any specific requirements..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Submit Request</button>
+                </form>
+            </div>
+
+            <!-- SECTION 2: BUYING -->
+            <div id="tabBuying" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('nairobi_street.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--secondary); padding-left: 1rem;">Buy Your Dream Home</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); alert('Request submitted successfully!');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Lavington, Runda">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 13000000">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Number of Rooms</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 4">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Additional Requirements (Kitchen, Garden, Staff quarters etc)</label>
+                        <textarea class="form-input" rows="3" placeholder="Specify any must-haves..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--secondary), #00c853);">Find My Dream Home</button>
+                </form>
+            </div>
+
+            <!-- SECTION 3: LIST A RENTAL -->
+            <div id="tabListRental" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('nairobi360.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">Find Tenants for Your Property</h3>
+                <form class="form-grid" id="form-rental" onsubmit="submitProperty(event, 'FOR RENT')">
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Property Details</h4></div>
+                    
+                    <div class="form-group">
+                        <label>Name of Apartment/Building</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Rent per Month (KSh)</label>
+                        <input type="number" class="form-input" required>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Amenities</h4></div>
+
+                    <div class="form-group">
+                        <label>Upload Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*">
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.5rem; display: block;">Select unmetered high-quality images</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Videos</label>
+                        <input type="file" class="form-input" multiple accept="video/*">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Social Amenities Nearby</label>
+                        <input type="text" class="form-input" placeholder="Malls, Hospitals, Schools...">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Property Features</label>
+                        <div class="checkbox-grid">
+                            <label class="custom-checkbox"><input type="checkbox"> CCTV</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Free WiFi</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Ample Parking</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Gym</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Contact Information</h4></div>
+
+                    <div class="form-group">
+                        <label>Landlord Name</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Landlord Phone</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Landlord Email</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Caretaker Name</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Caretaker Phone</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Caretaker Email</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit Listing</button>
+                </form>
+            </div>
+
+            <!-- SECTION 4: SELL A HOME -->
+            <div id="tabSellHome" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('kenya_house.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(239, 68, 68, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--danger); padding-left: 1rem;">Sell A Home</h3>
+                <form class="form-grid" id="form-sale" onsubmit="submitProperty(event, 'FOR SALE')">
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Sale Details</h4></div>
+                    
+                    <div class="form-group">
+                        <label>Asking Price (KSh)</label>
+                        <input type="number" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Features</h4></div>
+
+                    <div class="form-group">
+                        <label>Upload Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Videos</label>
+                        <input type="file" class="form-input" multiple accept="video/*">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Neighborhood Social Amenities</label>
+                        <input type="text" class="form-input" placeholder="Schools, Malls, Hospitals...">
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Home Amenities</label>
+                        <div class="checkbox-grid">
+                            <label class="custom-checkbox"><input type="checkbox"> WiFi Ready</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Parking</label>
+                            <label class="custom-checkbox"><input type="checkbox"> CCTV</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Gym</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Garden</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Balcony</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Playground</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Pet Friendly</label>
+                            <label class="custom-checkbox"><input type="checkbox"> Backup Generator</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Owner Contact Information</h4></div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Owner Name</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Owner Phone</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Owner Email</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--danger), #991b1b);">List Property For Sale</button>
+                </form>
+            </div>
+
+            <!-- SECTION 5: FIND BNB -->
+            <div id="tabFindBnB" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('kenyan_apartment.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Looking for a BnB</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); alert('BnB search started!');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Westlands, Nyali">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget per Night (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 3000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search BnBs</button>
+                </form>
+            </div>
+
+            <!-- SECTION 6: LIST BNB -->
+            <div id="tabListBnB" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('kenya_shop.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a BnB</h3>
+                <form class="form-grid" id="form-bnb" onsubmit="submitProperty(event, 'BNB')">
+                    <div class="form-group">
+                        <label>Property Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Kilimani">
+                    </div>
+                    <div class="form-group">
+                        <label>Price per Night (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 4500">
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--accent); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Contact Details</h4></div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Upload Property Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Phone Number</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Your Email Address</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit BnB Listing</button>
+                </form>
+            </div>
+
+            <!-- SECTION 7: FIND OFFICE -->
+            <div id="tabFindOffice" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('kenya_bnb.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Find an Office Space</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); alert('Office search started!');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Westlands, Upperhill">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 50000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search Offices</button>
+                </form>
+            </div>
+
+            <!-- SECTION 8: FIND SHOP -->
+            <div id="tabFindShop" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('nairobi_street.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--secondary); padding-left: 1rem;">Find a Shop / Retail Space</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); alert('Shop search started!');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Eastleigh, CBD">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 40000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--secondary), #00c853);">Search Shops</button>
+                </form>
+            </div>
+
+            <!-- SECTION 9: LIST SHOPS & OFFICES -->
+            <div id="tabListShops" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('nairobi360.png') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: var(--text-main); margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a Shop or Office</h3>
+                <form class="form-grid" id="form-shop-office" onsubmit="submitProperty(event, 'COMMERCIAL')">
+                    <div class="form-group">
+                        <label>Property Name / Building</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Rent per Month (KSh)</label>
+                        <input type="number" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--accent); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Description</h4></div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Upload Property Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*" required>
+                    </div>
+                    
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit Commercial Listing</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+                <!-- Payment Status Overlay (Hidden by default) -->
+                <div id="paymentStatus" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 24px; padding: 2rem; text-align: center; align-items: center; justify-content: center; flex-direction: column;">
+                    <div id="stkPushSpinner" style="width: 60px; height: 60px; border: 4px solid rgba(0, 212, 255, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
+                    <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Sending STK Push...</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Check your phone for the M-Pesa prompt</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            <div style="text-align: center; padding: 2rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                <i class="fas fa-undo-alt" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Instant Refunds</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Money back to your M-Pesa within 24 hours if deal fails</p>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--secondary); margin-bottom: 1rem;"></i>
+                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Dispute Resolution</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Professional mediators handle disagreements fairly</p>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                <i class="fas fa-receipt" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Automatic Receipts</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">KRA-compliant invoices generated for every transaction</p>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                <i class="fas fa-history" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">Transaction History</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Track all your payments and refunds in one dashboard</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    .solid-nav .nav-link { color: #000000 !important; }
+    .solid-nav h1 { color: #000000 !important; }
+    .solid-nav i { color: #000000 !important; }
+</style>
+
+<script>
+
+
+function openPayment(propertyId, customAmount, customTitle) {
+    const paymentSec = document.getElementById('paymentSystem');
+    paymentSec.style.display = 'block';
+    
+    // Select the name/property input and the amount input
+    const inputs = document.getElementById('paymentForm').querySelectorAll('input[readonly]');
+    const totalsDiv = document.querySelector('#paymentForm > div:nth-last-child(3)');
+    
+    if (customAmount && customTitle) {
+        // Special case for Boosts, Lead Gen, or Subscriptions
+        inputs[0].value = customTitle;
+        inputs[1].value = customAmount;
+        
+        const price = parseInt(customAmount);
+        const fee = 0; // No escrow fee for platform services
+        const total = price + fee;
+        
+        if (totalsDiv) {
+            totalsDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    <span style="color: var(--text-muted);">Service Title</span>
+                    <span style="color: var(--text-main); font-weight: 600;">${customTitle}</span>
+                </div>
+                <div style="border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 800;">
+                    <span style="color: var(--primary);">Total</span>
+                    <span style="color: var(--secondary);">KSh ${total.toLocaleString()}</span>
+                </div>
+            `;
+        }
+    } else if (propertyId) {
+        // Normal property payment
+        const prop = allProperties.find(p => p.id == propertyId);
+        if (prop) {
+            inputs[0].value = prop.title;
+            inputs[1].value = prop.price;
+            
+            const price = parseInt(prop.price);
+            const fee = Math.round(price * 0.005);
+            const total = price + fee;
+            
+            if (totalsDiv) {
+                totalsDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span style="color: var(--text-muted);">Property Price</span>
+                        <span style="color: var(--text-main); font-weight: 600;">KSh ${price.toLocaleString()}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span style="color: var(--text-muted);">Escrow Fee (0.5%)</span>
+                        <span style="color: var(--text-main); font-weight: 600;">KSh ${fee.toLocaleString()}</span>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-weight: 800;">
+                        <span style="color: var(--primary);">Total</span>
+                        <span style="color: var(--secondary);">KSh ${total.toLocaleString()}</span>
+                    </div>
+                `;
+            }
+
+            // Update Bitcoin amount
+            const btcAmount = (total / 10000000).toFixed(6);
+            const btcText = document.querySelector('#bitcoinFields strong');
+            if (btcText) btcText.innerText = btcAmount + ' BTC';
+        }
+    }
+    
+    paymentSec.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+
+
+
+
+
+
+    <!-- FOOTER -->
+    <footer style="background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); padding: 5rem 5% 2rem; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <div style="max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 4rem;">
+            <!-- Brand Column -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="logo.jpg?v=3" alt="LinkPoint" style="height: 60px; border-radius: 12px;">
+                    <h2 style="color: var(--text-main); font-size: 1.75rem; font-weight: 800; margin: 0;">Nyumba<span style="color: var(--primary);">Link</span></h2>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.6; max-width: 300px;">
+                    Kenya's first integrated escrow real estate platform. We make buying, renting, and listing properties secure, transparent, and seamless.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Quick Links
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--primary); border-radius: 3px;"></span>
+                </h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Apartments for Rent</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Houses for Sale</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">BnB Listings</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Verified Agents</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Escrow Safety</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Contact Us
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--secondary); border-radius: 3px;"></span>
+                </h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.5rem;">
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.25rem; margin-top: 0.25rem;"></i>
+                        <span>12th Floor, Westlands Business Park,<br>Nairobi, Kenya</span>
+                    </li>
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-phone-alt" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
+                        <span>+254 112 012 816</span>
+                    </li>
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
+                        <span>LinkPointnyumba@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div>
+                <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Newsletter
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--accent); border-radius: 3px;"></span>
+                </h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Subscribe to get the latest listings and market trends delivered to your inbox.
+                </p>
+                <form style="display: flex; flex-wrap: wrap; gap: 0.5rem;" onsubmit="event.preventDefault(); alert('Subscribed!')">
+                    <input type="email" placeholder="Your Email" required 
+                           style="flex: 1; min-width: 180px; padding: 0.75rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: inherit;">
+                    <button class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Join</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">
+                Â© 2026 LinkPoint Hub. All rights reserved. Registered with EARB & POCAMLA.
+            </p>
+            <div style="display: flex; gap: 2rem; font-size: 0.85rem;">
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Escrow Rules</a>
+            </div>
+        </div>
+    </footer>
+
+
+   
+
+
+    <div style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999;">
+        
+        <button onclick="document.getElementById('agentVerification').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); display: flex; align-items: center; justify-content: center;" title="Verify Agent">
+            <i class="fas fa-shield-alt"></i>
+        </button>
+        <button onclick="document.getElementById('neighborhoodGuides').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center;" title="Neighborhood Guide">
+            <i class="fas fa-map-marker-alt"></i>
+        </button>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON (Bottom Left to avoid overlap) -->
+    <a href="https://wa.me/254112012816?text=Hello%20LinkPoint,%20I'm%20interested%20in%20a%20property." 
+       target="_blank" 
+       style="position: fixed; bottom: 2rem; left: 2rem; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; text-decoration: none; transition: transform 0.3s;"
+       onmouseover="this.style.transform='scale(1.1)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+<!-- SEARCH MODAL -->
+<div id="searchModal" style="position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; opacity: 0; transition: all 0.4s ease;">
+    <div style="background: white; width: 90%; max-width: 600px; border-radius: 32px; padding: 3rem; position: relative; transform: translateY(20px); transition: all 0.4s ease;" id="searchModalContent">
+        <button onclick="closeSearchModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;"><i class="fas fa-times"></i></button>
+        
+        <h2 style="font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Find Your Home</h2>
+        
+        <div style="display: flex; background: #f1f5f9; padding: 0.5rem; border-radius: 100px; margin-bottom: 2.5rem;">
+            <button class="search-tab active" onclick="switchSearchTab('rent')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 100px; cursor: pointer; font-weight: 600; transition: 0.3s;" id="tabRent">For Rent</button>
+            <button class="search-tab" onclick="switchSearchTab('sale')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 100px; cursor: pointer; font-weight: 600; transition: 0.3s; background: transparent;" id="tabSale">For Sale</button>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="search-field-group">
+                <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">LOCATION</label>
+                <select id="modalLocation" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; appearance: none; background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22/%3E%3C/svg%3E') no-repeat right 1rem center/10px;">
+                    <option value="">Any Location</option>
+                    <option value="kilimani">Kilimani</option>
+                    <option value="karen">Karen</option>
+                    <option value="westlands">Westlands</option>
+                </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="search-field-group">
+                    <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">BEDROOMS</label>
+                    <select id="modalBeds" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                    </select>
+                </div>
+                <div class="search-field-group">
+                    <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">MAX BUDGET</label>
+                    <input type="number" id="modalPrice" placeholder="e.g. 50,000" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="executeModalSearch()" style="width: 100%; padding: 1.25rem; border-radius: 100px; font-weight: 700; margin-top: 1rem;">Show Results</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-tab.active { background: white; color: var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .property-card { border-radius: 24px !important; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .property-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    .solid-nav .nav-link { color: #000000 !important; }
+    .solid-nav h1 { color: #000000 !important; }
+    .solid-nav i { color: #000000 !important; }
+</style>
+
+<script>
+let currentSearchMode = 'rent';
+
+function openSearchModal() {
+    const modal = document.getElementById('searchModal');
+    const content = document.getElementById('searchModalContent');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.opacity = '1';
+        content.style.transform = 'translateY(0)';
+    }, 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSearchModal() {
+    const modal = document.getElementById('searchModal');
+    const content = document.getElementById('searchModalContent');
+    modal.style.opacity = '0';
+    content.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }, 400);
+}
+
+function switchSearchTab(mode) {
+    currentSearchMode = mode;
+    document.getElementById('tabRent').classList.toggle('active', mode === 'rent');
+    document.getElementById('tabRent').style.background = mode === 'rent' ? 'white' : 'transparent';
+    document.getElementById('tabSale').classList.toggle('active', mode === 'sale');
+    document.getElementById('tabSale').style.background = mode === 'sale' ? 'white' : 'transparent';
+}
+
+function executeModalSearch() {
+    const loc = document.getElementById('modalLocation').value;
+    const price = document.getElementById('modalPrice').value;
+    
+    // Simulate search by populating main search fields and triggering filter
+    const mainLoc = document.getElementById('searchLocation');
+    const mainPrice = document.getElementById('searchMaxPrice');
+    const mainType = document.getElementById('searchType');
+    
+    if(mainLoc) mainLoc.value = loc;
+    if(mainPrice) mainPrice.value = price;
+    if(mainType) mainType.value = currentSearchMode === 'rent' ? 'apartment' : 'house';
+    
+    closeSearchModal();
+    filterProperties();
+}
+</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
+<!-- Live Chat Modal -->
+<div class="auth-ov" id="chat-ov"><div class="auth-box" style="padding:0;overflow:hidden;max-width:380px;border-color:#25D366"><div style="background:#25D366;padding:1.5rem;display:flex;justify-content:space-between;align-items:center"><div style="color:#fff;font-weight:700;font-size:1.1rem"><i class="fab fa-whatsapp"></i> Live Agent Chat</div><button style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem" onclick="closeChat()"><i class="fas fa-times"></i></button></div><div style="padding:1.5rem;height:350px;overflow-y:auto;background:#0d1424;display:flex;flex-direction:column;gap:1rem"><div style="background:rgba(255,255,255,.05);padding:1rem;border-radius:12px 12px 12px 0;width:85%;color:var(--muted);font-size:.85rem;line-height:1.5">Hello! 🇰🇪 Welcome to LinkPoint Kenya. How can our agents help you today? Are you looking to buy, sell, or rent?</div></div><div style="padding:1rem;background:#111827;border-top:1px solid var(--gb);display:flex;gap:.5rem"><input type="text" class="fi" placeholder="Type a message..." style="margin:0;padding:.8rem;border-radius:100px"><button class="btn bp" style="padding:.8rem;border-radius:50%;width:42px;height:42px;background:#25D366;box-shadow:0 4px 15px rgba(37,211,102,0.4)" ><i class="fas fa-paper-plane"></i></button></div></div></div>
+
+<!-- Amenities Modal -->
+<div class="auth-ov" id="amenities-ov"><div class="auth-box"><button class="acl" onclick="closeAmenities()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div style="width:60px;height:60px;background:rgba(59,130,246,.18);border-radius:12px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#60a5fa"><i class="fas fa-map-signs"></i></div><h2 style="font-family:var(--serif);font-size:1.7rem;color:#60a5fa;margin-bottom:0.5rem">Social Amenities</h2><p style="color:var(--muted);font-size:.87rem" id="amenity-loc">Local Area</p></div><div style="display:flex;flex-direction:column;gap:.8rem"><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#f87171;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-hospital"></i> Healthcare</div><p style="color:var(--muted);font-size:.8rem">Aga Khan Hospital, Getrudes Childrens Clinic (1.5km)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#fbbf24;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-shopping-cart"></i> Malls & Shopping</div><p style="color:var(--muted);font-size:.8rem">Sarit Centre, Local Minimart, Quickmart (500m)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#34d399;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-graduation-cap"></i> Schools & Education</div><p style="color:var(--muted);font-size:.8rem">Braeburn International, Strathmore, Local Academies (2km)</p></div></div></div></div>
+
+<!-- Floating Chat Button -->
+<button class="chat-btn" onclick="openChat()"><i class="fas fa-comment-dots"></i> Live Chat</button>
+
+<style>
+.chat-btn { position:fixed; bottom:20px; left:20px; background:#25D366; color:#111; padding:0.8rem 1.4rem; border-radius:100px; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(37,211,102,0.4); z-index:1000; display:flex; align-items:center; gap:0.6rem; transition:all 0.3s; border:none; font-family:var(--sans) }
+.chat-btn:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(37,211,102,0.6) }
+.amenity-btn { cursor:pointer; background:rgba(59,130,246,.12); color:#60a5fa; padding:0.4rem 0.8rem; border-radius:8px; display:inline-flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; transition:all 0.3s; margin-top:1rem; border:1px solid rgba(59,130,246,.2) }
+.amenity-btn:hover { background:#3b82f6; color:#fff }
+</style>
+
+<script>
+function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
+function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
+</script>
+
+<script src="linkpoint-3d.js"></script>
+<script src="mpesa.js"></script>
+</body>
+</html>
+
+
+
+

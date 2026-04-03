@@ -19,8 +19,8 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static files (logo, images, etc.) from /static and /uploads
-app.use("/static", express.static(path.join(__dirname, "static")));
+// Serve static files (logo, images, etc.) from /public and /uploads
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ============================

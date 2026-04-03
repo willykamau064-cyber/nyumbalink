@@ -1,0 +1,21 @@
+﻿{
+  "name": "LinkPoint Kenya Ecosystem",
+  "short_name": "LinkPoint",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080d1a",
+  "theme_color": "#FF6B35",
+  "description": "Kenya's premier real estate ecosystem for renting, buying, and selling properties.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -295,15 +295,14 @@ function openPayment(propertyId, customAmount, customTitle) {
 <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
 
 <nav>
-    <a href="/" class="logo">Link<em>Point</em></a>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="/logo.png" alt="Logo" style="height:35px;border-radius:8px;object-fit:contain;">Link<em>Point</em></a>
     <div class="nav-links">
+        <a href="/">Home</a>
         <a href="/find-rental">Find Rental</a>
-        <a href="/list-rental">List Rental</a>
         <a href="/buy-home">Buy Home</a>
-        <a href="/sell-home">Sell Home</a>
         <a href="/bnb">BnB</a>
         <a href="/commercial">Commercial</a>
-        <a href="/pricing" class="active">Pricing</a>
+        <a href="/pricing">Pricing</a>
     </div>
     <a href="/account" class="btn"><i class="fas fa-user"></i> Account</a>
 </nav>
@@ -311,7 +310,7 @@ function openPayment(propertyId, customAmount, customTitle) {
 <div class="page-hero" data-aos="zoom-out">
     <div class="eyebrow">SECTION 07 — PAYMENTS</div>
     <h1>Simple, <em>Transparent</em> Pricing</h1>
-    <p>One-time listing fees. No hidden charges. Pay via Card or M-Pesa securely directly from this page.</p>
+    <p>One-time listing fees. No hidden charges. Pay via Card or Paystack securely directly from this page.</p>
 </div>
 
 <!-- PRICING TIERS -->
@@ -338,7 +337,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp support</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 500, 'Find a Rental')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -360,7 +359,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp notifications</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 1500, 'List for Rent')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -381,7 +380,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day search window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 2000, 'Buy a Home')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -403,7 +402,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> Dedicated agent assigned</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 5000, 'Sell a Home')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -424,7 +423,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> Calendar availability</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 500, 'Host a BnB')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -445,7 +444,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day active window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 3000, 'Office / Shop')">
-                <i class="fas fa-credit-card"></i> Pay with Card/M-Pesa
+                <i class="fas fa-credit-card"></i> Pay with Paystack
             </button>
         </div>
 
@@ -505,7 +504,7 @@ function openPayment(propertyId, customAmount, customTitle) {
         <div class="stk-status error" id="statusError">
             <i class="fas fa-times-circle"></i>
             <h3>Payment Failed</h3>
-            <p id="errorMsg">Please check your phone number and M-Pesa balance, then try again.</p>
+            <p id="errorMsg">Please check your payment details and try again.</p>
         </div>
 
         <div class="security-row">
@@ -539,7 +538,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     </div>
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">What payment methods are supported? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and M-Pesa via Paystack.</div>
+        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and Mobile Money via Paystack.</div>
     </div>
 </div>
 
