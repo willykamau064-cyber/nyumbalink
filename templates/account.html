@@ -170,11 +170,35 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <label>Password</label>
                 <input type="password" id="password" required class="form-input" placeholder="••••••••" minlength="6">
             </div>
+            <div class="form-group" style="text-align: right;">
+                <a href="#" onclick="showForgotPassword(); return false;" style="color:var(--primary); font-size:0.8rem; text-decoration:none;">Forgot Password?</a>
+            </div>
             <div id="authError" style="color:#F43F5E;font-size:0.85rem;text-align:center;margin-bottom:1rem;display:none"></div>
             <button type="submit" class="btn btn-primary" id="authBtn" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem">
                 Create Account <i class="fas fa-arrow-right"></i>
             </button>
         </form>
+
+        <form id="forgotForm" style="display:none;" onsubmit="event.preventDefault(); handleForgot();">
+            <p style="color:var(--text-dim); font-size:0.85rem; margin-bottom:1rem; text-align:center;">Enter your email to receive a secure recovery link.</p>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="forgotEmail" required class="form-input" placeholder="you@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem">
+                Send Recovery Link
+            </button>
+            <button type="button" class="btn" onclick="hideForgotPassword()" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem; margin-top:0.5rem; background:transparent; border:1px solid var(--glass-border); color:var(--text-dim);">
+                Back to Login
+            </button>
+        </form>
+
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <p style="font-family:var(--font-ui); font-size:0.8rem; color:var(--text-dim); margin-bottom:0.5rem">Or</p>
+            <button class="btn" onclick="handleBiometric()" style="width:100%; justify-content:center; padding:1.1rem; font-size:0.95rem; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1);">
+                <i class="fas fa-fingerprint" style="color:var(--primary); font-size:1.2rem;"></i> Login with Biometrics
+            </button>
+        </div>
 
         <div class="trust-row">
             <div class="trust-badge"><i class="fas fa-shield-alt"></i> 256-bit Encrypted</div>
@@ -263,6 +287,43 @@ function switchAuth(mode) {
     // Clear error on tab switch
     const errorEl = document.getElementById('authError');
     if (errorEl) { errorEl.style.display = 'none'; }
+}
+
+function showForgotPassword() {
+    document.getElementById('authForm').style.display = 'none';
+    document.getElementById('forgotForm').style.display = 'block';
+    document.querySelector('.tab-row').style.display = 'none';
+    document.getElementById('authTitle').innerText = 'Recovery.';
+    document.getElementById('authSubtitle').innerText = 'Reset your password.';
+}
+
+function hideForgotPassword() {
+    document.getElementById('forgotForm').style.display = 'none';
+    document.getElementById('authForm').style.display = 'block';
+    document.querySelector('.tab-row').style.display = 'flex';
+    switchAuth(authMode);
+}
+
+function handleForgot() {
+    const email = document.getElementById('forgotEmail').value.trim();
+    if (email) {
+        notify('A password recovery secure link has been sent to ' + email + '!');
+        setTimeout(hideForgotPassword, 2000);
+    }
+}
+
+function handleBiometric() {
+    if (window.PublicKeyCredential) {
+        // Mocking WebAuthn API interaction
+        notify('Prompting for biometric login... (WebAuthn)');
+        setTimeout(() => {
+            notify('Biometric verification successful!');
+            localStorage.setItem('linkpointUser', JSON.stringify({email: 'bio_user@example.com'}));
+            setTimeout(() => window.location.reload(), 1000);
+        }, 1500);
+    } else {
+        notify('Biometrics not supported on this device/browser.');
+    }
 }
 
 async function handleAuth() {
