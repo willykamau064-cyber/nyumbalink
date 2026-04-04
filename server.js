@@ -178,25 +178,21 @@ app.post("/listings", async (req, res) => {
     title,
     location,
     price,
-    type, // house_rent, house_sale, bnb, office, shop
+    type,
     description,
     images,
-    videos, // Added as requested
+    videos,
     is_featured,
     status,
     beds,
     baths,
-    rooms, // Added as requested (e.g. number of rooms)
-    amenities, // Array: CCTV, WiFi, Parking, Gym
-    neighborhood_amenities, // For Section 4 (Sale): Balcony, Playground, Pet Friendly, Backup Generator
+    rooms,
+    amenities,
+    neighborhood_amenities,
     contact_name,
     contact_phone,
     contact_email,
-    caretaker_name,
-    caretaker_phone,
-    caretaker_email,
-    owner_name,
-    owner_email
+    payment_ref
   } = req.body;
 
   const { data, error } = await supabase.from("properties").insert([
@@ -215,15 +211,12 @@ app.post("/listings", async (req, res) => {
       rooms: parseInt(rooms) || 0,
       amenities: amenities || [],
       neighborhood_amenities: neighborhood_amenities || [],
+      payment_ref: payment_ref || null,
+      verified: !!payment_ref, // Auto-verify if paid (simplified logic)
       contact_info: {
         name: contact_name,
         phone: contact_phone,
-        email: contact_email,
-        caretaker_name,
-        caretaker_phone,
-        caretaker_email,
-        owner_name,
-        owner_email
+        email: contact_email
       }
     },
   ]);
@@ -326,12 +319,25 @@ app.post("/upload", async (req, res) => {
 // ============================
 // 💳 PAYSTACK INTEGRATION
 // ============================
-// Note: Currently Paystack is handled client-side via the inline.js popup.
-// If you need server-side verification, add a /paystack/verify endpoint here.
+app.get("/paystack/verify/:reference", async (req, res) => {
+  const { reference } = req.params;
+  try {
+    const response = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Paystack verification error:", error.response?.data || error.message);
+    res.status(500).json({ success: false, message: "Verification failed" });
+  }
+});
+
 app.post("/paystack/webhook", (req, res) => {
-  // Handle Paystack webhooks (e.g. successful payment verification)
   const event = req.body;
   console.log("Paystack Webhook received:", event.event);
+  // In a real app, verify signature and update order status here
   res.sendStatus(200);
 });
 

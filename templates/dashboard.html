@@ -348,26 +348,26 @@
                 
                 <!-- ====== HOST VIEW ====== -->
                 <div id="host-view" class="view-section">
-                    <div class="stats-grid">
+                    <div class="stats-grid" id="host-stats-grid">
                         <div class="stat-card">
-                            <div class="stat-label">Total Listings</div>
-                            <div class="stat-value">12</div>
-                            <div class="stat-delta delta-up"><i class="fas fa-arrow-up"></i> +2 this month</div>
+                            <div class="stat-label">My Listings</div>
+                            <div class="stat-value" id="stat-listings">—</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-home"></i> Active properties</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-label">Month Views</div>
-                            <div class="stat-value">4.8k</div>
-                            <div class="stat-delta delta-up"><i class="fas fa-arrow-up"></i> 15% increase</div>
+                            <div class="stat-label">Listed For Sale</div>
+                            <div class="stat-value" id="stat-forsale">—</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-tag"></i> House Sale listings</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-label">Active Bookings</div>
-                            <div class="stat-value">7</div>
-                            <div class="stat-delta delta-up"><i class="fas fa-circle" style="font-size:8px"></i> Full Capacity</div>
+                            <div class="stat-label">Listed For Rent</div>
+                            <div class="stat-value" id="stat-forrent">—</div>
+                            <div class="stat-delta delta-up"><i class="fas fa-key"></i> Rental listings</div>
                         </div>
                         <div class="stat-card" style="border-color:var(--accent)">
-                            <div class="stat-label">Earnings (KES)</div>
-                            <div class="stat-value">142,500</div>
-                            <div class="stat-delta delta-up">Payout available</div>
+                            <div class="stat-label">Total Value (KES)</div>
+                            <div class="stat-value" id="stat-value">—</div>
+                            <div class="stat-delta delta-up">Portfolio estimate</div>
                         </div>
                     </div>
 
@@ -386,19 +386,8 @@
                             <div class="panel-h">
                                 <h3>Recent Activity</h3>
                             </div>
-                            <div style="display:flex;flex-direction:column;gap:1.2rem">
-                                <div style="display:flex;gap:12px;font-size:0.85rem">
-                                    <div style="color:var(--accent)"><i class="fas fa-plus-circle"></i></div>
-                                    <div><strong>New Booking</strong><br><span style="color:var(--text-dim)">Villa Marwa - Today 2:15 PM</span></div>
-                                </div>
-                                <div style="display:flex;gap:12px;font-size:0.85rem">
-                                    <div style="color:#10B981"><i class="fas fa-check-circle"></i></div>
-                                    <div><strong>Payout Success</strong><br><span style="color:var(--text-dim)">KES 45,000 to Bank Account</span></div>
-                                </div>
-                                <div style="display:flex;gap:12px;font-size:0.85rem">
-                                    <div style="color:var(--accent)"><i class="fas fa-eye"></i></div>
-                                    <div><strong>Trending</strong><br><span style="color:var(--text-dim)">Kilimani Shop has 500+ views</span></div>
-                                </div>
+                            <div id="host-activity" style="display:flex;flex-direction:column;gap:1.2rem">
+                                <div style="color:var(--text-dim);font-size:0.85rem">Loading activity…</div>
                             </div>
                         </div>
                     </div>
@@ -406,42 +395,20 @@
                     <div class="glass-panel">
                         <div class="panel-h">
                             <h3>My Listings</h3>
-                            <button class="role-btn active" style="background:var(--accent)">+ Add Property</button>
+                            <a href="/sell-home" class="role-btn active" style="background:var(--accent);text-decoration:none">+ Add Property</a>
                         </div>
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>Property Name</th>
                                     <th>Type</th>
-                                    <th>Price/Month</th>
+                                    <th>Price (KES)</th>
                                     <th>Status</th>
-                                    <th>Views</th>
-                                    <th>Actions</th>
+                                    <th>Location</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:6px;background:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=100') center/cover;"></div> Luxury Runda Villa</div></td>
-                                    <td>House</td>
-                                    <td>KES 250,000</td>
-                                    <td><span class="status-pill status-live">Live</span></td>
-                                    <td>1,240</td>
-                                    <td>
-                                        <button class="btn-action"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:6px;background:url('https://images.unsplash.com/photo-1582037928819-012014f8a7aa?w=100') center/cover;"></div> Westlands Office A1</div></td>
-                                    <td>Office</td>
-                                    <td>KES 85,000</td>
-                                    <td><span class="status-pill status-live">Live</span></td>
-                                    <td>890</td>
-                                    <td>
-                                        <button class="btn-action"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="host-listings-tbody">
+                                <tr><td colspan="5" style="text-align:center;color:var(--text-dim);padding:2rem">Loading your listings…</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -451,34 +418,15 @@
                 <div id="user-view" class="view-section active">
                     <div class="panel-h" style="margin-bottom:2rem">
                         <h2 style="font-family:'Space Grotesk'">Welcome to your <em>Discovery</em> Portal</h2>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                            <button class="role-btn active" id="filter-all" onclick="filterListings('all')">All</button>
+                            <button class="role-btn" id="filter-rent" onclick="filterListings('house_rent')">Rentals</button>
+                            <button class="role-btn" id="filter-sale" onclick="filterListings('house_sale')">For Sale</button>
+                            <button class="role-btn" id="filter-bnb" onclick="filterListings('bnb')">BnB</button>
+                        </div>
                     </div>
-
-                    <div style="display:grid;grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem">
-                        <!-- Property Cards (Mock) -->
-                        <div class="stat-card" style="padding:0;overflow:hidden">
-                            <div style="height:180px;background:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500') center/cover;"></div>
-                            <div style="padding:1.5rem">
-                                <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem">
-                                    <span style="font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Modern Apartment</span>
-                                    <span style="color:#10B981;font-weight:700">KES 45,000</span>
-                                </div>
-                                <h4 style="margin-bottom:0.5rem">Sunrise Valley Heights</h4>
-                                <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
-                                <button class="role-btn active" style="width:100%;justify-content:center">View Details</button>
-                            </div>
-                        </div>
-                        <div class="stat-card" style="padding:0;overflow:hidden">
-                            <div style="height:180px;background:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=500') center/cover;"></div>
-                            <div style="padding:1.5rem">
-                                <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem">
-                                    <span style="font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Premium Office</span>
-                                    <span style="color:#10B981;font-weight:700">KES 120,000</span>
-                                </div>
-                                <h4 style="margin-bottom:0.5rem">Capital Hub Plaza</h4>
-                                <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
-                                <button class="role-btn active" style="width:100%;justify-content:center">View Details</button>
-                            </div>
-                        </div>
+                    <div id="seeker-listings" style="display:grid;grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem">
+                        <div style="text-align:center;padding:3rem;color:var(--text-dim)"><i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block"></i>Loading properties…</div>
                     </div>
                 </div>
 
@@ -487,42 +435,165 @@
     </div>
 
     <script>
-        // Init state
+        const BACKEND = window.location.origin;
         let currentRole = 'user';
+        let allListings = [];
+        let currentFilter = 'all';
 
-        // Load user data
+        // ── Init ─────────────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
             const userStr = localStorage.getItem('linkpointUser');
             if (userStr) {
                 const user = JSON.parse(userStr);
-                document.getElementById('user-email').innerText = user.email;
-                document.getElementById('user-initials').innerText = user.email.substring(0, 2).toUpperCase();
+                document.getElementById('user-email').innerText = user.email || 'User';
+                document.getElementById('user-initials').innerText = (user.email || 'UN').substring(0, 2).toUpperCase();
             } else {
-                // If not logged in redirect
                 window.location.href = '/account';
+                return;
             }
             initChart();
+            fetchListings();
         });
 
+        // ── Fetch all listings from Supabase via backend ──────────
+        async function fetchListings() {
+            try {
+                const resp = await fetch(BACKEND + '/listings');
+                if (!resp.ok) throw new Error('Failed to fetch');
+                allListings = await resp.json();
+            } catch(e) {
+                console.warn('Could not reach backend, using demo data:', e.message);
+                allListings = [
+                    { id:1, title:'Luxury Runda Villa', type:'house_sale', price:25000000, location:'Runda, Nairobi', status:'FOR SALE', images:['https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500'] },
+                    { id:2, title:'Kilimani 2BR Apartment', type:'house_rent', price:65000, location:'Kilimani, Nairobi', status:'FOR RENT', images:['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500'] },
+                    { id:3, title:'Westlands Office Suite', type:'office', price:90000, location:'Westlands, Nairobi', status:'FOR RENT', images:['https://images.unsplash.com/photo-1497366216548-37526070297c?w=500'] },
+                    { id:4, title:'Karen BnB Cottage', type:'bnb', price:8000, location:'Karen, Nairobi', status:'FOR RENT', images:['https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500'] },
+                ];
+            }
+            renderSeekerListings(allListings);
+            renderHostStats(allListings);
+            renderHostListings(allListings);
+            renderHostActivity(allListings);
+        }
+
+        // ── Seeker: render property cards ─────────────────────────
+        function renderSeekerListings(listings) {
+            const container = document.getElementById('seeker-listings');
+            if (!listings.length) {
+                container.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:3rem">No properties found.</div>';
+                return;
+            }
+            container.innerHTML = listings.map(p => {
+                const img = (p.images && p.images[0]) || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500';
+                const typeLabel = { house_rent:'For Rent', house_sale:'For Sale', bnb:'BnB', office:'Office', shop:'Shop' }[p.type] || p.type;
+                const price = p.price ? 'KES ' + parseInt(p.price).toLocaleString() : 'Price on Request';
+                return `
+                <div class="stat-card" style="padding:0;overflow:hidden;cursor:pointer" onclick="window.location.href='/listings'">
+                    <div style="height:180px;background:url('${img}') center/cover;position:relative">
+                        <span style="position:absolute;top:12px;left:12px;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase">${typeLabel}</span>
+                    </div>
+                    <div style="padding:1.5rem">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+                            <span style="font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">${p.status || ''}</span>
+                            <span style="color:#10B981;font-weight:700;font-size:0.85rem">${price}</span>
+                        </div>
+                        <h4 style="margin-bottom:0.4rem;font-size:0.95rem">${p.title}</h4>
+                        <p style="font-size:0.78rem;color:var(--text-dim);margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> ${p.location || 'Nairobi'}</p>
+                        <button class="role-btn active" style="width:100%;justify-content:center;font-size:0.75rem">View Details</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function filterListings(type) {
+            currentFilter = type;
+            document.querySelectorAll('[id^="filter-"]').forEach(b => b.classList.remove('active'));
+            document.getElementById('filter-' + type)?.classList.add('active');
+            const filtered = type === 'all' ? allListings : allListings.filter(p => p.type === type);
+            renderSeekerListings(filtered);
+        }
+
+        // ── Host: render stats ─────────────────────────────────────
+        function renderHostStats(listings) {
+            const userStr = localStorage.getItem('linkpointUser');
+            const email = userStr ? JSON.parse(userStr).email : null;
+            // Show all listings in stats (no owner filter on anon key)
+            const total = listings.length;
+            const forSale = listings.filter(l => l.type === 'house_sale').length;
+            const forRent = listings.filter(l => ['house_rent','bnb','office','shop'].includes(l.type)).length;
+            const totalVal = listings.reduce((s, l) => s + (parseInt(l.price) || 0), 0);
+            document.getElementById('stat-listings').innerText = total;
+            document.getElementById('stat-forsale').innerText = forSale;
+            document.getElementById('stat-forrent').innerText = forRent;
+            document.getElementById('stat-value').innerText = totalVal >= 1000000
+                ? (totalVal / 1000000).toFixed(1) + 'M'
+                : totalVal.toLocaleString();
+        }
+
+        // ── Host: render listings table ───────────────────────────
+        function renderHostListings(listings) {
+            const tbody = document.getElementById('host-listings-tbody');
+            if (!listings.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-dim);padding:2rem">No listings yet. <a href="/sell-home" style="color:var(--accent)">Add your first property →</a></td></tr>';
+                return;
+            }
+            tbody.innerHTML = listings.slice(0, 10).map(p => {
+                const typeLabel = { house_rent:'House Rent', house_sale:'House Sale', bnb:'BnB', office:'Office', shop:'Shop' }[p.type] || p.type;
+                const statusClass = (p.status || '').includes('FOR') ? 'status-live' : 'status-pending';
+                return `<tr>
+                    <td style="font-weight:500">${p.title}</td>
+                    <td style="color:var(--text-dim)">${typeLabel}</td>
+                    <td>KES ${parseInt(p.price || 0).toLocaleString()}</td>
+                    <td><span class="status-pill ${statusClass}">${p.status || 'Active'}</span></td>
+                    <td style="color:var(--text-dim)">${p.location || '—'}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        // ── Host: recent activity feed ─────────────────────────────
+        function renderHostActivity(listings) {
+            const el = document.getElementById('host-activity');
+            if (!listings.length) { el.innerHTML = '<div style="color:var(--text-dim);font-size:0.85rem">No recent activity.</div>'; return; }
+            const recent = listings.slice(0, 3);
+            el.innerHTML = recent.map((p, i) => {
+                const icons = ['fa-plus-circle','fa-check-circle','fa-eye'];
+                const colors = ['var(--accent)','#10B981','var(--accent)'];
+                const msgs = ['New listing added', 'Property verified', 'Trending listing'];
+                return `<div style="display:flex;gap:12px;font-size:0.85rem">
+                    <div style="color:${colors[i]}"><i class="fas ${icons[i]}"></i></div>
+                    <div><strong>${msgs[i]}</strong><br><span style="color:var(--text-dim)">${p.title} — ${p.location || 'Nairobi'}</span></div>
+                </div>`;
+            }).join('');
+        }
+
+        // ── Role toggle ───────────────────────────────────────────
         function switchRole(role) {
             currentRole = role;
             document.body.setAttribute('data-role', role);
-            
-            // Toggle view visibility
             document.getElementById('user-view').classList.toggle('active', role === 'user');
             document.getElementById('host-view').classList.toggle('active', role === 'host');
-            
-            // Toggle Nav items
             document.getElementById('user-nav').style.display = (role === 'user' ? 'flex' : 'none');
             document.getElementById('host-nav').style.display = (role === 'host' ? 'flex' : 'none');
-
-            // Button active state
             document.getElementById('btn-user').classList.toggle('active', role === 'user');
             document.getElementById('btn-host').classList.toggle('active', role === 'host');
         }
 
         function showSubView(viewId) {
-            alert("Navigating to " + viewId + ". (Sub-page content would load here)");
+            // Map sub-view IDs to actions
+            const actions = {
+                'user-home':     () => filterListings('all'),
+                'user-saved':    () => { filterListings('all'); },
+                'user-bookings': () => filterListings('house_rent'),
+                'user-messages': () => filterListings('all'),
+                'host-overview': () => {},
+                'host-listings': () => {},
+                'host-bookings': () => {},
+                'host-payments': () => {},
+            };
+            if (actions[viewId]) actions[viewId]();
+            // Highlight active nav link
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
         function handleLogout() {
@@ -531,6 +602,7 @@
             window.location.href = '/account';
         }
 
+        // ── Chart ─────────────────────────────────────────────────
         function initChart() {
             const ctx = document.getElementById('earningsChart').getContext('2d');
             new Chart(ctx, {
@@ -554,14 +626,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { 
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: '#94A3B8', font: { size: 10 } }
-                        },
-                        x: { 
-                            grid: { display: false },
-                            ticks: { color: '#94A3B8', font: { size: 10 } }
-                        }
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8', font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { color: '#94A3B8', font: { size: 10 } } }
                     }
                 }
             });

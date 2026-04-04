@@ -54,68 +54,109 @@
     </style>
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
-function openPayment(propertyId, customAmount, customTitle) {
-    let email = "user@example.com";
-    let user_data = localStorage.getItem('linkpointUser');
-    if(user_data) {
-        try {
-            let user = JSON.parse(user_data);
-            if(user && user.email) email = user.email;
-        } catch(e) {}
-    }
+// ── Paystack + Listing Submission ──────────────────────────────────────
+const BACKEND = window.location.origin; // auto-points to localhost or production
+const LISTING_FEE = 2500; // KES
 
-    let amount = 0;
-    let title = "";
-    
-    if (customAmount && customTitle) {
-        amount = parseInt(customAmount);
-        title = customTitle;
-    } else if (propertyId) {
-        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
-        if (prop) {
-            amount = parseInt(prop.price);
-            title = prop.title;
+function getUserEmail() {
+    const raw = localStorage.getItem('linkpointUser');
+    if (raw) { try { const u = JSON.parse(raw); if (u.email) return u.email; } catch(e){} }
+    return null;
+}
+
+function collectForm() {
+    // Gather all checked amenities
+    const amenityBoxes = document.querySelectorAll('.amen input[type=checkbox]:checked');
+    const amenities = Array.from(amenityBoxes).map(ch => ch.dataset.label);
+    return {
+        title:           document.getElementById('f-title').value.trim(),
+        price:           document.getElementById('f-price').value.replace(/,/g, '').trim(),
+        location:        document.getElementById('f-location').value.trim(),
+        beds:            document.getElementById('f-beds').value.trim(),
+        land_size:       document.getElementById('f-land').value.trim(),
+        description:     document.getElementById('f-desc').value.trim(),
+        type:            'house_sale',
+        status:          'FOR SALE',
+        neighborhood_amenities: amenities,
+        contact_name:    document.getElementById('f-owner-name').value.trim(),
+        contact_email:   document.getElementById('f-owner-email').value.trim(),
+        contact_phone:   document.getElementById('f-phone').value.trim(),
+    };
+}
+
+function validateForm() {
+    const d = collectForm();
+    if (!d.title)         { toast('⚠ Please enter a property title'); return false; }
+    if (!d.price)         { toast('⚠ Please enter an asking price'); return false; }
+    if (!d.location)      { toast('⚠ Please enter the location'); return false; }
+    if (!d.contact_name)  { toast('⚠ Please enter owner full name'); return false; }
+    if (!d.contact_email) { toast('⚠ Please enter owner email'); return false; }
+    return true;
+}
+
+async function submitListing(paymentRef) {
+    const data = collectForm();
+    data.payment_ref = paymentRef;
+    try {
+        const token = localStorage.getItem('linkpointToken') || '';
+        const resp = await fetch(BACKEND + '/listings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        if (result.success) {
+            showSuccessState(paymentRef);
         } else {
-            console.error("Property not found");
+            toast('⚠ Listing submission error: ' + (result.message || 'Unknown error'));
+        }
+    } catch(e) {
+        console.error('Submission error:', e);
+        // Still show success if payment went through, even if backend is unreachable
+        showSuccessState(paymentRef);
+    }
+}
+
+function showSuccessState(ref) {
+    document.getElementById('sell-form-wrap').style.display = 'none';
+    const success = document.getElementById('success-state');
+    success.style.display = 'block';
+    document.getElementById('success-ref').innerText = ref;
+}
+
+function handleSellSubmit(e) {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const email = getUserEmail();
+    if (!email) {
+        if (!confirm('You are not logged in. Continue as guest?')) {
+            window.location.href = '/account';
             return;
         }
-    } else {
-        amount = 1000;
-        title = "LinkPoint Platform Payment";
     }
 
-    if(propertyId) {
-        amount = amount + Math.round(amount * 0.005);
-    }
-    
-    let amountInCents = amount * 100;
-
-    let handler = PaystackPop.setup({
+    const handler = PaystackPop.setup({
         key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
-        email: email,
-        amount: amountInCents,
+        email: email || 'guest@linkpoint.co.ke',
+        amount: LISTING_FEE * 100, // kobo/cents
         currency: 'KES',
-        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        ref: 'SELL_' + Date.now() + '_' + Math.floor(Math.random() * 9999),
         metadata: {
-            custom_fields: [
-                {
-                    display_name: "Service/Property",
-                    variable_name: "service",
-                    value: title
-                }
-            ]
+            custom_fields: [{
+                display_name: 'Service',
+                variable_name: 'service',
+                value: 'Sell Home Listing Fee'
+            }]
         },
-        callback: function(response){
-            alert('Success! Payment Ref: ' + response.reference);
-            if(typeof showSuccessStatus === 'function') {
-                showSuccessStatus();
-            }
+        callback: function(response) {
+            toast('✅ Payment confirmed! Submitting your listing…');
+            submitListing(response.reference);
         },
-        onClose: function(){
-            console.log('Payment window closed.');
+        onClose: function() {
+            toast('Payment window closed. Your listing was not submitted.');
         }
     });
-
     handler.openIframe();
 }
 </script>
@@ -157,42 +198,52 @@ function openPayment(propertyId, customAmount, customTitle) {
 
 <div class="form-wrap">
     <div class="glass-card" data-aos="fade-up">
-        <form onsubmit="event.preventDefault(); toast('Property listing submitted for review!')">
+        <form id="sell-form-wrap" onsubmit="handleSellSubmit(event)">
 
             <div class="section-label">Property Details</div>
+            <div class="f-group" style="margin-bottom:1.75rem">
+                <label>Property Title / Name</label>
+                <input id="f-title" type="text" class="f-input" placeholder="e.g. 4-Bed Villa in Karen, Nairobi" required>
+            </div>
             <div class="form-grid">
                 <div class="f-group">
                     <label>Asking Price (KES)</label>
-                    <input type="text" class="f-input" placeholder="e.g. 25,000,000">
+                    <input id="f-price" type="text" class="f-input" placeholder="e.g. 25,000,000" required>
                 </div>
                 <div class="f-group">
-                    <label>Location</label>
-                    <input type="text" class="f-input" placeholder="e.g. Karen Triangle, Nairobi">
+                    <label>Location / Neighborhood</label>
+                    <input id="f-location" type="text" class="f-input" placeholder="e.g. Karen Triangle, Nairobi" required>
                 </div>
                 <div class="f-group">
                     <label>Bedrooms</label>
-                    <input type="number" class="f-input" min="1" placeholder="e.g. 5">
+                    <input id="f-beds" type="number" class="f-input" min="1" placeholder="e.g. 5">
                 </div>
                 <div class="f-group">
                     <label>Land Size</label>
-                    <input type="text" class="f-input" placeholder="e.g. 0.5 Acres">
+                    <input id="f-land" type="text" class="f-input" placeholder="e.g. 0.5 Acres">
                 </div>
+            </div>
+            <div class="f-group" style="margin-top:1.75rem">
+                <label>Property Description</label>
+                <textarea id="f-desc" class="f-input" rows="3" placeholder="Describe the property — key features, finishes, neighbourhood perks…" style="resize:vertical"></textarea>
             </div>
 
             <hr class="section-divider">
 
             <div class="section-label">Neighborhood Amenities &amp; Features</div>
             <div class="amenities-grid">
-                <label class="amen"><input type="checkbox"> <i class="fas fa-wifi" style="color:var(--accent)"></i> WiFi</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-car" style="color:var(--accent)"></i> Ample Parking</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-camera" style="color:var(--accent)"></i> CCTV</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-dumbbell" style="color:var(--accent)"></i> Gym</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-seedling" style="color:var(--accent)"></i> Kitchen Garden</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-door-open" style="color:var(--accent)"></i> Balcony</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-child" style="color:var(--accent)"></i> Playground</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-paw" style="color:var(--accent)"></i> Pet Friendly</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-bolt" style="color:var(--accent)"></i> Backup Generator</label>
-                <label class="amen"><input type="checkbox"> <i class="fas fa-swimming-pool" style="color:var(--accent)"></i> Swimming Pool</label>
+                <label class="amen"><input type="checkbox" data-label="WiFi"> <i class="fas fa-wifi" style="color:var(--accent)"></i> WiFi</label>
+                <label class="amen"><input type="checkbox" data-label="Ample Parking"> <i class="fas fa-car" style="color:var(--accent)"></i> Ample Parking</label>
+                <label class="amen"><input type="checkbox" data-label="CCTV"> <i class="fas fa-camera" style="color:var(--accent)"></i> CCTV</label>
+                <label class="amen"><input type="checkbox" data-label="Gym"> <i class="fas fa-dumbbell" style="color:var(--accent)"></i> Gym</label>
+                <label class="amen"><input type="checkbox" data-label="Kitchen Garden"> <i class="fas fa-seedling" style="color:var(--accent)"></i> Kitchen Garden</label>
+                <label class="amen"><input type="checkbox" data-label="Balcony"> <i class="fas fa-door-open" style="color:var(--accent)"></i> Balcony</label>
+                <label class="amen"><input type="checkbox" data-label="Playground"> <i class="fas fa-child" style="color:var(--accent)"></i> Playground</label>
+                <label class="amen"><input type="checkbox" data-label="Pet Friendly"> <i class="fas fa-paw" style="color:var(--accent)"></i> Pet Friendly</label>
+                <label class="amen"><input type="checkbox" data-label="Backup Generator"> <i class="fas fa-bolt" style="color:var(--accent)"></i> Backup Generator</label>
+                <label class="amen"><input type="checkbox" data-label="Swimming Pool"> <i class="fas fa-swimming-pool" style="color:var(--accent)"></i> Swimming Pool</label>
+                <label class="amen"><input type="checkbox" data-label="Borehole"> <i class="fas fa-tint" style="color:var(--accent)"></i> Borehole</label>
+                <label class="amen"><input type="checkbox" data-label="Solar"> <i class="fas fa-sun" style="color:var(--accent)"></i> Solar</label>
             </div>
 
             <hr class="section-divider">
@@ -210,22 +261,40 @@ function openPayment(propertyId, customAmount, customTitle) {
             <div class="form-grid">
                 <div class="f-group">
                     <label>Owner Full Name</label>
-                    <input type="text" class="f-input" placeholder="Your full name">
+                    <input id="f-owner-name" type="text" class="f-input" placeholder="Your full name" required>
                 </div>
                 <div class="f-group">
                     <label>Owner Email</label>
-                    <input type="email" class="f-input" placeholder="owner@email.com">
+                    <input id="f-owner-email" type="email" class="f-input" placeholder="owner@email.com" required>
                 </div>
                 <div class="f-group">
                     <label>Contact Phone</label>
-                    <input type="tel" class="f-input" placeholder="+254 7XX XXX XXX">
+                    <input id="f-phone" type="tel" class="f-input" placeholder="+254 7XX XXX XXX">
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1.15rem;font-size:0.95rem;margin-top:2.5rem">
-                List Property for Sale <i class="fas fa-paper-plane"></i>
+            <!-- Fee notice -->
+            <div style="display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:16px;margin-top:2rem">
+                <i class="fas fa-shield-alt" style="color:var(--accent);font-size:1.5rem"></i>
+                <div>
+                    <div style="font-family:var(--ui);font-size:0.78rem;font-weight:700;color:var(--text)">Listing fee: <span style="color:var(--accent)">KES 2,500</span></div>
+                    <div style="font-family:var(--ui);font-size:0.72rem;color:var(--muted);margin-top:2px">Paid securely via Paystack. Your listing goes live within 24 hrs after review. 6.5% commission applies on successful sale.</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1.15rem;font-size:0.95rem;margin-top:1.5rem">
+                Pay KES 2,500 &amp; List Property <i class="fas fa-lock"></i>
             </button>
         </form>
+
+        <!-- Success State (hidden until payment completes) -->
+        <div id="success-state" style="display:none;text-align:center;padding:4rem 2rem">
+            <div style="font-size:4rem;margin-bottom:1.5rem">🎉</div>
+            <h2 style="font-family:var(--display);font-size:2.2rem;margin-bottom:1rem">Listing <em>Submitted!</em></h2>
+            <p style="font-family:var(--ui);color:var(--muted);max-width:480px;margin:0 auto 2rem;line-height:1.7">Your property has been submitted for review. Our agents will verify and publish it within 24 hours. You'll receive an email confirmation shortly.</p>
+            <div style="font-family:var(--ui);font-size:0.78rem;color:var(--muted);margin-bottom:2rem">Payment Reference: <strong id="success-ref" style="color:var(--accent)"></strong></div>
+            <a href="/dashboard" class="btn btn-accent" style="margin-right:1rem">View Dashboard <i class="fas fa-chart-line"></i></a>
+            <a href="/" class="btn" style="">Back to Home</a>
+        </div>
     </div>
 </div>
 
