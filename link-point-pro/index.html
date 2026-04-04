@@ -125,8 +125,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <a href="about.html" class="nl">About Us</a>
   </div>
   <div class="na">
-    
-    <a href="join.html" class="btn bg"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
 <section class="hero">
@@ -168,7 +167,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <p class="ss">Whether you're renting, buying, investing or hosting — LinkPoint has a dedicated portal built just for you.</p>
   </div>
   <div class="grid7">
-    <a href="rentals.html" class="scard reveal"><div class="sci" style="background-image:url('kenyan_apartment.png')"><div class="scbadge">Tenants</div></div><div class="scb"><div class="scicon" style="background:rgba(59,130,246,.18);color:#60a5fa"><i class="fas fa-search-location"></i></div><div class="sct">Find a Rental</div><p class="scd">Start viewing verified apartments today via M-Pesa escrow.</p><div class="sca">Explore Rentals <i class="fas fa-arrow-right"></i></div></div></a>
+    <a href="rentals.html" class="scard reveal"><div class="sci" style="background-image:url('kenyan_apartment.png')"><div class="scbadge">Tenants</div></div><div class="scb"><div class="scicon" style="background:rgba(59,130,246,.18);color:#60a5fa"><i class="fas fa-search-location"></i></div><div class="sct">Find a Rental</div><p class="scd">Start viewing verified apartments today via Paystack escrow.</p><div class="sca">Explore Rentals <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="buy.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Buyers</div></div><div class="scb"><div class="scicon" style="background:rgba(16,185,129,.18);color:#34d399"><i class="fas fa-home"></i></div><div class="sct">Buy a Home</div><p class="scd">Verified homes ready for ownership across Nairobi and beyond.</p><div class="sca">Browse for Sale <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="sell.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Sellers</div></div><div class="scb"><div class="scicon" style="background:rgba(245,158,11,.18);color:#fbbf24"><i class="fas fa-tags"></i></div><div class="sct">Sell Your Property</div><p class="scd">List in minutes, reach 50,000+ buyers with unlimited media.</p><div class="sca">Start Selling <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="bnb.html" class="scard reveal"><div class="sci" style="background-image:url('nairobi_street.png')"><div class="scbadge">Short Stay</div></div><div class="scb"><div class="scicon" style="background:rgba(239,68,68,.18);color:#f87171"><i class="fas fa-umbrella-beach"></i></div><div class="sct">BnB & Short Stay</div><p class="scd">Unique getaways at Diani Beach, Lamu, and Nairobi.</p><div class="sca">Book a Stay <i class="fas fa-arrow-right"></i></div></div></a>
@@ -200,7 +199,7 @@ async function loadLiveFeed() {
         data.forEach((p, i) => {
             const img = imgs[i % imgs.length];
             grid.innerHTML += `
-                <div class="pc reveal"><div class="pi" style="background-image:url('${img}')"><div class="pbadge" style="background:${p.property_type?.includes('Rent') ? '#10b981' : '#ef4444'}">${p.property_type?.toUpperCase() || 'NEW LISTING'}</div></div><div class="pbd"><div class="ppr">KSh ${p.price?.toLocaleString()} <span>� neg.</span></div><div class="ptit">${p.title}</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.location}</div><div class="pfeats"><div class="pfe"><i class="fas fa-check-circle"></i> Verified</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+                <div class="pc reveal"><div class="pi" style="background-image:url('${img}')"><div class="pbadge" style="background:${p.property_type?.includes('Rent') ? '#10b981' : '#ef4444'}">${p.property_type?.toUpperCase() || 'NEW LISTING'}</div></div><div class="pbd"><div class="ppr">KSh ${p.price?.toLocaleString()} <span> neg.</span></div><div class="ptit">${p.title}</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.location}</div><div class="pfeats"><div class="pfe"><i class="fas fa-check-circle"></i> Verified</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
             `;
         });
     } catch(e) {
@@ -222,8 +221,8 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
 <section style="padding:5rem 5%;background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(255,107,53,.04));border-top:1px solid rgba(255,107,53,.2);border-bottom:1px solid rgba(255,107,53,.2);text-align:center" class="reveal">
   <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.9rem">Ready to Find Your<em style="color:var(--primary);font-style:italic"> Perfect Space?</em></h2>
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
-    <button class="btn bp blg" onclick="openMpesa('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
-    <button class="btn bg blg" onclick="openMpesa('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Access Rentals (KSh 400)</button>
+    <button class="btn bp blg" onclick="openPaystack('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
+    <button class="btn bg blg" onclick="openPaystack('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Access Rentals (KSh 400)</button>
   </div>
 </section>
 <button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
@@ -232,7 +231,7 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, M-Pesa escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -253,10 +252,43 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
 </footer>
 
 <!-- Auth Modal -->
-<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
+<div class="auth-ov" id="aov">
+    <div class="auth-box" id="auth-main">
+        <button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        <div style="text-align:center;margin-bottom:1.5rem">
+            <div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div>
+            <h2 id="auth-title" style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2>
+            <p id="auth-desc" style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p>
+        </div>
+        
+        <!-- Login View -->
+        <div id="login-view" style="display:flex;flex-direction:column;gap:1rem">
+            <div class="fgroup"><label>Email Address</label><input type="email" id="login-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" id="login-pass" class="fi" placeholder="••••••••"></div>
+            <button class="btn bp" id="btn-login" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
+            <button class="btn bg" id="btn-biometric" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">New here? <a href="#" onclick="toggleAuthView('register')" style="color:var(--primary); font-weight:600">Create an Account</a></p>
+        </div>
 
-<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
-</div></div></div>
+        <!-- Register View -->
+        <div id="reg-view" style="display:none;flex-direction:column;gap:1rem">
+            <div class="fgroup"><label>Full Name</label><input type="text" id="reg-name" class="fi" placeholder="Jane Doe"></div>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="reg-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label>Password</label><input type="password" id="reg-pass" class="fi" placeholder="••••••••"></div>
+            <button class="btn bp" id="btn-register" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Create Secure Account <i class="fas fa-shield-alt"></i></button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">Already have an account? <a href="#" onclick="toggleAuthView('login')" style="color:var(--primary); font-weight:600">Sign In</a></p>
+        </div>
+    </div>
+</div>
+<script>
+function toggleAuthView(view) {
+    const isReg = view === 'register';
+    document.getElementById('login-view').style.display = isReg ? 'none' : 'flex';
+    document.getElementById('reg-view').style.display = isReg ? 'flex' : 'none';
+    document.getElementById('auth-title').innerText = isReg ? 'Create Account' : 'Welcome Back';
+    document.getElementById('auth-desc').innerText = isReg ? 'Join the LinkPoint Ecosystem' : 'Sign in to your LinkPoint account';
+}
+</script>
 
 
 
@@ -290,56 +322,62 @@ async function handleRegister() {
     const name = document.getElementById("reg-name").value;
     const email = document.getElementById("reg-email").value;
     const pass = document.getElementById("reg-pass").value;
-    const btn = document.querySelector("#reg-view .bp");
+    const btn = document.getElementById("btn-register");
 
     if(!name || !email || !pass) { alert("Please complete all fields."); return; }
     if(pass.length < 6) { alert("Security: Password must be at least 6 characters."); return; }
 
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Encrypting Account...";
     try {
-        const r = await fetch("/api/auth/register", { 
+        const r = await fetch("/api/register", { 
             method: "POST", 
             body: JSON.stringify({ name, email, password: pass }) 
         });
         if (r.ok) {
-            alert("? Account Created Successfully! You can now login.");
-            toggleAuth(false);
+            alert("✅ Account Created Successfully! You can now login.");
+            toggleAuthView('login');
+        } else {
+            const data = await r.json();
+            alert("❌ Registration Error: " + data.message);
         }
     } catch(e) { alert("Registration failed locally."); }
     btn.innerHTML = "Create Secure Account <i class='fas fa-shield-alt'></i>";
 }
+
 async function handleLogin() {
-    const email = document.querySelector("#aov input[type='email']").value;
-    const password = document.querySelector("#aov input[type='password']").value;
-    const btn = document.querySelector("#aov .bp");
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-pass").value;
+    const btn = document.getElementById("btn-login");
     if (!email || !password) { alert("Please enter credentials"); return; }
     
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Verifying Credentials...";
     try {
-        const r = await fetch("/api/auth/login", { 
+        const r = await fetch("/api/login", { 
             method: "POST", 
             body: JSON.stringify({ email, password }) 
         });
         const d = await r.json();
         if (r.ok) {
-            alert("? Welcome Back! Security Handshake Complete.");
-            closeAuth();
+            localStorage.setItem('token', d.token);
+            if(d.user) localStorage.setItem('user_name', d.user.name);
+            alert("🚀 Welcome Back! Security Handshake Complete.");
+            window.location.href = "user-dashboard.html";
         } else {
-            alert("? Access Denied: " + d.message);
+            alert("❌ Access Denied: " + d.message);
         }
     } catch(e) { alert("Security Server Offline"); }
     btn.innerHTML = "Sign In <i class='fas fa-arrow-right'></i>";
 }
 
 async function handleBiometric() {
-    const btn = document.querySelector("#aov .bg");
+    const btn = document.getElementById("btn-biometric");
     btn.innerHTML = "<i class='fas fa-fingerprint fa-spin'></i> Scanning Biometrics...";
     // Emulating platform-native Biometric prompt (WebAuthn)
     setTimeout(async () => {
         try {
             const r = await fetch("/api/auth/biometric", { method: "POST" });
             const d = await r.json();
-            alert("??? Biometric Identity Verified: Access Granted.");
+            alert("🔓 Biometric Identity Verified: Access Granted.");
             closeAuth();
         } catch(e) { alert("Biometric Hub Offline"); }
         btn.innerHTML = "<i class='fas fa-fingerprint'></i> Biometric Login (FaceID / Touch)";
@@ -347,35 +385,9 @@ async function handleBiometric() {
 }
 
 // Hook them up
-document.querySelector("#aov .bp").onclick = handleLogin;
-document.querySelector("#aov .bg").onclick = handleBiometric;
-function toggleView(v) {
-    document.getElementById("login-view").style.display = (v === "login" ? "block" : "none");
-    document.getElementById("reg-view").style.display = (v === "reg" ? "block" : "none");
-    document.getElementById("forgot-view").style.display = (v === "forgot" ? "block" : "none");
-}
-async function handleLogin() {
-    const e = document.getElementById("login-email").value;
-    const p = document.getElementById("login-pass").value;
-    if(!e || !p) return alert("Credentials required");
-    alert("?? Logged in as " + e);
-    closeAuth();
-}
-async function handleRegister() {
-    const n = document.getElementById("reg-name").value;
-    const e = document.getElementById("reg-email").value;
-    const p = document.getElementById("reg-pass").value;
-    if(!n || !e || !p) return alert("Please fill all fields");
-    alert("? Account created for " + n + "! Redirecting to login...");
-    toggleView("login");
-}
-async function handleReset() {
-    const e = document.getElementById("reset-email").value;
-    if(!e) return alert("Email required to find your account");
-    alert("?? An encrypted recovery link has been sent to " + e);
-    toggleView("login");
-}
-
+document.getElementById("btn-login").onclick = handleLogin;
+document.getElementById("btn-register").onclick = handleRegister;
+document.getElementById("btn-biometric").onclick = handleBiometric;
 
 document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
 
@@ -430,8 +442,24 @@ function closeAmenities(){ document.getElementById('amenities-ov').classList.rem
 document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
 </script>
 
-<script src="linkpoint-3d.js"></script>`n<script>`nwindow.onerror = function(m,u,l){ alert("JS ERROR: " + m + " at " + u + ":" + l); };`n</script>
-<script src="mpesa.js"></script>
+<script src="linkpoint-3d.js"></script>
+<script>
+window.onerror = function(m,u,l){ alert("JS ERROR: " + m + " at " + u + ":" + l); };
+window.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const uName = localStorage.getItem('user_name');
+    if(token && uName) {
+        const btn = document.getElementById('auth-btn');
+        if(btn) {
+            btn.href = "user-dashboard.html";
+            btn.innerHTML = `<i class="fas fa-home"></i> ${uName.split(' ')[0]}'s Dashboard`;
+            btn.style.color = "var(--primary)";
+            btn.style.borderColor = "var(--primary)";
+        }
+    }
+});
+</script>
+<script src="paystack.js"></script>
 </body></html>
 
 

@@ -47,7 +47,7 @@ def apply_paystack(path):
     let amountInCents = amount * 100;
 
     let handler = PaystackPop.setup({
-        key: 'pk_test_a9d3d922bc30a905a306bdfe1140df03189a0fcc', // Mock public key for testing
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466', // Mock public key for testing
         email: email,
         amount: amountInCents,
         currency: 'KES',

@@ -76,12 +76,12 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
   <div class="nls">
     <a href="/" class="nl">Home</a>
+    <a href="javascript:void(0)" onclick="openRate()" class="nl" style="color:#f59e0b;font-weight:700"><i class="fas fa-star"></i> Feedback</a>
     <a href="rentals.html" class="nl">Rentals</a>
     <a href="buy.html" class="nl">Buy</a>
     <a href="sell.html" class="nl">Sell</a>
-    <a href="bnb.html" class="nl active">BnB</a>
+    <a href="bnb.html" class="nl">BnB</a>
     <a href="commercial.html" class="nl">Commercial</a>
-    <a href="agents.html" class="nl">Agents</a>
   </div>
   <div class="na">
     <button class="btn bg" onclick="openAuth()"><i class="fas fa-user"></i> Login</button>
@@ -137,7 +137,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 <section style="padding:4rem 5%;text-align:center;background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(255,107,53,.06));border-top:1px solid rgba(16,185,129,.2)" class="reveal">
   <h2 style="font-family:var(--serif);font-size:2rem;margin-bottom:.8rem">Have a Space to <em style="color:var(--primary);font-style:italic">Short-Let?</em></h2>
   <p style="color:var(--muted);max-width:430px;margin:0 auto 2rem;line-height:1.7;font-size:.92rem">List your BnB and connect with thousands of verified travellers exploring Kenya every week.</p>
-  <button onclick="openPaystack('500', 'BnB Listing Fee')" class="btn bp blg"><i class="fas fa-home"></i> List Your BnB — KSh 500</button>
+  <a href="sell.html" class="btn bp blg"><i class="fas fa-home"></i> List Your BnB — Free</a>
 </section>
 <div style="text-align:center;padding:3rem 5%;background:var(--nl)">
    <button class="btn bp blg" onclick="openPaystack('300', 'Unlock BnB Host Contacts')"><i class="fas fa-unlock"></i> Unlock Host Contacts (KSh 300)</button>
@@ -148,7 +148,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, M-Pesa escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -169,10 +169,10 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 </footer>
 
 <!-- Auth Modal -->
-<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><form onsubmit="event.preventDefault(); handleLoginSubmit();" style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" id="loginEmail" class="fi" placeholder="you@example.com" required></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" id="loginPass" class="fi" placeholder="••••••••" required></div><button type="submit" class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
+<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
 <div style="display:flex;align-items:center;gap:1rem;margin:0.2rem 0"><div style="flex:1;height:1px;background:var(--gb)"></div><span style="color:var(--dim);font-size:0.75rem">OR</span><div style="flex:1;height:1px;background:var(--gb)"></div></div>
-<button type="button" class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login</button>
-<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></form></div></div>
+<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
+<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></div></div></div>
 
 
 
@@ -195,27 +195,21 @@ document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.curr
 
 
 
-async function handleLoginSubmit() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPass').value;
-    try {
-        const res = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-        if (data.success) {
-            localStorage.setItem('LinkPointUser', JSON.stringify(data.user));
-            alert('Login successful!');
-            location.reload();
-        } else {
-            alert('Login failed: ' + data.message);
-        }
-    } catch (e) {
-        alert('Backend connection error. Make sure server is running.');
-    }
-}
+/* PWA Install Logic */
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display = 'inline-flex';
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt !== null) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') { deferredPrompt = null; document.getElementById('installBtn').style.display = 'none'; }
+  }
+});
 </script>
 
 <!-- Live Chat Modal -->

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkPoint Hub</title>
+    <title>RentPoint Hub</title>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -115,7 +115,7 @@
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 500%;
+            width: 100%;
             height: 2px;
             background: var(--primary);
             border-radius: 2px;
@@ -151,7 +151,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 1.25rem 2.5rem;
-            border-radius: 500px;
+            border-radius: 100px;
             color: white;
             font-size: 1.1rem;
             font-weight: 600;
@@ -187,7 +187,7 @@
             background-image: 
                 radial-gradient(circle at 10% 50%, rgba(240, 90, 40, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 90% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 500%, rgba(245, 158, 11, 0.06) 0%, transparent 40%) !important;
+                radial-gradient(circle at 50% 100%, rgba(245, 158, 11, 0.06) 0%, transparent 40%) !important;
             background-attachment: fixed !important;
             background-size: cover !important;
         }
@@ -247,7 +247,7 @@
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 @media(max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
 .form-group label { display: block; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
-.form-input { width: 500%; padding: 1rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; transition: all 0.3s; }
+.form-input { width: 100%; padding: 1rem; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; transition: all 0.3s; }
 .form-input::placeholder { color: var(--text-muted); opacity: 0.7; }
 .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
 .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
@@ -274,8 +274,8 @@
     <div style="position: absolute; inset: 0; background: var(--bg-overlay); backdrop-filter: blur(8px);"></div>
     <div style="background: var(--bg-glass); backdrop-filter: blur(20px); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="logo.jpg?v=3" alt="LinkPoint Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
-            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">LinkPoint.</h2>
+            <img src="logo.jpg?v=3" alt="RentPoint Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
+            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">RentPoint.</h2>
             <p style="color: var(--text-muted);" id="authSubtitle">Sign in to your premium real estate hub</p>
         </div>
         
@@ -298,7 +298,7 @@
                 <input type="password" id="authPassword" required class="form-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
             </div>
             <div id="authError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
-            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 500%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
+            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
                 Sign In <i class="fas fa-sign-in-alt"></i>
             </button>
         </form>
@@ -381,8 +381,8 @@ async function handleAuthSubmit(e) {
         const data = await res.json();
         if (res.ok && data.success) {
             // Authentication successful!
-            localStorage.setItem('LinkPointToken', data.token); // Save JWT
-            localStorage.setItem('LinkPointUser', JSON.stringify(data.user));
+            localStorage.setItem('rentpointToken', data.token); // Save JWT
+            localStorage.setItem('rentpointUser', JSON.stringify(data.user));
             closeAuthGate();
             updateUIAfterLogin();
         } else {
@@ -409,16 +409,16 @@ function closeAuthGate() {
 
 function updateUIAfterLogin() {
     try {
-        const userData = localStorage.getItem('LinkPointUser');
+        const userData = localStorage.getItem('rentpointUser');
         if (!userData) return;
         const user = JSON.parse(userData);
         if (user && user.email) {
-            const loginBtn = document.querySelector('button[onclick="openMpesa('1,500', 'Secure Escrow Payment')"]');
+            const loginBtn = document.querySelector('button[onclick="openPaystack('1,500', 'Secure Escrow Payment')"]');
             if (loginBtn) {
                 loginBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email.split('@')[0]}`;
                 loginBtn.onclick = () => {
                     if (confirm("Do you want to logout?")) {
-                        localStorage.removeItem('LinkPointUser');
+                        localStorage.removeItem('rentpointUser');
                         location.reload();
                     }
                 };
@@ -438,7 +438,7 @@ window.addEventListener('scroll', () => {
         const section = document.getElementById(id);
         if (section) {
             const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 500) {
+            if (pageYOffset >= sectionTop - 100) {
                 current = id;
             }
         }
@@ -529,7 +529,7 @@ function renderProperties(properties) {
     properties.forEach((prop, index) => {
         const badgeStyle = getBadgeStyle(prop.status);
         const formattedPrice = "KSh " + parseInt(prop.price).toLocaleString();
-        const delay = (index % 3 + 1) * 500;
+        const delay = (index % 3 + 1) * 100;
         const thumb = prop.images && prop.images.length > 0 ? prop.images[0] : 'kenya_bnb.png';
 
         const cardHTML = `
@@ -546,7 +546,7 @@ function renderProperties(properties) {
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
                     <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">${formattedPrice}<span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;"> / mo</span></div>
                 </div>
-                <button class="btn" onclick="viewPropertyDetails('${prop.id}')" style="width: 500%; margin-top: 1.5rem; background: #2563eb; color: white; padding: 1rem; border-radius: 12px; font-weight: 700;">Quick View Property</button>
+                <button class="btn" onclick="viewPropertyDetails('${prop.id}')" style="width: 100%; margin-top: 1.5rem; background: #2563eb; color: white; padding: 1rem; border-radius: 12px; font-weight: 700;">Quick View Property</button>
             </div>
         </div>`;
         grid.insertAdjacentHTML('beforeend', cardHTML);
@@ -576,13 +576,13 @@ function viewPropertyDetails(id) {
     // Create a detail modal dynamically or use a hidden one
     const modal = document.createElement('div');
     modal.id = 'detailsModal';
-    modal.style = "position: fixed; inset: 0; z-index: 500000; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 2rem;";
+    modal.style = "position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 2rem;";
     
     const formattedPrice = "KSh " + parseInt(prop.price).toLocaleString();
     const mainImg = prop.images && prop.images.length > 0 ? prop.images[0] : 'nairobi_street.png';
     
     modal.innerHTML = `
-        <div style="background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); width: 500%; max-width: 900px; max-height: 90vh; border-radius: 24px; overflow-y: auto; position: relative; border: 1px solid var(--border-color);">
+        <div style="background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); width: 100%; max-width: 900px; max-height: 90vh; border-radius: 24px; overflow-y: auto; position: relative; border: 1px solid var(--border-color);">
             <button onclick="this.closest('#detailsModal').remove(); document.body.style.overflow='auto';" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(0,0,0,0.5); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
             <div style="height: 400px; background: url('${mainImg}') center/cover;"></div>
             <div style="padding: 3rem;">
@@ -626,8 +626,8 @@ function viewPropertyDetails(id) {
                 </p>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <button class="btn btn-outline" onclick="unlockContact(${prop.id})" style="width: 500%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-lock"></i> Unlock Contact</button>
-                    <button class="btn btn-primary" onclick="openPayment('${prop.id}')" style="width: 500%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-shopping-cart"></i> Book / Buy Now (Escrow)</button>
+                    <button class="btn btn-outline" onclick="unlockContact(${prop.id})" style="width: 100%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-lock"></i> Unlock Contact</button>
+                    <button class="btn btn-primary" onclick="openPayment('${prop.id}')" style="width: 100%; padding: 1.25rem; font-size: 1.1rem;"><i class="fas fa-shopping-cart"></i> Book / Buy Now (Escrow)</button>
                 </div>
             </div>
         </div>
@@ -733,14 +733,14 @@ function switchTab(tabId) {
     }
 }
 function unlockContact(id) {
-    if(confirm("Unlock direct contact for this property? (Cost: KSh 500)")) {
-        openPayment(id, 500, "Unlock Contact & Direct Link");
+    if(confirm("Unlock direct contact for this property? (Cost: KSh 100)")) {
+        openPayment(id, 100, "Unlock Contact & Direct Link");
     }
 }
 
 function boostListing(id) {
     if(confirm("Boost this property to the 'Featured' section for 30 days? (Cost: KSh 1,000)")) {
-        openPayment(id, 5000, "Property Boost - Featured Status");
+        openPayment(id, 1000, "Property Boost - Featured Status");
     }
 }
 // Init body overflow
@@ -764,16 +764,16 @@ function toggleTheme() {
 document.documentElement.removeAttribute('data-theme'); // default Light Mode
 // THE VERY LAST STEP - Load everything
 window.addEventListener('load', function() {
-    console.log("Starting LinkPoint Initialization...");
+    console.log("Starting RentPoint Initialization...");
     updateUIAfterLogin();
     loadFeaturedProperties();
-    setTimeout(() => switchTab('tabRenting'), 500);
+    setTimeout(() => switchTab('tabRenting'), 100);
 });
 </script>
 
 
 <!-- MAIN NAVBAR -->
-<nav class="solid-nav" style="padding: 1.25rem 5%; background: transparent; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 5000; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+<nav class="solid-nav" style="padding: 1.25rem 5%; background: transparent; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
     <div style="display: flex; align-items: center; gap: 0.75rem;">
         <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.2rem;">R</div>
         <h1 style="color: #ffffff; font-size: 1.5rem; margin: 0; letter-spacing: -0.5px; font-weight: 800; font-family: var(--font-sans);">Rent<span style="color: var(--primary);">Point</span></h1>
@@ -791,7 +791,7 @@ window.addEventListener('load', function() {
 
     <div style="display: flex; gap: 1rem; align-items: center;">
         <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; color: inherit;"><i class="fas fa-moon" id="themeIcon"></i></button>
-        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 500px; font-size: 0.9rem;" onclick="openMpesa('1,500', 'Secure Escrow Payment')">Sign In</button>
+        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem;" onclick="openPaystack('1,500', 'Secure Escrow Payment')">Sign In</button>
     </div>
 </nav>
 
@@ -801,7 +801,7 @@ window.addEventListener('load', function() {
     0%, 25% { background-image: url('villa.png'); }
     33%, 58% { background-image: url('nairobi360.png'); }
     66%, 91% { background-image: url('kenya_house.png'); }
-    500% { background-image: url('villa.png'); }
+    100% { background-image: url('villa.png'); }
 }
 .hero-slider {
     height: 80vh;
@@ -818,8 +818,8 @@ window.addEventListener('load', function() {
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 500%;
-    min-height: 500%;
+    min-width: 100%;
+    min-height: 100%;
     width: auto;
     height: auto;
     transform: translate(-50%, -50%);
@@ -859,7 +859,7 @@ window.addEventListener('load', function() {
     align-items: end;
 }
 .search-input {
-    width: 500%;
+    width: 100%;
     padding: 1rem 1rem 1rem 3rem;
     border-radius: 12px;
     border: none;
@@ -922,7 +922,7 @@ window.addEventListener('load', function() {
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.5); opacity: 0.5; }
-    500% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
     .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
     .solid-nav .nav-link { color: #000000 !important; }
@@ -991,7 +991,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             }
 
             // Update Bitcoin amount
-            const btcAmount = (total / 50000000).toFixed(6);
+            const btcAmount = (total / 10000000).toFixed(6);
             const btcText = document.querySelector('#bitcoinFields strong');
             if (btcText) btcText.innerText = btcAmount + ' BTC';
         }
@@ -1008,7 +1008,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     <div style="max-width: 1200px; margin: 0 auto;">
         <div class="section-title">
             <h2>Pricing & Subscription Plans</h2>
-            <p>Flexible packages tailored for property owners, agents, and seekers. All payments securely processed via M-Pesa.</p>
+            <p>Flexible packages tailored for property owners, agents, and seekers. All payments securely processed via Paystack.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
@@ -1019,7 +1019,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Listing Fees</h3>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">For Property Owners</p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.95rem;">
-                    <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Standard:</strong> KES 500 â€“ 300 / post</li>
+                    <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Standard:</strong> KES 100 â€“ 300 / post</li>
                     <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Commercial:</strong> KES 500 â€“ 2,000 / post</li>
                     <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Featured (Top):</strong> KES 500 â€“ 1,000</li>
                     <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Urgent Listing:</strong> KES 700+</li>
@@ -1038,7 +1038,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                     <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i> Priority Search Placement</li>
                     <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i> Advanced Dashboard Insights</li>
                 </ul>
-                <button class="btn btn-primary" style="width: 500%;" onclick="document.getElementById('authGate').style.display='flex'; document.getElementById('authGate').style.opacity='1';">Subscribe Now via M-Pesa</button>
+                <button class="btn btn-primary" style="width: 100%;" onclick="document.getElementById('authGate').style.display='flex'; document.getElementById('authGate').style.opacity='1';">Subscribe Now via Paystack</button>
             </div>
 
             <!-- Property Seekers -->
@@ -1047,7 +1047,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Property Seekers</h3>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Find exactly what you need</p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.95rem;">
-                    <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Contact Unlock:</strong> KES 50 â€“ 500</li>
+                    <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Contact Unlock:</strong> KES 50 â€“ 100</li>
                     <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Premium Access:</strong> KES 200 â€“ 500/mo</li>
                     <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--light-gray); padding-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> Early posting access</li>
                     <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> Exclusive verified properties</li>
@@ -1062,7 +1062,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <p style="color: var(--text-muted); font-size: 0.95rem;"><strong>BnB Bookings:</strong> 5% â€“ 10% per successful booking | <strong>Commercial Deals:</strong> 1% â€“ 3% commission</p>
             </div>
             <div style="display: flex; gap: 1rem; align-items: center;">
-                <p style="color: var(--text-muted); font-size: 0.85rem;"><strong>500% Secure Payments Powered By</strong></p>
+                <p style="color: var(--text-muted); font-size: 0.85rem;"><strong>100% Secure Payments Powered By</strong></p>
                 <div style="background: #4CAF50; color: white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 800; font-style: italic;">M-PESA</div>
             </div>
         </div>
@@ -1078,7 +1078,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             <!-- Brand Column -->
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <img src="logo.jpg?v=3" alt="LinkPoint" style="height: 60px; border-radius: 12px;">
+                    <img src="logo.jpg?v=3" alt="NyumbaLink" style="height: 60px; border-radius: 12px;">
                     <h2 style="color: var(--text-main); font-size: 1.75rem; font-weight: 800; margin: 0;">Nyumba<span style="color: var(--primary);">Link</span></h2>
                 </div>
                 <p style="color: var(--text-muted); line-height: 1.6; max-width: 300px;">
@@ -1124,7 +1124,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                     </li>
                     <li style="display: flex; gap: 1rem; color: var(--text-muted);">
                         <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
-                        <span>LinkPointnyumba@gmail.com</span>
+                        <span>nyumbalinknyumba@gmail.com</span>
                     </li>
                 </ul>
             </div>
@@ -1149,7 +1149,7 @@ function openPayment(propertyId, customAmount, customTitle) {
         <!-- Bottom Footer -->
         <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
             <p style="color: var(--text-muted); font-size: 0.85rem;">
-                Â© 2026 LinkPoint Hub. All rights reserved. Registered with EARB & POCAMLA.
+                Â© 2026 NyumbaLink Hub. All rights reserved. Registered with EARB & POCAMLA.
             </p>
             <div style="display: flex; gap: 2rem; font-size: 0.85rem;">
                 <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
@@ -1174,9 +1174,9 @@ function openPayment(propertyId, customAmount, customTitle) {
     </div>
 
     <!-- FLOATING WHATSAPP BUTTON (Bottom Left to avoid overlap) -->
-    <a href="https://wa.me/254112012816?text=Hello%20LinkPoint,%20I'm%20interested%20in%20a%20property." 
+    <a href="https://wa.me/254112012816?text=Hello%20NyumbaLink,%20I'm%20interested%20in%20a%20property." 
        target="_blank" 
-       style="position: fixed; bottom: 2rem; left: 2rem; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 50000; text-decoration: none; transition: transform 0.3s;"
+       style="position: fixed; bottom: 2rem; left: 2rem; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; text-decoration: none; transition: transform 0.3s;"
        onmouseover="this.style.transform='scale(1.1)'"
        onmouseout="this.style.transform='scale(1)'">
         <i class="fab fa-whatsapp"></i>
@@ -1189,15 +1189,15 @@ function openPayment(propertyId, customAmount, customTitle) {
         
         <h2 style="font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Find Your Home</h2>
         
-        <div style="display: flex; background: #f1f5f9; padding: 0.5rem; border-radius: 500px; margin-bottom: 2.5rem;">
-            <button class="search-tab active" onclick="switchSearchTab('rent')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 500px; cursor: pointer; font-weight: 600; transition: 0.3s;" id="tabRent">For Rent</button>
-            <button class="search-tab" onclick="switchSearchTab('sale')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 500px; cursor: pointer; font-weight: 600; transition: 0.3s; background: transparent;" id="tabSale">For Sale</button>
+        <div style="display: flex; background: #f1f5f9; padding: 0.5rem; border-radius: 100px; margin-bottom: 2.5rem;">
+            <button class="search-tab active" onclick="switchSearchTab('rent')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 100px; cursor: pointer; font-weight: 600; transition: 0.3s;" id="tabRent">For Rent</button>
+            <button class="search-tab" onclick="switchSearchTab('sale')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 100px; cursor: pointer; font-weight: 600; transition: 0.3s; background: transparent;" id="tabSale">For Sale</button>
         </div>
         
         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             <div class="search-field-group">
                 <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">LOCATION</label>
-                <select id="modalLocation" style="width: 500%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; appearance: none; background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22/%3E%3C/svg%3E') no-repeat right 1rem center/10px;">
+                <select id="modalLocation" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; appearance: none; background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22/%3E%3C/svg%3E') no-repeat right 1rem center/10px;">
                     <option value="">Any Location</option>
                     <option value="kilimani">Kilimani</option>
                     <option value="karen">Karen</option>
@@ -1208,7 +1208,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div class="search-field-group">
                     <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">BEDROOMS</label>
-                    <select id="modalBeds" style="width: 500%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                    <select id="modalBeds" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
                         <option value="">Any</option>
                         <option value="1">1+</option>
                         <option value="2">2+</option>
@@ -1217,11 +1217,11 @@ function openPayment(propertyId, customAmount, customTitle) {
                 </div>
                 <div class="search-field-group">
                     <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">MAX BUDGET</label>
-                    <input type="number" id="modalPrice" placeholder="e.g. 50,000" style="width: 500%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                    <input type="number" id="modalPrice" placeholder="e.g. 50,000" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
                 </div>
             </div>
             
-            <button class="btn btn-primary" onclick="executeModalSearch()" style="width: 500%; padding: 1.25rem; border-radius: 500px; font-weight: 700; margin-top: 1rem;">Show Results</button>
+            <button class="btn btn-primary" onclick="executeModalSearch()" style="width: 100%; padding: 1.25rem; border-radius: 100px; font-weight: 700; margin-top: 1rem;">Show Results</button>
         </div>
     </div>
 </div>
@@ -1291,7 +1291,7 @@ function executeModalSearch() {
     <script>AOS.init({ duration: 800, once: true });</script>
 
 <!-- Live Chat Modal -->
-<div class="auth-ov" id="chat-ov"><div class="auth-box" style="padding:0;overflow:hidden;max-width:380px;border-color:#25D366"><div style="background:#25D366;padding:1.5rem;display:flex;justify-content:space-between;align-items:center"><div style="color:#fff;font-weight:700;font-size:1.1rem"><i class="fab fa-whatsapp"></i> Live Agent Chat</div><button style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem" onclick="closeChat()"><i class="fas fa-times"></i></button></div><div style="padding:1.5rem;height:350px;overflow-y:auto;background:#0d1424;display:flex;flex-direction:column;gap:1rem"><div style="background:rgba(255,255,255,.05);padding:1rem;border-radius:12px 12px 12px 0;width:85%;color:var(--muted);font-size:.85rem;line-height:1.5">Hello! 🇰🇪 Welcome to LinkPoint Kenya. How can our agents help you today? Are you looking to buy, sell, or rent?</div></div><div style="padding:1rem;background:#111827;border-top:1px solid var(--gb);display:flex;gap:.5rem"><input type="text" class="fi" placeholder="Type a message..." style="margin:0;padding:.8rem;border-radius:500px"><button class="btn bp" style="padding:.8rem;border-radius:50%;width:42px;height:42px;background:#25D366;box-shadow:0 4px 15px rgba(37,211,102,0.4)" ><i class="fas fa-paper-plane"></i></button></div></div></div>
+<div class="auth-ov" id="chat-ov"><div class="auth-box" style="padding:0;overflow:hidden;max-width:380px;border-color:#25D366"><div style="background:#25D366;padding:1.5rem;display:flex;justify-content:space-between;align-items:center"><div style="color:#fff;font-weight:700;font-size:1.1rem"><i class="fab fa-whatsapp"></i> Live Agent Chat</div><button style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem" onclick="closeChat()"><i class="fas fa-times"></i></button></div><div style="padding:1.5rem;height:350px;overflow-y:auto;background:#0d1424;display:flex;flex-direction:column;gap:1rem"><div style="background:rgba(255,255,255,.05);padding:1rem;border-radius:12px 12px 12px 0;width:85%;color:var(--muted);font-size:.85rem;line-height:1.5">Hello! 🇰🇪 Welcome to LinkPoint Kenya. How can our agents help you today? Are you looking to buy, sell, or rent?</div></div><div style="padding:1rem;background:#111827;border-top:1px solid var(--gb);display:flex;gap:.5rem"><input type="text" class="fi" placeholder="Type a message..." style="margin:0;padding:.8rem;border-radius:100px"><button class="btn bp" style="padding:.8rem;border-radius:50%;width:42px;height:42px;background:#25D366;box-shadow:0 4px 15px rgba(37,211,102,0.4)" ><i class="fas fa-paper-plane"></i></button></div></div></div>
 
 <!-- Amenities Modal -->
 <div class="auth-ov" id="amenities-ov"><div class="auth-box"><button class="acl" onclick="closeAmenities()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div style="width:60px;height:60px;background:rgba(59,130,246,.18);border-radius:12px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#60a5fa"><i class="fas fa-map-signs"></i></div><h2 style="font-family:var(--serif);font-size:1.7rem;color:#60a5fa;margin-bottom:0.5rem">Social Amenities</h2><p style="color:var(--muted);font-size:.87rem" id="amenity-loc">Local Area</p></div><div style="display:flex;flex-direction:column;gap:.8rem"><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#f87171;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-hospital"></i> Healthcare</div><p style="color:var(--muted);font-size:.8rem">Aga Khan Hospital, Getrudes Childrens Clinic (1.5km)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#fbbf24;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-shopping-cart"></i> Malls & Shopping</div><p style="color:var(--muted);font-size:.8rem">Sarit Centre, Local Minimart, Quickmart (500m)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#34d399;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-graduation-cap"></i> Schools & Education</div><p style="color:var(--muted);font-size:.8rem">Braeburn International, Strathmore, Local Academies (2km)</p></div></div></div></div>
@@ -1300,7 +1300,7 @@ function executeModalSearch() {
 <button class="chat-btn" onclick="openChat()"><i class="fas fa-comment-dots"></i> Live Chat</button>
 
 <style>
-.chat-btn { position:fixed; bottom:20px; left:20px; background:#25D366; color:#111; padding:0.8rem 1.4rem; border-radius:500px; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(37,211,102,0.4); z-index:5000; display:flex; align-items:center; gap:0.6rem; transition:all 0.3s; border:none; font-family:var(--sans) }
+.chat-btn { position:fixed; bottom:20px; left:20px; background:#25D366; color:#111; padding:0.8rem 1.4rem; border-radius:100px; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(37,211,102,0.4); z-index:1000; display:flex; align-items:center; gap:0.6rem; transition:all 0.3s; border:none; font-family:var(--sans) }
 .chat-btn:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(37,211,102,0.6) }
 .amenity-btn { cursor:pointer; background:rgba(59,130,246,.12); color:#60a5fa; padding:0.4rem 0.8rem; border-radius:8px; display:inline-flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; transition:all 0.3s; margin-top:1rem; border:1px solid rgba(59,130,246,.2) }
 .amenity-btn:hover { background:#3b82f6; color:#fff }
@@ -1316,7 +1316,7 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 </script>
 
 <script src="linkpoint-3d.js"></script>
-<script src="mpesa.js"></script>
+<script src="paystack.js"></script>
 </body>
 </html>
 

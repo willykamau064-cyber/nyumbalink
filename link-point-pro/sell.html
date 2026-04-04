@@ -109,7 +109,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="hc">
     <div class="hbadge"><i class="fas fa-tags" style="color:var(--primary)"></i>&nbsp;<b>Sell Faster</b>&nbsp;with LinkPoint Kenya</div>
     <h1 class="ht">List &amp; <em>Sell Your Property</em><br>Across Kenya</h1>
-    <p class="hs">Reach 50,000+ verified buyers. Secure M-Pesa listing fees, <strong>unlimited photos & videos</strong>, and dedicated WhatsApp support.</p>
+    <p class="hs">Reach 50,000+ verified buyers. Secure Paystack listing fees, <strong>unlimited photos & videos</strong>, and dedicated WhatsApp support.</p>
   </div>
 </section>
 
@@ -119,7 +119,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
       <div class="card reveal" style="text-align:center">
         <div style="width:56px;height:56px;background:rgba(255,107,53,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem;font-size:1.4rem;color:var(--primary)"><i class="fas fa-coins"></i></div>
         <h4 style="font-family:var(--serif);font-size:1.1rem;margin-bottom:.5rem">Transparent Pricing</h4>
-        <p style="color:var(--muted);font-size:.86rem;line-height:1.6">Rentals (2000), Sales (2500), BnB (600), Commercial (1300). Pay securely via M-Pesa.</p>
+        <p style="color:var(--muted);font-size:.86rem;line-height:1.6">Rentals (2000), Sales (2500), BnB (500), Commercial (1300). Pay securely via Paystack.</p>
       </div>
       <div class="card reveal" style="text-align:center">
         <div style="width:56px;height:56px;background:rgba(16,185,129,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem;font-size:1.4rem;color:#34d399"><i class="fas fa-handshake"></i></div>
@@ -137,12 +137,12 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 
 <section class="sec reveal" id="listform" style="padding-top:0">
   <div class="mw">
-    <div class="sh"><div class="stag">List Your Property</div><h2 class="st">Create Your Listing</h2><p class="ss">Select your property type below to see the exact M-Pesa listing charge.</p></div>
+    <div class="sh"><div class="stag">List Your Property</div><h2 class="st">Create Your Listing</h2><p class="ss">Select your property type below to see the exact Paystack listing charge.</p></div>
     <div class="card" style="max-width:860px;margin:0 auto">
       <div class="na-type" style="display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap">
         <button class="btn bp" onclick="setType(this,'2,000', 'List a Property for Rent')" style="border-radius:10px"><i class="fas fa-key"></i> For Rent</button>
         <button class="btn bg" onclick="setType(this,'2,500', 'List a House for Sale')" style="border-radius:10px"><i class="fas fa-home"></i> For Sale</button>
-        <button class="btn bg" onclick="setType(this,'600', 'List a BnB / Short Stay')" style="border-radius:10px"><i class="fas fa-umbrella-beach"></i> BnB / Stay</button>
+        <button class="btn bg" onclick="setType(this,'500', 'List a BnB / Short Stay')" style="border-radius:10px"><i class="fas fa-umbrella-beach"></i> BnB / Stay</button>
         <button class="btn bg" onclick="setType(this,'1,300', 'List a Commercial Space')" style="border-radius:10px"><i class="fas fa-building"></i> Commercial</button>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
@@ -154,7 +154,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
           <input type="file" class="fi" accept="image/*,video/*" multiple style="padding:1rem">
         </div>
       </div>
-      <button id="submitBtn" class="btn bp" style="width:100%;justify-content:center;padding:1rem;margin-top:1.5rem;font-size:1rem" onclick="openMpesa('2000', 'List Property for Rent')"><i class="fas fa-lock"></i> List Property (KSh 2,000)</button>
+      <button id="submitBtn" class="btn bp" style="width:100%;justify-content:center;padding:1rem;margin-top:1.5rem;font-size:1rem" onclick="openPaystack('2000', 'List Property for Rent')"><i class="fas fa-lock"></i> List Property (KSh 2,000)</button>
       <p style="text-align:center;color:var(--dim);font-size:.78rem;margin-top:.8rem">Note: Successful house sales incur a 6.5% platform commission at closing.</p>
     </div>
   </div>
@@ -165,7 +165,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, M-Pesa escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -234,7 +234,7 @@ function setType(btn,amt,desc){
     document.querySelectorAll('.na-type .btn').forEach(b=>b.classList.replace('bp','bg'));
     btn.classList.replace('bg','bp');
     curAmt = amt; curDesc = desc;
-    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-lock"></i> Pay KSh ' + amt + ' via M-Pesa to List';
+    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-lock"></i> Pay KSh ' + amt + ' via Paystack to List';
     document.getElementById(\'submitBtn\').onclick = function(){ openAuth(); };
 }
 </script>
@@ -295,7 +295,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <script>
 async function triggerPay() {
     const phone = document.querySelector("#mov input[type=tel]").value;
-    if(!phone || phone.length < 10) { alert("Please enter a valid M-Pesa number!"); return; }
+    if(!phone || phone.length < 10) { alert("Please enter a valid Paystack number!"); return; }
     
     // UI Update
     const btn = document.querySelector("#mov .btn");
@@ -304,7 +304,7 @@ async function triggerPay() {
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Requesting STK Push...";
 
     try {
-        // 1. Kick off M-Pesa STK Push
+        // 1. Kick off Paystack STK Push
         const payRes = await fetch("/api/pay", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -334,7 +334,7 @@ async function triggerPay() {
     }
 }
 </script>
-<script src="mpesa.js"></script>
+<script src="paystack.js"></script>
 </body>
 </html>
 

@@ -29,7 +29,7 @@
         <div id="login-v">
             <h1>Login</h1>
             <div class="fgroup"><label>Email Address</label><input type="email" id="l-email" class="fi" placeholder="you@example.com"></div>
-            <div class="fgroup"><label>Password <a href="javascript:void(0)" onclick="sw('forgot')" class="forgot">Forgot?</a></label><input type="password" id="l-pass" class="fi" placeholder="••••••••"></div>
+            <div class="fgroup"><label>Password <a href="javascript:void(0)" onclick="sw('forgot')" class="forgot">Forgot?</a></label><input type="password" id="l-pass" class="fi" placeholder=""></div>
             <button class="btn bp" onclick="handleLogin()">Sign In</button>
             <div class="links">New to LinkPoint? <a href="javascript:void(0)" onclick="sw('reg')">Create Account</a></div>
         </div>
@@ -60,11 +60,11 @@
         async function handleLogin() {
             const e=document.getElementById('l-email').value, p=document.getElementById('l-pass').value; if(!e||!p) return alert("Please fill details");
             fetch("/api/login",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})})
-            .then(r=>r.json()).then(d=>{ alert(d.message); if(d.token){localStorage.setItem('token',d.token); window.location.href='/';} });
+            .then(r=>r.json()).then(d=>{ alert(d.message); if(d.token){localStorage.setItem('token',d.token); if(d.user) localStorage.setItem('user_name',d.user.name); window.location.href='user-dashboard.html';} else { alert("Failed"); } });
         }
         async function handleReg() {
             const n=document.getElementById('r-name').value, e=document.getElementById('r-email').value, p=document.getElementById('r-pass').value; if(!n||!e||!p) return alert("Fill all fields");
-            fetch("/api/register",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fullname:n,email:e,password:p})})
+            fetch("/api/register",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,email:e,password:p})})
             .then(r=>r.json()).then(d=>{ alert(d.message); sw('login'); });
         }
         async function handleForgot() {

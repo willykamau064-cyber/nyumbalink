@@ -32,7 +32,7 @@ const init3D = () => {
     `;
     document.head.appendChild(style);
 
-        // 3D Engine Observer for Dynamic Content (Supabase Live Feed)
+    // 3D Engine Observer for Dynamic Content (Supabase Live Feed)
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
@@ -45,6 +45,8 @@ const init3D = () => {
         });
     });
     observer.observe(document.body, { childList: true, subtree: true });
+
+    document.querySelectorAll('.pc, .scard, .card').forEach(el => apply3D(el));
 
     // Extract apply3D function
     function apply3D(el) {
@@ -61,28 +63,6 @@ const init3D = () => {
             el.style.transition = 'transform 0.1s ease-out';
             glare.style.opacity = '1';
         });
-
-        el.addEventListener('mousemove', (e) => {
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -25;
-            const rotateY = ((x - centerX) / centerX) * 25;
-            el.style.transform = \perspective(1000px) rotateX(\deg) rotateY(\deg) scale3d(1.1, 1.1, 1.1)\;
-            const glareX = (x / rect.width) * 100;
-            const glareY = (y / rect.height) * 100;
-            glare.style.background = \
-adial-gradient(circle at \% \%, rgba(255,255,255,0.5) 0%, transparent 60%)\;
-        });
-
-        el.addEventListener('mouseleave', () => {
-            el.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            glare.style.opacity = '0';
-        });
-    }
 
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
@@ -108,7 +88,7 @@ adial-gradient(circle at \% \%, rgba(255,255,255,0.5) 0%, transparent 60%)\;
             glare.style.opacity = '0';
             setTimeout(() => { el.style.transition = ''; }, 800);
         });
-    });
+    }
 
     const hero = document.querySelector('.hero');
     if(hero) {
@@ -138,9 +118,6 @@ if(document.readyState === 'loading') {
 
 // --- Full Stack Frontend API Handlers ---
 window.addEventListener('DOMContentLoaded', () => {
-    // 1. M-Pesa API Join
-    
-
     // 2. Chat API Join
     const chatBtn = document.querySelector('#chat-ov .btn');
     const chatInput = document.querySelector('#chat-ov input[type="text"]');
@@ -183,5 +160,3 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-

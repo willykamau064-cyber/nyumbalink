@@ -1,7 +1,12 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
+import http from "http";
+import fs from "fs";
+import path from "path";
+import { Buffer } from "node:buffer";
+import sqlite3 from "sqlite3";
+import bcrypt from "bcrypt";
 
+const db = new sqlite3.Database("linkpoint.db");
+db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT)");
 const CONSUMER_KEY = "S9TnrELYZPAXhpSs2uM0cVO2wUAAKeyNfTAuEsAtEQ3hdZO5";
 const CONSUMER_SECRET = "1SsB13hn8uoaGYLANpg0bhG29XzXMKcazIz5XqbOgKHZLQBaMCs8KNKppmrrAiuN";
 
@@ -35,18 +40,51 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // AUTH & STATIC FILES (RESTORED)
+    // AUTH & STATIC FILES (RESTORED TO DB)
     if (req.method === "POST" && (req.url === "/api/register" || req.url === "/signup")) {
         let body = ""; for await (const chunk of req) body += chunk;
         const user = JSON.parse(body || "{}");
-        res.writeHead(200, {"Content-Type":"application/json"});
-        res.end(JSON.stringify({ success: true, message: "Account registered!", token: "abc_signup_123", user: { email: user.email, name: "LinkPoint User" } })); return;
+        if (!user.email || !user.password) {
+            res.writeHead(400, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: false, message: "Missing credentials" })); return;
+        }
+        const userName = user.name || user.fullname || user.email.split('@')[0];
+        bcrypt.hash(user.password, 10, (err, hash) => {
+            if (err) { res.writeHead(500); res.end(); return; }
+            db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [userName, user.email, hash], function(err) {
+                if (err) {
+                    res.writeHead(400, {"Content-Type":"application/json"});
+                    res.end(JSON.stringify({ success: false, message: "Email already exists" })); return;
+                }
+                res.writeHead(200, {"Content-Type":"application/json"});
+                res.end(JSON.stringify({ success: true, message: "Account registered successfully!", token: "tok_" + this.lastID }));
+            });
+        });
+        return;
     }
     if (req.method === "POST" && (req.url === "/api/login" || req.url === "/login")) {
         let body = ""; for await (const chunk of req) body += chunk;
         const user = JSON.parse(body || "{}");
-        res.writeHead(200, {"Content-Type":"application/json"});
-        res.end(JSON.stringify({ success: true, message: "Login success!", token: "abc_login_123", user: { email: user.email, name: "LinkPoint User" } })); return;
+        if (!user.email || !user.password) {
+            res.writeHead(400, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: false, message: "Missing credentials" })); return;
+        }
+        db.get("SELECT * FROM users WHERE email = ?", [user.email], (err, row) => {
+            if (err || !row) {
+                res.writeHead(401, {"Content-Type":"application/json"});
+                res.end(JSON.stringify({ success: false, message: "Invalid email or password" })); return;
+            }
+            bcrypt.compare(user.password, row.password, (err, result) => {
+                if (result) {
+                    res.writeHead(200, {"Content-Type":"application/json"});
+                    res.end(JSON.stringify({ success: true, message: "Login successful!", token: "tok_" + row.id, user: { name: row.name, email: row.email } }));
+                } else {
+                    res.writeHead(401, {"Content-Type":"application/json"});
+                    res.end(JSON.stringify({ success: false, message: "Invalid email or password" }));
+                }
+            });
+        });
+        return;
     }
 
     // LISTINGS ENDPOINT

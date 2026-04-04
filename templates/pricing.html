@@ -261,7 +261,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = PaystackPop.setup({
-        key: 'pk_test_a9d3d922bc30a905a306bdfe1140df03189a0fcc',
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -337,7 +337,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp support</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 400, 'Find a Rental')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -359,7 +359,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp notifications</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 2000, 'List for Rent')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -380,7 +380,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day search window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 1500, 'Buy a Home')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -403,7 +403,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-circle" style="font-size:0.5rem"></i> Note: 6.5% commission upon sale</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 2500, 'Sell a Home')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -414,7 +414,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             <div class="price-name">Host a BnB</div>
             <div class="price-amount">
                 <span class="price-currency">KES</span>
-                <span class="price-number">600</span>
+                <span class="price-number">500</span>
                 <span class="price-period">/ listing</span>
             </div>
             <ul class="price-features">
@@ -423,8 +423,8 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> Guest WhatsApp alerts</li>
                 <li><i class="fas fa-check-circle"></i> Calendar availability</li>
             </ul>
-            <button class="price-pay-btn" onclick="openPayment(null, 600, 'Host a BnB')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+            <button class="price-pay-btn" onclick="openPayment(null, 500, 'Host a BnB')">
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -445,7 +445,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day active window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 1300, 'Office / Shop')">
-                <i class="fas fa-credit-card"></i> Pay via M-Pesa / Paystack
+                <i class="fas fa-credit-card"></i> Pay via Paystack
             </button>
         </div>
 
@@ -459,7 +459,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             <div class="paystack-logo"><i class="fas fa-credit-card"></i></div>
             <div class="payment-header">
                 <h2>Complete Secure Payment</h2>
-                <p>Select your tier and checkout quickly using M-Pesa or Card via Paystack</p>
+                <p>Select your tier and checkout quickly and securely via Paystack</p>
             </div>
         </div>
 
@@ -470,7 +470,7 @@ function openPayment(propertyId, customAmount, customTitle) {
             <option value="1500">Buy a Home — KES 1,500</option>
             <option value="2500">Sell a Home — KES 2,500 (+ 6.5% commission on sale)</option>
             <option value="300">Look for a BnB — KES 300</option>
-            <option value="600">Host a BnB — KES 600</option>
+            <option value="500">Host a BnB — KES 500</option>
             <option value="600">Look for Office/Shop — KES 600</option>
             <option value="1300">List Office/Shop — KES 1,300</option>
         </select>
@@ -497,7 +497,7 @@ function openPayment(propertyId, customAmount, customTitle) {
         <div class="stk-status pending" id="statusPending">
             <i class="fas fa-spinner fa-spin pulsing"></i>
             <h3>Waiting for Payment…</h3>
-            <p>Your payment is being processed to your phone.<br>Enter your PIN to complete the payment.</p>
+            <p>Please complete the payment in the Paystack portal that opened.</p>
         </div>
         <div class="stk-status success" id="statusSuccess">
             <i class="fas fa-check-circle"></i>
@@ -541,7 +541,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     </div>
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">What payment methods are supported? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and Mobile Money via Paystack.</div>
+        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and Mobile Money (M-Pesa) via Paystack's secure checkout.</div>
     </div>
 </div>
 
@@ -563,7 +563,7 @@ function openPayment(propertyId, customAmount, customTitle) {
 <script>
 AOS.init({ duration: 850, once: true });
 
-const amounts = { 400: 'KES 400', 2000: 'KES 2,000', 1500: 'KES 1,500', 2500: 'KES 2,500', 300: 'KES 300', 600: 'KES 600', 1300: 'KES 1,300' };
+const amounts = { 400: 'KES 400', 2000: 'KES 2,000', 1500: 'KES 1,500', 2500: 'KES 2,500', 300: 'KES 300', 500: 'KES 500', 600: 'KES 600', 1300: 'KES 1,300' };
 
 function updateAmount() {
     const val = document.getElementById('selectedPlan').value;
