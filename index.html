@@ -125,7 +125,8 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
     <a href="about.html" class="nl">About Us</a>
   </div>
   <div class="na">
-    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="javascript:void(0)" onclick="openAuth()" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a>
+    <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
 <section class="hero">
@@ -281,6 +282,14 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
     </div>
 </div>
 <script>
+function openAuth() {
+    document.getElementById('aov').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeAuth() {
+    document.getElementById('aov').classList.remove('open');
+    document.body.style.overflow = '';
+}
 function toggleAuthView(view) {
     const isReg = view === 'register';
     document.getElementById('login-view').style.display = isReg ? 'none' : 'flex';
@@ -450,9 +459,14 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 <script src="linkpoint-3d.js"></script>
 <script>
 function openPayment(amount, desc) {
+    if(!localStorage.getItem('token')) {
+        alert("🔒 Security Error: You must be logged in to process payments.");
+        openAuth();
+        return;
+    }
     const choice = confirm(`How would you like to pay KSh ${amount} for ${desc}?\n\nOK for M-Pesa (STK Push)\nCancel for Paystack (Card/Bank)`);
-    if(choice) openMpesa(amount, desc);
-    else openPaystack(amount, desc);
+    if(choice) { if(typeof openMpesa==='function') openMpesa(amount, desc); }
+    else { if(typeof openPaystack==='function') openPaystack(amount, desc); }
 }
 </script>
 <script>
