@@ -1,5 +1,5 @@
 // LinkPoint 3D Advanced Parallax Engine - v2.0 (Kinetic & Holographic)
-const init3D = () => {
+window.init3D = () => {
     // 1. INJECT ADVANCED 3D STYLES
     const style = document.createElement('style');
     style.innerHTML = `
@@ -236,7 +236,7 @@ const init3D = () => {
     document.querySelectorAll('.pc, .scard, .card, .stat-card, .stat').forEach(el => apply3D(el));
 };
 
-init3D();
+window.init3D();
 
 // --- API Sync (Preserve existing logic) ---
 window.addEventListener('DOMContentLoaded', () => {
