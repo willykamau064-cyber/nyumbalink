@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPoint | Secure Login</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .auth-container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo span { font-weight: 800; color: #FF6B35; font-size: 24px; letter-spacing: -1px; }
+        h1 { font-size: 22px; color: #333; margin-bottom: 20px; text-align: center; }
+        .fgroup { margin-bottom: 15px; }
+        .fgroup label { display: block; font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 600; }
+        .fi { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        .fi:focus { outline: none; border-color: #FF6B35; }
+        .btn { width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .bp { background: #FF6B35; color: #fff; }
+        .bp:hover { background: #e85a2a; }
+        .links { margin-top: 20px; text-align: center; font-size: 14px; color: #777; }
+        .links a { color: #FF6B35; text-decoration: none; font-weight: 700; }
+        .forgot { float: right; font-size: 12px; color: #FF6B35; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo"><span>LinkPoint</span></div>
+        
+        <div id="login-v">
+            <h1>Login</h1>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="l-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label>Password <a href="javascript:void(0)" onclick="sw('forgot')" class="forgot">Forgot?</a></label><input type="password" id="l-pass" class="fi" placeholder=""></div>
+            <div id="msg" style="font-size:13px;margin-bottom:8px;font-weight:600;min-height:18px"></div>
+            <button id="login-btn" class="btn bp" onclick="handleLogin()">Sign In</button>
+            <div class="links">New to LinkPoint? <a href="javascript:void(0)" onclick="sw('reg')">Create Account</a></div>
+        </div>
+
+        <div id="reg-v" style="display:none">
+            <h1>Create Account</h1>
+            <div class="fgroup"><label>Full Name</label><input type="text" id="r-name" class="fi" placeholder="First Last"></div>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="r-email" class="fi" placeholder="email@address.com"></div>
+            <div class="fgroup"><label>Phone Number</label><input type="tel" id="r-phone" class="fi" placeholder="07XX / 01XX / 254..."></div>
+            <div class="fgroup"><label>Security Password</label><input type="password" id="r-pass" class="fi" placeholder="Min. 8 characters"></div>
+            <button id="reg-btn" class="btn bp" style="background:#28a745" onclick="handleReg()">Create Account</button>
+            <div class="links">Already a member? <a href="javascript:void(0)" onclick="sw('login')">Login here</a></div>
+        </div>
+
+        <div id="forgot-v" style="display:none">
+            <h1>Reset Password</h1>
+            <div class="fgroup"><label>Registered Email</label><input type="email" id="f-email" class="fi" placeholder="you@example.com"></div>
+            <button class="btn bp" onclick="handleForgot()">Send Recovery Link</button>
+            <div class="links"><a href="javascript:void(0)" onclick="sw('login')">Back to Login</a></div>
+        </div>
+    </div>
+
+    <script>
+        function sw(v) {
+            document.getElementById('login-v').style.display = v==='login'?'block':'none';
+            document.getElementById('reg-v').style.display = v==='reg'?'block':'none';
+            document.getElementById('forgot-v').style.display = v==='forgot'?'block':'none';
+            document.getElementById('msg').textContent = '';
+            document.getElementById('msg').style.color = '#e74c3c';
+        }
+
+        function showMsg(text, isSuccess) {
+            const m = document.getElementById('msg');
+            m.textContent = text;
+            m.style.color = isSuccess ? '#27ae60' : '#e74c3c';
+        }
+
+        function setLoading(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = loading;
+            btn.textContent = loading ? 'Please wait...' : btn.dataset.label;
+        }
+
+        async function handleLogin() {
+            const e = document.getElementById('l-email').value.trim();
+            const p = document.getElementById('l-pass').value;
+            if (!e || !p) return showMsg('Please enter your email and password.');
+            setLoading('login-btn', true);
+            try {
+                const r = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email:e, password:p}) });
+                const d = await r.json();
+                if (d.success) {
+                    showMsg(d.message, true);
+                    localStorage.setItem('token', d.token);
+                    if (d.user) {
+                        localStorage.setItem('user_name', d.user.name || d.user.email);
+                        localStorage.setItem('user_email', d.user.email);
+                    }
+                    setTimeout(() => window.location.href = 'user-dashboard.html', 800);
+                } else {
+                    showMsg(d.message || 'Login failed.');
+                }
+            } catch(err) {
+                showMsg('Cannot connect to server. Make sure it is running.');
+            }
+            setLoading('login-btn', false);
+        }
+
+        async function handleReg() {
+            const n = document.getElementById('r-name').value.trim();
+            const e = document.getElementById('r-email').value.trim();
+            const ph = document.getElementById('r-phone').value.trim();
+            const p = document.getElementById('r-pass').value;
+            if (!n || !e || !ph || !p) return showMsg('Please fill all fields.');
+            if (p.length < 6) return showMsg('Password must be at least 6 characters.');
+            setLoading('reg-btn', true);
+            try {
+                const r = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name:n, email:e, phone:ph, password:p}) });
+                const d = await r.json();
+                if (d.success) {
+                    showMsg(d.message, true);
+                    setTimeout(() => sw('login'), 1500);
+                } else {
+                    showMsg(d.message || 'Registration failed.');
+                }
+            } catch(err) {
+                showMsg('Cannot connect to server. Make sure it is running.');
+            }
+            setLoading('reg-btn', false);
+        }
+
+        async function handleForgot() {
+            const e = document.getElementById('f-email').value.trim();
+            if (!e) return showMsg('Please enter your email.');
+            showMsg('If this email is registered, you will receive a reset link shortly.', true);
+        }
+
+        // Set button labels
+        window.onload = () => {
+            document.getElementById('login-btn').dataset.label = 'Sign In';
+            document.getElementById('reg-btn').dataset.label = 'Create Account';
+        };
+    </script>
+</body>
+</html>

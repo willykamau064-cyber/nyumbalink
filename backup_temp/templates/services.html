@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPoint Hub</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* LIGHT THEME (DEFAULT) */
+        :root {
+            --primary: #F05A28; /* Sunset Orange */ /* LinkPoint Orange */
+            --secondary: #0A2540; /* Blue Accent */
+            --accent: #F05A28;
+            --bg-main: #0F172A;
+            --bg-card: #1E293B;
+            --bg-alt: #1E293B;
+            --text-main: #0A2540;
+            --text-muted: #94A3B8;
+            --border-color: rgba(226, 232, 240, 0.6);
+            --danger: #ef4444;
+            --bg-overlay: rgba(255, 255, 255, 0.98);
+            --bg-glass: rgba(15, 23, 42, 0.8);
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+        /* DARK THEME */
+        [data-theme="dark"] {
+            --primary: #F05A28;
+            --secondary: #0A2540;
+            --accent: #F05A28;
+            --bg-main: #0F172A;
+            --bg-card: #1E293B;
+            --bg-alt: #1E293B;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --border-color: #334155;
+            --danger: #ef4444;
+            --bg-overlay: rgba(15, 23, 42, 0.95);
+            --bg-glass: rgba(15, 23, 42, 0.8);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body { background-color: var(--bg-main) !important; color: var(--text-main); font-family: var(--font-sans); }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+        .section-title p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(240, 90, 40, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+        .btn-outline {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-active {
+            color: var(--primary) !important;
+            position: relative;
+        }
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        /* New Hero Styles */
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .hero-title span {
+            color: var(--primary);
+            font-style: italic;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3.5rem;
+            font-weight: 500;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Search Trigger Button */
+        .search-trigger {
+            background: rgba(255, 255, 255, 0.1);
+            
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1.25rem 2.5rem;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .search-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .search-trigger i {
+            background: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    :not([data-theme="dark"]) .solid-nav .nav-link { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav h1 { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav i { color: #000000 !important; }
+
+        /* LIQUID MESH GRADIENT & CREATIVE TYPOGRAPHY */
+        body { background-color: var(--bg-main) !important; color: var(--text-main); font-family: var(--font-sans); }
+
+        h1, h2 { 
+            font-family: var(--font-serif); 
+            font-weight: 700; 
+            letter-spacing: -0.5px; 
+        }
+        h3, h4, h5, .btn, .nav-link, input, select, button { 
+            font-family: var(--font-sans) !important; 
+            letter-spacing: -0.2px; 
+        }
+
+        .property-card {
+            background: rgba(255, 255, 255, 0.35) !important;
+            
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        }
+        [data-theme="dark"] .property-card {
+            background: rgba(30, 41, 59, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .solid-nav, nav.solid-nav {
+            background: rgba(255, 255, 255, 0.7) !important;
+            
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03) !important;
+        }
+        [data-theme="dark"] .solid-nav {
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .smart-search {
+    background: #FFFFFF !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+    border: none !important;
+}
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.5) !important;
+            
+            border: 1px solid rgba(0,0,0,0.05) !important;
+        }
+
+
+    /* ULTIMATE AESTHETIC OVERRIDES */
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+        --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.1);
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        display: none;
+    }
+
+    .property-card {
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    background: #FFFFFF !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+    .property-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: var(--glass-border);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    .property-card:hover {
+        transform: translateY(-15px) scale(1.02) !important;
+        box-shadow: 0 30px 60px -12px rgba(255, 92, 0, 0.15) !important;
+    }
+
+    nav, .solid-nav {
+        
+        border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+    }
+
+    .btn-primary {
+        background: #FF5C00 !important;
+        border-radius: 8px !important;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 0.85rem !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+
+    .btn-primary:hover {
+        transform: scale(1.05) translateY(-3px) !important;
+        box-shadow: 0 20px 40px rgba(255, 92, 0, 0.3) !important;
+    }
+
+    .hero-title {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 800 !important;
+        letter-spacing: -3px !important;
+        line-height: 0.9 !important;
+        text-transform: uppercase;
+    }
+
+    .section-title h2 {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 800 !important;
+        letter-spacing: -2px !important;
+        text-transform: uppercase;
+        font-size: 4rem !important;
+    }
+
+    .smart-search {
+    background: #FFFFFF !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+    border: none !important;
+}
+    
+
+/* BEAUTIFUL_TYPOGRAPHY_MARKER */
+h1, h2, .hero-title {
+    font-family: var(--font-serif) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.5px !important;
+}
+h3, h4, h5, .btn, .nav-link, input, select, button, body, p {
+    font-family: var(--font-sans) !important;
+}
+.hero-title span {
+    font-style: italic !important;
+    font-family: var(--font-serif) !important;
+}
+
+</style>
+
+<link rel="manifest" href="manifest.json">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body style="padding-top: 80px;">
+
+
+
+
+
+
+
+<style>
+/* Custom styled forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media(max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group label { display: block; color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
+.form-input { width: 100%; padding: 1rem; background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; transition: all 0.3s; }
+.form-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+.checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+.custom-checkbox { display: flex; align-items: center; gap: 0.5rem; color: var(--text-main); cursor: pointer; user-select: none; }
+.custom-checkbox input { accent-color: var(--primary); width: 1.2rem; height: 1.2rem; }
+.tab-btn { flex: 1; min-width: 150px; padding: 1rem; background: transparent; border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.tab-btn:hover { background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); border-color: var(--primary); }
+
+/* Force Dark Theme Variables on Services Portal due to its hardcoded dark background */
+#servicesPortal {
+    --text-main: #0A2540;
+    --text-muted: #94A3B8;
+    --bg-card: #1E293B;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    :not([data-theme="dark"]) .solid-nav .nav-link { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav h1 { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav i { color: #000000 !important; }
+</style>
+
+<!-- AUTHENTICATION GATE -->
+<div id="authGate" style="position: fixed; inset: 0; z-index: 99999; background: url('villa.png') center/cover no-repeat; display: none; opacity: 0; transform: scale(0.98); align-items: center; justify-content: center; transition: all 0.4s ease;">
+    <div style="position: absolute; inset: 0; background: var(--bg-overlay); "></div>
+    <div style="background: var(--bg-glass);  padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; z-index: 1;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <img src="logo.png" alt="LinkPoint Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
+            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">LinkPoint.</h2>
+            <p style="color: var(--text-muted);" id="authSubtitle">Sign in to your premium real estate hub</p>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <button type="button" class="tab-btn" id="btn-login-tab" onclick="toggleAuthMode('login')" style="background: linear-gradient(135deg, var(--primary), #0082c8); color: white; border-color: transparent;">Login</button>
+            <button type="button" class="tab-btn" id="btn-register-tab" onclick="toggleAuthMode('register')">Register</button>
+        </div>
+
+        <form id="authForm" onsubmit="handleAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" required class="form-input" placeholder="you@example.com">
+            </div>
+            <div class="form-group" id="phoneGroup" style="display: none;">
+                <label>Phone Number</label>
+                <input type="tel" id="authPhone" class="form-input" placeholder="+254 700 000000">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" required class="form-input" placeholder="••••••••">
+            </div>
+            <div id="authError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
+            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
+                Sign In <i class="fas fa-sign-in-alt"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- MAIN NAVBAR -->
+<nav class="solid-nav" style="padding: 1.25rem 5%; background: transparent; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.2rem;">L</div>
+        <h1 style="color: #ffffff; font-size: 1.5rem; margin: 0; letter-spacing: -0.5px; font-weight: 800; font-family: var(--font-sans);">Link<span style="color: var(--primary);">Point</span></h1>
+    </div>
+    
+    <!-- Nav Links (Desktop) -->
+        <div style="display: flex; gap: 2.5rem; align-items: center; font-weight: 600;" class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="listings.html" class="nav-link">Listings</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="agents.html" class="nav-link">Agents</a>
+        <a href="neighborhoods.html" class="nav-link">Guides</a>
+        <a href="pricing.html" class="nav-link">Pricing</a>
+    </div>
+
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; color: inherit;"><i class="fas fa-moon" id="themeIcon"></i></button>
+        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 8px; font-size: 0.9rem;" onclick="openAuth()">Sign In</button>
+    </div>
+</nav>
+
+<!-- HERO SLIDESHOW & SMART SEARCH -->
+<style>
+@keyframes slide {
+    0%, 25% { background-image: url('villa.png'); }
+    33%, 58% { background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=2000&auto=format&fit=crop'); }
+    66%, 91% { background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=2000&auto=format&fit=crop'); }
+    100% { background-image: url('villa.png'); }
+}
+.hero-slider {
+    height: 80vh;
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    object-fit: cover;
+}
+.hero-fallback {
+    position: absolute;
+    inset: 0;
+    animation: slide 18s infinite linear;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+}
+.smart-search {
+    background: #FFFFFF !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+    border: none !important;
+}
+.search-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    color: #333;
+    outline: none;
+}
+.search-input:focus { box-shadow: 0 0 0 3px var(--primary); }
+.search-field { position: relative; }
+.search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary); }
+@media(max-width: 768px) {
+    .search-grid { grid-template-columns: 1fr; }
+    .desktop-nav { display: none !important; }
+}
+
+/* Feature Cards CSS */
+.property-card {
+    background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.property-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    :not([data-theme="dark"]) .solid-nav .nav-link { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav h1 { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav i { color: #000000 !important; }
+</style>
+
+
+
+
+
+
+
+<!-- 4-SECTION SERVICES PORTAL -->
+<section id="servicesPortal" style="padding: 6rem 5%; background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2000&auto=format&fit=crop') center/cover fixed; position: relative;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.9));"></div>
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
+        <div class="section-title">
+            <h2>How Can We Help You?</h2>
+            <p>Select a service below whether you are looking to rent, buy, list, or sell properties.</p>
+        </div>
+
+        <!-- TABS -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; justify-content: center;">
+            <button id="btn-tabRenting" class="tab-btn" onclick="switchTab('tabRenting')"><i class="fas fa-search"></i> Rent an Apartment</button>
+            <button id="btn-tabBuying" class="tab-btn" onclick="switchTab('tabBuying')"><i class="fas fa-key"></i> Buy a Dream Home</button>
+            <button id="btn-tabListRental" class="tab-btn" onclick="switchTab('tabListRental')"><i class="fas fa-sign"></i> List a Rental (Landlord)</button>
+            <button id="btn-tabSellHome" class="tab-btn" onclick="switchTab('tabSellHome')"><i class="fas fa-tags"></i> Sell a Home</button>
+            <button id="btn-tabFindBnB" class="tab-btn" onclick="switchTab('tabFindBnB')"><i class="fas fa-bed"></i> Find a BnB</button>
+            <button id="btn-tabListBnB" class="tab-btn" onclick="switchTab('tabListBnB')"><i class="fas fa-concierge-bell"></i> List a BnB</button>
+            <button id="btn-tabFindOffice" class="tab-btn" onclick="switchTab('tabFindOffice')"><i class="fas fa-building"></i> Find Office</button>
+            <button id="btn-tabFindShop" class="tab-btn" onclick="switchTab('tabFindShop')"><i class="fas fa-store"></i> Find Shop</button>
+            <button id="btn-tabListShops" class="tab-btn" onclick="switchTab('tabListShops')"><i class="fas fa-bullhorn"></i> List Shops</button>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.15);  border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 3rem;">
+            
+            <!-- SECTION 1: RENTING -->
+            <div id="tabRenting" class="tab-content">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Looking for an Apartment to Rent</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 400, 'Rent a Home Request');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Kilimani, Karen">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Rooms</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 2">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 30000">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Additional Information</label>
+                        <textarea class="form-input" rows="3" placeholder="Any specific requirements..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Submit Request (KSh 400)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 2: BUYING -->
+            <div id="tabBuying" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--secondary); padding-left: 1rem;">Buy Your Dream Home</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 1500, 'Buy a Home Request');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Lavington, Runda">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 13000000">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Number of Rooms</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 4">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Additional Requirements (Kitchen, Garden, Staff quarters etc)</label>
+                        <textarea class="form-input" rows="3" placeholder="Specify any must-haves..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background:var(--secondary); border:none;">Find Property (Pay KSh 1,500)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 3: LIST A RENTAL -->
+            <div id="tabListRental" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a Rental Property</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 2000, 'List Rental Property');">
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <select class="form-input"><option>Apartment</option><option>Bungalow</option><option>Mansionette</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Ruiru, Kinoo">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Pay Listing Fee (KSh 2,000)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 4: SELL A HOME -->
+            <div id="tabSellHome" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(239, 68, 68, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid #ef4444; padding-left: 1rem;">Sell Your Home</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 2500, 'Sell Home Listing');">
+                    <div class="form-group">
+                        <label>Property Name / Title</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Modern Villa in Runda">
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Price (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 25000000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background:#ef4444; border:none;">List for Sale (KSh 2,500)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 5: FIND BNB -->
+            <div id="tabFindBnB" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid #f59e0b; padding-left: 1rem;">Find a Bed & Breakfast</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 400, 'Find BnB Request');">
+                    <div class="form-group">
+                        <label>Area</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Naivasha, Diani">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background:#f59e0b; border:none;">Search BnBs (KSh 400)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 6: LIST BNB -->
+            <div id="tabListBnB" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 500, 'BnB Listing Fee');">
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--accent); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Contact Details</h4></div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Upload Property Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Phone Number</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Your Email Address</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit BnB Listing (KSh 500)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 7: FIND OFFICE -->
+            <div id="tabFindOffice" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(0, 212, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem;">Find an Office Space</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 1000, 'Office Search Request');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Westlands, Upperhill">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 50000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center;">Search Offices (KSh 1,000)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 8: FIND SHOP -->
+            <div id="tabFindShop" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--secondary); padding-left: 1rem;">Find a Shop / Retail Space</h3>
+                <form class="form-grid" onsubmit="event.preventDefault(); openPayment(null, 1000, 'Shop Search Request');">
+                    <div class="form-group">
+                        <label>Preferred Location</label>
+                        <input type="text" class="form-input" required placeholder="e.g. Eastleigh, CBD">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Budget (KSh)</label>
+                        <input type="number" class="form-input" required placeholder="e.g. 40000">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--secondary), #00c853);">Search Shops (KSh 1,000)</button>
+                </form>
+            </div>
+
+            <!-- SECTION 9: LIST SHOPS & OFFICES -->
+            <div id="tabListShops" class="tab-content" style="display:none;">
+                <div style="height: 250px; background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1000&auto=format&fit=crop') center/cover; border-radius: 16px; margin-bottom: 2rem; border: 1px solid rgba(245, 158, 11, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <h3 style="color: #FFFFFF; margin-bottom: 2rem; font-size: 1.5rem; border-left: 4px solid var(--accent); padding-left: 1rem;">List a Shop or Office</h3>
+                <form class="form-grid" id="form-shop-office" onsubmit="submitProperty(event, 'COMMERCIAL')">
+                    <div class="form-group">
+                        <label>Property Name / Building</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Rent per Month (KSh)</label>
+                        <input type="number" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--accent); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Description</h4></div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Upload Property Images</label>
+                        <input type="file" class="form-input" multiple accept="image/*" required>
+                    </div>
+                    
+                    <button class="btn btn-primary" type="submit" style="grid-column: 1 / -1; justify-content: center; background: linear-gradient(135deg, var(--accent), #e65100);">Submit Commercial Listing (KSh 500)</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    :not([data-theme="dark"]) .solid-nav .nav-link { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav h1 { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav i { color: #000000 !important; }
+</style>
+
+
+
+
+
+
+
+
+
+    <!-- FOOTER -->
+    <footer style="padding: 4rem 5% 2rem; background: #0A2540; color: #FFFFFF;">
+        <div style="max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 4rem;">
+            <!-- Brand Column -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="logo.png" alt="LinkPoint" style="height: 60px; border-radius: 12px;">
+                    <h2 style="color: var(--text-main); font-size: 1.75rem; font-weight: 800; margin: 0;">Link<span style="color: var(--primary);">Point</span></h2>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.6; max-width: 300px;">
+                    Kenya's first integrated escrow real estate platform. We make buying, renting, and listing properties secure, transparent, and seamless.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="width: 45px; height: 45px; background: rgba(0,212,255,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='rgba(0,212,255,0.1)'; this.style.color='var(--primary)'"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 style="color: #FFFFFF; font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Quick Links
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--primary); border-radius: 3px;"></span>
+                </h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Apartments for Rent</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Houses for Sale</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">BnB Listings</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Verified Agents</a></li>
+                    <li><a href="#" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='var(--primary)'; this.style.paddingLeft='5px'" onmouseout="this.style.color='var(--text-muted)'; this.style.paddingLeft='0'">Escrow Safety</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 style="color: #FFFFFF; font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Contact Us
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--secondary); border-radius: 3px;"></span>
+                </h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.5rem;">
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.25rem; margin-top: 0.25rem;"></i>
+                        <span>12th Floor, Westlands Business Park,<br>Nairobi, Kenya</span>
+                    </li>
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-phone-alt" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
+                        <span>+254 112 012 816</span>
+                    </li>
+                    <li style="display: flex; gap: 1rem; color: var(--text-muted);">
+                        <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.1rem; margin-top: 0.25rem;"></i>
+                        <span>linkpoint-hub@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div>
+                <h3 style="color: #FFFFFF; font-size: 1.25rem; margin-bottom: 2rem; position: relative; padding-bottom: 0.75rem;">
+                    Newsletter
+                    <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--accent); border-radius: 3px;"></span>
+                </h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Subscribe to get the latest listings and market trends delivered to your inbox.
+                </p>
+                <form style="display: flex; flex-wrap: wrap; gap: 0.5rem;" onsubmit="event.preventDefault(); alert('Subscribed!')">
+                    <input type="email" placeholder="Your Email" required 
+                           style="flex: 1; min-width: 180px; padding: 0.75rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: inherit;">
+                    <button class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Join</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">
+                © 2026 LinkPoint Hub. All rights reserved. Registered with EARB & POCAMLA.
+            </p>
+            <div style="display: flex; gap: 2rem; font-size: 0.85rem;">
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Escrow Rules</a>
+            </div>
+        </div>
+    </footer>
+
+
+   
+
+
+    <div style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999;">
+        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #00a650, #00c853); border: none; border-radius: 50%; color: var(--text-main); font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.4); display: flex; align-items: center; justify-content: center;" title="M-Pesa Payment">
+            <i class="fas fa-mobile-alt"></i>
+        </button>
+        <button onclick="document.getElementById('agentVerification').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); display: flex; align-items: center; justify-content: center;" title="Verify Agent">
+            <i class="fas fa-shield-alt"></i>
+        </button>
+        <button onclick="document.getElementById('neighborhoodGuides').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center;" title="Neighborhood Guide">
+            <i class="fas fa-map-marker-alt"></i>
+        </button>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/254112012816?text=Hello%20LinkPoint,%20I'm%20interested%20in%20a%20property."  style="position: fixed; bottom: 30px; left: 30px; z-index: 1000; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1) rotate(10deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+<!-- SEARCH MODAL -->
+<div id="searchModal" style="position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.6);  display: none; align-items: center; justify-content: center; opacity: 0; transition: all 0.4s ease;">
+    <div style="background: white; width: 90%; max-width: 600px; border-radius: 32px; padding: 3rem; position: relative; transform: translateY(20px); transition: all 0.4s ease;" id="searchModalContent">
+        <button onclick="closeSearchModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;"><i class="fas fa-times"></i></button>
+        
+        <h2 style="font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Find Your Home</h2>
+        
+        <div style="display: flex; background: #f1f5f9; padding: 0.5rem; border-radius: 8px; margin-bottom: 2.5rem;">
+            <button class="search-tab active" onclick="switchSearchTab('rent')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s;" id="tabRent">For Rent</button>
+            <button class="search-tab" onclick="switchSearchTab('sale')" style="flex: 1; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; background: transparent;" id="tabSale">For Sale</button>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="search-field-group">
+                <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">LOCATION</label>
+                <select id="modalLocation" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; appearance: none; background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22/%3E%3C/svg%3E') no-repeat right 1rem center/10px;">
+                    <option value="">Any Location</option>
+                    <option value="kilimani">Kilimani</option>
+                    <option value="karen">Karen</option>
+                    <option value="westlands">Westlands</option>
+                </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="search-field-group">
+                    <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">BEDROOMS</label>
+                    <select id="modalBeds" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                    </select>
+                </div>
+                <div class="search-field-group">
+                    <label style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">MAX BUDGET</label>
+                    <input type="number" id="modalPrice" placeholder="e.g. 50,000" style="width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit;">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="executeModalSearch()" style="width: 100%; padding: 1.25rem; border-radius: 8px; font-weight: 700; margin-top: 1rem;">Show Results</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-tab.active { background: white; color: var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .property-card { border-radius: 24px !important; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .property-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
+    .nav-link { color: #ffffff; text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+    :not([data-theme="dark"]) .solid-nav .nav-link { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav h1 { color: #000000 !important; }
+    :not([data-theme="dark"]) .solid-nav i { color: #000000 !important; }
+</style>
+
+
+
+
+\n
+
+
+\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+// --- PWA (Mobile App Logic) ---
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installBtn = document.getElementById('installAppBtn');
+    if(installBtn) installBtn.style.display = 'inline-flex';
+});
+
+async function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') { console.log('LinkPoint App Installed'); }
+        deferredPrompt = null;
+        const installBtn = document.getElementById('installAppBtn');
+        if(installBtn) installBtn.style.display = 'none';
+    } else {
+        alert("To install, use 'Add to Home Screen' in your browser menu.");
+    }
+}
+
+// --- CONFIGURATION ---
+const API_BASE = ""; 
+let allProperties = [
+    { id: '1', title: 'Premium Penthouse Kilimani', price: 12000000, location: 'Kilimani, Nairobi', status: 'FOR SALE', type: 'SALE' },
+    { id: '2', title: 'Modern 2BR Apartment', price: 45000, location: 'Westlands, Nairobi', status: 'FOR RENT', type: 'RENT' }
+];
+
+// --- UI & AUTH ---
+function openAuth() {
+    const gate = document.getElementById('authGate');
+    if(gate) {
+        gate.style.display = 'flex';
+        setTimeout(() => { gate.style.opacity = '1'; gate.style.transform = 'scale(1)'; }, 10);
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeAuthGate() {
+    const gate = document.getElementById('authGate');
+    if(gate) {
+        gate.style.opacity = '0'; gate.style.transform = 'scale(0.98)';
+        setTimeout(() => { gate.style.display = 'none'; document.body.style.overflow = 'auto'; }, 400);
+    }
+}
+
+function updateUIAfterLogin() {
+    const user_data = localStorage.getItem('linkpointUser');
+    if (user_data) {
+        try {
+            const user = JSON.parse(user_data);
+            const loginBtn = document.querySelector('button[onclick="openAuth()"]');
+            if (loginBtn && user) {
+                loginBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email.split('@')[0]}`;
+                loginBtn.onclick = () => { if(confirm("Logout?")) { localStorage.clear(); location.reload(); } };
+            }
+        } catch(e) {}
+    }
+}
+
+// --- PAYMENT (M-PESA) ---
+async function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(window.location.pathname.includes('pricing')) {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+
+function renderProperties(properties) {
+    const grid = document.getElementById('featured-properties-grid'); if (!grid) return;
+    grid.innerHTML = ''; properties.forEach((prop) => {
+        const card = document.createElement('div'); card.className = 'property-card'; card.setAttribute('data-aos', 'fade-up'); card.style.cursor = 'pointer';
+        card.onclick = () => viewPropertyDetails(prop.id);
+        const thumb = (prop.images && prop.images.length > 0) ? prop.images[0] : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800';
+        card.innerHTML = `
+            <div style="height: 220px; background: url('${thumb}') center/cover; position: relative;">
+                <div class="property-badge" style="background:var(--primary); font-size:0.75rem; font-weight:700;">${prop.status}</div>
+            </div>
+            <div style="padding: 1.5rem;">
+                <h3 style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 0.5rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:700;">${prop.title}</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> ${prop.location}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--secondary);">KSh ${parseInt(prop.price).toLocaleString()}</div>
+                    <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View</button>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function viewPropertyDetails(id) {
+    const prop = allProperties.find(p => String(p.id) === String(id)); if (!prop) return;
+    const images = (prop.images && prop.images.length > 0) ? prop.images : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800'];
+    const modal = document.createElement('div'); modal.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,0.98);display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+    modal.innerHTML = `
+        <div style="background:var(--bg-card); width:100%; max-width:900px; max-height:92vh; border-radius:32px; overflow-y:auto; position:relative; border:1px solid var(--border-color); box-shadow:0 30px 60px rgba(0,0,0,0.5);">
+            <button onclick="this.closest('div').parentElement.remove(); document.body.style.overflow='auto';" style="position:absolute; top:1.5rem; right:1.5rem; background:rgba(0,0,0,0.5); border:none; color:#fff; width:40px; height:40px; border-radius:50%; cursor:pointer; z-index:100;"><i class="fas fa-times"></i></button>
+            <div style="height:450px; background:url('${images[0]}') center/cover;"></div>
+            <div style="padding:3.5rem;">
+                <h2 style="color:var(--text-main); font-size:2.5rem; font-family:var(--font-serif); font-weight:700;">${prop.title}</h2>
+                <p style="color:var(--text-muted); font-size:1.2rem; margin-bottom:2rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> ${prop.location}</p>
+                <div style="font-size:2.8rem; font-weight:800; color:var(--secondary); margin-bottom:2.5rem;">KSh ${parseInt(prop.price).toLocaleString()}</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                    <button class="btn btn-outline" onclick="openPayment('${prop.id}', 100, 'Unlock Contact')" style="padding:1.2rem; font-size:1.1rem; border-radius:15px;"><i class="fas fa-phone-alt"></i> Unlock Contact</button>
+                    <button class="btn btn-primary" onclick="openPayment('${prop.id}')" style="padding:1.2rem; font-size:1.1rem; border-radius:15px; background:#00a650; color:white;"><i class="fas fa-mobile-alt"></i> Pay KSh ${parseInt(prop.price).toLocaleString()}</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal); document.body.style.overflow = 'hidden';
+}
+
+function submitProperty(e, status) { if(e) e.preventDefault(); openPayment(null, 1000, "Property Listing Fee (" + status + ")"); }
+function toggleTheme() { const d = document.documentElement; if(d.getAttribute('data-theme') === 'dark') { d.removeAttribute('data-theme'); } else { d.setAttribute('data-theme', 'dark'); } }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if(typeof AOS !== 'undefined') AOS.init({ duration:800, once:true });
+    updateUIAfterLogin();
+    loadFeaturedProperties();
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(e => {}); }); }
+});
+</script>
+
+</body>\n</html>

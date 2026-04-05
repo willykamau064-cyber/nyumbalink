@@ -1,353 +1,194 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import cors from "cors";
 import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
+import bcrypt from "bcrypt";
 import axios from "axios";
-import path from "path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+console.log("Serving LinkPoint from:", __dirname);
 
 const app = express();
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5000', 'http://127.0.0.1:3000', 'http://127.0.0.1:5000', process.env.ALLOWED_ORIGIN].filter(Boolean),
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization','X-Admin-Token']
-}));
+const PORT = process.env.PORT || 5000;
+
+// ============================
+// 🔐 DATABASE (Supabase)
+// ============================
+const supabaseUrl = process.env.SUPABASE_URL || "https://laqcnqhyhvtawzvmxlkw.supabase.co";
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "sb_publishable_xV0mj5rXsvJb9qgW2fSANQ_5D4OJaFz";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+app.use(cors());
 app.use(express.json());
-
-// Serve static files (logo, images, etc.) from /public and /uploads
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// ============================
-// 📄 PAGE ROUTES — 6 Dedicated Pages + Home + Account
-// ============================
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "templates", "index.html")));
-app.get("/find-rental", (req, res) => res.sendFile(path.join(__dirname, "templates", "find-rental.html")));
-app.get("/list-rental", (req, res) => res.sendFile(path.join(__dirname, "templates", "list-rental.html")));
-app.get("/buy-home", (req, res) => res.sendFile(path.join(__dirname, "templates", "buy-home.html")));
-app.get("/sell-home", (req, res) => res.sendFile(path.join(__dirname, "templates", "sell-home.html")));
-app.get("/bnb", (req, res) => res.sendFile(path.join(__dirname, "templates", "bnb.html")));
-app.get("/commercial", (req, res) => res.sendFile(path.join(__dirname, "templates", "commercial.html")));
-app.get("/pricing", (req, res) => res.sendFile(path.join(__dirname, "templates", "pricing.html")));
-app.get("/account", (req, res) => res.sendFile(path.join(__dirname, "templates", "account.html")));
-app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "templates", "dashboard.html")));
-// Legacy redirects
-app.get("/rentals", (req, res) => res.redirect("/find-rental"));
-app.get("/sales", (req, res) => res.redirect("/buy-home"));
-app.get("/offices", (req, res) => res.redirect("/commercial"));
-app.get("/shops", (req, res) => res.redirect("/commercial"));
-
-
-
-// 🔐 Supabase Setup
-const supabase = createClient(
-  process.env.SUPABASE_URL || "https://laqcnqhyhvtawzvmxlkw.supabase.co",
-  process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || "sb_publishable_xV0mj5rXsvJb9qgW2fSANQ_5D4OJaFz"
-);
-console.log(`📡 Supabase URL: ${process.env.SUPABASE_URL || 'using default'}`);
+// Serve ALL assets and pages from the root directly (LinkPoint Pro structure)
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ============================
-// 🧑 USER REGISTER
+// 🔐 AUTHENTICATION
 // ============================
-app.post("/register", async (req, res) => {
-  const { email, password, phone } = req.body || {};
+app.post(["/api/register", "/signup"], async (req, res) => {
+    try {
+        const { name, email, password, phone } = req.body;
+        if (!email || !password) return res.status(400).json({ success: false, message: "Email and password are required" });
+        
+        // Use Supabase Auth instead of public users table
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: { full_name: name, phone: phone }
+            }
+        });
+        
+        if (error) return res.status(400).json({ success: false, message: error.message });
+        res.json({ success: true, message: "Account created successfully! You can now log in.", data: data.user });
+    } catch(e) {
+        console.error("Register error:", e.message);
+        res.status(500).json({ success: false, message: "Server error during registration. Try again." });
+    }
+});
 
-  if (!email || !password)
-    return res.status(400).json({ success: false, message: "Email and password are required" });
-  if (password.length < 6)
-    return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
+app.post(["/api/login", "/login"], async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) return res.status(400).json({ success: false, message: "Please enter your email and password." });
+        
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-  try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { phone: phone || '' } }
+        if (error || !data.user) return res.status(401).json({ success: false, message: error ? error.message : "Invalid login credentials." });
+        
+        res.json({ 
+            success: true, 
+            message: `Welcome back!`, 
+            token: data.session.access_token, 
+            user: { id: data.user.id, email: data.user.email, name: data.user.user_metadata?.full_name } 
+        });
+    } catch(e) {
+        console.error("Login error:", e.message);
+        res.status(500).json({ success: false, message: "Server error during login. Try again." });
+    }
+});
+
+// ============================
+// 🔍 LISTINGS (API)
+// ============================
+app.get(["/api/listings", "/listings", "/api/properties"], async (req, res) => {
+    const { type } = req.query;
+    let query = supabase.from("properties").select("*").order("verified", { ascending: false });
+    if (type) query = query.eq("type", type);
+    const { data, error } = await query;
+    if (error) return res.status(500).json([]);
+    res.json(data);
+});
+
+// ============================
+// ⭐ WEBSITE RATING
+// ============================
+app.post("/api/rate", async (req, res) => {
+  const { rating, user_email } = req.body;
+  await supabase.from("ratings").insert([{ rating, user_email }]);
+  res.json({ success: true, message: "Rating submitted" });
+});
+
+// ============================
+// 📁 LINKPOINT PRO PAGE ROUTING
+// ============================
+const sendPage = (name) => (req, res) => {
+    const filePath = path.join(__dirname, `${name}.html`);
+    res.sendFile(filePath, (err) => {
+        if (err && !res.headersSent) {
+            console.error(`Error sending ${name}.html:`, err.message);
+            res.status(404).send("Page Not Found");
+        }
     });
+};
 
-    if (error) return res.status(400).json({ success: false, message: error.message });
-
-    // signUp returns a user even if email confirmation is required
-    const user = data.user;
-    const session = data.session;
-    res.json({
-      success: true,
-      message: session
-        ? "Account created! Welcome to LinkPoint."
-        : "Account created! Please check your email to confirm your account.",
-      token: session ? session.access_token : null,
-      user: user ? { id: user.id, email: user.email } : null
-    });
-  } catch(e) {
-    console.error('Register error:', e);
-    res.status(500).json({ success: false, message: "Server error during registration" });
-  }
-});
+app.get("/", sendPage("index"));
+app.get("/rentals", sendPage("rentals"));
+app.get("/buy", sendPage("buy"));
+app.get("/sell", sendPage("sell"));
+app.get("/bnb", sendPage("bnb"));
+app.get("/commercial", sendPage("commercial"));
+app.get("/pricing", sendPage("pricing"));
+app.get("/account", sendPage("account"));
+app.get(["/dashboard", "/user-dashboard.html"], sendPage("user-dashboard"));
+app.get("/about", sendPage("about"));
+app.get("/services", sendPage("services"));
+app.get("/agents", sendPage("agents"));
+app.get("/neighborhoods", sendPage("neighborhoods"));
+app.get("/join", sendPage("join"));
 
 // ============================
-// 🔑 PASSWORD RECOVERY
-// ============================
-app.post("/reset-password", async (req, res) => {
-  const { email } = req.body;
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: "http://localhost:5000/update-password", // Change in production
-  });
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Password reset email sent", data });
-});
-
-app.post("/update-password", async (req, res) => {
-  const { password, access_token } = req.body;
-  
-  // Note: Supabase usually handles this via the client-side session, 
-  // but we can also use the access_token directly if needed.
-  const { data, error } = await supabase.auth.updateUser({
-    password: password
-  }, { access_token });
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Password updated successfully", data });
-});
-
-// ============================
-// 🔑 LOGIN
-// ============================
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body || {};
-
-  if (!email || !password)
-    return res.status(400).json({ success: false, message: "Email and password are required" });
-
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) return res.status(401).json({ success: false, message: error.message });
-    if (!data.session) return res.status(401).json({ success: false, message: "Login failed – no session returned" });
-
-    res.json({
-      success: true,
-      message: "Login successful!",
-      token: data.session.access_token,
-      user: { id: data.user.id, email: data.user.email }
-    });
-  } catch(e) {
-    console.error('Login error:', e);
-    res.status(500).json({ success: false, message: "Server error during login" });
-  }
-});
-
-// ============================
-// 👤 GET CURRENT USER (verify token)
-// ============================
-app.get("/me", async (req, res) => {
-  const token = (req.headers.authorization || '').replace('Bearer ', '');
-  if (!token) return res.status(401).json({ success: false, message: "No token" });
-
-  try {
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error || !data.user) return res.status(401).json({ success: false, message: "Invalid or expired token" });
-    res.json({ success: true, user: { id: data.user.id, email: data.user.email } });
-  } catch(e) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-// ============================
-// 🚪 LOGOUT
-// ============================
-app.post("/logout", async (req, res) => {
-  const token = (req.headers.authorization || '').replace('Bearer ', '');
-  if (token) {
-    try { await supabase.auth.admin.signOut(token); } catch(e) {}
-  }
-  res.json({ success: true, message: "Logged out" });
-});
-
-// ============================
-// 🏠 CREATE LISTING
-// ============================
-app.post("/listings", async (req, res) => {
-  const {
-    title,
-    location,
-    price,
-    type,
-    description,
-    images,
-    videos,
-    is_featured,
-    status,
-    beds,
-    baths,
-    rooms,
-    amenities,
-    neighborhood_amenities,
-    contact_name,
-    contact_phone,
-    contact_email,
-    payment_ref
-  } = req.body;
-
-  const { data, error } = await supabase.from("properties").insert([
-    {
-      title,
-      location,
-      price: parseInt(price),
-      type,
-      description,
-      images: images || ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"],
-      videos: videos || [],
-      is_featured: is_featured || false,
-      status: status || 'FOR RENT',
-      beds: parseInt(beds) || 0,
-      baths: parseInt(baths) || 0,
-      rooms: parseInt(rooms) || 0,
-      amenities: amenities || [],
-      neighborhood_amenities: neighborhood_amenities || [],
-      payment_ref: payment_ref || null,
-      verified: !!payment_ref, // Auto-verify if paid (simplified logic)
-      contact_info: {
-        name: contact_name,
-        phone: contact_phone,
-        email: contact_email
-      }
-    },
-  ]);
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Listing created", data });
-});
-
-// ============================
-// 🔍 GET ALL LISTINGS
-// ============================
-app.get("/listings", async (req, res) => {
-  const { type } = req.query;
-
-  let query = supabase.from("properties").select("*").order("verified", { ascending: false });
-
-  if (type) query = query.eq("type", type);
-
-  const { data, error } = await query;
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json(data);
-});
-
-// ============================
-// 🔥 FEATURE LISTING
-// ============================
-app.post("/feature/:id", async (req, res) => {
-  const { id } = req.params;
-
-  const { data, error } = await supabase
-    .from("properties")
-    .update({ is_featured: true })
-    .eq("id", id);
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Listing featured", data });
-});
-
-// ============================
-// 💸 RECORD PAYMENT
-// ============================
-app.post("/payments", async (req, res) => {
-  const { user_id, amount, type } = req.body;
-
-  const { data, error } = await supabase.from("payments").insert([
-    {
-      user_id,
-      amount,
-      type, // listing, featured, subscription
-    },
-  ]);
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Payment recorded", data });
-});
-
-// ============================
-// 💰 COMMISSION TRACKING
-// ============================
-app.post("/commission", async (req, res) => {
-  const { property_id, sale_price } = req.body;
-
-  const commission = sale_price * 0.02; // 2%
-
-  const { data, error } = await supabase.from("commissions").insert([
-    {
-      property_id,
-      sale_price,
-      commission,
-    },
-  ]);
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Commission recorded", data });
-});
-
-// ============================
-// 🖼️ IMAGE UPLOAD (Supabase Storage)
-// ============================
-app.post("/upload", async (req, res) => {
-  const { fileName, fileData } = req.body;
-
-  const { data, error } = await supabase.storage
-    .from("images")
-    .upload(fileName, fileData, {
-      contentType: "image/png",
-    });
-
-  if (error) return res.status(400).json({ success: false, message: error.message });
-
-  res.json({ success: true, message: "Uploaded", data });
-});
-
-// ============================
-// 💳 PAYSTACK INTEGRATION
+// 💳 PAYSTACK VERIFICATION
 // ============================
 app.get("/paystack/verify/:reference", async (req, res) => {
-  const { reference } = req.params;
-  try {
-    const response = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-      },
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error("Paystack verification error:", error.response?.data || error.message);
-    res.status(500).json({ success: false, message: "Verification failed" });
-  }
+    const { reference } = req.params;
+    const SECRET = process.env.PAYSTACK_SECRET_KEY || "sk_test_yourkeyhere";
+    try {
+        const resp = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
+            headers: { Authorization: `Bearer ${SECRET}` }
+        });
+        res.json(resp.data);
+    } catch (e) { res.status(500).json({ status: false, message: e.message }); }
 });
-
-app.post("/paystack/webhook", (req, res) => {
-  const event = req.body;
-  console.log("Paystack Webhook received:", event.event);
-  // In a real app, verify signature and update order status here
-  res.sendStatus(200);
-});
-
 
 // ============================
-// 🚀 START SERVER
+// 💳 M-PESA STK PUSH (Safaricom Daraja API)
 // ============================
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Premium LinkPoint backend running on port ${PORT}`);
+const getMpesaToken = async () => {
+    const key = process.env.MPESA_CONSUMER_KEY;
+    const secret = process.env.MPESA_CONSUMER_SECRET;
+    const auth = Buffer.from(`${key}:${secret}`).toString("base64");
+    try {
+        const resp = await axios.get("https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials", {
+            headers: { Authorization: `Basic ${auth}` }
+        });
+        return resp.data.access_token;
+    } catch (e) { console.error("M-Pesa Token Error:", e.response?.data || e.message); throw e; }
+};
+
+app.post("/api/stkpush", async (req, res) => {
+    const { phone, amount } = req.body;
+    try {
+        const token = await getMpesaToken();
+        const shortcode = process.env.MPESA_SHORTCODE || "174379";
+        const passkey = process.env.MPESA_PASSKEY || "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
+        const timestamp = new Date().toISOString().replace(/[-:T]/g, "").split(".")[0];
+        const password = Buffer.from(`${shortcode}${passkey}${timestamp}`).toString("base64");
+        
+        // Ensure phone is 254... format
+        let formattedPhone = phone.replace(/[\s+]/g, "");
+        if (formattedPhone.startsWith("0")) formattedPhone = "254" + formattedPhone.slice(1);
+        if (formattedPhone.startsWith("+")) formattedPhone = formattedPhone.slice(1);
+
+        const resp = await axios.post("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", {
+            BusinessShortCode: shortcode,
+            Password: password,
+            Timestamp: timestamp,
+            TransactionType: "CustomerPayBillOnline",
+            Amount: amount || 1,
+            PartyA: formattedPhone,
+            PartyB: shortcode,
+            PhoneNumber: formattedPhone,
+            CallBackURL: process.env.MPESA_CALLBACK_URL || "https://linkpoint.vercel.app/api/callback",
+            AccountReference: "LinkPointHub",
+            TransactionDesc: "Payment for LinkPoint Services"
+        }, { headers: { Authorization: `Bearer ${token}` } });
+
+        res.json({ success: true, message: "🚀 STK Push Sent! Check your phone to complete payment.", data: resp.data });
+    } catch (e) {
+        console.error("STK Push Failed:", e.response?.data || e.message);
+        res.status(500).json({ success: false, message: "Security Error: M-Pesa Gateway Connection Failed." });
+    }
 });
 
-export default app;
+app.listen(PORT, () => console.log(`🚀 LINKPOINT LIVE ON PORT ${PORT}`));

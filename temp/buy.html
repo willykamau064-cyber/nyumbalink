@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Buy a Home | LinkPoint Kenya</title>
+<meta name="description" content="Find your dream home for sale in Kenya. Karen villas, Kilimani apartments, Runda mansions — all verified.">
+<style>
+:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--navy);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(8,13,26,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--gb);padding:.8rem 5%}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.lb{width:40px;height:40px;background:var(--primary);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff;box-shadow:0 0 20px var(--pg)}
+.lt{font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.5px}.lt span{color:var(--primary)}
+.nls{display:flex;gap:.1rem;align-items:center}
+.nl{text-decoration:none;color:var(--muted);padding:.45rem .85rem;border-radius:8px;font-weight:500;font-size:.88rem;transition:all .3s}
+.nl:hover,.nl.active{color:#fff;background:var(--glass)}
+.na{display:flex;gap:.7rem;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.62rem 1.35rem;border-radius:100px;font-weight:600;font-size:.88rem;cursor:pointer;border:none;font-family:inherit;transition:all .35s;text-decoration:none}
+.bg{background:transparent;border:1px solid var(--gb);color:#fff}.bg:hover{background:var(--glass)}
+.bp{background:var(--primary);color:#fff;box-shadow:0 4px 18px var(--pg)}.bp:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--pg)}
+.blg{padding:.9rem 2.1rem;font-size:.98rem}
+@keyframes kS{0%,18%{opacity:1}22%,96%{opacity:0}100%{opacity:1}}
+.hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0}
+.slide:nth-child(1){animation:kS 30s infinite 0s}.slide:nth-child(2){animation:kS 30s infinite 6s}
+.slide:nth-child(3){animation:kS 30s infinite 12s}.slide:nth-child(4){animation:kS 30s infinite 18s}
+.slide:nth-child(5){animation:kS 30s infinite 24s}
+.hov{position:absolute;inset:0;z-index:1}
+.hc{position:relative;z-index:2;text-align:center;padding:0 5%;max-width:920px}
+.hbadge{display:inline-flex;align-items:center;gap:.5rem;background:var(--glass);border:1px solid var(--gb);backdrop-filter:blur(12px);padding:.42rem 1.15rem;border-radius:100px;font-size:.8rem;color:var(--muted);margin-bottom:1.7rem}
+.hbadge b{color:var(--primary)}
+.ht{font-family:var(--serif);font-size:clamp(2.5rem,6vw,4.8rem);font-weight:900;line-height:1.05;margin-bottom:1.3rem}
+.ht em{font-style:italic;color:var(--primary)}
+.hs{font-size:clamp(.88rem,1.7vw,1.1rem);color:var(--muted);max-width:540px;margin:0 auto 2.4rem;line-height:1.75}
+.hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.sec{padding:5rem 5%}
+.mw{max-width:1280px;margin:0 auto}
+.sh{text-align:center;margin-bottom:3.5rem}
+.stag{display:inline-block;background:rgba(255,107,53,.12);color:var(--primary);border:1px solid rgba(255,107,53,.24);padding:.33rem 1.05rem;border-radius:100px;font-size:.76rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.8rem}
+.st{font-family:var(--serif);font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700;margin-bottom:.8rem;line-height:1.2}
+.ss{color:var(--muted);max-width:500px;margin:0 auto;line-height:1.7;font-size:.92rem}
+.card{background:var(--glass);border:1px solid var(--gb);border-radius:20px;padding:2rem;backdrop-filter:blur(12px);transition:all .35s}
+.card:hover{transform:translateY(-6px);border-color:rgba(255,107,53,.35);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.fgroup{margin-bottom:1.15rem}
+.fgroup label{font-size:.79rem;color:var(--muted);font-weight:600;display:block;margin-bottom:.4rem}
+.fi{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.06);border:1px solid var(--gb);border-radius:12px;color:#fff;font-family:inherit;font-size:.92rem;transition:border .3s}
+.fi:focus{outline:none;border-color:var(--primary)}
+select.fi option{background:#111827;color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.6rem}
+.pc{background:var(--glass);border:1px solid var(--gb);border-radius:20px;overflow:hidden;backdrop-filter:blur(10px);transition:all .35s}
+.pc:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,.5)}
+.pi{height:205px;background-size:cover;background-position:center;position:relative}
+.pbadge{position:absolute;top:.85rem;right:.85rem;padding:.3rem .85rem;border-radius:100px;font-size:.71rem;font-weight:800;color:#fff}
+.pbd{padding:1.4rem}
+.ppr{font-size:1.35rem;font-weight:800;color:var(--primary);margin-bottom:.4rem}
+.ppr span{font-size:.78rem;color:var(--muted);font-weight:400}
+.ptit{font-family:var(--serif);font-size:1.1rem;margin-bottom:.38rem}
+.ploc{color:var(--muted);font-size:.8rem;display:flex;align-items:center;gap:.28rem;margin-bottom:.9rem}
+.pfeats{display:flex;gap:.85rem;border-top:1px solid var(--gb);padding-top:.85rem}
+.pfe{display:flex;align-items:center;gap:.28rem;font-size:.79rem;color:var(--muted)}.pfe i{color:var(--primary);font-size:.74rem}
+.reveal{opacity:0;transform:translateY(32px);transition:all .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2rem}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;max-width:1280px;margin:0 auto}
+.fbp{color:var(--muted);font-size:.86rem;line-height:1.7;margin:1rem 0 1.4rem;max-width:265px}
+.fso{display:flex;gap:.6rem}
+.fsc{width:36px;height:36px;background:var(--glass);border:1px solid var(--gb);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:all .3s;font-size:.85rem}
+.fsc:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+.fc h4{font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:1.05rem}
+.fls{list-style:none;display:flex;flex-direction:column;gap:.62rem}
+.fls a{text-decoration:none;color:var(--muted);font-size:.86rem;transition:color .3s}.fls a:hover{color:var(--primary)}
+.fb{max-width:1280px;margin:2.5rem auto 0;padding-top:2rem;border-top:1px solid var(--gb);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:var(--dim)}
+.auth-ov{position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.88);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center}
+.auth-ov.open{display:flex}
+.auth-box{background:#111827;border:1px solid var(--gb);border-radius:24px;padding:2.5rem;width:90%;max-width:410px;position:relative}
+.acl{position:absolute;top:1.1rem;right:1.1rem;background:var(--glass);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.86rem}
+@media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
+</style>
+</head><body>
+<nav id="nav">
+  <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
+  <div class="nls">
+    <a href="/" class="nl">Home</a>
+    <a href="javascript:void(0)" onclick="openRate()" class="nl" style="color:#f59e0b;font-weight:700"><i class="fas fa-star"></i> Feedback</a>
+    <a href="rentals.html" class="nl">Rentals</a>
+    <a href="buy.html" class="nl">Buy</a>
+    <a href="sell.html" class="nl">Sell</a>
+    <a href="bnb.html" class="nl">BnB</a>
+    <a href="commercial.html" class="nl">Commercial</a>
+  </div>
+  <div class="na">
+    <button class="btn bg" onclick="openAuth()"><i class="fas fa-user"></i> Login</button>
+    <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="slide" style="background-image:url('kenya_house.png')"></div>
+  <div class="slide" style="background-image:url('kenya_house.png')"></div>
+  <div class="slide" style="background-image:url('kenya_shop.png')"></div>
+  <div class="slide" style="background-image:url('kenya_bnb.png')"></div>
+  <div class="slide" style="background-image:url('nairobi_street.png')"></div>
+  <div class="hov" style="background:linear-gradient(to bottom,rgba(8,13,26,.55),rgba(8,13,26,.82))"></div>
+  <div class="hc">
+    <div class="hbadge"><i class="fas fa-home" style="color:var(--primary)"></i>&nbsp;<b>Verified</b>&nbsp;Homes for Sale in Kenya</div>
+    <h1 class="ht">Own Your <em>Dream Home</em><br>in Kenya</h1>
+    <p class="hs">Exclusive villas, apartments and townhouses from Karen to Runda. Safe M-Pesa escrow on every transaction.</p>
+    <div class="hbtns">
+      <a href="#search" class="btn bp blg"><i class="fas fa-search"></i> Search Homes for Sale</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec reveal" id="search">
+  <div class="mw">
+    <div class="sh"><div class="stag">Search Properties</div><h2 class="st">Find Your Perfect Home</h2></div>
+    <div class="card" style="max-width:900px;margin:0 auto">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:1.2rem;align-items:end">
+        <div class="fgroup"><label><i class="fas fa-map-marker-alt"></i> Location</label><select class="fi"><option>All Locations</option><option>Karen</option><option>Runda</option><option>Lavington</option><option>Westlands</option><option>Kilimani</option><option>Kileleshwa</option><option>Spring Valley</option><option>Nyali, Mombasa</option><option>Nakuru</option><option>Eldoret</option></select></div>
+        <div class="fgroup"><label><i class="fas fa-home"></i> Property Type</label><select class="fi"><option>Any Type</option><option>Villa / Mansion</option><option>Apartment</option><option>Townhouse</option><option>Bungalow</option><option>Off-plan</option></select></div>
+        <div class="fgroup"><label><i class="fas fa-bed"></i> Bedrooms</label><select class="fi"><option>Any</option><option>2 Bedrooms</option><option>3 Bedrooms</option><option>4 Bedrooms</option><option>5+ Bedrooms</option></select></div>
+        <div class="fgroup"><label><i class="fas fa-coins"></i> Max Budget (KSh)</label><select class="fi"><option>Any Budget</option><option>Up to 5M</option><option>Up to 10M</option><option>Up to 20M</option><option>Up to 50M</option><option>50M+</option></select></div>
+        <div><button class="btn bp" style="width:100%;justify-content:center;padding:.9rem"><i class="fas fa-search"></i> Search Homes</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec reveal" style="background:var(--nl);padding-top:0">
+  <div class="mw">
+    <div class="sh"><div class="stag">For Sale</div><h2 class="st">Featured Homes for Sale</h2></div>
+    <div class="pgrid">
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 28M <span>• neg.</span></div><div class="ptit">Modern 4BR Villa, Karen</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Karen, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 3 Baths</div><div class="pfe"><i class="fas fa-ruler-combined"></i> 450m²</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi360.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 55M <span>• neg.</span></div><div class="ptit">Luxury 5BR Mansion, Runda</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Runda, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 5 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 4 Baths</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 9.5M <span>• neg.</span></div><div class="ptit">Cozy 3BR Bungalow, Ruiru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ruiru, Kiambu</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Garage</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#7c3aed">OFF-PLAN</div></div><div class="pbd"><div class="ppr">KSh 12M <span>from</span></div><div class="ptit">Infinity Residences, Lavington</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lavington, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-calendar"></i> 2026</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_shop.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 18M <span>• neg.</span></div><div class="ptit">Beachfront Villa, Nyali</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nyali, Mombasa</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-water"></i> Ocean View</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_bnb.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 7.8M <span>• neg.</span></div><div class="ptit">Modern 3BR House, Nakuru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nakuru Town</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Parking</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+    </div>
+  </div>
+</section>
+<section style="padding:4rem 5%;text-align:center;background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(255,107,53,.04));border-top:1px solid rgba(255,107,53,.2)" class="reveal">
+  <h2 style="font-family:var(--serif);font-size:2rem;margin-bottom:.8rem">Need Help <em style="color:var(--primary);font-style:italic">Finding a Home?</em></h2>
+  <p style="color:var(--muted);max-width:440px;margin:0 auto 2rem;line-height:1.7;font-size:.92rem">Our verified agents across Kenya will help you find and buy your perfect property.</p>
+  <a href="agents.html" class="btn bp blg"><i class="fas fa-user-tie"></i> Talk to an Agent</a>
+</section>
+<div style="text-align:center;padding:3rem 5%;background:var(--nl)">
+   <button class="btn bp blg" onclick="openMpesa('1500', 'View Seller Contacts')"><i class="fas fa-unlock"></i> View Seller Contacts (KSh 1,500)</button>
+</div>
+<button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
+
+<footer>
+  <div class="fg">
+    <div>
+        <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, M-Pesa escrow, and premium services nationally.</p>
+        <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
+            <strong>Need Help?</strong><br>
+            <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
+            <i class="fas fa-envelope" style="color:#EA4335"></i> Email: <a href="mailto:linkpoint04@gmail.com" style="color:var(--primary);text-decoration:none">linkpoint04@gmail.com</a>
+        </p>
+        <div class="fso">
+            <a href="https://wa.me/254112012816" class="fsc" target="_blank" title="WhatsApp Us"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:linkpoint04@gmail.com" class="fsc" title="Email Us"><i class="fas fa-envelope"></i></a>
+            <a href="#" class="fsc"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="fsc"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <div class="fc"><h4>Browse</h4><ul class="fls"><li><a href="rentals.html">Find a Rental</a></li><li><a href="buy.html">Buy a Home</a></li><li><a href="bnb.html">BnB Stays</a></li><li><a href="commercial.html">Commercial Spaces</a></li></ul></div>
+    <div class="fc"><h4>Owners</h4><ul class="fls"><li><a href="sell.html">Sell Your Home</a></li><li><a href="sell.html">List a Rental</a></li><li><a href="sell.html">List a BnB</a></li><li><a href="agents.html">For Agents</a></li><li><a href="pricing.html">Pricing Plans</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul class="fls"><li><a href="about.html">About Us</a></li><li><a href="about.html">How it Works</a></li><li><a href="agents.html">Our Agents</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
+</footer>
+
+<!-- Auth Modal -->
+<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
+<div style="display:flex;align-items:center;gap:1rem;margin:0.2rem 0"><div style="flex:1;height:1px;background:var(--gb)"></div><span style="color:var(--dim);font-size:0.75rem">OR</span><div style="flex:1;height:1px;background:var(--gb)"></div></div>
+<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
+<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></div></div></div>
+
+
+
+<!-- Rate Modal -->
+<div class="auth-ov" id="rov"><div class="auth-box"><button class="acl" onclick="closeRate()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Rate LinkPoint</h2><p style="color:var(--muted);font-size:.87rem">How was your experience today?</p></div><div style="display:flex;justify-content:center;gap:0.5rem;font-size:2rem;color:#f59e0b;margin-bottom:1.5rem"><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="far fa-star cursor-pointer"></i></div><div class="fgroup"><textarea class="fi" placeholder="Any feedback for us?"></textarea></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem" >Submit Feedback</button></div></div>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>55));
+const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+function openAuth(){document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';}
+function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
+
+function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
+function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
+
+
+
+/* PWA Install Logic */
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display = 'inline-flex';
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt !== null) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') { deferredPrompt = null; document.getElementById('installBtn').style.display = 'none'; }
+  }
+});
+</script>
+
+<!-- Live Chat Modal -->
+<div class="auth-ov" id="chat-ov"><div class="auth-box" style="padding:0;overflow:hidden;max-width:380px;border-color:#25D366"><div style="background:#25D366;padding:1.5rem;display:flex;justify-content:space-between;align-items:center"><div style="color:#fff;font-weight:700;font-size:1.1rem"><i class="fab fa-whatsapp"></i> Live Agent Chat</div><button style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem" onclick="closeChat()"><i class="fas fa-times"></i></button></div><div style="padding:1.5rem;height:350px;overflow-y:auto;background:#0d1424;display:flex;flex-direction:column;gap:1rem"><div style="background:rgba(255,255,255,.05);padding:1rem;border-radius:12px 12px 12px 0;width:85%;color:var(--muted);font-size:.85rem;line-height:1.5">Hello! 🇰🇪 Welcome to LinkPoint Kenya. How can our agents help you today? Are you looking to buy, sell, or rent?</div></div><div style="padding:1rem;background:#111827;border-top:1px solid var(--gb);display:flex;gap:.5rem"><input type="text" class="fi" placeholder="Type a message..." style="margin:0;padding:.8rem;border-radius:100px"><button class="btn bp" style="padding:.8rem;border-radius:50%;width:42px;height:42px;background:#25D366;box-shadow:0 4px 15px rgba(37,211,102,0.4)" ><i class="fas fa-paper-plane"></i></button></div></div></div>
+
+<!-- Amenities Modal -->
+<div class="auth-ov" id="amenities-ov"><div class="auth-box"><button class="acl" onclick="closeAmenities()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div style="width:60px;height:60px;background:rgba(59,130,246,.18);border-radius:12px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#60a5fa"><i class="fas fa-map-signs"></i></div><h2 style="font-family:var(--serif);font-size:1.7rem;color:#60a5fa;margin-bottom:0.5rem">Social Amenities</h2><p style="color:var(--muted);font-size:.87rem" id="amenity-loc">Local Area</p></div><div style="display:flex;flex-direction:column;gap:.8rem"><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#f87171;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-hospital"></i> Healthcare</div><p style="color:var(--muted);font-size:.8rem">Aga Khan Hospital, Getrudes Childrens Clinic (1.5km)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#fbbf24;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-shopping-cart"></i> Malls & Shopping</div><p style="color:var(--muted);font-size:.8rem">Sarit Centre, Local Minimart, Quickmart (500m)</p></div><div style="background:var(--glass);padding:1rem;border-radius:12px;border:1px solid var(--gb)"><div style="color:#34d399;font-weight:700;margin-bottom:.3rem;font-size:.9rem"><i class="fas fa-graduation-cap"></i> Schools & Education</div><p style="color:var(--muted);font-size:.8rem">Braeburn International, Strathmore, Local Academies (2km)</p></div></div></div></div>
+
+<!-- Floating Chat Button -->
+<button class="chat-btn" onclick="openChat()"><i class="fas fa-comment-dots"></i> Live Chat</button>
+
+<style>
+.chat-btn { position:fixed; bottom:20px; left:20px; background:#25D366; color:#111; padding:0.8rem 1.4rem; border-radius:100px; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(37,211,102,0.4); z-index:1000; display:flex; align-items:center; gap:0.6rem; transition:all 0.3s; border:none; font-family:var(--sans) }
+.chat-btn:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(37,211,102,0.6) }
+.amenity-btn { cursor:pointer; background:rgba(59,130,246,.12); color:#60a5fa; padding:0.4rem 0.8rem; border-radius:8px; display:inline-flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; transition:all 0.3s; margin-top:1rem; border:1px solid rgba(59,130,246,.2) }
+.amenity-btn:hover { background:#3b82f6; color:#fff }
+</style>
+
+<script>
+function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
+function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
+</script>
+
+<script src="linkpoint-3d.js"></script>
+<script src="mpesa.js"></script>
+</body></html>
+
+
+
+

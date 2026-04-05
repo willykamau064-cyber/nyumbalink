@@ -80,9 +80,11 @@ async function openPayment(propertyId, customAmount, customTitle) {
     const isSale = title.toLowerCase().includes('sale') || title.toLowerCase().includes('buy') || (prop && prop.status === 'FOR SALE');
     if (isSale) amount = Math.round(amount * 1.07); else amount = Math.round(amount * 1.005);
 
-    const phone = prompt("M-PESA CHECKOUT PORTAL\\n\\nItem: " + title + "\\nTotal Amount: KSh " + amount.toLocaleString() + "\\n\\nEnter Safaricom Number (2547XXXXXXXX):", "254");
-    if (!phone || phone.length < 10) return;
-    if (!phone.startsWith("254") || phone.length < 12) { alert("Invalid format! Use 2547XXXXXXXX"); return; }
+    const phoneInput = prompt("M-PESA CHECKOUT PORTAL\n\nItem: " + title + "\nTotal Amount: KSh " + amount.toLocaleString() + "\n\nEnter Safaricom Number (07... / 01... / 254...):", "07");
+    if (!phoneInput) return;
+    let phone = phoneInput.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '254' + phone.substring(1);
+    if (!phone.startsWith("254") || phone.length < 12) { alert("Invalid format! Use 07XXX / 01XXX or 2547XXX"); return; }
 
     const modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,166,80,0.98);display:flex;align-items:center;justify-content:center;color:white;text-align:center;padding:2rem;';

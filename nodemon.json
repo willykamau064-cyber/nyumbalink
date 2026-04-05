@@ -1,0 +1,16 @@
+{
+  "ignore": [
+    "*.log",
+    "*.txt",
+    "uploads/*",
+    "temp/*",
+    "backup_temp/*",
+    "*.db",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.zip"
+  ],
+  "watch": ["server.js", "package.json", ".env"],
+  "ext": "js,json"
+}

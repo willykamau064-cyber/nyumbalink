@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell a Home | LinkPoint</title>
+    <meta name="description" content="Sell your property on LinkPoint. Reach serious buyers with premium listings including photos, videos and amenities.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root{--accent:#10B981;--accent-glow:rgba(16,185,129,0.3);--bg:#030712;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--shine:rgba(255,255,255,0.14);--text:#F1F5F9;--muted:#64748B;--display:'Playfair Display',serif;--body:'Space Grotesk',sans-serif;--ui:'Inter',sans-serif;}
+        *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+        body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 50% at 65% 35%,rgba(16,185,129,0.08) 0%,transparent 55%),radial-gradient(ellipse 45% 45% at 30% 68%,rgba(16,185,129,0.04) 0%,transparent 45%)}
+        .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:-1;animation:drift 22s ease-in-out infinite}
+        .orb1{width:380px;height:380px;background:rgba(16,185,129,0.1);top:8%;right:8%}
+        .orb2{width:280px;height:280px;background:rgba(10,150,100,0.06);bottom:18%;left:5%;animation-delay:-9s}
+        @keyframes drift{0%,100%{transform:translate(0,0)}40%{transform:translate(-28px,-32px)}70%{transform:translate(18px,18px)}}
+        nav{position:fixed;top:0;width:100%;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(3,7,18,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .logo{font-family:var(--display);font-size:1.8rem;font-weight:700;text-decoration:none;color:var(--text);letter-spacing:-1px}.logo em{color:#FF5C00;font-style:italic}
+        .nav-links{display:flex;gap:0.4rem}.nav-links a{font-family:var(--ui);font-size:0.82rem;font-weight:500;color:var(--muted);text-decoration:none;padding:0.55rem 1rem;border-radius:10px;transition:0.3s}.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+        .btn{font-family:var(--ui);font-weight:600;font-size:0.82rem;padding:0.65rem 1.4rem;border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);cursor:pointer;text-decoration:none;transition:0.3s;display:inline-flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}.btn:hover{background:rgba(255,255,255,0.07)}
+        .btn-accent{background:var(--accent);border-color:transparent;color:white;box-shadow:0 0 24px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.2)}.btn-accent:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 40px var(--accent-glow)}
+        .page-hero{padding:10rem 5% 3rem;text-align:center}
+        .eyebrow{font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+        .eyebrow::before,.eyebrow::after{content:'';width:40px;height:1px;background:var(--accent);opacity:0.4}
+        .page-hero h1{font-family:var(--display);font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-3px;margin-bottom:1rem}
+        .page-hero h1 em{color:var(--accent);font-style:italic;text-shadow:0 0 60px var(--accent-glow)}
+        .page-hero p{font-family:var(--ui);font-size:1.05rem;color:var(--muted);max-width:580px;margin:0 auto;line-height:1.75}
+        .form-wrap{max-width:960px;margin:3rem auto 7rem;padding:0 5%}
+        .glass-card{padding:3rem;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,0.045) 0%,rgba(255,255,255,0.01) 100%);border:1px solid var(--border);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+        .glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--shine),transparent)}
+        .section-divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
+        .section-label{font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}@media(max-width:620px){.form-grid{grid-template-columns:1fr}}
+        .f-group label{display:block;font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.55rem}
+        .f-input{width:100%;padding:1rem 1.2rem;font-family:var(--body);font-size:0.95rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;transition:0.3s}
+        .f-input::placeholder{color:rgba(255,255,255,0.18)}.f-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 22px var(--accent-glow)}
+        .amenities-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:0.65rem}
+        .amen{display:flex;align-items:center;gap:8px;padding:0.65rem 0.9rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;font-family:var(--ui);font-size:0.82rem;cursor:pointer;transition:0.3s}
+        .amen:hover{border-color:var(--accent);background:rgba(16,185,129,0.04)}.amen input{accent-color:var(--accent);width:15px;height:15px}
+        .upload-zone{border:2px dashed var(--border);padding:2.5rem;text-align:center;border-radius:20px;background:rgba(255,255,255,0.015);cursor:pointer;transition:0.3s}
+        .upload-zone:hover{border-color:var(--accent);background:rgba(16,185,129,0.03)}
+        .upload-zone i{font-size:1.8rem;color:var(--accent);margin-bottom:0.75rem;display:block}
+        .upload-zone p{font-family:var(--ui);font-size:0.84rem;color:var(--muted)}.upload-zone span{color:var(--accent);font-weight:600}
+        footer{padding:3rem 5% 2rem;border-top:1px solid var(--border);background:rgba(3,7,18,0.5)}
+        .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+        .foot-links{display:flex;gap:1.5rem;flex-wrap:wrap}.foot-links a{font-family:var(--ui);font-size:0.8rem;color:var(--muted);text-decoration:none;transition:0.3s}.foot-links a:hover{color:#FF5C00}
+        .foot-copy{font-family:var(--ui);font-size:0.76rem;color:var(--muted)}
+        #notif{position:fixed;bottom:2rem;right:2rem;z-index:9999}
+        .toast{background:var(--accent);color:white;padding:0.9rem 1.8rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.4);animation:slidein 0.3s ease;font-family:var(--ui);font-size:0.88rem;font-weight:700}
+        @keyframes slidein{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @media(max-width:768px){.nav-links{display:none}}
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+// ── Paystack + Listing Submission ──────────────────────────────────────
+const BACKEND = window.location.origin; // auto-points to localhost or production
+const LISTING_FEE = 2500; // KES
+
+function getUserEmail() {
+    const raw = localStorage.getItem('linkpointUser');
+    if (raw) { try { const u = JSON.parse(raw); if (u.email) return u.email; } catch(e){} }
+    return null;
+}
+
+function collectForm() {
+    // Gather all checked amenities
+    const amenityBoxes = document.querySelectorAll('.amen input[type=checkbox]:checked');
+    const amenities = Array.from(amenityBoxes).map(ch => ch.dataset.label);
+    return {
+        title:           document.getElementById('f-title').value.trim(),
+        price:           document.getElementById('f-price').value.replace(/,/g, '').trim(),
+        location:        document.getElementById('f-location').value.trim(),
+        beds:            document.getElementById('f-beds').value.trim(),
+        land_size:       document.getElementById('f-land').value.trim(),
+        description:     document.getElementById('f-desc').value.trim(),
+        type:            'house_sale',
+        status:          'FOR SALE',
+        neighborhood_amenities: amenities,
+        contact_name:    document.getElementById('f-owner-name').value.trim(),
+        contact_email:   document.getElementById('f-owner-email').value.trim(),
+        contact_phone:   document.getElementById('f-phone').value.trim(),
+    };
+}
+
+function validateForm() {
+    const d = collectForm();
+    if (!d.title)         { toast('⚠ Please enter a property title'); return false; }
+    if (!d.price)         { toast('⚠ Please enter an asking price'); return false; }
+    if (!d.location)      { toast('⚠ Please enter the location'); return false; }
+    if (!d.contact_name)  { toast('⚠ Please enter owner full name'); return false; }
+    if (!d.contact_email) { toast('⚠ Please enter owner email'); return false; }
+    return true;
+}
+
+async function submitListing(paymentRef) {
+    const data = collectForm();
+    data.payment_ref = paymentRef;
+    try {
+        const token = localStorage.getItem('linkpointToken') || '';
+        const resp = await fetch(BACKEND + '/listings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        if (result.success) {
+            showSuccessState(paymentRef);
+        } else {
+            toast('⚠ Listing submission error: ' + (result.message || 'Unknown error'));
+        }
+    } catch(e) {
+        console.error('Submission error:', e);
+        // Still show success if payment went through, even if backend is unreachable
+        showSuccessState(paymentRef);
+    }
+}
+
+function showSuccessState(ref) {
+    document.getElementById('sell-form-wrap').style.display = 'none';
+    const success = document.getElementById('success-state');
+    success.style.display = 'block';
+    document.getElementById('success-ref').innerText = ref;
+}
+
+function handleSellSubmit(e) {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const email = getUserEmail();
+    if (!email) {
+        if (!confirm('You are not logged in. Continue as guest?')) {
+            window.location.href = '/account';
+            return;
+        }
+    }
+
+    const handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email || 'guest@linkpoint.co.ke',
+        amount: LISTING_FEE * 100, // kobo/cents
+        currency: 'KES',
+        ref: 'SELL_' + Date.now() + '_' + Math.floor(Math.random() * 9999),
+        metadata: {
+            custom_fields: [{
+                display_name: 'Service',
+                variable_name: 'service',
+                value: 'Sell Home Listing Fee'
+            }]
+        },
+        callback: function(response) {
+            toast('✅ Payment confirmed! Submitting your listing…');
+            submitListing(response.reference);
+        },
+        onClose: function() {
+            toast('Payment window closed. Your listing was not submitted.');
+        }
+    });
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh"></div><div class="orb orb1"></div><div class="orb orb2"></div>
+
+<nav>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="/logo.png" alt="Logo" style="height:35px;border-radius:8px;object-fit:contain;">Link<em>Point</em></a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/find-rental">Find Rental</a>
+        <a href="/buy-home">Buy Home</a>
+        <a href="/bnb">BnB</a>
+        <a href="/commercial">Commercial</a>
+        <a href="/pricing">Pricing</a>
+    </div>
+    <a href="/account" class="btn"><i class="fas fa-user"></i> Account</a>
+</nav>
+
+<div class="page-hero" data-aos="zoom-out">
+    <div class="eyebrow">SECTION 04 — SELLER PORTAL</div>
+    <h1>Sell Your <em>Property</em></h1>
+    <p>Reach thousands of serious buyers. Showcase with 8 images, 4 videos, and full neighborhood details.</p>
+</div>
+
+<div style="max-width: 960px; margin: 0 auto 3rem; padding: 0 5%;text-align:left;">
+    <div class="glass-card" data-aos="fade-up" style="display:flex; flex-wrap:wrap; gap:2rem; align-items:center; padding: 2rem;">
+        <div style="flex:1; min-width:300px;">
+            <h3 style="font-family:var(--display); font-size:1.8rem; margin-bottom:1rem; color:var(--text)">Join successful sellers!</h3>
+            <p style="font-family:var(--ui); color:var(--muted); font-size:0.9rem; margin-bottom:1rem;">Like this <strong>4 Bedroom Villa in Karen</strong> plus plus, our premium listings get matched with serious investors faster than traditional methods.</p>
+            <div style="color:var(--accent); font-family:var(--ui); font-size:0.8rem; font-weight:700;"><i class="fas fa-check-circle"></i> SOLD IN 14 DAYS</div>
+        </div>
+        <div style="flex:1; min-width:300px; border-radius: 20px; overflow:hidden; border:1px solid var(--border)">
+            <img src="/villa_karen.png" alt="4 bedroom villa in Karen" style="width:100%; object-fit:cover; display:block;" onerror="this.src='/apartment.png'">
+        </div>
+    </div>
+</div>
+
+<div class="form-wrap">
+    <div class="glass-card" data-aos="fade-up">
+        <form id="sell-form-wrap" onsubmit="handleSellSubmit(event)">
+
+            <div class="section-label">Property Details</div>
+            <div class="f-group" style="margin-bottom:1.75rem">
+                <label>Property Title / Name</label>
+                <input id="f-title" type="text" class="f-input" placeholder="e.g. 4-Bed Villa in Karen, Nairobi" required>
+            </div>
+            <div class="form-grid">
+                <div class="f-group">
+                    <label>Asking Price (KES)</label>
+                    <input id="f-price" type="text" class="f-input" placeholder="e.g. 25,000,000" required>
+                </div>
+                <div class="f-group">
+                    <label>Location / Neighborhood</label>
+                    <input id="f-location" type="text" class="f-input" placeholder="e.g. Karen Triangle, Nairobi" required>
+                </div>
+                <div class="f-group">
+                    <label>Bedrooms</label>
+                    <input id="f-beds" type="number" class="f-input" min="1" placeholder="e.g. 5">
+                </div>
+                <div class="f-group">
+                    <label>Land Size</label>
+                    <input id="f-land" type="text" class="f-input" placeholder="e.g. 0.5 Acres">
+                </div>
+            </div>
+            <div class="f-group" style="margin-top:1.75rem">
+                <label>Property Description</label>
+                <textarea id="f-desc" class="f-input" rows="3" placeholder="Describe the property — key features, finishes, neighbourhood perks…" style="resize:vertical"></textarea>
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="section-label">Neighborhood Amenities &amp; Features</div>
+            <div class="amenities-grid">
+                <label class="amen"><input type="checkbox" data-label="WiFi"> <i class="fas fa-wifi" style="color:var(--accent)"></i> WiFi</label>
+                <label class="amen"><input type="checkbox" data-label="Ample Parking"> <i class="fas fa-car" style="color:var(--accent)"></i> Ample Parking</label>
+                <label class="amen"><input type="checkbox" data-label="CCTV"> <i class="fas fa-camera" style="color:var(--accent)"></i> CCTV</label>
+                <label class="amen"><input type="checkbox" data-label="Gym"> <i class="fas fa-dumbbell" style="color:var(--accent)"></i> Gym</label>
+                <label class="amen"><input type="checkbox" data-label="Kitchen Garden"> <i class="fas fa-seedling" style="color:var(--accent)"></i> Kitchen Garden</label>
+                <label class="amen"><input type="checkbox" data-label="Balcony"> <i class="fas fa-door-open" style="color:var(--accent)"></i> Balcony</label>
+                <label class="amen"><input type="checkbox" data-label="Playground"> <i class="fas fa-child" style="color:var(--accent)"></i> Playground</label>
+                <label class="amen"><input type="checkbox" data-label="Pet Friendly"> <i class="fas fa-paw" style="color:var(--accent)"></i> Pet Friendly</label>
+                <label class="amen"><input type="checkbox" data-label="Backup Generator"> <i class="fas fa-bolt" style="color:var(--accent)"></i> Backup Generator</label>
+                <label class="amen"><input type="checkbox" data-label="Swimming Pool"> <i class="fas fa-swimming-pool" style="color:var(--accent)"></i> Swimming Pool</label>
+                <label class="amen"><input type="checkbox" data-label="Borehole"> <i class="fas fa-tint" style="color:var(--accent)"></i> Borehole</label>
+                <label class="amen"><input type="checkbox" data-label="Solar"> <i class="fas fa-sun" style="color:var(--accent)"></i> Solar</label>
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="section-label">Media — 8 Images &amp; 4 Videos Required</div>
+            <div class="upload-zone">
+                <i class="fas fa-photo-video"></i>
+                <p>Upload HD photos, neighbourhood views and walkthrough videos<br><span>Browse Files</span></p>
+                <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.55">JPG, PNG, MP4 · 8 Images + 4 Videos minimum</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="section-label">Owner Contact</div>
+            <div class="form-grid">
+                <div class="f-group">
+                    <label>Owner Full Name</label>
+                    <input id="f-owner-name" type="text" class="f-input" placeholder="Your full name" required>
+                </div>
+                <div class="f-group">
+                    <label>Owner Email</label>
+                    <input id="f-owner-email" type="email" class="f-input" placeholder="owner@email.com" required>
+                </div>
+                <div class="f-group">
+                    <label>Contact Phone</label>
+                    <input id="f-phone" type="tel" class="f-input" placeholder="+254 7XX XXX XXX">
+                </div>
+            </div>
+
+            <!-- Fee notice -->
+            <div style="display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:16px;margin-top:2rem">
+                <i class="fas fa-shield-alt" style="color:var(--accent);font-size:1.5rem"></i>
+                <div>
+                    <div style="font-family:var(--ui);font-size:0.78rem;font-weight:700;color:var(--text)">Listing fee: <span style="color:var(--accent)">KES 2,500</span></div>
+                    <div style="font-family:var(--ui);font-size:0.72rem;color:var(--muted);margin-top:2px">Paid securely via Paystack. Your listing goes live within 24 hrs after review. 6.5% commission applies on successful sale.</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1.15rem;font-size:0.95rem;margin-top:1.5rem">
+                Pay KES 2,500 &amp; List Property <i class="fas fa-lock"></i>
+            </button>
+        </form>
+
+        <!-- Success State (hidden until payment completes) -->
+        <div id="success-state" style="display:none;text-align:center;padding:4rem 2rem">
+            <div style="font-size:4rem;margin-bottom:1.5rem">🎉</div>
+            <h2 style="font-family:var(--display);font-size:2.2rem;margin-bottom:1rem">Listing <em>Submitted!</em></h2>
+            <p style="font-family:var(--ui);color:var(--muted);max-width:480px;margin:0 auto 2rem;line-height:1.7">Your property has been submitted for review. Our agents will verify and publish it within 24 hours. You'll receive an email confirmation shortly.</p>
+            <div style="font-family:var(--ui);font-size:0.78rem;color:var(--muted);margin-bottom:2rem">Payment Reference: <strong id="success-ref" style="color:var(--accent)"></strong></div>
+            <a href="/dashboard" class="btn btn-accent" style="margin-right:1rem">View Dashboard <i class="fas fa-chart-line"></i></a>
+            <a href="/" class="btn" style="">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<footer><div class="foot-inner">
+    <a href="/" class="logo" style="font-size:1.4rem">Link<em>Point</em></a>
+    <div class="foot-links"><a href="/find-rental">Find Rental</a><a href="/list-rental">List Rental</a><a href="/buy-home">Buy Home</a><a href="/sell-home">Sell Home</a><a href="/bnb">BnB</a><a href="/commercial">Commercial</a></div>
+    <div class="foot-copy">&copy; 2026 LinkPoint Hub</div>
+</div></footer>
+<div id="notif"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>AOS.init({duration:850,once:true});function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.getElementById('notif').appendChild(t);setTimeout(()=>t.remove(),3000)}</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPoint | Secure Login</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .auth-container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo span { font-weight: 800; color: #FF6B35; font-size: 24px; letter-spacing: -1px; }
+        h1 { font-size: 22px; color: #333; margin-bottom: 20px; text-align: center; }
+        .fgroup { margin-bottom: 15px; }
+        .fgroup label { display: block; font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 600; }
+        .fi { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        .fi:focus { outline: none; border-color: #FF6B35; }
+        .btn { width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .bp { background: #FF6B35; color: #fff; }
+        .bp:hover { background: #e85a2a; }
+        .links { margin-top: 20px; text-align: center; font-size: 14px; color: #777; }
+        .links a { color: #FF6B35; text-decoration: none; font-weight: 700; }
+        .forgot { float: right; font-size: 12px; color: #FF6B35; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo"><span>LinkPoint</span></div>
+        
+        <div id="login-v">
+            <h1>Login</h1>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="l-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label>Password <a href="javascript:void(0)" onclick="sw('forgot')" class="forgot">Forgot?</a></label><input type="password" id="l-pass" class="fi" placeholder="••••••••"></div>
+            <button class="btn bp" onclick="handleLogin()">Sign In</button>
+            <div class="links">New to LinkPoint? <a href="javascript:void(0)" onclick="sw('reg')">Create Account</a></div>
+        </div>
+
+        <div id="reg-v" style="display:none">
+            <h1>Create Account</h1>
+            <div class="fgroup"><label>Full Name</label><input type="text" id="r-name" class="fi" placeholder="First Last"></div>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="r-email" class="fi" placeholder="email@address.com"></div>
+            <div class="fgroup"><label>Security Password</label><input type="password" id="r-pass" class="fi" placeholder="Min. 8 characters"></div>
+            <button class="btn bp" style="background:#28a745" onclick="handleReg()">Register Now</button>
+            <div class="links">Already a member? <a href="javascript:void(0)" onclick="sw('login')">Login here</a></div>
+        </div>
+
+        <div id="forgot-v" style="display:none">
+            <h1>Reset Password</h1>
+            <div class="fgroup"><label>Registered Email</label><input type="email" id="f-email" class="fi" placeholder="you@example.com"></div>
+            <button class="btn bp" onclick="handleForgot()">Send Recovery Link</button>
+            <div class="links"><a href="javascript:void(0)" onclick="sw('login')">Back to Login</a></div>
+        </div>
+    </div>
+
+    <script>
+        function sw(v) {
+            document.getElementById('login-v').style.display = v==='login'?'block':'none';
+            document.getElementById('reg-v').style.display = v==='reg'?'block':'none';
+            document.getElementById('forgot-v').style.display = v==='forgot'?'block':'none';
+        }
+        async function handleLogin() {
+            const e=document.getElementById('l-email').value, p=document.getElementById('l-pass').value; if(!e||!p) return alert("Please fill details");
+            fetch("/api/login",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})})
+            .then(r=>r.json()).then(d=>{ alert(d.message); if(d.token){localStorage.setItem('token',d.token); window.location.href='/';} });
+        }
+        async function handleReg() {
+            const n=document.getElementById('r-name').value, e=document.getElementById('r-email').value, p=document.getElementById('r-pass').value; if(!n||!e||!p) return alert("Fill all fields");
+            fetch("/api/register",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fullname:n,email:e,password:p})})
+            .then(r=>r.json()).then(d=>{ alert(d.message); sw('login'); });
+        }
+        async function handleForgot() {
+            const e=document.getElementById('f-email').value; if(!e) return alert("Email required");
+            fetch("/api/forgot-password",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})})
+            .then(r=>r.json()).then(d=>{ alert("Reset Alert: " + d.message + " Link: " + d.resetLink); sw('login'); });
+        }
+    </script>
+</body>
+</html>

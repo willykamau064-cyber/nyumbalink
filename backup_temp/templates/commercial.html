@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offices & Shops | LinkPoint</title>
+    <meta name="description" content="Find or host offices and retail shops across Kenya on LinkPoint commercial portal.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root{--accent:#F43F5E;--accent-glow:rgba(244,63,94,0.3);--bg:#030712;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--shine:rgba(255,255,255,0.14);--text:#F1F5F9;--muted:#64748B;--display:'Playfair Display',serif;--body:'Space Grotesk',sans-serif;--ui:'Inter',sans-serif;}
+        *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+        body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 55% at 55% 35%,rgba(244,63,94,0.08) 0%,transparent 55%),radial-gradient(ellipse 45% 45% at 20% 70%,rgba(244,63,94,0.04) 0%,transparent 45%)}
+        .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:-1;animation:drift 22s ease-in-out infinite}
+        .orb1{width:380px;height:380px;background:rgba(244,63,94,0.1);top:8%;right:8%}
+        .orb2{width:280px;height:280px;background:rgba(200,40,70,0.06);bottom:15%;left:6%;animation-delay:-10s}
+        @keyframes drift{0%,100%{transform:translate(0,0)}40%{transform:translate(-27px,-30px)}70%{transform:translate(17px,18px)}}
+        nav{position:fixed;top:0;width:100%;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(3,7,18,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .logo{font-family:var(--display);font-size:1.8rem;font-weight:700;text-decoration:none;color:var(--text);letter-spacing:-1px}.logo em{color:#FF5C00;font-style:italic}
+        .nav-links{display:flex;gap:0.4rem}.nav-links a{font-family:var(--ui);font-size:0.82rem;font-weight:500;color:var(--muted);text-decoration:none;padding:0.55rem 1rem;border-radius:10px;transition:0.3s}.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+        .btn{font-family:var(--ui);font-weight:600;font-size:0.82rem;padding:0.65rem 1.4rem;border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);cursor:pointer;text-decoration:none;transition:0.3s;display:inline-flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}.btn:hover{background:rgba(255,255,255,0.07)}
+        .btn-accent{background:var(--accent);border-color:transparent;color:white;box-shadow:0 0 24px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.2)}.btn-accent:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 40px var(--accent-glow)}
+        .page-hero{padding:10rem 5% 2rem;text-align:center}
+        .eyebrow{font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+        .eyebrow::before,.eyebrow::after{content:'';width:40px;height:1px;background:var(--accent);opacity:0.4}
+        .page-hero h1{font-family:var(--display);font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-3px;margin-bottom:1rem}
+        .page-hero h1 em{color:var(--accent);font-style:italic;text-shadow:0 0 60px var(--accent-glow)}
+        .page-hero p{font-family:var(--ui);font-size:1.05rem;color:var(--muted);max-width:620px;margin:0 auto;line-height:1.75}
+
+        /* SEGMENT HEADERS */
+        .segment{max-width:1200px;margin:3rem auto 0;padding:0 5%}
+        .segment-head{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+        .seg-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:1px solid}
+        .seg-icon.office{background:rgba(16,185,129,0.1);color:#10B981;border-color:rgba(16,185,129,0.2)}
+        .seg-icon.shop{background:rgba(245,158,11,0.1);color:#F59E0B;border-color:rgba(245,158,11,0.2)}
+        .segment-head h2{font-family:var(--display);font-size:2rem;font-weight:700}
+        .segment-head p{font-family:var(--ui);font-size:0.84rem;color:var(--muted)}
+
+        .split-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:4rem}
+        @media(max-width:880px){.split-layout{grid-template-columns:1fr}}
+        .glass-card{padding:2.5rem;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,0.045) 0%,rgba(255,255,255,0.01) 100%);border:1px solid var(--border);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+        .glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--shine),transparent)}
+        .card-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--ui);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:8px;margin-bottom:1.5rem}
+        .card-h{font-family:var(--display);font-size:1.6rem;font-weight:700;margin-bottom:0.4rem}
+        .card-sub{font-family:var(--ui);font-size:0.82rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.6}
+        .f-group{margin-bottom:1.4rem}
+        .f-group label{display:block;font-family:var(--ui);font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem}
+        .f-input{width:100%;padding:0.95rem 1.1rem;font-family:var(--body);font-size:0.93rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;transition:0.3s}
+        .f-input::placeholder{color:rgba(255,255,255,0.18)}.f-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 22px var(--accent-glow)}
+        select.f-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+        .upload-zone{border:2px dashed var(--border);padding:1.8rem;text-align:center;border-radius:18px;background:rgba(255,255,255,0.015);cursor:pointer;transition:0.3s;margin-top:0.5rem}
+        .upload-zone:hover{border-color:var(--accent);background:rgba(244,63,94,0.03)}
+        .upload-zone i{font-size:1.5rem;color:var(--accent);margin-bottom:0.5rem;display:block}
+        .upload-zone p{font-family:var(--ui);font-size:0.78rem;color:var(--muted)}.upload-zone span{color:var(--accent);font-weight:600}
+        .segment-divider{border:none;border-top:1px solid var(--border);margin:0 5% 3.5rem}
+        footer{padding:3rem 5% 2rem;border-top:1px solid var(--border);background:rgba(3,7,18,0.5)}
+        .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+        .foot-links{display:flex;gap:1.5rem;flex-wrap:wrap}.foot-links a{font-family:var(--ui);font-size:0.8rem;color:var(--muted);text-decoration:none;transition:0.3s}.foot-links a:hover{color:#FF5C00}
+        .foot-copy{font-family:var(--ui);font-size:0.76rem;color:var(--muted)}
+        #notif{position:fixed;bottom:2rem;right:2rem;z-index:9999}
+        .toast{background:var(--accent);color:white;padding:0.9rem 1.8rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.4);animation:slidein 0.3s ease;font-family:var(--ui);font-size:0.88rem;font-weight:700}
+        @keyframes slidein{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @media(max-width:768px){.nav-links{display:none}}
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh"></div><div class="orb orb1"></div><div class="orb orb2"></div>
+
+<nav>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="/logo.png" alt="Logo" style="height:35px;border-radius:8px;object-fit:contain;">Link<em>Point</em></a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/find-rental">Find Rental</a>
+        <a href="/buy-home">Buy Home</a>
+        <a href="/bnb">BnB</a>
+        <a href="/commercial">Commercial</a>
+        <a href="/pricing">Pricing</a>
+    </div>
+    <a href="/account" class="btn"><i class="fas fa-user"></i> Account</a>
+</nav>
+
+<div class="page-hero" data-aos="zoom-out">
+    <div class="eyebrow">SECTION 06 — COMMERCIAL PORTAL</div>
+    <h1>Offices <em>&amp;</em> Shops</h1>
+    <p>Find or host corporate office suites and prime retail spaces — two markets, one powerful portal.</p>
+</div>
+
+<!-- OFFICES SEGMENT -->
+<div class="segment" style="margin-top:4rem">
+    <div class="segment-head" data-aos="fade-up">
+        <div class="seg-icon office"><i class="fas fa-briefcase"></i></div>
+        <div>
+            <h2>Office Spaces</h2>
+            <p>Co-working desks, private suites &amp; full-floor corporate environments</p>
+        </div>
+    </div>
+    <div class="split-layout">
+        <div class="glass-card" data-aos="fade-right">
+            <div class="card-tag" style="color:#10B981;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2)"><i class="fas fa-search"></i> Find Office</div>
+            <div class="card-h">Find Your Workspace</div>
+            <div class="card-sub">Search available corporate spaces by location, size and type.</div>
+            <form onsubmit="event.preventDefault(); toast('Office search active!')">
+                <div class="f-group"><label>Preferred Location</label><input type="text" class="f-input" placeholder="e.g. Westlands, Upper Hill, CBD"></div>
+                <div class="f-group"><label>Office Type</label>
+                    <select class="f-input">
+                        <option>Hot Desk / Co-working</option><option>Private Office</option>
+                        <option>Full Floor</option><option>Virtual Office</option>
+                    </select>
+                </div>
+                <div class="f-group"><label>Monthly Budget (KES)</label><input type="number" class="f-input" placeholder="e.g. 80,000"></div>
+                <div class="f-group"><label>Size / Desk Count</label><input type="text" class="f-input" placeholder="e.g. 500 sq ft or 10 Desks"></div>
+                <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1rem;background:#10B981;box-shadow:0 0 24px rgba(16,185,129,0.3)">Search Offices <i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="glass-card" data-aos="fade-left">
+            <div class="card-tag" style="color:#10B981;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2)"><i class="fas fa-building"></i> Host Office</div>
+            <div class="card-h">List Your Office</div>
+            <div class="card-sub">Reach growing businesses looking for their next workspace.</div>
+            <form onsubmit="event.preventDefault(); toast('Office listing added!')">
+                <div class="f-group"><label>Building / Space Name</label><input type="text" class="f-input" placeholder="e.g. Britam Tower, Suite 4B"></div>
+                <div class="f-group"><label>Location</label><input type="text" class="f-input" placeholder="Full address"></div>
+                <div class="f-group"><label>Monthly Rent (KES)</label><input type="number" class="f-input"></div>
+                <div class="f-group"><label>Office Images</label>
+                    <div class="upload-zone"><i class="fas fa-building"></i><p>Upload interior &amp; exterior photos<br><span>Browse Files</span></p></div>
+                </div>
+                <div class="f-group"><label>Contact Email</label><input type="email" class="f-input" placeholder="office@company.com"></div>
+                <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1rem;background:#10B981;box-shadow:0 0 24px rgba(16,185,129,0.3)">List Office Space <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr class="segment-divider">
+
+<!-- SHOPS SEGMENT -->
+<div class="segment">
+    <div class="segment-head" data-aos="fade-up">
+        <div class="seg-icon shop"><i class="fas fa-store"></i></div>
+        <div>
+            <h2>Shops &amp; Retail</h2>
+            <p>Mall units, street-front shops, market stalls and container shops</p>
+        </div>
+    </div>
+    <div class="split-layout">
+        <div class="glass-card" data-aos="fade-right">
+            <div class="card-tag" style="color:#F59E0B;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2)"><i class="fas fa-search"></i> Find Shop</div>
+            <div class="card-h">Find Retail Space</div>
+            <div class="card-sub">Browse prime retail locations suited for your business.</div>
+            <form onsubmit="event.preventDefault(); toast('Retail search active!')">
+                <div class="f-group"><label>Target Location</label><input type="text" class="f-input" placeholder="e.g. CBD, Eastleigh, Mombasa Road"></div>
+                <div class="f-group"><label>Shop Type</label>
+                    <select class="f-input">
+                        <option>Mall Unit</option><option>Street-Front Shop</option>
+                        <option>Market Stall</option><option>Container Shop</option>
+                    </select>
+                </div>
+                <div class="f-group"><label>Monthly Budget (KES)</label><input type="number" class="f-input" placeholder="e.g. 50,000"></div>
+                <div class="f-group"><label>Size Needed (sq ft)</label><input type="number" class="f-input" placeholder="e.g. 300"></div>
+                <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1rem;background:#F59E0B;color:#030712;box-shadow:0 0 24px rgba(245,158,11,0.3)">Find Retail Space <i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="glass-card" data-aos="fade-left">
+            <div class="card-tag" style="color:#F59E0B;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2)"><i class="fas fa-store"></i> List Shop</div>
+            <div class="card-h">List Your Shop</div>
+            <div class="card-sub">Connect with serious retailers ready to move in fast.</div>
+            <form onsubmit="event.preventDefault(); toast('Shop listing added!')">
+                <div class="f-group"><label>Shop / Mall Name</label><input type="text" class="f-input" placeholder="e.g. Sarit Centre Unit A12"></div>
+                <div class="f-group"><label>Location</label><input type="text" class="f-input" placeholder="Full address"></div>
+                <div class="f-group"><label>Monthly Rent (KES)</label><input type="number" class="f-input"></div>
+                <div class="f-group"><label>Shop Images</label>
+                    <div class="upload-zone"><i class="fas fa-store"></i><p>Upload storefront &amp; interior photos<br><span>Browse Files</span></p></div>
+                </div>
+                <div class="f-group"><label>Contact Email</label><input type="email" class="f-input" placeholder="landlord@email.com"></div>
+                <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1rem;background:#F59E0B;color:#030712;box-shadow:0 0 24px rgba(245,158,11,0.3)">List Retail Space <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer><div class="foot-inner">
+    <a href="/" class="logo" style="font-size:1.4rem">Link<em>Point</em></a>
+    <div class="foot-links"><a href="/find-rental">Find Rental</a><a href="/list-rental">List Rental</a><a href="/buy-home">Buy Home</a><a href="/sell-home">Sell Home</a><a href="/bnb">BnB</a><a href="/commercial">Commercial</a></div>
+    <div class="foot-copy">&copy; 2026 LinkPoint Hub</div>
+</div></footer>
+<div id="notif"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>AOS.init({duration:850,once:true});function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.getElementById('notif').appendChild(t);setTimeout(()=>t.remove(),3000)}</script>
+</body>
+</html>

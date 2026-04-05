@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account | LinkPoint</title>
+    <meta name="description" content="Sign in or create your LinkPoint account to access Kenya's premium real estate platform.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root{--primary:#FF5C00;--primary-glow:rgba(255,92,0,0.4);--accent:#F59E0B;--accent-glow:rgba(245,158,11,0.3);--bg-deep:#030712;--glass-bg:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.08);--glass-shine:rgba(255,255,255,0.15);--text:#F1F5F9;--text-dim:#64748B;--font-display:'Playfair Display',serif;--font-body:'Space Grotesk',sans-serif;--font-ui:'Inter',sans-serif;--radius:24px}
+        *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+        body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+        .mesh-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(255,92,0,0.1) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 80%,rgba(245,158,11,0.06) 0%,transparent 50%),radial-gradient(ellipse 40% 40% at 20% 20%,rgba(0,212,255,0.04) 0%,transparent 40%)}
+        .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:-1;animation:float 25s ease-in-out infinite}
+        .orb-1{width:500px;height:500px;background:rgba(255,92,0,0.08);top:0;left:30%}
+        .orb-2{width:300px;height:300px;background:rgba(245,158,11,0.06);bottom:10%;right:20%;animation-delay:-12s}
+        @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-30px) scale(1.05)}66%{transform:translate(-15px,15px) scale(0.95)}}
+
+        nav{position:fixed;top:0;width:100%;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(3,7,18,0.6);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--glass-border)}
+        .logo{font-family:var(--font-display);font-size:1.8rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--text)}.logo span{color:var(--primary);font-style:italic}
+        .nav-links{display:flex;gap:0.5rem}.nav-links a{font-family:var(--font-ui);font-size:0.85rem;font-weight:500;color:var(--text-dim);text-decoration:none;padding:0.6rem 1.2rem;border-radius:12px;transition:all 0.3s}.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+
+        .btn{font-family:var(--font-ui);font-weight:600;font-size:0.85rem;padding:0.75rem 1.5rem;border-radius:14px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);text-decoration:none}
+        .btn-primary{background:var(--primary);color:white;box-shadow:0 0 20px var(--primary-glow),inset 0 1px 0 rgba(255,255,255,0.2)}.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 40px var(--primary-glow)}
+
+        /* CENTERED AUTH LAYOUT */
+        .auth-container{flex:1;display:flex;align-items:center;justify-content:center;padding:8rem 5% 4rem}
+        .auth-card{width:100%;max-width:460px;padding:3.5rem;border-radius:32px;background:linear-gradient(135deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%);border:1px solid var(--glass-border);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);position:relative;overflow:hidden}
+        .auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent)}
+        .auth-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 0%,rgba(255,92,0,0.03) 0%,transparent 50%);pointer-events:none}
+
+        .auth-header{text-align:center;margin-bottom:2.5rem;position:relative;z-index:1}
+        .auth-header .auth-icon{width:70px;height:70px;border-radius:20px;background:linear-gradient(135deg,rgba(255,92,0,0.2),rgba(255,92,0,0.05));display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.8rem;color:var(--primary);border:1px solid rgba(255,92,0,0.2)}
+        .auth-header h1{font-family:var(--font-display);font-size:2.5rem;font-weight:700;margin-bottom:0.5rem}
+        .auth-header p{font-family:var(--font-ui);color:var(--text-dim);font-size:0.9rem}
+
+        .tab-row{display:flex;gap:0.5rem;margin-bottom:2rem;padding:0.3rem;background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:14px;position:relative;z-index:1}
+        .tab-row button{flex:1;padding:0.75rem;border:none;border-radius:11px;font-family:var(--font-ui);font-weight:600;font-size:0.85rem;cursor:pointer;color:var(--text-dim);background:transparent;transition:all 0.3s}
+        .tab-row button.active{background:var(--primary);color:white;box-shadow:0 4px 15px var(--primary-glow)}
+
+        .form-group{margin-bottom:1.5rem;position:relative;z-index:1}
+        .form-group label{display:block;font-family:var(--font-ui);font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem}
+        .form-input{width:100%;padding:1rem 1.2rem;font-family:var(--font-body);font-size:0.95rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:14px;transition:all 0.3s}
+        .form-input::placeholder{color:rgba(255,255,255,0.2)}
+        .form-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 20px rgba(255,92,0,0.15)}
+
+        .auth-footer{text-align:center;margin-top:1.5rem;position:relative;z-index:1}
+        .auth-footer a{color:var(--primary);text-decoration:none;font-weight:600;font-size:0.85rem}
+        .auth-footer p{color:var(--text-dim);font-size:0.8rem;margin-top:0.5rem}
+
+        /* TRUST BADGES */
+        .trust-row{display:flex;justify-content:center;gap:2rem;margin-top:2rem;position:relative;z-index:1;flex-wrap:wrap}
+        .trust-badge{display:flex;align-items:center;gap:0.5rem;font-family:var(--font-ui);font-size:0.75rem;color:var(--text-dim)}
+        .trust-badge i{color:var(--primary);font-size:0.9rem}
+
+        footer{padding:2rem 5%;border-top:1px solid var(--glass-border);background:rgba(3,7,18,0.5);backdrop-filter:blur(10px)}
+        .footer-bottom{text-align:center;color:var(--text-dim);font-size:0.8rem}
+        @media(max-width:768px){.nav-links{display:none}}
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<nav>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="/logo.png" alt="Logo" style="height:35px;border-radius:8px;object-fit:contain;">Link<span>Point</span></a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/find-rental">Find Rental</a>
+        <a href="/buy-home">Buy Home</a>
+        <a href="/bnb">BnB</a>
+        <a href="/commercial">Commercial</a>
+        <a href="/pricing">Pricing</a>
+    </div>
+</nav>
+
+<div class="auth-container">
+    <div class="auth-card" data-aos="zoom-out" data-aos-duration="600">
+        <div class="auth-header">
+            <div class="auth-icon"><i class="fas fa-fingerprint"></i></div>
+            <h1 id="authTitle">Welcome.</h1>
+            <p id="authSubtitle">Create an account to get started.</p>
+        </div>
+
+        <div class="tab-row">
+            <button class="active" id="btnRegister" onclick="switchAuth('register')">Register</button>
+            <button id="btnLogin" onclick="switchAuth('login')">Login</button>
+        </div>
+
+        <form id="authForm" onsubmit="event.preventDefault(); handleAuth();">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" required class="form-input" placeholder="you@example.com">
+            </div>
+            <div class="form-group" id="phoneGroup">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" class="form-input" placeholder="+254 7XX XXX XXX">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required class="form-input" placeholder="••••••••" minlength="6">
+            </div>
+            <div class="form-group" style="text-align: right;">
+                <a href="#" onclick="showForgotPassword(); return false;" style="color:var(--primary); font-size:0.8rem; text-decoration:none;">Forgot Password?</a>
+            </div>
+            <div id="authError" style="color:#F43F5E;font-size:0.85rem;text-align:center;margin-bottom:1rem;display:none"></div>
+            <button type="submit" class="btn btn-primary" id="authBtn" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem">
+                Create Account <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <form id="forgotForm" style="display:none;" onsubmit="event.preventDefault(); handleForgot();">
+            <p style="color:var(--text-dim); font-size:0.85rem; margin-bottom:1rem; text-align:center;">Enter your email to receive a secure recovery link.</p>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="forgotEmail" required class="form-input" placeholder="you@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem">
+                Send Recovery Link
+            </button>
+            <button type="button" class="btn" onclick="hideForgotPassword()" style="width:100%;justify-content:center;padding:1.1rem;font-size:0.95rem; margin-top:0.5rem; background:transparent; border:1px solid var(--glass-border); color:var(--text-dim);">
+                Back to Login
+            </button>
+        </form>
+
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <p style="font-family:var(--font-ui); font-size:0.8rem; color:var(--text-dim); margin-bottom:0.5rem">Or</p>
+            <button class="btn" onclick="handleBiometric()" style="width:100%; justify-content:center; padding:1.1rem; font-size:0.95rem; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1);">
+                <i class="fas fa-fingerprint" style="color:var(--primary); font-size:1.2rem;"></i> Login with Biometrics
+            </button>
+        </div>
+
+        <div class="trust-row">
+            <div class="trust-badge"><i class="fas fa-shield-alt"></i> 256-bit Encrypted</div>
+            <div class="trust-badge"><i class="fas fa-lock"></i> Secure Auth</div>
+            <div class="trust-badge"><i class="fas fa-check-circle"></i> EARB Registered</div>
+        </div>
+    </div>
+</div>
+
+<footer><div class="footer-bottom">&copy; 2026 LinkPoint Hub. All rights reserved.</div></footer>
+<div id="notifications" style="position:fixed;bottom:2rem;right:2rem;z-index:10000"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({duration:800,once:true});
+
+let authMode = 'register';
+
+// ====== CHECK IF ALREADY LOGGED IN ======
+(function checkLoggedIn() {
+    const token = localStorage.getItem('linkpointToken');
+    const userStr = localStorage.getItem('linkpointUser');
+    if (token && userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            showDashboard(user);
+        } catch(e) {
+            // bad data, clear it
+            localStorage.removeItem('linkpointToken');
+            localStorage.removeItem('linkpointUser');
+        }
+    }
+})();
+
+function showDashboard(user) {
+    const card = document.querySelector('.auth-card');
+    card.innerHTML = `
+        <div class="auth-header">
+            <div class="auth-icon"><i class="fas fa-user-check"></i></div>
+            <h1>Welcome Back!</h1>
+            <p>You're signed in as <strong style="color:var(--primary)">${user.email || 'User'}</strong></p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem">
+            <a href="/find-rental" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-search"></i> Find Rental</a>
+            <a href="/list-rental" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-key"></i> List Rental</a>
+            <a href="/buy-home" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-home"></i> Buy Home</a>
+            <a href="/sell-home" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-tag"></i> Sell Home</a>
+            <a href="/bnb" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-bed"></i> BnB</a>
+            <a href="/commercial" class="btn btn-primary" style="justify-content:center;text-decoration:none;font-size:0.82rem;padding:0.9rem"><i class="fas fa-city"></i> Commercial</a>
+        </div>
+        <button class="btn" onclick="handleLogout()" style="width:100%;justify-content:center;padding:1rem;border:1px solid rgba(244,63,94,0.3);color:#F43F5E;background:rgba(244,63,94,0.08)">
+            <i class="fas fa-sign-out-alt"></i> Sign Out
+        </button>
+        <div class="trust-row">
+            <div class="trust-badge"><i class="fas fa-shield-alt"></i> 256-bit Encrypted</div>
+            <div class="trust-badge"><i class="fas fa-lock"></i> Secure Auth</div>
+            <div class="trust-badge"><i class="fas fa-check-circle"></i> EARB Registered</div>
+        </div>
+    `;
+}
+
+function switchAuth(mode) {
+    authMode = mode;
+    const title = document.getElementById('authTitle');
+    const subtitle = document.getElementById('authSubtitle');
+    const btn = document.getElementById('authBtn');
+    const phoneGroup = document.getElementById('phoneGroup');
+    const btnReg = document.getElementById('btnRegister');
+    const btnLog = document.getElementById('btnLogin');
+
+    if (mode === 'login') {
+        title.innerText = 'Welcome Back.';
+        subtitle.innerText = 'Sign in to your LinkPoint account.';
+        btn.innerHTML = 'Login <i class="fas fa-sign-in-alt"></i>';
+        phoneGroup.style.display = 'none';
+        btnLog.classList.add('active');
+        btnReg.classList.remove('active');
+    } else {
+        title.innerText = 'Welcome.';
+        subtitle.innerText = 'Create an account to get started.';
+        btn.innerHTML = 'Create Account <i class="fas fa-arrow-right"></i>';
+        phoneGroup.style.display = 'block';
+        btnReg.classList.add('active');
+        btnLog.classList.remove('active');
+    }
+    // Clear error on tab switch
+    const errorEl = document.getElementById('authError');
+    if (errorEl) { errorEl.style.display = 'none'; }
+}
+
+function showForgotPassword() {
+    document.getElementById('authForm').style.display = 'none';
+    document.getElementById('forgotForm').style.display = 'block';
+    document.querySelector('.tab-row').style.display = 'none';
+    document.getElementById('authTitle').innerText = 'Recovery.';
+    document.getElementById('authSubtitle').innerText = 'Reset your password.';
+}
+
+function hideForgotPassword() {
+    document.getElementById('forgotForm').style.display = 'none';
+    document.getElementById('authForm').style.display = 'block';
+    document.querySelector('.tab-row').style.display = 'flex';
+    switchAuth(authMode);
+}
+
+function handleForgot() {
+    const email = document.getElementById('forgotEmail').value.trim();
+    if (email) {
+        notify('A password recovery secure link has been sent to ' + email + '!');
+        setTimeout(hideForgotPassword, 2000);
+    }
+}
+
+function handleBiometric() {
+    if (window.PublicKeyCredential) {
+        // Mocking WebAuthn API interaction
+        notify('Prompting for biometric login... (WebAuthn)');
+        setTimeout(() => {
+            notify('Biometric verification successful!');
+            localStorage.setItem('linkpointUser', JSON.stringify({email: 'bio_user@example.com'}));
+            setTimeout(() => window.location.reload(), 1000);
+        }, 1500);
+    } else {
+        notify('Biometrics not supported on this device/browser.');
+    }
+}
+
+async function handleAuth() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const phone = document.getElementById('phone') ? document.getElementById('phone').value.trim() : '';
+    const errorEl = document.getElementById('authError');
+    const btn = document.getElementById('authBtn');
+
+    if (!email || !password) {
+        errorEl.innerText = 'Please fill in all required fields.';
+        errorEl.style.display = 'block';
+        return;
+    }
+
+    // Disable button while loading
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Please wait...';
+
+    const endpoint = authMode === 'register' ? '/register' : '/login';
+
+    try {
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, phone })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            notify(data.message || (authMode === 'register' ? 'Account created!' : 'Login successful!'));
+            if (data.token) localStorage.setItem('linkpointToken', data.token);
+            if (data.user) localStorage.setItem('linkpointUser', JSON.stringify(data.user));
+            errorEl.style.display = 'none';
+
+            if (data.token && data.user) {
+                // Logged in — show dashboard
+                setTimeout(() => window.location.href = '/dashboard', 1200);
+            } else {
+                // Registered but needs email confirmation
+                errorEl.innerText = data.message;
+                errorEl.style.color = '#F59E0B';
+                errorEl.style.display = 'block';
+            }
+        } else {
+            errorEl.innerText = data.message || 'Something went wrong.';
+            errorEl.style.color = '#F43F5E';
+            errorEl.style.display = 'block';
+        }
+    } catch (e) {
+        errorEl.innerText = 'Connection error. Is the server running?';
+        errorEl.style.color = '#F43F5E';
+        errorEl.style.display = 'block';
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = authMode === 'register'
+        ? 'Create Account <i class="fas fa-arrow-right"></i>'
+        : 'Login <i class="fas fa-sign-in-alt"></i>';
+}
+
+async function handleLogout() {
+    const token = localStorage.getItem('linkpointToken');
+    try {
+        await fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + (token || '')
+            }
+        });
+    } catch(e) {}
+    localStorage.removeItem('linkpointToken');
+    localStorage.removeItem('linkpointUser');
+    notify('Signed out successfully.');
+    setTimeout(() => window.location.reload(), 800);
+}
+
+function notify(msg) {
+    const n = document.createElement('div');
+    n.style.cssText = 'background:var(--primary);color:white;padding:1rem 2rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:slideIn 0.3s ease;font-family:var(--font-ui);font-size:0.9rem;font-weight:600';
+    n.innerText = msg;
+    document.getElementById('notifications').appendChild(n);
+    setTimeout(() => n.remove(), 3500);
+}
+</script>
+<style>@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}</style>
+</body>
+</html>

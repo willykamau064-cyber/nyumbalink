@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Host Dashboard | LinkPoint Focus</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ... Reset and Base CSS ... */
+:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--sans); background:var(--navy); color:var(--text); display:flex; height:100vh; overflow:hidden; }
+
+/* Dashboard Sidebar */
+.sidebar { width: 260px; background: linear-gradient(180deg, rgba(15,23,41,0.95), rgba(8,13,26,0.98)); border-right: 1px solid var(--gb); display: flex; flex-direction: column; padding: 1.5rem; backdrop-filter: blur(10px); }
+.logo { display:flex; align-items:center; gap:.7rem; text-decoration:none; margin-bottom: 2.5rem; }
+.lb { width:40px; height:40px; background:var(--primary); border-radius:11px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem; color:#fff; box-shadow:0 0 20px var(--pg); }
+.lt { font-size:1.5rem; font-weight:800; color:#fff; letter-spacing:-.5px; } .lt span { color:var(--primary); }
+
+.nav-links { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.n-item { text-decoration:none; color:var(--muted); padding:0.8rem 1rem; border-radius:10px; font-weight:500; display:flex; align-items:center; gap:0.8rem; transition:all 0.3s; }
+.n-item:hover, .n-item.active { background:rgba(255,107,53,0.15); color:var(--primary); transform:translateX(5px); border:1px solid rgba(255,107,53,0.2); }
+.n-item i { width:20px; font-size: 1.1rem; }
+
+/* Dashboard Content Area */
+.main-area { flex:1; display:flex; flex-direction:column; background: var(--navy); }
+
+/* Top Bar */
+.top-bar { height: 75px; padding: 0 2.5rem; border-bottom: 1px solid var(--gb); display:flex; align-items:center; justify-content:space-between; background: rgba(15,23,41,0.5); backdrop-filter: blur(12px); }
+.add-btn { background:var(--primary); color:#fff; padding:0.6rem 1.2rem; border-radius:100px; text-decoration:none; font-weight:600; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem; box-shadow:0 4px 15px var(--pg); transition:all 0.3s; }
+.add-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px var(--pg); }
+.user-prof { display:flex; align-items:center; gap: 1rem; }
+.user-prof img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #10b981; object-fit:cover; padding:2px; background:var(--glass); }
+
+/* Content Scrollable */
+.content { flex:1; padding: 2.5rem; overflow-y:auto; }
+.dash-title { font-family:var(--serif); font-size: 2.2rem; font-weight:700; margin-bottom: 2rem; color:#fff; }
+.dash-title span { color:var(--primary); font-style:italic; font-weight:900; }
+
+/* Extreme Stats Cards for Money Side */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+.stat-card { background: linear-gradient(135deg, var(--glass), rgba(255,255,255,0.02)); border: 1px solid var(--gb); border-radius: 20px; padding: 1.5rem; position:relative; overflow:hidden; transition:all 0.4s; }
+.stat-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow:0 15px 35px rgba(0,0,0,0.4); }
+.st-icon { position:absolute; top:-10px; right:-10px; font-size:5rem; opacity:0.06; color:var(--text); transform:rotate(-15deg); }
+.st-label { font-size:0.85rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem; }
+.st-value { font-size:2rem; font-weight:800; display:flex; align-items:center; gap:0.5rem; }
+.st-inc { font-size:0.75rem; color:#10b981; background:rgba(16,185,129,0.15); padding:0.2rem 0.5rem; border-radius:100px; display:inline-flex; align-items:center; gap:0.2rem; }
+
+/* Table Wrapper */
+.section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.2rem; }
+.section-title { font-size: 1.2rem; font-weight: 600; display:flex; align-items:center; gap: 0.5rem; }
+.section-title i { color: var(--primary); }
+.table-wrap { background:var(--glass); border:1px solid var(--gb); border-radius:20px; overflow:hidden; margin-bottom: 3rem; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align:left; padding: 1.2rem; background:rgba(255,255,255,0.03); color:var(--dim); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--gb); }
+td { padding: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size:0.9rem; color:#fff; vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+tr:hover { background: rgba(255,255,255,0.02); }
+
+/* Table Elements */
+.prop-cell { display:flex; align-items:center; gap:1rem; }
+.prop-img { width:60px; height:45px; border-radius:8px; object-fit:cover; }
+.status-badge { padding:0.3rem 0.8rem; border-radius:100px; font-size:0.7rem; font-weight:700; display:inline-block; }
+.status-active { background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); }
+.status-pending { background:rgba(245,158,11,0.15); color:#f59e0b; border:1px solid rgba(245,158,11,0.3); }
+
+/* Action buttons */
+.act-btn { background:var(--glass); border:1px solid var(--gb); color:var(--muted); width:32px; height:32px; border-radius:8px; display:inline-flex; justify-content:center; align-items:center; cursor:pointer; transition:all 0.2s; margin-right:0.3rem; }
+.act-btn:hover { background:#fff; color:#111; }
+.act-btn.del:hover { background:#ef4444; color:#fff; border-color:#ef4444; }
+
+/* Two Column Grid for Bottom Section */
+.bottom-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+/* Bookings Card */
+.bk-item { display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom: 1px solid var(--gb); }
+.bk-item:last-child { border-bottom: none; }
+.bk-prof { display:flex; align-items:center; gap:1rem; }
+.bk-prof img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+.bk-action button { border:none; padding:0.5rem 1rem; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; transition:0.3s; margin-left:0.5rem; }
+.bk-accept { background:#10b981; color:#fff; }
+.bk-accept:hover { background:#059669; }
+.bk-reject { background:rgba(255,255,255,0.1); color:#fff; }
+.bk-reject:hover { background:#ef4444; }
+
+/* Wallet / Withdraw Card */
+.wallet-card { background:linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.02)); border:1px solid rgba(16,185,129,0.3); border-radius:20px; padding:2rem; text-align:center; }
+.wallet-icon { font-size:3rem; color:#10b981; margin-bottom:1rem; }
+.wallet-bal { font-size:2.5rem; font-weight:800; font-family:var(--serif); margin-bottom:0.5rem; color:#fff; }
+.wallet-lbl { color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem; }
+.withdraw-btn { background:#10b981; color:#fff; border:none; padding:1rem 2rem; border-radius:100px; font-weight:700; font-size:1rem; cursor:pointer; width:100%; box-shadow:0 4px 15px rgba(16,185,129,0.3); transition:0.3s; display:flex; align-items:center; justify-content:center; gap:0.5rem; }
+.withdraw-btn:hover { background:#059669; transform:translateY(-2px); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
+    
+    <div style="margin-bottom:2rem; padding:1rem; background:rgba(255,107,53,0.1); border:1px solid rgba(255,107,53,0.2); border-radius:12px; text-align:center;">
+        <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--primary); margin-bottom:0.3rem">Dashboard Active</div>
+        <div style="font-size:0.9rem; font-weight:600; color:#fff">Host Command</div>
+    </div>
+    
+    <div class="nav-links">
+        <a href="#" class="n-item active"><i class="fas fa-chart-pie"></i> Overview</a>
+        <a href="sell.html" class="n-item"><i class="fas fa-home"></i> My Listings</a>
+        <a href="#" class="n-item"><i class="fas fa-calendar-check"></i> Bookings <span style="margin-left:auto;background:#ef4444;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.7rem">1 New</span></a>
+        <a href="#" class="n-item"><i class="fas fa-envelope"></i> Messages</a>
+        <a href="#" class="n-item"><i class="fas fa-wallet"></i> Payments</a>
+        <a href="#" class="n-item"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+    <div style="margin-top:auto">
+        <a href="index.html" class="n-item" style="color:#ef4444"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+</div>
+
+<div class="main-area">
+    <div class="top-bar">
+        <div></div> <!-- Spacer -->
+        <div style="display:flex; align-items:center; gap:1.5rem">
+            <a href="sell.html" class="add-btn"><i class="fas fa-plus"></i> Add New Property</a>
+            <div class="user-prof">
+                <div style="text-align:right">
+                    <div style="font-weight:600; font-size:0.9rem">Brian N.</div>
+                    <div style="font-size:0.75rem; color:#10b981"><i class="fas fa-check-circle"></i> Verified Host</div>
+                </div>
+                <img src="brian.png" alt="Profile" onerror="this.src='logo.jpg'">
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1 class="dash-title">Command <span>Center</span></h1>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-building st-icon"></i>
+                <div class="st-label">Total Listings</div>
+                <div class="st-value">4 <div class="st-inc"><i class="fas fa-arrow-up"></i></div></div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-eye st-icon"></i>
+                <div class="st-label">Total Views</div>
+                <div class="st-value">12.5k <div class="st-inc">+15%</div></div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-calendar-alt st-icon"></i>
+                <div class="st-label">Total Bookings</div>
+                <div class="st-value">38 <div class="st-inc">+4</div></div>
+            </div>
+            <div class="stat-card" style="border-color:rgba(16,185,129,0.3)">
+                <i class="fas fa-coins st-icon" style="color:#10b981"></i>
+                <div class="st-label" style="color:#10b981">Earnings (KSh)</div>
+                <div class="st-value" style="color:#10b981">450k <div class="st-inc" style="background:rgba(255,255,255,0.2);color:#fff"><i class="fas fa-arrow-up"></i> 8%</div></div>
+            </div>
+        </div>
+
+        <!-- Listings Management -->
+        <div class="section-header">
+            <h3 class="section-title"><i class="fas fa-list"></i> Manage Properties</h3>
+            <a href="sell.html" style="color:var(--primary); font-size:0.85rem; font-weight:600; text-decoration:none">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Price (KSh)</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="prop-cell">
+                                <img src="villa.png" class="prop-img" onerror="this.src='logo.jpg'">
+                                <div>
+                                    <div style="font-weight:600">Modern 4BR Villa</div>
+                                    <div style="font-size:0.75rem; color:var(--muted)">Karen, Nairobi</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>For Sale</td>
+                        <td style="font-weight:700">18,500,000</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="act-btn" title="Edit"><i class="fas fa-pen"></i></button>
+                            <button class="act-btn" title="Upload Images"><i class="fas fa-image"></i></button>
+                            <button class="act-btn del" title="Delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="prop-cell">
+                                <img src="bnb.png" class="prop-img" onerror="this.src='logo.jpg'">
+                                <div>
+                                    <div style="font-weight:600">Sunny Vacation BnB</div>
+                                    <div style="font-size:0.75rem; color:var(--muted)">Diani Beach</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>BnB / Stay</td>
+                        <td style="font-weight:700">8,500 / night</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="act-btn" title="Edit"><i class="fas fa-pen"></i></button>
+                            <button class="act-btn" title="Upload Images"><i class="fas fa-image"></i></button>
+                            <button class="act-btn del" title="Delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="prop-cell">
+                                <img src="kenyan_apartment.png" class="prop-img" onerror="this.src='logo.jpg'">
+                                <div>
+                                    <div style="font-weight:600">Executive Office Space</div>
+                                    <div style="font-size:0.75rem; color:var(--muted)">Westlands</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Commercial</td>
+                        <td style="font-weight:700">120,000 / mo</td>
+                        <td><span class="status-badge status-pending">In Review</span></td>
+                        <td>
+                            <button class="act-btn" title="Edit"><i class="fas fa-pen"></i></button>
+                            <button class="act-btn" title="Upload Images"><i class="fas fa-image"></i></button>
+                            <button class="act-btn del" title="Delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bookings & Payments Grid -->
+        <div class="bottom-grid">
+            <!-- Bookings List -->
+            <div>
+                <h3 class="section-title" style="margin-bottom:1.2rem"><i class="fas fa-calendar-check"></i> Recent Bookings</h3>
+                <div class="table-wrap" style="margin-bottom:0">
+                    <div class="bk-item">
+                        <div class="bk-prof">
+                            <img src="james.png" onerror="this.src='logo.jpg'">
+                            <div>
+                                <div style="font-weight:600; font-size:0.9rem">James Karanja</div>
+                                <div style="font-size:0.75rem; color:var(--muted)">Requested: Sunny Vacation BnB (3 Nights)</div>
+                            </div>
+                        </div>
+                        <div class="bk-action">
+                            <button class="bk-accept"><i class="fas fa-check"></i> Accept</button>
+                            <button class="bk-reject"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="bk-item">
+                        <div class="bk-prof">
+                            <img src="mercy.png" onerror="this.src='logo.jpg'">
+                            <div>
+                                <div style="font-weight:600; font-size:0.9rem">Mercy W.</div>
+                                <div style="font-size:0.75rem; color:var(--muted)">Booked: Modern 4BR Villa Viewing</div>
+                            </div>
+                        </div>
+                        <div class="bk-action">
+                            <span class="status-badge" style="background:rgba(255,255,255,0.1); color:#fff"><i class="fas fa-check-double" style="color:#10b981"></i> Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Money / Withdraw Widget -->
+            <div>
+                 <h3 class="section-title" style="margin-bottom:1.2rem"><i class="fas fa-money-bill-wave"></i> Payments & Withdrawals</h3>
+                 <div class="wallet-card">
+                     <div class="wallet-icon"><i class="fas fa-shield-alt"></i></div>
+                     <div class="wallet-lbl">Available Escrow Balance</div>
+                     <div class="wallet-bal">KSh 125,000</div>
+                     <p style="color:var(--muted); font-size:0.8rem; margin-bottom:1.5rem; line-height:1.5">Your funds are securely held in escrow. Withdraw directly to your connected M-Pesa number or Paystack account.</p>
+                     
+                     <button class="withdraw-btn" onclick="alert('Initiating direct M-Pesa transfer to registered number...')">
+                         <i class="fas fa-mobile-alt"></i> Withdraw to M-Pesa
+                     </button>
+                     <p style="font-size:0.7rem; color:var(--dim); margin-top:1rem"><i class="fas fa-lock"></i> Secured by Safaricom & Paystack TLS</p>
+                 </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="linkpoint-3d.js"></script>
+</body>
+</html>

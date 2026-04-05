@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Neighborhood Guides | LinkPoint Kenya</title>
+<style>
+:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--navy);color:var(--text);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;transition:all .4s;background:rgba(8,13,26,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--gb)}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.lb{width:40px;height:40px;background:var(--primary);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff}
+.lt{font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.5px}.lt span{color:var(--primary)}
+.nls{display:flex;gap:.1rem;align-items:center}
+.nl{text-decoration:none;color:var(--muted);padding:.45rem .85rem;border-radius:8px;font-weight:500;font-size:.88rem;transition:all .3s}
+.nl:hover,.nl.active{color:#fff;background:var(--glass)}
+.sec{padding:8rem 5% 5%}.mw{max-width:1280px;margin:0 auto}
+.sh{text-align:center;margin-bottom:3.5rem}
+.stag{display:inline-block;background:rgba(255,107,53,0.12);color:var(--primary);border:1px solid rgba(255,107,53,0.24);padding:.33rem 1.05rem;border-radius:100px;font-size:.76rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.8rem}
+.st{font-family:var(--serif);font-size:3rem;font-weight:700;margin-bottom:.8rem;color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:2rem}
+.pc{background:var(--glass);border:1px solid var(--gb);border-radius:24px;overflow:hidden;backdrop-filter:blur(15px);transition:all .4s}
+.pc:hover{transform:translateY(-8px);border-color:var(--primary);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.pi{height:250px;background-size:cover;background-position:center;position:relative}
+.pbd{padding:2rem}
+.ptit{font-family:var(--serif);font-size:1.8rem;margin-bottom:0.8rem;color:#fff}
+.pdesc{color:var(--muted);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem}
+.pfeat{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.6rem;font-size:0.88rem;color:rgba(255,255,255,0.8)}
+.pfeat i{color:var(--primary)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;border-radius:100px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;transition:all 0.3s;text-decoration:none;background:var(--primary);color:#fff}
+</style>
+</head><body>
+<nav>
+  <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
+  <div class="nls">
+    <a href="/" class="nl">Home</a>
+    <a href="rentals.html" class="nl">Rentals</a>
+    <a href="buy.html" class="nl">Buy</a>
+    <a href="neighborhoods.html" class="nl active">Neighborhoods</a>
+  </div>
+</nav>
+
+<section class="sec">
+  <div class="mw">
+    <div class="sh">
+      <div class="stag">Kenya Local Insight</div>
+      <h1 class="st">Neighborhood <em>Explorer</em></h1>
+      <p style="color:var(--muted);max-width:600px;margin:0 auto">Discover the best places to live, work, and invest across Kenya's most vibrant counties.</p>
+    </div>
+
+    <div class="pgrid">
+      <div class="pc"><div class="pi" style="background-image:url('nairobi360.png')"></div><div class="pbd">
+        <h2 class="ptit">Karen, Nairobi</h2>
+        <p class="pdesc">The greenest, most exclusive suburb in Nairobi. Home to sprawling estates, horse stables, and high-end shopping hubs.</p>
+        <div class="pfeat"><i class="fas fa-tree"></i> Serene & Leafy Environment</div>
+        <div class="pfeat"><i class="fas fa-shield-alt"></i> Top Tier Security</div>
+        <div class="pfeat"><i class="fas fa-shopping-bag"></i> The Hub & Galleria Malls</div>
+        <a href="buy.html?loc=Karen" class="btn" style="margin-top:1.5rem">View Properties in Karen</a>
+      </div></div>
+
+      <div class="pc"><div class="pi" style="background-image:url('kenyan_apartment.png')"></div><div class="pbd">
+        <h2 class="ptit">Kilimani, Nairobi</h2>
+        <p class="pdesc">A vibrant mix of residential and business hubs. Popular with young professionals and digital nomads for its modern skyline.</p>
+        <div class="pfeat"><i class="fas fa-city"></i> Modern High-rise Living</div>
+        <div class="pfeat"><i class="fas fa-utensils"></i> Trendy Restaurants & Bars</div>
+        <div class="pfeat"><i class="fas fa-bolt"></i> High-Speed Internet Hub</div>
+        <a href="rentals.html?loc=Kilimani" class="btn" style="margin-top:1.5rem">View Rentals in Kilimani</a>
+      </div></div>
+
+      <div class="pc"><div class="pi" style="background-image:url('kenya_house.png')"></div><div class="pbd">
+        <h2 class="ptit">Nyali, Mombasa</h2>
+        <p class="pdesc">Mombasa's premier coastal neighborhood. Pristine beaches, luxury villas, and a relaxed tropical atmosphere.</p>
+        <div class="pfeat"><i class="fas fa-umbrella-beach"></i> Near Nyali & Bamburi Beaches</div>
+        <div class="pfeat"><i class="fas fa-golf-ball"></i> Nyali Golf Club</div>
+        <div class="pfeat"><i class="fas fa-sun"></i> Resort-Style Atmosphere</div>
+        <a href="buy.html?loc=Nyali" class="btn" style="margin-top:1.5rem">View Coastal Homes</a>
+      </div></div>
+
+      <div class="pc"><div class="pi" style="background-image:url('kenya_bnb.png')"></div><div class="pbd">
+        <h2 class="ptit">Diani, South Coast</h2>
+        <p class="pdesc">Voted Africa's best beach destination. Ideal for BnB investments and vacation homes in a pristine marine ecosystem.</p>
+        <div class="pfeat"><i class="fas fa-fish"></i> Marine Park Access</div>
+        <div class="pfeat"><i class="fas fa-plane"></i> Near Ukunda Airstrip</div>
+        <div class="pfeat"><i class="fas fa-star"></i> High Tourism Demand</div>
+        <a href="bnb.html" class="btn" style="margin-top:1.5rem">Explore BnB Opportunities</a>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<script src="linkpoint-3d.js"></script>
+</body></html>

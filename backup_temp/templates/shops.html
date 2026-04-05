@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shops & Retail | LinkPoint</title>
+    <meta name="description" content="Find retail shops and mall units or list your commercial space on LinkPoint Kenya.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root{--primary:#FF5C00;--accent:#F43F5E;--accent-glow:rgba(244,63,94,0.3);--bg-deep:#030712;--glass-bg:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.08);--glass-shine:rgba(255,255,255,0.15);--text:#F1F5F9;--text-dim:#64748B;--font-display:'Playfair Display',serif;--font-body:'Space Grotesk',sans-serif;--font-ui:'Inter',sans-serif;--radius:24px}
+        *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+        body{font-family:var(--font-body);background:var(--bg-deep);color:var(--text);overflow-x:hidden;min-height:100vh}
+        .mesh-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 50% at 60% 30%,rgba(244,63,94,0.08) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 20% 70%,rgba(255,92,0,0.05) 0%,transparent 50%)}
+        .orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:-1;animation:float 20s ease-in-out infinite}
+        .orb-1{width:380px;height:380px;background:rgba(244,63,94,0.1);top:15%;left:10%}
+        .orb-2{width:280px;height:280px;background:rgba(255,92,0,0.07);bottom:25%;right:15%;animation-delay:-11s}
+        @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.9)}}
+        nav{position:fixed;top:0;width:100%;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(3,7,18,0.6);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--glass-border)}
+        .logo{font-family:var(--font-display);font-size:1.8rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--text)}.logo span{color:var(--primary);font-style:italic}
+        .nav-links{display:flex;gap:0.5rem}.nav-links a{font-family:var(--font-ui);font-size:0.85rem;font-weight:500;color:var(--text-dim);text-decoration:none;padding:0.6rem 1.2rem;border-radius:12px;transition:all 0.3s}.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+        .nav-actions{display:flex;gap:0.75rem;align-items:center}
+        .btn{font-family:var(--font-ui);font-weight:600;font-size:0.85rem;padding:0.75rem 1.5rem;border-radius:14px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);text-decoration:none}
+        .btn-primary{background:var(--accent);color:white;box-shadow:0 0 20px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.2)}.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 40px var(--accent-glow)}
+        .btn-glass{background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text);backdrop-filter:blur(10px)}.btn-glass:hover{background:rgba(255,255,255,0.08);border-color:var(--glass-shine);transform:translateY(-2px)}
+        .page-header{padding:10rem 5% 4rem;text-align:center}
+        .page-header h1{font-family:var(--font-display);font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-3px;margin-bottom:1rem}
+        .page-header h1 em{color:var(--accent);font-style:italic;text-shadow:0 0 60px var(--accent-glow)}
+        .page-header p{font-family:var(--font-ui);font-size:1.1rem;color:var(--text-dim);max-width:600px;margin:0 auto}
+        .tab-switcher{display:flex;justify-content:center;gap:0.5rem;margin:3rem auto;padding:0.4rem;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;width:fit-content;backdrop-filter:blur(10px)}
+        .tab-btn{font-family:var(--font-ui);font-size:0.9rem;font-weight:600;padding:0.8rem 2rem;border-radius:12px;border:none;cursor:pointer;color:var(--text-dim);background:transparent;transition:all 0.3s}
+        .tab-btn.active{background:var(--accent);color:white;box-shadow:0 4px 15px var(--accent-glow)}
+        .form-panel{max-width:800px;margin:2rem auto 6rem;padding:3rem;border-radius:var(--radius);background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,rgba(255,255,255,0.01) 100%);border:1px solid var(--glass-border);backdrop-filter:blur(15px) saturate(150%);-webkit-backdrop-filter:blur(15px) saturate(150%);position:relative;overflow:hidden}
+        .form-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glass-shine),transparent)}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+        @media(max-width:768px){.form-grid{grid-template-columns:1fr}.nav-links{display:none}}
+        .form-group label{display:block;font-family:var(--font-ui);font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem}
+        .form-input{width:100%;padding:1rem 1.2rem;font-family:var(--font-body);font-size:0.95rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:14px;transition:all 0.3s}
+        .form-input::placeholder{color:rgba(255,255,255,0.2)}
+        .form-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 20px var(--accent-glow)}
+        select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+        .upload-box{border:2px dashed var(--glass-border);padding:3rem;text-align:center;border-radius:20px;background:var(--glass-bg);transition:0.3s;cursor:pointer;margin-top:0.5rem}
+        .upload-box:hover{border-color:var(--accent);background:rgba(244,63,94,0.03)}
+        .upload-box i{font-size:2rem;color:var(--accent);margin-bottom:0.75rem}
+        .upload-box p{color:var(--text-dim);font-size:0.85rem}
+        .divider{grid-column:1/-1;height:1px;background:var(--glass-border);margin:1rem 0}
+        footer{padding:4rem 5% 2rem;margin-top:4rem;border-top:1px solid var(--glass-border);background:rgba(3,7,18,0.5);backdrop-filter:blur(10px)}
+        .footer-bottom{text-align:center;color:var(--text-dim);font-size:0.8rem}
+    </style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+function openPayment(propertyId, customAmount, customTitle) {
+    let email = "user@example.com";
+    let user_data = localStorage.getItem('linkpointUser');
+    if(user_data) {
+        try {
+            let user = JSON.parse(user_data);
+            if(user && user.email) email = user.email;
+        } catch(e) {}
+    }
+
+    let amount = 0;
+    let title = "";
+    
+    if (customAmount && customTitle) {
+        amount = parseInt(customAmount);
+        title = customTitle;
+    } else if (propertyId) {
+        const prop = typeof allProperties !== 'undefined' ? allProperties.find(p => p.id == propertyId) : null;
+        if (prop) {
+            amount = parseInt(prop.price);
+            title = prop.title;
+        } else {
+            console.error("Property not found");
+            return;
+        }
+    } else {
+        amount = 1000;
+        title = "LinkPoint Platform Payment";
+    }
+
+    if(propertyId) {
+        amount = amount + Math.round(amount * 0.005);
+    }
+    
+    let amountInCents = amount * 100;
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+        email: email,
+        amount: amountInCents,
+        currency: 'KES',
+        ref: 'LNKPT_'+Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Service/Property",
+                    variable_name: "service",
+                    value: title
+                }
+            ]
+        },
+        callback: function(response){
+            alert('Success! Payment Ref: ' + response.reference);
+            if(typeof showSuccessStatus === 'function') {
+                showSuccessStatus();
+            }
+        },
+        onClose: function(){
+            console.log('Payment window closed.');
+        }
+    });
+
+    handler.openIframe();
+}
+</script>
+</head>
+<body>
+<div class="mesh-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<nav>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="/logo.png" alt="Logo" style="height:35px;border-radius:8px;object-fit:contain;">Link<span>Point</span></a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/rentals">Rentals</a>
+        <a href="/sales">Sales</a>
+        <a href="/bnb">BnB</a>
+        <a href="/offices">Offices</a>
+        <a href="/shops" class="active">Shops</a>
+    </div>
+    <div class="nav-actions"><a href="/account" class="btn btn-glass"><i class="fas fa-user"></i> Account</a></div>
+</nav>
+
+<div class="page-header" data-aos="zoom-out">
+    <h1>Shops & <em>Retail</em></h1>
+    <p>Prime retail spots in malls, high streets, and commercial centres across Kenya.</p>
+</div>
+
+<div class="tab-switcher" data-aos="fade-up">
+    <button class="tab-btn active" onclick="switchTab('seek')">Find a Shop</button>
+    <button class="tab-btn" onclick="switchTab('list')">List a Shop</button>
+</div>
+
+<!-- FIND SHOP -->
+<div id="tab-seek" class="form-panel" data-aos="fade-up">
+    <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:2rem;text-align:center">Find Your Retail Space</h2>
+    <form>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Target Location</label>
+                <input type="text" class="form-input" placeholder="e.g. CBD, Eastleigh, Mombasa Road">
+            </div>
+            <div class="form-group">
+                <label>Monthly Budget (KES)</label>
+                <input type="number" class="form-input" placeholder="e.g. 50,000">
+            </div>
+            <div class="form-group">
+                <label>Shop Type</label>
+                <select class="form-input">
+                    <option>Mall Unit</option>
+                    <option>Street-Front Shop</option>
+                    <option>Market Stall</option>
+                    <option>Container Shop</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Size Needed (sq ft)</label>
+                <input type="number" class="form-input" placeholder="e.g. 300">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;margin-top:2rem;padding:1.1rem;justify-content:center" onclick="notify('Retail search active!')">Find Retail Space <i class="fas fa-search"></i></button>
+    </form>
+</div>
+
+<!-- LIST SHOP -->
+<div id="tab-list" class="form-panel" style="display:none" data-aos="fade-up">
+    <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:2rem;text-align:center">List Your Shop for Rent</h2>
+    <form>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Shop / Mall Name</label>
+                <input type="text" class="form-input" placeholder="e.g. Sarit Centre Unit A12">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" class="form-input" placeholder="Full address">
+            </div>
+            <div class="form-group">
+                <label>Monthly Rent (KES)</label>
+                <input type="number" class="form-input">
+            </div>
+            <div class="form-group">
+                <label>Floor Area (sq ft)</label>
+                <input type="number" class="form-input">
+            </div>
+        </div>
+
+        <div style="margin-top:2rem">
+            <label style="display:block;font-family:var(--font-ui);font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem">Shop Images</label>
+            <div class="upload-box">
+                <i class="fas fa-store"></i>
+                <p>Upload storefront and interior photos of the retail space</p>
+            </div>
+        </div>
+
+        <div class="divider" style="margin-top:2.5rem"></div>
+        <h3 style="font-family:var(--font-display);font-size:1.5rem;margin:1.5rem 0;text-align:center">Contact Details</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Contact Email</label>
+                <input type="email" class="form-input" placeholder="landlord@email.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" class="form-input" placeholder="+254 7XX XXX XXX">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;margin-top:2rem;padding:1.1rem;justify-content:center" onclick="notify('Shop listing added!')">List Retail Space <i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>
+
+<footer><div class="footer-bottom">&copy; 2026 LinkPoint Hub. All rights reserved.</div></footer>
+<div id="notifications" style="position:fixed;bottom:2rem;right:2rem;z-index:10000"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({duration:800,once:true});
+function switchTab(tab){document.getElementById('tab-seek').style.display=tab==='seek'?'block':'none';document.getElementById('tab-list').style.display=tab==='list'?'block':'none';document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',i===(tab==='seek'?0:1))})}
+function notify(msg){const n=document.createElement('div');n.style.cssText='background:var(--accent);color:white;padding:1rem 2rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:slideIn 0.3s ease;font-family:var(--font-ui);font-size:0.9rem;font-weight:600';n.innerText=msg;document.getElementById('notifications').appendChild(n);setTimeout(()=>n.remove(),3000)}
+</script>
+<style>@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}</style>
+</body>
+</html>
