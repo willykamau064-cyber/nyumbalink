@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <title>Buy a Home | LinkPoint Kenya</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF6B35">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="description" content="Find your dream home for sale in Kenya. Karen villas, Kilimani apartments, Runda mansions — all verified.">
 <style>
 :root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
@@ -90,7 +90,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <a href="commercial.html" class="nl">Commercial</a>
   </div>
   <div class="na">
-    <button class="btn bg" onclick="openAuth()"><i class="fas fa-user"></i> Login</button>
+    <a href="join.html" class="btn bg"><i class="fas fa-user"></i> Login</a>
     <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
@@ -120,7 +120,19 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
         <div class="fgroup"><label><i class="fas fa-home"></i> Property Type</label><select class="fi"><option>Any Type</option><option>Villa / Mansion</option><option>Apartment</option><option>Townhouse</option><option>Bungalow</option><option>Off-plan</option></select></div>
         <div class="fgroup"><label><i class="fas fa-bed"></i> Bedrooms</label><select class="fi"><option>Any</option><option>2 Bedrooms</option><option>3 Bedrooms</option><option>4 Bedrooms</option><option>5+ Bedrooms</option></select></div>
         <div class="fgroup"><label><i class="fas fa-coins"></i> Max Budget (KSh)</label><select class="fi"><option>Any Budget</option><option>Up to 5M</option><option>Up to 10M</option><option>Up to 20M</option><option>Up to 50M</option><option>50M+</option></select></div>
-        <div><button class="btn bp" style="width:100%;justify-content:center;padding:.9rem"><i class="fas fa-search"></i> Search Homes</button></div>
+        <div><button class="btn bp" style="width:100%;justify-content:center;padding:.9rem" onclick="handleSearch(this)"><i class="fas fa-search"></i> Search Homes</button></div>
+<script>
+function handleSearch(btn) {
+    const old = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Filtering...';
+    btn.disabled = true;
+    setTimeout(() => {
+        btn.innerHTML = old;
+        btn.disabled = false;
+        document.querySelector('.pgrid').scrollIntoView({ behavior: 'smooth' });
+    }, 800);
+}
+</script>
       </div>
     </div>
   </div>
@@ -129,13 +141,12 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 <section class="sec reveal" style="background:var(--nl);padding-top:0">
   <div class="mw">
     <div class="sh"><div class="stag">For Sale</div><h2 class="st">Featured Homes for Sale</h2></div>
-    <div class="pgrid">
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 28M <span>• neg.</span></div><div class="ptit">Modern 4BR Villa, Karen</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Karen, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 3 Baths</div><div class="pfe"><i class="fas fa-ruler-combined"></i> 450m²</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi360.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 55M <span>• neg.</span></div><div class="ptit">Luxury 5BR Mansion, Runda</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Runda, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 5 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 4 Baths</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 9.5M <span>• neg.</span></div><div class="ptit">Cozy 3BR Bungalow, Ruiru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ruiru, Kiambu</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Garage</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#7c3aed">OFF-PLAN</div></div><div class="pbd"><div class="ppr">KSh 12M <span>from</span></div><div class="ptit">Infinity Residences, Lavington</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lavington, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-calendar"></i> 2026</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_shop.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 18M <span>• neg.</span></div><div class="ptit">Beachfront Villa, Nyali</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nyali, Mombasa</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-water"></i> Ocean View</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_bnb.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 7.8M <span>• neg.</span></div><div class="ptit">Modern 3BR House, Nakuru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nakuru Town</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Parking</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+    <div class="pgrid">      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 28M <span>• neg.</span></div><div class="ptit">Modern 4BR Villa, Karen</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Karen, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 3 Baths</div><div class="pfe"><i class="fas fa-ruler-combined"></i> 450m²</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi360.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 55M <span>• neg.</span></div><div class="ptit">Luxury 5BR Mansion, Runda</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Runda, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 5 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 4 Baths</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 9.5M <span>• neg.</span></div><div class="ptit">Cozy 3BR Bungalow, Ruiru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ruiru, Kiambu</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Garage</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#7c3aed">OFF-PLAN</div></div><div class="pbd"><div class="ppr">KSh 12M <span>from</span></div><div class="ptit">Infinity Residences, Lavington</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lavington, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-calendar"></i> 2026</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_shop.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 18M <span>• neg.</span></div><div class="ptit">Beachfront Villa, Nyali</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nyali, Mombasa</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 4 Beds</div><div class="pfe"><i class="fas fa-water"></i> Ocean View</div><div class="pfe"><i class="fas fa-swimming-pool"></i> Pool</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_bnb.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 7.8M <span>• neg.</span></div><div class="ptit">Modern 3BR House, Nakuru</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Nakuru Town</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-bath"></i> 2 Baths</div><div class="pfe"><i class="fas fa-car"></i> Parking</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>></div></div>
     </div>
   </div>
 </section>
@@ -145,8 +156,19 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <a href="agents.html" class="btn bp blg"><i class="fas fa-user-tie"></i> Talk to an Agent</a>
 </section>
 <div style="text-align:center;padding:3rem 5%;background:var(--nl)">
-   <button class="btn bp blg" onclick="openPaystack('1500', 'View Seller Contacts')"><i class="fas fa-unlock"></i> View Seller Contacts (KSh 1,500)</button>
+   <button class="btn bp blg" onclick="handlePayment('1500', 'View Seller Contacts')"><i class="fas fa-unlock"></i> View Seller Contacts (KSh 1,500)</button>
 </div>
+<script>
+function handlePayment(amt, desc) {
+    if(!localStorage.getItem('token')) {
+        alert("🔒 Security Error: Please login to unlock contacts.");
+        window.location.href = 'join.html';
+        return;
+    }
+    openPaystack(amt, desc);
+}
+</script>
+
 <button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
 
 <footer>
@@ -173,11 +195,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
 
-<!-- Auth Modal -->
-<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
-<div style="display:flex;align-items:center;gap:1rem;margin:0.2rem 0"><div style="flex:1;height:1px;background:var(--gb)"></div><span style="color:var(--dim);font-size:0.75rem">OR</span><div style="flex:1;height:1px;background:var(--gb)"></div></div>
-<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
-<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></div></div></div>
+
 
 
 
@@ -190,9 +208,7 @@ window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scro
 const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-function openAuth(){document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';}
-function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
+function openAuth(){ window.location.href = 'join.html'; }
 
 function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
 function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}

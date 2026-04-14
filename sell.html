@@ -80,6 +80,10 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 .rate-widget:hover{transform:translateY(-3px)}
 
 @media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
+.media-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:1rem;margin-top:1rem}
+.preview-item{position:relative;border-radius:10px;overflow:hidden;height:100px;border:1px solid var(--gb)}
+.preview-item img{width:100%;height:100%;object-fit:cover}
+.preview-item .remove-p{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.6);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center}
 </style>
 </head><body>
 <nav id="nav">
@@ -98,7 +102,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <a href="about.html" class="nl">About Us</a>
   </div>
   <div class="na">
-    <button class="btn bg" onclick="openAuth()"><i class="fas fa-user"></i> Login</button>
+    <a href="join.html" class="btn bg"><i class="fas fa-user"></i> Login</a>
     <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
@@ -150,11 +154,12 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
         <div class="fgroup"><label>Location — Town / Estate *</label><input type="text" class="fi" id="p_loc" placeholder="e.g. Kilimani, Nairobi"></div>
         <div class="fgroup"><label>Asking Price (KSh) *</label><input type="number" class="fi" id="p_price" placeholder="e.g. 85000"></div>
         <div class="fgroup" style="grid-column:1/-1">
-          <label style="color:var(--primary);font-size:0.9rem"><i class="fas fa-photo-video"></i> Upload Media (Unlimited Photos &amp; Videos) *</label>
-          <input type="file" class="fi" accept="image/*,video/*" multiple style="padding:1rem">
+          <label for="p_media" style="color:var(--primary);font-size:0.9rem;cursor:pointer"><i class="fas fa-photo-video"></i> Upload Media (Unlimited Photos &amp; Videos) *</label>
+          <input type="file" class="fi" id="p_media" accept="image/*,video/*" multiple style="padding:1rem" onchange="previewMedia(this)">
+          <div id="media-preview" class="media-preview"></div>
         </div>
       </div>
-      <button id="submitBtn" class="btn bp" style="width:100%;justify-content:center;padding:1rem;margin-top:1.5rem;font-size:1rem" onclick="openPaystack('2000', 'List Property for Rent')"><i class="fas fa-lock"></i> List Property (KSh 2,000)</button>
+      <button id="submitBtn" class="btn bp" style="width:100%;justify-content:center;padding:1rem;margin-top:1.5rem;font-size:1rem" onclick="handleListingSubmit()"><i class="fas fa-lock"></i> List Property (KSh 2,000)</button>
       <p style="text-align:center;color:var(--dim);font-size:.78rem;margin-top:.8rem">Note: Successful house sales incur a 6.5% platform commission at closing.</p>
     </div>
   </div>
@@ -185,11 +190,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
 
-<!-- Auth Modal -->
-<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
-<div style="display:flex;align-items:center;gap:1rem;margin:0.2rem 0"><div style="flex:1;height:1px;background:var(--gb)"></div><span style="color:var(--dim);font-size:0.75rem">OR</span><div style="flex:1;height:1px;background:var(--gb)"></div></div>
-<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
-<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></div></div></div>
+
 
 
 
@@ -202,13 +203,10 @@ window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scro
 const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-function openAuth(){document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';}
-function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
-
-function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
 function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
+
+function openAuth(){ window.location.href = 'join.html'; }
 
 
 
@@ -230,12 +228,43 @@ document.getElementById('installBtn').addEventListener('click', async () => {
 </script>
 <script>
 let curAmt='2,000', curDesc='List a Property for Rent';
+function handleListingSubmit() {
+    if(!localStorage.getItem('token')) {
+        alert("🔒 Security Error: Please login to list your property.");
+        window.location.href = 'join.html';
+        return;
+    }
+    openPaystack(curAmt || '2000', curDesc || 'List Property for Rent');
+}
+
 function setType(btn,amt,desc){
     document.querySelectorAll('.na-type .btn').forEach(b=>b.classList.replace('bp','bg'));
     btn.classList.replace('bg','bp');
     curAmt = amt; curDesc = desc;
-    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-lock"></i> Pay KSh ' + amt + ' via Paystack to List';
-    document.getElementById(\'submitBtn\').onclick = function(){ openAuth(); };
+    const sBtn = document.getElementById('submitBtn');
+    sBtn.innerHTML = '<i class="fas fa-lock"></i> Pay KSh ' + amt + ' via Paystack to List';
+    // Logic moved to handleListingSubmit for consistency
+}
+
+function previewMedia(input) {
+    const preview = document.getElementById('media-preview');
+    preview.innerHTML = '';
+    if (input.files) {
+        Array.from(input.files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                if (file.type.startsWith('image/')) {
+                    div.innerHTML = `<img src="${e.target.result}"><button class="remove-p" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
+                } else {
+                    div.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;background:var(--nl);font-size:2rem;color:var(--primary)"><i class="fas fa-video"></i></div><button class="remove-p" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
+                }
+                preview.appendChild(div);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
 }
 </script>
 
@@ -295,39 +324,46 @@ window.addEventListener('DOMContentLoaded', () => {
 <script>
 async function triggerPay() {
     const phone = document.querySelector("#mov input[type=tel]").value;
-    if(!phone || phone.length < 10) { alert("Please enter a valid Paystack number!"); return; }
+    if(!phone || phone.length < 10) { alert("Please enter a valid phone number!"); return; }
     
     // UI Update
     const btn = document.querySelector("#mov .btn");
     const oldHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Requesting STK Push...";
+    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Requesting Payment...";
 
     try {
-        // 1. Kick off Paystack STK Push
-        const payRes = await fetch("/api/pay", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ phone: phone })
-        });
-        const payData = await payRes.json();
-        
-        // 2. Save Property Data to Supabase automatically
+        // 1. Send Property Data to Supabase first (or after payment, but first ensures data isn't lost)
         const pt = document.getElementById("p_title")?.value;
         const pl = document.getElementById("p_loc")?.value;
         const ppr = document.getElementById("p_price")?.value;
         const type = typeof curDesc !== "undefined" ? curDesc : "Listing";
 
-        await fetch("/api/properties", { 
+        // Collect first media preview as primary image (demo simplification)
+        const firstImg = document.querySelector('#media-preview img')?.src || 'kenyan_apartment.png';
+
+        const saveRes = await fetch("/api/properties", { 
             method: "POST", 
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ title: pt, location: pl, price: ppr, type: type }) 
+            body: JSON.stringify({ title: pt, location: pl, price: ppr, type: type, image_url: firstImg }) 
         });
+        const saveData = await saveRes.json();
+        
+        if(!saveData.success) throw new Error("Database error: " + saveData.message);
 
-        alert("?? STK PUSH SENT! \n\nCheck your phone (" + phone + ") to authorize the KSh 1 payment. Your listing has been saved to the database!");
+        // 2. Kick off M-Pesa STK Push / Payment Gateway
+        const payRes = await fetch("/api/pay", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ phone: phone, amount: 1 }) // Amount in KSh
+        });
+        const payData = await payRes.json();
+
+        alert("🚀 SUCCESS! \n\n" + (payData.message || "Request sent. Your listing has been saved to the database!"));
+        window.location.href = 'user-dashboard.html';
         
     } catch(e) {
-        alert("Error: " + e.message);
+        alert("⚠️ System Notification: " + e.message);
     } finally {
         btn.disabled = false;
         btn.innerHTML = oldHtml;

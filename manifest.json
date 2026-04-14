@@ -1,21 +1,44 @@
-﻿{
-  "name": "LinkPoint Kenya Ecosystem",
+{
+  "name": "LinkPoint Kenya",
   "short_name": "LinkPoint",
-  "start_url": "./index.html",
+  "description": "Kenya's premier real estate ecosystem for renting, buying, selling and BnB stays.",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#080d1a",
   "theme_color": "#FF6B35",
-  "description": "Kenya's premier real estate ecosystem for renting, buying, and selling properties.",
+  "categories": ["business", "lifestyle"],
+  "lang": "en-KE",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find a BnB",
+      "url": "/bnb.html",
+      "description": "Browse BnB stays across Kenya"
+    },
+    {
+      "name": "List Property",
+      "url": "/sell.html",
+      "description": "List your property on LinkPoint"
+    },
+    {
+      "name": "Sign In",
+      "url": "/join.html",
+      "description": "Sign in to your account"
     }
   ]
 }

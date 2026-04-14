@@ -1,138 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkPoint | Secure Login</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .auth-container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
-        .logo { text-align: center; margin-bottom: 30px; }
-        .logo span { font-weight: 800; color: #FF6B35; font-size: 24px; letter-spacing: -1px; }
-        h1 { font-size: 22px; color: #333; margin-bottom: 20px; text-align: center; }
-        .fgroup { margin-bottom: 15px; }
-        .fgroup label { display: block; font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 600; }
-        .fi { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-        .fi:focus { outline: none; border-color: #FF6B35; }
-        .btn { width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .bp { background: #FF6B35; color: #fff; }
-        .bp:hover { background: #e85a2a; }
-        .links { margin-top: 20px; text-align: center; font-size: 14px; color: #777; }
-        .links a { color: #FF6B35; text-decoration: none; font-weight: 700; }
-        .forgot { float: right; font-size: 12px; color: #FF6B35; text-decoration: none; font-weight: 600; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | LinkPoint Kenya</title>
+<meta name="description" content="Sign in or create a free LinkPoint account to browse premium properties, save listings and manage your profile.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF6B35">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary: #FF6B35;
+  --pg: rgba(255,107,53,.4);
+  --navy: #080d1a;
+  --nl: #0f1729;
+  --glass: rgba(255,255,255,.06);
+  --gb: rgba(255,255,255,.12);
+  --text: #fff;
+  --muted: rgba(255,255,255,.6);
+  --dim: rgba(255,255,255,.28);
+  --serif: 'Playfair Display', serif;
+  --sans: 'Outfit', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: var(--sans); background: var(--navy); color: var(--text); }
+
+/* ── Split layout ── */
+.page { display: flex; min-height: 100vh; }
+
+/* ── Left panel ── */
+.left {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+}
+.left-bg {
+  position: absolute; inset: 0;
+  background-image: url('nairobi360.png');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.4);
+  animation: slowPan 40s linear infinite alternate;
+}
+@keyframes slowPan {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+.left-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(8,13,26,.85) 0%, rgba(255,107,53,.08) 60%, rgba(8,13,26,.95) 100%);
+}
+.left-content { position: relative; z-index: 2; }
+.left-logo {
+  display: flex; align-items: center; gap: .7rem;
+  text-decoration: none;
+  position: absolute; top: 2.5rem; left: 3rem; z-index: 10;
+}
+.lb {
+  width: 46px; height: 46px;
+  background: var(--primary);
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1.4rem; color: #fff;
+  box-shadow: 0 0 30px var(--pg);
+}
+.lt { font-size: 1.7rem; font-weight: 800; color: #fff; letter-spacing: -.5px; }
+.lt span { color: var(--primary); }
+.left-tagline {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-family: var(--serif);
+  font-style: italic;
+  line-height: 1.25;
+  margin-bottom: .8rem;
+}
+.left-sub { color: var(--muted); font-size: .95rem; line-height: 1.7; margin-bottom: 1.8rem; max-width: 400px; }
+.left-stats { display: flex; gap: 2.5rem; }
+.stat-item h3 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.stat-item p { color: var(--muted); font-size: .78rem; }
+
+/* Floating shapes */
+@keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-18px) rotate(4deg)} }
+.floater { position: absolute; opacity: .07; pointer-events: none; border-radius: 50%; border: 2px solid var(--primary); }
+.f1 { width: 220px; height: 220px; top: 8%; right: -70px; animation: float 7s ease-in-out infinite; }
+.f2 { width: 130px; height: 130px; top: 38%; right: 15px; border-radius: 18px; border-color: rgba(255,255,255,.3); animation: float 9s ease-in-out infinite .5s; }
+.f3 { width: 90px;  height: 90px;  bottom: 18%; right: -25px; animation: float 8s ease-in-out infinite 1s; }
+
+/* ── Right panel ── */
+.right {
+  width: 480px;
+  min-width: 430px;
+  background: rgba(8,13,26,.97);
+  border-left: 1px solid var(--gb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+}
+.form-box { width: 100%; max-width: 390px; }
+
+/* ── Tabs ── */
+.tabs {
+  display: flex; gap: .4rem;
+  background: var(--glass);
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  padding: .3rem;
+  margin-bottom: 2rem;
+}
+.tab-btn {
+  flex: 1; padding: .7rem;
+  border: none; background: transparent;
+  color: var(--muted); font-family: var(--sans);
+  font-size: .9rem; font-weight: 600;
+  border-radius: 11px; cursor: pointer;
+  transition: all .3s;
+}
+.tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 18px var(--pg); }
+
+/* ── Form ── */
+.form-title { font-size: 2rem; font-weight: 800; margin-bottom: .35rem; }
+.form-sub { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+
+.fgroup { margin-bottom: 1.2rem; }
+.fgroup label {
+  display: block; font-size: .78rem; color: var(--muted);
+  font-weight: 700; margin-bottom: .45rem;
+  text-transform: uppercase; letter-spacing: .7px;
+}
+.fi-wrap { position: relative; }
+.fi-wrap .icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--dim); font-size: .88rem; pointer-events: none; }
+.fi {
+  width: 100%; padding: .9rem 1rem .9rem 2.9rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--gb);
+  border-radius: 13px;
+  color: #fff; font-family: var(--sans); font-size: .95rem;
+  transition: border .3s, background .3s; outline: none;
+}
+.fi:focus { border-color: var(--primary); background: rgba(255,107,53,.07); }
+.fi::placeholder { color: var(--dim); }
+
+/* ── Show password button ── */
+.pw-eye {
+  position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
+  background: rgba(255,107,53,0.12);
+  border: 1px solid rgba(255,107,53,0.25);
+  border-radius: 8px;
+  color: var(--primary); cursor: pointer;
+  font-size: .82rem; padding: .32rem .55rem;
+  transition: all .2s; line-height: 1;
+}
+.pw-eye:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* ── Password strength bar ── */
+.pw-strength { height: 4px; border-radius: 4px; margin-top: .5rem; transition: all .4s; }
+
+/* ── Message ── */
+.msg { min-height: 22px; font-size: .86rem; font-weight: 600; margin-bottom: .6rem; text-align: center; transition: all .3s; border-radius: 8px; padding: 0; }
+.msg.show { padding: .5rem 1rem; }
+
+/* ── Submit ── */
+.submit-btn {
+  width: 100%; padding: 1rem;
+  background: var(--primary);
+  border: none; border-radius: 13px;
+  color: #fff; font-family: var(--sans); font-size: 1rem; font-weight: 700;
+  cursor: pointer; transition: all .35s;
+  box-shadow: 0 4px 22px var(--pg);
+  display: flex; align-items: center; justify-content: center; gap: .55rem;
+  margin-top: .5rem;
+}
+.submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 32px var(--pg); }
+.submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+/* ── Divider ── */
+.divider { display: flex; align-items: center; gap: 1rem; margin: 1.3rem 0; }
+.divider div { flex: 1; height: 1px; background: var(--gb); }
+.divider span { color: var(--dim); font-size: .8rem; }
+
+/* ── Links ── */
+.forgot-link { float: right; font-size: .8rem; color: var(--primary); text-decoration: none; font-weight: 600; }
+.forgot-link:hover { text-decoration: underline; }
+.switch-link { text-align: center; margin-top: 1.3rem; font-size: .86rem; color: var(--muted); }
+.switch-link a { color: var(--primary); text-decoration: none; font-weight: 700; }
+.back-home { text-align: center; margin-top: .8rem; }
+.back-home a { color: var(--dim); font-size: .82rem; text-decoration: none; transition: color .2s; }
+.back-home a:hover { color: var(--muted); }
+
+/* ── Views ── */
+.view { display: none; }
+.view.active { display: block; animation: fadeIn .35s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Spinner ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { display:inline-block; width:18px; height:18px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .left { display: none; }
+  .right { width: 100%; min-width: unset; border-left: none; padding: 2rem 1.4rem; }
+}
+</style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="logo"><span>LinkPoint</span></div>
-        
-        <div id="login-v">
-            <h1>Login</h1>
-            <div class="fgroup"><label>Email Address</label><input type="email" id="l-email" class="fi" placeholder="you@example.com"></div>
-            <div class="fgroup"><label>Password <a href="javascript:void(0)" onclick="sw('forgot')" class="forgot">Forgot?</a></label><input type="password" id="l-pass" class="fi" placeholder=""></div>
-            <div id="msg" style="font-size:13px;margin-bottom:8px;font-weight:600;min-height:18px"></div>
-            <button id="login-btn" class="btn bp" onclick="handleLogin()">Sign In</button>
-            <div class="links">New to LinkPoint? <a href="javascript:void(0)" onclick="sw('reg')">Create Account</a></div>
-        </div>
+<div class="page">
 
-        <div id="reg-v" style="display:none">
-            <h1>Create Account</h1>
-            <div class="fgroup"><label>Full Name</label><input type="text" id="r-name" class="fi" placeholder="First Last"></div>
-            <div class="fgroup"><label>Email Address</label><input type="email" id="r-email" class="fi" placeholder="email@address.com"></div>
-            <div class="fgroup"><label>Phone Number</label><input type="tel" id="r-phone" class="fi" placeholder="07XX / 01XX / 254..."></div>
-            <div class="fgroup"><label>Security Password</label><input type="password" id="r-pass" class="fi" placeholder="Min. 8 characters"></div>
-            <button id="reg-btn" class="btn bp" style="background:#28a745" onclick="handleReg()">Create Account</button>
-            <div class="links">Already a member? <a href="javascript:void(0)" onclick="sw('login')">Login here</a></div>
-        </div>
-
-        <div id="forgot-v" style="display:none">
-            <h1>Reset Password</h1>
-            <div class="fgroup"><label>Registered Email</label><input type="email" id="f-email" class="fi" placeholder="you@example.com"></div>
-            <button class="btn bp" onclick="handleForgot()">Send Recovery Link</button>
-            <div class="links"><a href="javascript:void(0)" onclick="sw('login')">Back to Login</a></div>
-        </div>
+  <!-- ── LEFT BRANDING ── -->
+  <div class="left">
+    <div class="left-bg"></div>
+    <div class="left-overlay"></div>
+    <a href="/" class="left-logo">
+      <div class="lb">L</div>
+      <span class="lt">Link<span>Point</span></span>
+    </a>
+    <div class="floater f1"></div>
+    <div class="floater f2"></div>
+    <div class="floater f3"></div>
+    <div class="left-content">
+      <div class="left-tagline">"Your Dream Home<br>Starts Here"</div>
+      <p class="left-sub">Kenya's most trusted real estate ecosystem. Verified listings, secure M-Pesa & Paystack payments, and premium support — all in one place.</p>
+      <div class="left-stats">
+        <div class="stat-item"><h3>2,400+</h3><p>Properties Listed</p></div>
+        <div class="stat-item"><h3>98%</h3><p>Verified Listings</p></div>
+        <div class="stat-item"><h3>12K+</h3><p>Happy Clients</p></div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        function sw(v) {
-            document.getElementById('login-v').style.display = v==='login'?'block':'none';
-            document.getElementById('reg-v').style.display = v==='reg'?'block':'none';
-            document.getElementById('forgot-v').style.display = v==='forgot'?'block':'none';
-            document.getElementById('msg').textContent = '';
-            document.getElementById('msg').style.color = '#e74c3c';
-        }
+  <!-- ── RIGHT AUTH FORM ── -->
+  <div class="right">
+    <div class="form-box">
 
-        function showMsg(text, isSuccess) {
-            const m = document.getElementById('msg');
-            m.textContent = text;
-            m.style.color = isSuccess ? '#27ae60' : '#e74c3c';
-        }
+      <!-- LOGIN VIEW -->
+      <div class="view active" id="view-login">
+        <div class="form-title">Welcome back 👋</div>
+        <div class="form-sub">Sign in to your LinkPoint account</div>
 
-        function setLoading(btnId, loading) {
-            const btn = document.getElementById(btnId);
-            btn.disabled = loading;
-            btn.textContent = loading ? 'Please wait...' : btn.dataset.label;
-        }
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('login')">Sign In</button>
+          <button class="tab-btn" onclick="switchTab('register')">Create Account</button>
+        </div>
 
-        async function handleLogin() {
-            const e = document.getElementById('l-email').value.trim();
-            const p = document.getElementById('l-pass').value;
-            if (!e || !p) return showMsg('Please enter your email and password.');
-            setLoading('login-btn', true);
-            try {
-                const r = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email:e, password:p}) });
-                const d = await r.json();
-                if (d.success) {
-                    showMsg(d.message, true);
-                    localStorage.setItem('token', d.token);
-                    if (d.user) {
-                        localStorage.setItem('user_name', d.user.name || d.user.email);
-                        localStorage.setItem('user_email', d.user.email);
-                    }
-                    setTimeout(() => window.location.href = 'user-dashboard.html', 800);
-                } else {
-                    showMsg(d.message || 'Login failed.');
-                }
-            } catch(err) {
-                showMsg('Cannot connect to server. Make sure it is running.');
-            }
-            setLoading('login-btn', false);
-        }
+        <div class="fgroup">
+          <label>Email Address</label>
+          <div class="fi-wrap">
+            <i class="fas fa-envelope icon"></i>
+            <input type="email" class="fi" id="l-email" placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
 
-        async function handleReg() {
-            const n = document.getElementById('r-name').value.trim();
-            const e = document.getElementById('r-email').value.trim();
-            const ph = document.getElementById('r-phone').value.trim();
-            const p = document.getElementById('r-pass').value;
-            if (!n || !e || !ph || !p) return showMsg('Please fill all fields.');
-            if (p.length < 6) return showMsg('Password must be at least 6 characters.');
-            setLoading('reg-btn', true);
-            try {
-                const r = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name:n, email:e, phone:ph, password:p}) });
-                const d = await r.json();
-                if (d.success) {
-                    showMsg(d.message, true);
-                    setTimeout(() => sw('login'), 1500);
-                } else {
-                    showMsg(d.message || 'Registration failed.');
-                }
-            } catch(err) {
-                showMsg('Cannot connect to server. Make sure it is running.');
-            }
-            setLoading('reg-btn', false);
-        }
+        <div class="fgroup">
+          <label>Password <a href="javascript:void(0)" onclick="switchTab('forgot')" class="forgot-link">Forgot password?</a></label>
+          <div class="fi-wrap">
+            <i class="fas fa-lock icon"></i>
+            <input type="password" class="fi" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+            <button class="pw-eye" type="button" onclick="togglePw('l-pass', this)" title="Show/hide password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
 
-        async function handleForgot() {
-            const e = document.getElementById('f-email').value.trim();
-            if (!e) return showMsg('Please enter your email.');
-            showMsg('If this email is registered, you will receive a reset link shortly.', true);
-        }
+        <div class="msg" id="msg-login"></div>
 
-        // Set button labels
-        window.onload = () => {
-            document.getElementById('login-btn').dataset.label = 'Sign In';
-            document.getElementById('reg-btn').dataset.label = 'Create Account';
-        };
-    </script>
+        <button class="submit-btn" id="login-btn" onclick="handleLogin()">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+
+        <div class="divider"><div></div><span>OR</span><div></div></div>
+        <div class="switch-link">New here? <a href="javascript:void(0)" onclick="switchTab('register')">Create free account</a></div>
+        <div class="back-home"><a href="/"><i class="fas fa-arrow-left"></i> Back to Home</a></div>
+      </div>
+
+      <!-- REGISTER VIEW -->
+      <div class="view" id="view-register">
+        <div class="form-title">Join LinkPoint 🏠</div>
+        <div class="form-sub">Create your free account today</div>
+
+        <div class="tabs">
+          <button class="tab-btn" onclick="switchTab('login')">Sign In</button>
+          <button class="tab-btn active" onclick="switchTab('register')">Create Account</button>
+        </div>
+
+        <div class="fgroup">
+          <label>Full Name</label>
+          <div class="fi-wrap">
+            <i class="fas fa-user icon"></i>
+            <input type="text" class="fi" id="r-name" placeholder="First Last" autocomplete="name">
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Email Address</label>
+          <div class="fi-wrap">
+            <i class="fas fa-envelope icon"></i>
+            <input type="email" class="fi" id="r-email" placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Phone Number</label>
+          <div class="fi-wrap">
+            <i class="fas fa-phone icon"></i>
+            <input type="tel" class="fi" id="r-phone" placeholder="07XX / 01XX / 254..." autocomplete="tel">
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Password</label>
+          <div class="fi-wrap">
+            <i class="fas fa-lock icon"></i>
+            <input type="password" class="fi" id="r-pass" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
+            <button class="pw-eye" type="button" onclick="togglePw('r-pass', this)" title="Show/hide password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="pw-strength" id="pw-bar"></div>
+        </div>
+
+        <div class="msg" id="msg-reg"></div>
+
+        <button class="submit-btn" id="reg-btn" onclick="handleReg()">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+
+        <div class="switch-link" style="margin-top:1rem">Already a member? <a href="javascript:void(0)" onclick="switchTab('login')">Sign in</a></div>
+      </div>
+
+      <!-- FORGOT PASSWORD VIEW -->
+      <div class="view" id="view-forgot">
+        <div class="form-title">Reset Password 🔑</div>
+        <div class="form-sub">Enter your email and we'll send a reset link</div>
+
+        <div class="fgroup" style="margin-top:1.5rem">
+          <label>Registered Email</label>
+          <div class="fi-wrap">
+            <i class="fas fa-envelope icon"></i>
+            <input type="email" class="fi" id="f-email" placeholder="you@example.com">
+          </div>
+        </div>
+
+        <div class="msg" id="msg-forgot"></div>
+
+        <button class="submit-btn" onclick="handleForgot()">
+          <i class="fas fa-paper-plane"></i> Send Reset Link
+        </button>
+
+        <div class="switch-link" style="margin-top:1rem">
+          <a href="javascript:void(0)" onclick="switchTab('login')"><i class="fas fa-arrow-left"></i> Back to Sign In</a>
+        </div>
+      </div>
+
+    </div><!-- /form-box -->
+  </div><!-- /right -->
+</div><!-- /page -->
+
+<script>
+/* ── Supabase config ── works on Vercel & localhost without Node backend */
+const SUPA_URL  = 'https://laqcnqhyhvtawzvmxlkw.supabase.co';
+const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhcWNucWh5aHZ0YXd6dm14bGt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMDc5NDEsImV4cCI6MjA4OTY4Mzk0MX0.U7puhb9aL8Lt2d8-Pe3rFKi5RIx0LlAhsxPsCBgdQp4';
+
+/* ── View switching ── */
+function switchTab(tab) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + tab).classList.add('active');
+  clearMsgs();
+}
+
+function clearMsgs() {
+  ['msg-login','msg-reg','msg-forgot'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = ''; el.className = 'msg'; }
+  });
+}
+
+function showMsg(id, text, ok) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'msg show';
+  el.style.color = ok ? '#34d399' : '#f87171';
+  el.style.background = ok ? 'rgba(52,211,153,.08)' : 'rgba(248,113,113,.08)';
+}
+
+function setBtnLoading(id, loading, html) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<span class="spin"></span> Please wait...' : html;
+}
+
+/* ── Show/hide password ── */
+function togglePw(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.querySelector('i').className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
+  btn.title = show ? 'Hide password' : 'Show password';
+}
+
+/* ── Password strength ── */
+function checkStrength(val) {
+  const bar = document.getElementById('pw-bar');
+  if (!bar) return;
+  const strong = val.length >= 12 && /[A-Z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val);
+  const medium = val.length >= 8 && (/[A-Z]/.test(val) || /[0-9]/.test(val));
+  bar.style.width = val.length === 0 ? '0' : strong ? '100%' : medium ? '60%' : '25%';
+  bar.style.background = val.length === 0 ? 'transparent' : strong ? '#34d399' : medium ? '#fbbf24' : '#f87171';
+}
+
+/* ── Direct Supabase REST helpers ── */
+async function supaLogin(email, password) {
+  const r = await fetch(`${SUPA_URL}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON },
+    body: JSON.stringify({ email, password })
+  });
+  return r.json();
+}
+
+async function supaRegister(email, password) {
+  const r = await fetch(`${SUPA_URL}/auth/v1/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON },
+    body: JSON.stringify({ email, password })
+  });
+  return r.json();
+}
+
+async function supaForgot(email) {
+  const r = await fetch(`${SUPA_URL}/auth/v1/recover`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON },
+    body: JSON.stringify({ email })
+  });
+  return r.json();
+}
+
+/* ── Also try the local Node server as fallback ── */
+async function localLogin(email, password) {
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    if (!r.ok) throw new Error('Server error');
+    return r.json();
+  } catch { return null; }
+}
+
+/* ── LOGIN ── */
+async function handleLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  if (!email || !pass) return showMsg('msg-login', '⚠️ Please enter your email and password.', false);
+
+  setBtnLoading('login-btn', true, '<i class="fas fa-sign-in-alt"></i> Sign In');
+  clearMsgs();
+
+  // Try local Node backend first (works on localhost:5000)
+  const local = await localLogin(email, pass);
+  if (local && local.success) {
+    localStorage.setItem('token', local.token || 'lp-session');
+    if (local.user) {
+      localStorage.setItem('user_name', local.user.name || local.user.email);
+      localStorage.setItem('user_email', local.user.email);
+      localStorage.setItem('LinkPointUser', JSON.stringify(local.user));
+    }
+    showMsg('msg-login', '✅ Login successful! Redirecting...', true);
+    setTimeout(() => window.location.href = 'user-dashboard.html', 900);
+    return;
+  }
+
+  // Fall back to Supabase direct
+  try {
+    const data = await supaLogin(email, pass);
+    if (data.access_token) {
+      localStorage.setItem('token', data.access_token);
+      const user = data.user || {};
+      const name = user.user_metadata?.name || user.email || email;
+      localStorage.setItem('user_name', name);
+      localStorage.setItem('user_email', user.email || email);
+      localStorage.setItem('LinkPointUser', JSON.stringify({ name, email: user.email || email, id: user.id }));
+      showMsg('msg-login', '✅ Login successful! Redirecting...', true);
+      setTimeout(() => window.location.href = 'user-dashboard.html', 900);
+    } else {
+      const errMsg = data.error_description || data.msg || 'Invalid email or password.';
+      showMsg('msg-login', '❌ ' + errMsg, false);
+      setBtnLoading('login-btn', false, '<i class="fas fa-sign-in-alt"></i> Sign In');
+    }
+  } catch (err) {
+    showMsg('msg-login', '⚠️ Cannot connect. Check your internet and try again.', false);
+    setBtnLoading('login-btn', false, '<i class="fas fa-sign-in-alt"></i> Sign In');
+  }
+}
+
+/* ── REGISTER ── */
+async function handleReg() {
+  const name  = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const phone = document.getElementById('r-phone').value.trim();
+  const pass  = document.getElementById('r-pass').value;
+
+  if (!name || !email || !phone || !pass) return showMsg('msg-reg', '⚠️ Please fill in all fields.', false);
+  if (pass.length < 8) return showMsg('msg-reg', '⚠️ Password must be at least 8 characters.', false);
+
+  setBtnLoading('reg-btn', true, '<i class="fas fa-user-plus"></i> Create Account');
+  clearMsgs();
+
+  try {
+    // Try local Node server first
+    let success = false;
+    try {
+      const r = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, password: pass })
+      });
+      const d = await r.json();
+      if (d.success) { success = true; }
+    } catch {}
+
+    if (!success) {
+      // Try Supabase direct
+      const data = await supaRegister(email, pass);
+      if (data.id || data.user?.id) { success = true; }
+      else if (data.error) {
+        showMsg('msg-reg', '❌ ' + (data.msg || data.error || 'Registration failed.'), false);
+        setBtnLoading('reg-btn', false, '<i class="fas fa-user-plus"></i> Create Account');
+        return;
+      }
+    }
+
+    if (success) {
+      showMsg('msg-reg', '✅ Account created! Check your email to confirm, then sign in.', true);
+      setTimeout(() => switchTab('login'), 2800);
+    }
+  } catch (err) {
+    showMsg('msg-reg', '⚠️ Cannot connect to server. Try again.', false);
+  }
+  setBtnLoading('reg-btn', false, '<i class="fas fa-user-plus"></i> Create Account');
+}
+
+/* ── FORGOT PASSWORD ── */
+async function handleForgot() {
+  const email = document.getElementById('f-email').value.trim();
+  if (!email) return showMsg('msg-forgot', '⚠️ Please enter your email address.', false);
+
+  try {
+    await supaForgot(email);
+  } catch {}
+  showMsg('msg-forgot', '✅ If this email is registered, a reset link has been sent.', true);
+}
+
+/* ── Enter key ── */
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const active = document.querySelector('.view.active');
+  if (!active) return;
+  if (active.id === 'view-login') handleLogin();
+  else if (active.id === 'view-register') handleReg();
+  else if (active.id === 'view-forgot') handleForgot();
+});
+
+/* ── PWA Install ── */
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+</script>
 </body>
 </html>

@@ -1,7 +1,10 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>BnB & Short Stay | LinkPoint Kenya</title>
+<title>BnB Stays | LinkPoint Kenya</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF6B35">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="description" content="Book unique BnB stays across Kenya — Diani Beach, Watamu, Lamu Island, Nairobi city and more.">
 <style>
 :root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
@@ -84,7 +87,8 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <a href="commercial.html" class="nl">Commercial</a>
   </div>
   <div class="na">
-    <button class="btn bg" onclick="openAuth()"><i class="fas fa-user"></i> Login</button>
+    <button id="installBtn" class="btn bg" style="display:none"><i class="fas fa-download"></i> Install App</button>
+    <a href="join.html" class="btn bg"><i class="fas fa-user"></i> Login</a>
     <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
@@ -100,7 +104,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <h1 class="ht">Escape to <em>Paradise</em><br>Across Kenya</h1>
     <p class="hs">Beach cottages in Diani, island retreats in Lamu, safari lodges in Maasai Mara, and luxury city stays in Nairobi.</p>
     <div class="hbtns">
-      <a href="#search" class="btn bp blg"><i class="fas fa-search"></i> Find a Stay</a>
+      <button onclick="scrollToSearch()" class="btn bp blg"><i class="fas fa-search"></i> Find a BnB Stay</button>
       <a href="sell.html" class="btn bg blg"><i class="fas fa-home"></i> List Your BnB</a>
     </div>
   </div>
@@ -115,7 +119,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
         <div class="fgroup"><label><i class="fas fa-calendar"></i> Check In</label><input type="date" class="fi"></div>
         <div class="fgroup"><label><i class="fas fa-calendar-check"></i> Check Out</label><input type="date" class="fi"></div>
         <div class="fgroup"><label><i class="fas fa-users"></i> Guests</label><select class="fi"><option>1 Guest</option><option>2 Guests</option><option>3–4 Guests</option><option>5–6 Guests</option><option>7+ Guests</option></select></div>
-        <div><button class="btn bp" style="width:100%;justify-content:center;padding:.9rem"><i class="fas fa-search"></i> Search Stays</button></div>
+        <div><button class="btn bp" style="width:100%;justify-content:center;padding:.9rem" onclick="handleSearch(this)"><i class="fas fa-search"></i> Search BnBs</button></div>
       </div>
     </div>
   </div>
@@ -125,12 +129,12 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="mw">
     <div class="sh"><div class="stag">Top Picks</div><h2 class="st">Handpicked Stays in Kenya</h2></div>
     <div class="pgrid">
-      <div class="pc reveal"><div class="pi" style="background-image:url('bnb.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 9,500 <span>/night</span></div><div class="ptit">Beachfront Cottage, Diani</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Diani Beach, Kwale</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-water"></i> Ocean View</div><div class="pfe"><i class="fas fa-star"></i> 4.9</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi_street.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 14,000 <span>/night</span></div><div class="ptit">Lamu Island Retreat, Old Town</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lamu Island, Coast</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-water"></i> Waterfront</div><div class="pfe"><i class="fas fa-star"></i> 5.0</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi360.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 22,000 <span>/night</span></div><div class="ptit">Luxury Safari Lodge, Mara</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Maasai Mara, Narok</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-paw"></i> Safari</div><div class="pfe"><i class="fas fa-star"></i> 4.8</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 6,800 <span>/night</span></div><div class="ptit">Lakeside Villa, Naivasha</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lake Naivasha, Nakuru</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-water"></i> Lake View</div><div class="pfe"><i class="fas fa-star"></i> 4.7</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 8,200 <span>/night</span></div><div class="ptit">Watamu Beach House</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Watamu, Kilifi County</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-fish"></i> Snorkeling</div><div class="pfe"><i class="fas fa-star"></i> 4.9</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
-      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_shop.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 5,500 <span>/night</span></div><div class="ptit">Rooftop Penthouse, Nairobi CBD</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Westlands, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-city"></i> City View</div><div class="pfe"><i class="fas fa-star"></i> 4.6</div><div class="amenity-btn" onclick="openAmenities(\'Neighbourhood\')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('bnb.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 9,500 <span>/night</span></div><div class="ptit">Beachfront Cottage, Diani</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Diani Beach, Kwale</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-water"></i> Ocean View</div><div class="pfe"><i class="fas fa-star"></i> 4.9</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi_street.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 14,000 <span>/night</span></div><div class="ptit">Lamu Island Retreat, Old Town</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lamu Island, Coast</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-water"></i> Waterfront</div><div class="pfe"><i class="fas fa-star"></i> 5.0</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('nairobi360.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 22,000 <span>/night</span></div><div class="ptit">Luxury Safari Lodge, Mara</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Maasai Mara, Narok</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-paw"></i> Safari</div><div class="pfe"><i class="fas fa-star"></i> 4.8</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 6,800 <span>/night</span></div><div class="ptit">Lakeside Villa, Naivasha</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Lake Naivasha, Nakuru</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 3 Beds</div><div class="pfe"><i class="fas fa-water"></i> Lake View</div><div class="pfe"><i class="fas fa-star"></i> 4.7</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 8,200 <span>/night</span></div><div class="ptit">Watamu Beach House</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Watamu, Kilifi County</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-fish"></i> Snorkeling</div><div class="pfe"><i class="fas fa-star"></i> 4.9</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
+      <div class="pc reveal"><div class="pi" style="background-image:url('kenya_shop.png')"><div class="pbadge" style="background:#10b981">BNB</div></div><div class="pbd"><div class="ppr">KSh 5,500 <span>/night</span></div><div class="ptit">Rooftop Penthouse, Nairobi CBD</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Westlands, Nairobi</div><div class="pfeats"><div class="pfe"><i class="fas fa-bed"></i> 2 Beds</div><div class="pfe"><i class="fas fa-city"></i> City View</div><div class="pfe"><i class="fas fa-star"></i> 4.6</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div></div>
     </div>
   </div>
 </section>
@@ -140,8 +144,19 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <a href="sell.html" class="btn bp blg"><i class="fas fa-home"></i> List Your BnB — Free</a>
 </section>
 <div style="text-align:center;padding:3rem 5%;background:var(--nl)">
-   <button class="btn bp blg" onclick="openPaystack('300', 'Unlock BnB Host Contacts')"><i class="fas fa-unlock"></i> Unlock Host Contacts (KSh 300)</button>
+   <button class="btn bp blg" onclick="handlePayment('300', 'Unlock BnB Host Contacts')"><i class="fas fa-unlock"></i> Unlock Host Contacts (KSh 300)</button>
 </div>
+<script>
+function handlePayment(amt, desc) {
+    if(!localStorage.getItem('token')) {
+        alert("🔒 Security Error: Please login to unlock contacts.");
+        window.location.href = 'join.html';
+        return;
+    }
+    openPaystack(amt, desc);
+}
+</script>
+
 <button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
 
 <footer>
@@ -168,11 +183,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
 
-<!-- Auth Modal -->
-<div class="auth-ov" id="aov"><div class="auth-box"><button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2><p style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p></div><div style="display:flex;flex-direction:column;gap:1rem"><div class="fgroup"><label>Email Address</label><input type="email" class="fi" placeholder="you@example.com"></div><div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" class="fi" placeholder="••••••••"></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
-<div style="display:flex;align-items:center;gap:1rem;margin:0.2rem 0"><div style="flex:1;height:1px;background:var(--gb)"></div><span style="color:var(--dim);font-size:0.75rem">OR</span><div style="flex:1;height:1px;background:var(--gb)"></div></div>
-<button class="btn bg" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
-<p style="text-align:center;color:var(--muted);font-size:.82rem">No account? <a href="#" style="color:var(--primary);text-decoration:none">Register free</a></p></div></div></div>
+
 
 
 
@@ -185,9 +196,7 @@ window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scro
 const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-function openAuth(){document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';}
-function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
+function openAuth(){ window.location.href = 'join.html'; }
 
 function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
 function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
@@ -235,6 +244,47 @@ document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
 document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
+
+function scrollToSearch() {
+    document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+}
+
+function handleSearch(btn) {
+    const dest = btn.closest('.card').querySelector('select').value;
+    const oldHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+    btn.disabled = true;
+    setTimeout(() => {
+        btn.innerHTML = oldHtml;
+        btn.disabled = false;
+        // Scroll to listings
+        const section = document.querySelector('.pgrid');
+        if (section) {
+            section.closest('section').scrollIntoView({ behavior: 'smooth' });
+            // Flash highlight on listings
+            section.style.transition = 'all .4s';
+            section.style.outline = '2px solid var(--primary)';
+            section.style.borderRadius = '16px';
+            setTimeout(() => { section.style.outline = 'none'; }, 2000);
+        }
+        // Show a friendly toast
+        showToast('🔍 Showing BnB stays for: ' + dest);
+    }, 1200);
+}
+
+function showToast(msg) {
+    let t = document.getElementById('lp-toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'lp-toast';
+        t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:.8rem 1.6rem;border-radius:100px;font-weight:700;font-size:.9rem;z-index:99999;box-shadow:0 4px 20px var(--pg);transition:all .4s;white-space:nowrap';
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 3000);
+}
 </script>
 
 <script src="linkpoint-3d.js"></script>

@@ -1,6 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#FF6B35">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <title>About Us | LinkPoint Kenya</title>
@@ -181,17 +182,25 @@ function openRate(){document.getElementById('rov').classList.add('open');documen
 function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
 
+function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
+function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
+</script>
 
-
-/* PWA Install Logic */
+<script src="linkpoint-3d.js"></script>
+<script>
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'inline-flex';
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'inline-flex';
 });
-document.getElementById('installBtn').addEventListener('click', async () => {
+document.getElementById('installBtn')?.addEventListener('click', async () => {
   if (deferredPrompt !== null) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
@@ -199,6 +208,7 @@ document.getElementById('installBtn').addEventListener('click', async () => {
   }
 });
 </script>
+<script src="paystack.js"></script>
 
 <!-- Live Chat Modal -->
 <div class="auth-ov" id="chat-ov"><div class="auth-box" style="padding:0;overflow:hidden;max-width:380px;border-color:#25D366"><div style="background:#25D366;padding:1.5rem;display:flex;justify-content:space-between;align-items:center"><div style="color:#fff;font-weight:700;font-size:1.1rem"><i class="fab fa-whatsapp"></i> Live Agent Chat</div><button style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem" onclick="closeChat()"><i class="fas fa-times"></i></button></div><div style="padding:1.5rem;height:350px;overflow-y:auto;background:#0d1424;display:flex;flex-direction:column;gap:1rem"><div style="background:rgba(255,255,255,.05);padding:1rem;border-radius:12px 12px 12px 0;width:85%;color:var(--muted);font-size:.85rem;line-height:1.5">Hello! 🇰🇪 Welcome to LinkPoint Kenya. How can our agents help you today? Are you looking to buy, sell, or rent?</div></div><div style="padding:1rem;background:#111827;border-top:1px solid var(--gb);display:flex;gap:.5rem"><input type="text" class="fi" placeholder="Type a message..." style="margin:0;padding:.8rem;border-radius:100px"><button class="btn bp" style="padding:.8rem;border-radius:50%;width:42px;height:42px;background:#25D366;box-shadow:0 4px 15px rgba(37,211,102,0.4)" ><i class="fas fa-paper-plane"></i></button></div></div></div>
@@ -215,23 +225,4 @@ document.getElementById('installBtn').addEventListener('click', async () => {
 .amenity-btn { cursor:pointer; background:rgba(59,130,246,.12); color:#60a5fa; padding:0.4rem 0.8rem; border-radius:8px; display:inline-flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; transition:all 0.3s; margin-top:1rem; border:1px solid rgba(59,130,246,.2) }
 .amenity-btn:hover { background:#3b82f6; color:#fff }
 </style>
-
-<script>
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
-document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
-function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
-document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
-</script>
-
-<script src="linkpoint-3d.js"></script>
-<script src="paystack.js"></script>
-</body></html>
-
-
-
-
-
-
 

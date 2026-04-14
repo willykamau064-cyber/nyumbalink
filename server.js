@@ -58,11 +58,12 @@ app.post(["/api/login", "/login"], async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) return res.status(400).json({ success: false, message: "Please enter your email and password." });
+
+        // Add 10 second timeout so login never hangs forever
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Login timed out. Check your Supabase credentials in .env")), 10000));
         
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        const loginRequest = supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await Promise.race([loginRequest, timeout]);
 
         if (error || !data.user) return res.status(401).json({ success: false, message: error ? error.message : "Invalid login credentials." });
         
@@ -74,7 +75,7 @@ app.post(["/api/login", "/login"], async (req, res) => {
         });
     } catch(e) {
         console.error("Login error:", e.message);
-        res.status(500).json({ success: false, message: "Server error during login. Try again." });
+        res.status(500).json({ success: false, message: e.message.includes("timed out") ? "⚠️ Connection to database timed out. Please check your Supabase keys in .env" : "Server error during login. Try again." });
     }
 });
 
@@ -83,11 +84,26 @@ app.post(["/api/login", "/login"], async (req, res) => {
 // ============================
 app.get(["/api/listings", "/listings", "/api/properties"], async (req, res) => {
     const { type } = req.query;
-    let query = supabase.from("properties").select("*").order("verified", { ascending: false });
+    let query = supabase.from("properties").select("*").order("created_at", { ascending: false });
     if (type) query = query.eq("type", type);
     const { data, error } = await query;
     if (error) return res.status(500).json([]);
     res.json(data);
+});
+
+app.post(["/api/properties", "/api/listings"], async (req, res) => {
+    try {
+        const { title, location, price, type, image_url, description } = req.body;
+        const { data, error } = await supabase.from("properties").insert([
+            { title, location, price: parseFloat(price), type, image_url, description, verified: false }
+        ]).select();
+        
+        if (error) throw error;
+        res.json({ success: true, message: "Listing saved successfully", data: data[0] });
+    } catch(e) {
+        console.error("Save listing error:", e.message);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 // ============================
@@ -128,8 +144,12 @@ app.get("/neighborhoods", sendPage("neighborhoods"));
 app.get("/join", sendPage("join"));
 
 // ============================
-// 💳 PAYSTACK VERIFICATION
+// 💳 PAYSTACK CONFIG & VERIFICATION
 // ============================
+app.get("/api/config/paystack", (req, res) => {
+    res.json({ publicKey: process.env.PAYSTACK_PUBLIC_KEY || "pk_test_yourkeyhere" });
+});
+
 app.get("/paystack/verify/:reference", async (req, res) => {
     const { reference } = req.params;
     const SECRET = process.env.PAYSTACK_SECRET_KEY || "sk_test_yourkeyhere";
@@ -156,7 +176,7 @@ const getMpesaToken = async () => {
     } catch (e) { console.error("M-Pesa Token Error:", e.response?.data || e.message); throw e; }
 };
 
-app.post("/api/stkpush", async (req, res) => {
+app.post(["/api/stkpush", "/api/pay"], async (req, res) => {
     const { phone, amount } = req.body;
     try {
         const token = await getMpesaToken();

@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentPoint Hub</title>
+<title>RentPoint Hub</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#F05A28">
+<link rel="apple-touch-icon" href="icon-192.png">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -269,41 +267,7 @@
     .solid-nav i { color: #000000 !important; }
 </style>
 
-<!-- AUTHENTICATION GATE -->
-<div id="authGate" style="position: fixed; inset: 0; z-index: 99999; background: url('villa.png') center/cover no-repeat; display: none; opacity: 0; transform: scale(0.98); align-items: center; justify-content: center; transition: all 0.4s ease;">
-    <div style="position: absolute; inset: 0; background: var(--bg-overlay); backdrop-filter: blur(8px);"></div>
-    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; z-index: 1;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="logo.jpg?v=3" alt="RentPoint Logo" style="max-width: 180px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
-            <h2 style="color: var(--text-main); font-size: 2rem; margin-bottom: 0.5rem;">RentPoint.</h2>
-            <p style="color: var(--text-muted);" id="authSubtitle">Sign in to your premium real estate hub</p>
-        </div>
-        
-        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-            <button type="button" class="tab-btn" id="btn-login-tab" onclick="toggleAuthMode('login')" style="background: linear-gradient(135deg, var(--primary), #0082c8); color: white; border-color: transparent;">Login</button>
-            <button type="button" class="tab-btn" id="btn-register-tab" onclick="toggleAuthMode('register')">Register</button>
-        </div>
 
-        <form id="authForm" onsubmit="handleAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="authEmail" required class="form-input" placeholder="you@example.com">
-            </div>
-            <div class="form-group" id="phoneGroup" style="display: none;">
-                <label>Phone Number</label>
-                <input type="tel" id="authPhone" class="form-input" placeholder="07XX / 01XX / 254...">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="authPassword" required class="form-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
-            </div>
-            <div id="authError" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none;"></div>
-            <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">
-                Sign In <i class="fas fa-sign-in-alt"></i>
-            </button>
-        </form>
-    </div>
-</div>
 
 <script>
 // Automatically detect if we should use localhost, the computer's IP, or a deployed backend
@@ -733,10 +697,7 @@ function boostListing(id) {
 // Init body overflow
 document.body.style.overflow = 'auto';
 function openAuth() {
-    const gate = document.getElementById('authGate');
-    gate.style.display = 'flex';
-    setTimeout(() => { gate.style.opacity = '1'; gate.style.transform = 'scale(1)'; }, 10);
-    document.body.style.overflow = 'hidden';
+    window.location.href = 'join.html';
 }
 function toggleTheme() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -746,6 +707,14 @@ function toggleTheme() {
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         document.getElementById('themeIcon').className = 'fas fa-sun';
+    }
+}
+function showCount(input, id) {
+    const el = document.getElementById(id);
+    if(input.files && input.files.length > 0) {
+        el.innerText = '✅ ' + input.files.length + ' file(s) selected';
+    } else {
+        el.innerText = '';
     }
 }
 document.documentElement.removeAttribute('data-theme'); // default Light Mode
@@ -778,7 +747,8 @@ window.addEventListener('load', function() {
 
     <div style="display: flex; gap: 1rem; align-items: center;">
         <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; color: inherit;"><i class="fas fa-moon" id="themeIcon"></i></button>
-        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem;" onclick="openPaystack('1,500', 'Secure Escrow Payment')">Sign In</button>
+        <button id="installBtn" class="btn btn-outline" style="display:none;padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.8rem; border-color: #25d366; color: #25d366" ><i class="fas fa-download"></i> Install App</button>
+        <a href="join.html" class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center;">Sign In</a>
     </div>
 </nav>
 
@@ -998,13 +968,15 @@ window.addEventListener('load', function() {
                     <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--primary); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Amenities</h4></div>
 
                     <div class="form-group">
-                        <label>Upload Images</label>
-                        <input type="file" class="form-input" multiple accept="image/*">
+                        <label for="rent_img" style="cursor:pointer">Upload Images</label>
+                        <input type="file" id="rent_img" class="form-input" multiple accept="image/*" onchange="showCount(this, 'rc_img')">
+                        <span id="rc_img" style="font-size:0.7rem;color:var(--primary)"></span>
                         <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.5rem; display: block;">Select unmetered high-quality images</small>
                     </div>
                     <div class="form-group">
-                        <label>Upload Videos</label>
-                        <input type="file" class="form-input" multiple accept="video/*">
+                        <label for="rent_vid" style="cursor:pointer">Upload Videos</label>
+                        <input type="file" id="rent_vid" class="form-input" multiple accept="video/*" onchange="showCount(this, 'rc_vid')">
+                        <span id="rc_vid" style="font-size:0.7rem;color:var(--primary)"></span>
                     </div>
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Social Amenities Nearby</label>
@@ -1071,12 +1043,14 @@ window.addEventListener('load', function() {
                     <div class="form-group" style="grid-column: 1 / -1;"><h4 style="color: var(--danger); margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Media & Features</h4></div>
 
                     <div class="form-group">
-                        <label>Upload Images</label>
-                        <input type="file" class="form-input" multiple accept="image/*">
+                        <label for="sell_img" style="cursor:pointer">Upload Images</label>
+                        <input type="file" id="sell_img" class="form-input" multiple accept="image/*" onchange="showCount(this, 'sc_img')">
+                        <span id="sc_img" style="font-size:0.7rem;color:var(--primary)"></span>
                     </div>
                     <div class="form-group">
-                        <label>Upload Videos</label>
-                        <input type="file" class="form-input" multiple accept="video/*">
+                        <label for="sell_vid" style="cursor:pointer">Upload Videos</label>
+                        <input type="file" id="sell_vid" class="form-input" multiple accept="video/*" onchange="showCount(this, 'sc_vid')">
+                        <span id="sc_vid" style="font-size:0.7rem;color:var(--primary)"></span>
                     </div>
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Neighborhood Social Amenities</label>
@@ -1610,6 +1584,23 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 </script>
 
 <script src="linkpoint-3d.js"></script>
+<script>
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'inline-flex';
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (deferredPrompt !== null) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') { deferredPrompt = null; document.getElementById('installBtn').style.display = 'none'; }
+  }
+});
+</script>
 <script src="paystack.js"></script>
 </body>
 </html>

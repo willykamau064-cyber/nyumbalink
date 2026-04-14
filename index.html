@@ -79,7 +79,29 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
 .rate-widget{position:fixed;bottom:20px;right:20px;background:var(--primary);color:#fff;padding:0.7rem 1.2rem;border-radius:100px;font-weight:700;font-size:0.88rem;cursor:pointer;box-shadow:0 4px 20px var(--pg);z-index:1000;display:flex;align-items:center;gap:0.5rem;transition:all 0.3s;border:none}
 .rate-widget:hover{transform:translateY(-3px)}
 
-@media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
+@media(max-width:768px){
+  .nls{display:none}
+  .fg{grid-template-columns:1fr;gap:1.7rem}
+  nav{padding:.9rem 5%}
+  .na .btn:first-child{display:none}
+  .hero{height:auto;min-height:88vh;padding-bottom:5rem}
+  .hc{padding:0 1.2rem}
+  .ht{font-size:2rem !important;line-height:1.1}
+  .hs{font-size:.88rem}
+  .hbtns{flex-direction:column;align-items:center;gap:.7rem}
+  .hbtns .btn{width:100%;max-width:340px;justify-content:center;padding:.85rem 1.5rem}
+  .stats-bar{display:none}
+  .sec{padding:2rem 5%}
+  .grid7{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr}
+  .auth-box{padding:1.8rem 1.2rem;margin:1rem}
+  .fb{flex-direction:column;text-align:center}
+  section[style*='justify-content:space-between']{flex-direction:column;gap:1rem;align-items:stretch}
+  section[style*='justify-content:space-between'] div:last-child{display:flex;flex-direction:column;gap:.6rem}
+  section[style*='justify-content:space-between'] .btn{width:100%;justify-content:center}
+  .chat-btn{bottom:1rem;left:1rem;font-size:.82rem;padding:.65rem 1rem}
+  .rate-widget{bottom:1rem;right:1rem;font-size:.82rem;padding:.6rem 1rem}
+}
     #reg-view { display: none; }
     .auth-box.registering #login-view { display: none; }
     .auth-box.registering #reg-view { display: block; }
@@ -125,7 +147,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
     <a href="about.html" class="nl">About Us</a>
   </div>
   <div class="na">
-    <a href="javascript:void(0)" onclick="openAuth()" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a>
+    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a>
     <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
@@ -196,9 +218,10 @@ async function loadLiveFeed() {
             return;
         }
         grid.innerHTML = '';
-        data = data.slice(0, 3); // Show max 3 on homepage
+        let listings = data.slice(0, 3); // Show max 3 on homepage
+        const data3 = listings;
         const imgs = ['kenya_house.png', 'kenyan_apartment.png', 'kenya_shop.png', 'kenya_bnb.png'];
-        data.forEach((p, i) => {
+        listings.forEach((p, i) => {
             const img = imgs[i % imgs.length];
             const newEl = document.createElement('div');
             newEl.className = 'pc reveal';
@@ -251,164 +274,12 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
 
-<!-- Auth Modal -->
-<div class="auth-ov" id="aov">
-    <div class="auth-box" id="auth-main">
-        <button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button>
-        <div style="text-align:center;margin-bottom:1.5rem">
-            <div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div>
-            <h2 id="auth-title" style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2>
-            <p id="auth-desc" style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p>
-        </div>
-        
-        <!-- Login View -->
-        <div id="login-view" style="display:flex;flex-direction:column;gap:1rem">
-            <div class="fgroup"><label>Email Address</label><input type="email" id="login-email" class="fi" placeholder="you@example.com"></div>
-            <div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" id="login-pass" class="fi" placeholder="••••••••"></div>
-            <button class="btn bp" id="btn-login" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
-            <button class="btn bg" id="btn-biometric" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
-            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">New here? <a href="#" onclick="toggleAuthView('register')" style="color:var(--primary); font-weight:600">Create an Account</a></p>
-        </div>
-
-        <!-- Register View -->
-        <div id="reg-view" style="display:none;flex-direction:column;gap:1rem">
-            <div class="fgroup"><label>Full Name</label><input type="text" id="reg-name" class="fi" placeholder="Jane Doe"></div>
-            <div class="fgroup"><label>Email Address</label><input type="email" id="reg-email" class="fi" placeholder="you@example.com"></div>
-            <div class="fgroup"><label>Phone Number</label><input type="tel" id="reg-phone" class="fi" placeholder="07XX / 01XX / 254..."></div>
-            <div class="fgroup"><label>Password</label><input type="password" id="reg-pass" class="fi" placeholder="••••••••"></div>
-            <button class="btn bp" id="btn-register" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Create Secure Account <i class="fas fa-shield-alt"></i></button>
-            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">Already have an account? <a href="#" onclick="toggleAuthView('login')" style="color:var(--primary); font-weight:600">Sign In</a></p>
-        </div>
-    </div>
-</div>
-<script>
-function openAuth() {
-    document.getElementById('aov').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeAuth() {
-    document.getElementById('aov').classList.remove('open');
-    document.body.style.overflow = '';
-}
-function toggleAuthView(view) {
-    const isReg = view === 'register';
-    document.getElementById('login-view').style.display = isReg ? 'none' : 'flex';
-    document.getElementById('reg-view').style.display = isReg ? 'flex' : 'none';
-    document.getElementById('auth-title').innerText = isReg ? 'Create Account' : 'Welcome Back';
-    document.getElementById('auth-desc').innerText = isReg ? 'Join the LinkPoint Ecosystem' : 'Sign in to your LinkPoint account';
-}
-</script>
-
-
-
-<!-- Rate Modal -->
-<div class="auth-ov" id="rov"><div class="auth-box"><button class="acl" onclick="closeRate()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Rate LinkPoint</h2><p style="color:var(--muted);font-size:.87rem">How was your experience today?</p></div><div style="display:flex;justify-content:center;gap:0.5rem;font-size:2rem;color:#f59e0b;margin-bottom:1.5rem"><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="far fa-star cursor-pointer"></i></div><div class="fgroup"><textarea class="fi" placeholder="Any feedback for us?"></textarea></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem" >Submit Feedback</button></div></div>
-
 <script>
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>55));
 const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
 window.obs = obs;
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
-
-function previewPic(input) {
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            const prev = document.getElementById("pic-preview");
-            prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover">`;
-            prev.style.border = "2px solid var(--primary)";
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-function toggleAuth(isReg) {
-    const box = document.getElementById("auth-main");
-    if(isReg) box.classList.add("registering");
-    else box.classList.remove("registering");
-}
-
-async function handleRegister() {
-    const name = document.getElementById("reg-name").value;
-    const email = document.getElementById("reg-email").value;
-    const phone = document.getElementById("reg-phone").value;
-    const pass = document.getElementById("reg-pass").value;
-    const btn = document.getElementById("btn-register");
-
-    if(!name || !email || !pass) { alert("Please complete all fields."); return; }
-    if(pass.length < 6) { alert("Security: Password must be at least 6 characters."); return; }
-
-    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Encrypting Account...";
-    try {
-        const r = await fetch("/api/register", { 
-            method: "POST", 
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password: pass, phone }) 
-        });
-        if (r.ok) {
-            alert("✅ Account Created Successfully! You can now login.");
-            toggleAuthView('login');
-        } else {
-            const data = await r.json();
-            alert("❌ Registration Error: " + data.message);
-        }
-    } catch(e) { alert("Registration failed locally."); }
-    btn.innerHTML = "Create Secure Account <i class='fas fa-shield-alt'></i>";
-}
-
-async function handleLogin() {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-pass").value;
-    const btn = document.getElementById("btn-login");
-    if (!email || !password) { alert("Please enter credentials"); return; }
-    
-    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Verifying Credentials...";
-    try {
-        const r = await fetch("/api/login", { 
-            method: "POST", 
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }) 
-        });
-        const d = await r.json();
-        if (r.ok) {
-            localStorage.setItem('token', d.token);
-            if(d.user) localStorage.setItem('user_name', d.user.name);
-            alert("🚀 Welcome Back! Security Handshake Complete.");
-            window.location.href = "user-dashboard.html";
-        } else {
-            alert("❌ Access Denied: " + d.message);
-        }
-    } catch(e) { alert("Security Server Offline"); }
-    btn.innerHTML = "Sign In <i class='fas fa-arrow-right'></i>";
-}
-
-async function handleBiometric() {
-    const btn = document.getElementById("btn-biometric");
-    btn.innerHTML = "<i class='fas fa-fingerprint fa-spin'></i> Scanning Biometrics...";
-    // Emulating platform-native Biometric prompt (WebAuthn)
-    setTimeout(async () => {
-        try {
-            const r = await fetch("/api/auth/biometric", { method: "POST" });
-            const d = await r.json();
-            alert("🔓 Biometric Identity Verified: Access Granted.");
-            closeAuth();
-        } catch(e) { alert("Biometric Hub Offline"); }
-        btn.innerHTML = "<i class='fas fa-fingerprint'></i> Biometric Login (FaceID / Touch)";
-    }, 1200);
-}
-
-// Hook them up
-document.getElementById("btn-login").onclick = handleLogin;
-document.getElementById("btn-register").onclick = handleRegister;
-document.getElementById("btn-biometric").onclick = handleBiometric;
-
-document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
-
-function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
-function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
-
-
 
 /* PWA Install Logic */
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
@@ -460,17 +331,52 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 <script>
 function openPayment(amount, desc) {
     if(!localStorage.getItem('token')) {
-        alert("🔒 Security Error: You must be logged in to process payments.");
-        openAuth();
+        showPayGate(amount, desc);
         return;
     }
-    const choice = confirm(`How would you like to pay KSh ${amount} for ${desc}?\n\nOK for M-Pesa (STK Push)\nCancel for Paystack (Card/Bank)`);
-    if(choice) { if(typeof openMpesa==='function') openMpesa(amount, desc); }
-    else { if(typeof openPaystack==='function') openPaystack(amount, desc); }
+    showPayMethodModal(amount, desc);
 }
+
+function showPayGate(amount, desc) {
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center';
+    ov.innerHTML = `<div style="background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:2.5rem;width:90%;max-width:400px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:1rem">🔒</div>
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.5rem">Login Required</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:1.8rem">Please sign in to pay for <strong style="color:#FF6B35">${desc}</strong></p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="join.html" style="background:#FF6B35;color:#fff;padding:.8rem 1.8rem;border-radius:100px;font-weight:700;text-decoration:none;font-size:.9rem"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <button onclick="this.closest('[style]').remove()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:.8rem 1.8rem;border-radius:100px;font-weight:700;cursor:pointer;font-size:.9rem">Cancel</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', e => { if(e.target === ov) ov.remove(); });
+}
+
+function showPayMethodModal(amount, desc) {
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center';
+    ov.innerHTML = `<div style="background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:2.5rem;width:90%;max-width:420px;text-align:center">
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.4rem">Choose Payment Method</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:2rem">Pay <strong style="color:#FF6B35">KSh ${amount}</strong> for ${desc}</p>
+      <div style="display:flex;flex-direction:column;gap:.9rem">
+        <button onclick="doMpesa('${amount}','${desc}',this.closest('[style]'))" style="background:#00a651;border:none;color:#fff;padding:1rem;border-radius:13px;font-weight:700;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
+          <i class="fas fa-mobile-alt"></i> M-Pesa (STK Push)
+        </button>
+        <button onclick="doPaystack('${amount}','${desc}',this.closest('[style]'))" style="background:#FF6B35;border:none;color:#fff;padding:1rem;border-radius:13px;font-weight:700;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
+          <i class="fas fa-credit-card"></i> Paystack (Card / Bank)
+        </button>
+        <button onclick="this.closest('[style]').remove()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);padding:.7rem;border-radius:13px;cursor:pointer;font-size:.88rem">Cancel</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', e => { if(e.target === ov) ov.remove(); });
+}
+function doMpesa(amt, desc, ov) { if(ov) ov.remove(); if(typeof openMpesa==='function') openMpesa(amt, desc); }
+function doPaystack(amt, desc, ov) { if(ov) ov.remove(); if(typeof openPaystack==='function') openPaystack(amt, desc); }
 </script>
 <script>
-window.onerror = function(m,u,l){ alert("JS ERROR: " + m + " at " + u + ":" + l); };
+window.onerror = function(m,u,l){ console.error("JS ERROR:", m, "at", u, ":", l); };
 window.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const uName = localStorage.getItem('user_name');

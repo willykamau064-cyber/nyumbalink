@@ -2,149 +2,793 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>User Dashboard | LinkPoint</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard | LinkPoint Kenya</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ... CSS based on index.html ... */
-:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:var(--sans); background:var(--navy); color:var(--text); display:flex; height:100vh; overflow:hidden; }
+:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--sans);background:var(--navy);color:var(--text);display:flex;height:100vh;overflow:hidden;}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px}
 
-/* Dashboard Sidebar */
-.sidebar { width: 250px; background: rgba(15,23,41,0.95); border-right: 1px solid var(--gb); display: flex; flex-direction: column; padding: 1.5rem; backdrop-filter: blur(10px); }
-.logo { display:flex; align-items:center; gap:.7rem; text-decoration:none; margin-bottom: 2.5rem; }
-.lb { width:40px; height:40px; background:var(--primary); border-radius:11px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem; color:#fff; box-shadow:0 0 20px var(--pg); }
-.lt { font-size:1.5rem; font-weight:800; color:#fff; letter-spacing:-.5px; } .lt span { color:var(--primary); }
+/* SIDEBAR */
+.sidebar{width:200px;min-width:200px;background:rgba(10,16,35,0.98);border-right:1px solid var(--gb);display:flex;flex-direction:column;padding:1.2rem .85rem;}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;margin-bottom:2rem;}
+.lb{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff;box-shadow:0 0 18px var(--pg);}
+.lt{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.5px;}.lt span{color:var(--primary);}
+.nav-section{margin-bottom:.3rem;font-size:.68rem;font-weight:700;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;padding:.5rem .75rem 0;}
+.n-item{text-decoration:none;color:var(--muted);padding:.65rem .8rem;border-radius:10px;font-weight:500;font-size:.85rem;display:flex;align-items:center;gap:.7rem;transition:all .25s;cursor:pointer;border:none;background:transparent;width:100%;font-family:var(--sans);}
+.n-item:hover{background:var(--glass);color:#fff;}
+.n-item.active{background:rgba(255,107,53,.15);color:var(--primary);font-weight:600;}
+.n-item.active i{color:var(--primary);}
+.n-item i{width:18px;font-size:1rem;text-align:center;}
+.badge{margin-left:auto;background:var(--primary);color:#fff;padding:2px 7px;border-radius:10px;font-size:.68rem;font-weight:700;}
+.badge.green{background:#10b981;}
+.sidebar-bottom{margin-top:auto;}
+.logout-btn{color:#ef4444 !important;}
 
-.nav-links { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
-.n-item { text-decoration:none; color:var(--muted); padding:0.8rem 1rem; border-radius:10px; font-weight:500; display:flex; align-items:center; gap:0.8rem; transition:all 0.3s; }
-.n-item:hover, .n-item.active { background:var(--glass); color:#fff; transform:translateX(5px); }
-.n-item i { width:20px; font-size: 1.1rem; }
+/* MAIN */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.top-bar{height:68px;padding:0 2rem;border-bottom:1px solid var(--gb);display:flex;align-items:center;justify-content:space-between;background:rgba(8,13,26,.7);backdrop-filter:blur(12px);flex-shrink:0;}
+.search-bar{background:var(--glass);border:1px solid var(--gb);border-radius:100px;padding:.55rem 1.1rem;display:flex;align-items:center;gap:.5rem;width:320px;}
+.search-bar input{background:transparent;border:none;color:#fff;outline:none;width:100%;font-family:var(--sans);font-size:.88rem;}
+.search-bar input::placeholder{color:var(--dim);}
+.user-prof{display:flex;align-items:center;gap:.85rem;}
+.user-prof img{width:38px;height:38px;border-radius:50%;border:2px solid var(--primary);object-fit:cover;}
+.content{flex:1;overflow-y:auto;padding:1.5rem 1.8rem;}
 
-/* Dashboard Content Area */
-.main-area { flex:1; display:flex; flex-direction:column; background: linear-gradient(135deg, rgba(8,13,26,1), rgba(15,23,41,0.98)); }
+/* PANELS */
+.panel{display:none;animation:fadeIn .3s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* Top Bar */
-.top-bar { height: 75px; padding: 0 2rem; border-bottom: 1px solid var(--gb); display:flex; align-items:center; justify-content:space-between; background: rgba(8,13,26,0.6); backdrop-filter: blur(12px); }
-.search-bar { background: var(--glass); border: 1px solid var(--gb); border-radius: 100px; padding: 0.6rem 1.2rem; display:flex; align-items:center; gap: 0.5rem; width: 350px; }
-.search-bar input { background:transparent; border:none; color:#fff; outline:none; width:100%; font-family:var(--sans); }
-.user-prof { display:flex; align-items:center; gap: 1rem; }
-.user-prof img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary); object-fit:cover; }
+/* PAGE HEADER */
+.page-header{margin-bottom:1.8rem;}
+.page-header h1{font-family:var(--serif);font-size:1.9rem;font-weight:700;margin-bottom:.3rem;}
+.page-header p{color:var(--muted);font-size:.88rem;}
 
-/* Content Scrollable */
-.content { flex:1; padding: 2.5rem; overflow-y:auto; }
-.dash-title { font-family:var(--serif); font-size: 2rem; font-weight:700; margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:space-between; }
-.dash-title span { font-family:var(--sans); font-size:0.9rem; font-weight:400; color:var(--muted); }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.stat-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:1.3rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .3s;}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(255,107,53,.35);}
+.stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+.stat-info h4{color:var(--muted);font-size:.78rem;font-weight:500;margin-bottom:.25rem;}
+.stat-info h2{font-size:1.55rem;font-weight:800;}
 
-/* Quick Action / Stats matching layout */
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
-.stat-card { background: var(--glass); border: 1px solid var(--gb); border-radius: 16px; padding: 1.5rem; display:flex; align-items:center; gap: 1.2rem; transition: transform 0.3s; }
-.stat-card:hover { transform: translateY(-5px); border-color: rgba(255,107,53,0.3); }
-.stat-icon { width: 50px; height: 50px; border-radius: 12px; background: rgba(255,107,53,0.15); color: var(--primary); display:flex; align-items:center; justify-content:center; font-size: 1.4rem; }
-.stat-info h4 { color: var(--muted); font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
-.stat-info h2 { font-size: 1.6rem; font-weight: 700; }
+/* SECTION TITLE */
+.sec-title{font-size:1.05rem;font-weight:700;margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem;}
+.sec-title i{color:var(--primary);}
 
-/* Recommended Grid */
-.section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.2rem; display:flex; align-items:center; gap: 0.5rem; }
-.section-title i { color: var(--primary); }
-.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom:2.5rem; }
+/* PROPERTY CARDS */
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.3rem;margin-bottom:2rem;}
+.pc{background:var(--glass);border:1px solid var(--gb);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;}
+.pc:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.5);border-color:rgba(255,107,53,.3);}
+.pi{height:150px;background-size:cover;background-position:center;position:relative;}
+.pbadge{position:absolute;top:.7rem;right:.7rem;padding:.25rem .75rem;border-radius:100px;font-size:.68rem;font-weight:800;color:#fff;}
+.fav-btn{position:absolute;top:.7rem;left:.7rem;width:30px;height:30px;border-radius:8px;background:rgba(0,0,0,.5);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .2s;}
+.fav-btn:hover,.fav-btn.active{background:var(--primary);}
+.pbd{padding:1.1rem;}
+.ppr{font-size:1.1rem;font-weight:800;color:var(--primary);margin-bottom:.25rem;}
+.ppr span{font-size:.75rem;color:var(--muted);font-weight:400;}
+.ptit{font-family:var(--serif);font-size:1rem;margin-bottom:.3rem;}
+.ploc{color:var(--muted);font-size:.76rem;display:flex;align-items:center;gap:.25rem;margin-bottom:.75rem;}
+.pfeats{display:flex;gap:.75rem;border-top:1px solid var(--gb);padding-top:.75rem;}
+.pfe{display:flex;align-items:center;gap:.25rem;font-size:.74rem;color:var(--muted);}
+.pfe i{color:var(--primary);font-size:.7rem;}
 
-.pc{background:var(--glass);border:1px solid var(--gb);border-radius:16px;overflow:hidden;transition:all .35s; cursor:pointer;}
-.pc:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,.5); border-color:var(--primary);}
-.pi{height:160px;background-size:cover;background-position:center;position:relative}
-.pbadge{position:absolute;top:.85rem;right:.85rem;padding:.3rem .85rem;border-radius:100px;font-size:.71rem;font-weight:800;color:#fff; background:var(--primary);}
-.pbd{padding:1.4rem}.ppr{font-size:1.15rem;font-weight:800;color:var(--primary);margin-bottom:.4rem}
-.ppr span{font-size:.78rem;color:var(--muted);font-weight:400}
-.ptit{font-family:var(--serif);font-size:1.1rem;margin-bottom:.38rem}
-.ploc{color:var(--muted);font-size:.8rem;display:flex;align-items:center;gap:.28rem;margin-bottom:.9rem}
+/* MESSAGES */
+.msg-list{display:flex;flex-direction:column;gap:.75rem;}
+.msg-item{background:var(--glass);border:1px solid var(--gb);border-radius:14px;padding:1.1rem 1.3rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .25s;}
+.msg-item:hover{border-color:rgba(255,107,53,.3);background:rgba(255,107,53,.06);}
+.msg-item.unread{border-color:rgba(255,107,53,.25);}
+.msg-avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;object-fit:cover;border:2px solid var(--gb);}
+.msg-info{flex:1;}
+.msg-info h4{font-size:.9rem;font-weight:600;margin-bottom:.2rem;}
+.msg-info p{font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px;}
+.msg-meta{text-align:right;flex-shrink:0;}
+.msg-meta span{font-size:.72rem;color:var(--dim);display:block;margin-bottom:.3rem;}
+.unread-dot{width:9px;height:9px;background:var(--primary);border-radius:50%;margin-left:auto;}
 
+/* BOOKINGS */
+.booking-list{display:flex;flex-direction:column;gap:1rem;}
+.booking-card{background:var(--glass);border:1px solid var(--gb);border-radius:14px;padding:1.3rem;display:flex;align-items:center;gap:1.2rem;transition:all .3s;}
+.booking-card:hover{border-color:rgba(255,107,53,.3);}
+.booking-img{width:80px;height:70px;border-radius:10px;background-size:cover;background-position:center;flex-shrink:0;}
+.booking-info{flex:1;}
+.booking-info h4{font-size:.95rem;font-weight:700;margin-bottom:.25rem;}
+.booking-info p{font-size:.8rem;color:var(--muted);}
+.booking-status{padding:.3rem .85rem;border-radius:100px;font-size:.73rem;font-weight:700;}
+.status-active{background:rgba(16,185,129,.15);color:#34d399;}
+.status-pending{background:rgba(245,158,11,.15);color:#fbbf24;}
+.status-done{background:rgba(255,255,255,.06);color:var(--muted);}
+.booking-actions{display:flex;gap:.5rem;margin-top:.6rem;}
+.bk-btn{padding:.3rem .8rem;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;border:1px solid var(--gb);background:transparent;color:var(--muted);font-family:var(--sans);transition:all .2s;}
+.bk-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff;}
+.bk-btn.primary{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+/* PROFILE */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.profile-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:1.8rem;}
+.profile-card.full{grid-column:1/-1;}
+.profile-avatar-wrap{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.8rem;}
+.profile-avatar{width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);object-fit:cover;}
+.profile-avatar-info h3{font-size:1.25rem;font-weight:700;}
+.profile-avatar-info p{color:var(--muted);font-size:.85rem;margin-top:.2rem;}
+.change-photo-btn{margin-top:.6rem;padding:.35rem .9rem;border-radius:8px;border:1px solid var(--gb);background:transparent;color:var(--muted);font-size:.78rem;cursor:pointer;font-family:var(--sans);transition:all .2s;}
+.change-photo-btn:hover{border-color:var(--primary);color:var(--primary);}
+.form-group{margin-bottom:1.1rem;}
+.form-group label{display:block;font-size:.77rem;color:var(--muted);font-weight:600;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px;}
+.form-input{width:100%;padding:.78rem 1rem;background:rgba(255,255,255,.05);border:1px solid var(--gb);border-radius:11px;color:#fff;font-family:var(--sans);font-size:.9rem;transition:border .3s;outline:none;}
+.form-input:focus{border-color:var(--primary);background:rgba(255,107,53,.06);}
+.save-btn{padding:.85rem 2rem;background:var(--primary);border:none;border-radius:11px;color:#fff;font-family:var(--sans);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 18px var(--pg);}
+.save-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--pg);}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3rem;color:var(--muted);}
+.empty-state i{font-size:3rem;margin-bottom:1rem;color:var(--dim);}
+.empty-state h3{font-size:1.1rem;margin-bottom:.5rem;color:#fff;}
+.empty-state p{font-size:.85rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:#1e293b;border:1px solid var(--gb);border-radius:12px;padding:.85rem 1.3rem;color:#fff;font-size:.88rem;font-weight:600;z-index:9999;animation:slideIn .3s ease;display:flex;align-items:center;gap:.6rem;}
+@keyframes slideIn{from{transform:translateX(120%)}to{transform:translateX(0)}}
+.toast.success{border-color:rgba(16,185,129,.4);}
+.toast.success i{color:#34d399;}
+.toast.error{border-color:rgba(239,68,68,.4);}
+.toast.error i{color:#f87171;}
+
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(8,13,26,.85);backdrop-filter:blur(8px);z-index:9000;display:none;align-items:center;justify-content:center;}
+.modal-ov.open{display:flex;}
+.modal-box{background:#111827;border:1px solid var(--gb);border-radius:20px;padding:2rem;width:90%;max-width:440px;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:var(--glass);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.85rem;}
+
+/* BOTTOM NAV (mobile only) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(10,16,35,0.98);border-top:1px solid var(--gb);z-index:500;align-items:center;justify-content:space-around;backdrop-filter:blur(12px);}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;cursor:pointer;color:var(--muted);border:none;background:transparent;padding:.5rem .75rem;border-radius:10px;transition:all .25s;font-family:var(--sans);}
+.bn-item i{font-size:1.15rem;}
+.bn-item span{font-size:.62rem;font-weight:600;}
+.bn-item.active{color:var(--primary);}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  body{flex-direction:column;}
+  .main-area{height:100vh;padding-bottom:64px;}
+  .top-bar{padding:0 1rem;height:58px;}
+  .search-bar{width:100%;max-width:220px;}
+  .content{padding:1rem;}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:.85rem;}
+  .prop-grid{grid-template-columns:1fr;}
+  .profile-grid{grid-template-columns:1fr;}
+  .page-header h1{font-size:1.4rem;}
+  .booking-card{flex-wrap:wrap;gap:.85rem;}
+  .booking-img{width:100%;height:160px;border-radius:12px;}
+  .booking-actions{flex-wrap:wrap;}
+  .msg-info p{max-width:180px;}
+  .bottom-nav{display:flex;}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr;}
+  .search-bar{max-width:160px;}
+  .top-bar{padding:0 .75rem;}
+  .content{padding:.75rem;}
+}
 </style>
 </head>
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
-    <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-    <div class="nav-links">
-        <a href="#" class="n-item active"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="n-item"><i class="fas fa-heart"></i> Saved Properties</a>
-        <a href="#" class="n-item"><i class="fas fa-envelope"></i> Messages <span style="margin-left:auto;background:var(--primary);color:#fff;padding:2px 8px;border-radius:10px;font-size:0.7rem">2</span></a>
-        <a href="#" class="n-item"><i class="fas fa-calendar-alt"></i> Bookings</a>
-        <a href="#" class="n-item"><i class="fas fa-user-circle"></i> Profile Settings</a>
+  <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
+
+  <p class="nav-section">Main</p>
+  <button class="n-item active" onclick="showPanel('home')" id="nav-home"><i class="fas fa-home"></i><span>Home</span></button>
+  <button class="n-item" onclick="showPanel('saved')" id="nav-saved"><i class="fas fa-heart"></i><span>Saved Properties</span><span class="badge green">12</span></button>
+  <button class="n-item" onclick="showPanel('messages')" id="nav-messages"><i class="fas fa-envelope"></i><span>Messages</span><span class="badge">2</span></button>
+  <button class="n-item" onclick="showPanel('bookings')" id="nav-bookings"><i class="fas fa-calendar-alt"></i><span>Bookings</span></button>
+
+  <p class="nav-section">Account</p>
+  <button class="n-item" onclick="showPanel('profile')" id="nav-profile"><i class="fas fa-user-circle"></i><span>Profile Settings</span></button>
+  <button class="n-item" onclick="showPanel('notifications')" id="nav-notifications"><i class="fas fa-bell"></i><span>Notifications</span></button>
+
+  <div class="sidebar-bottom">
+    <a href="/" class="n-item"><i class="fas fa-th-large"></i><span>Back to Site</span></a>
+    <button class="n-item logout-btn" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+  </div>
+</div>
+
+<!-- MAIN AREA -->
+<div class="main-area">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="search-bar">
+      <i class="fas fa-search" style="color:var(--dim)"></i>
+      <input type="text" placeholder="Search properties, locations..." id="dash-search" oninput="dashSearch(this.value)">
     </div>
-    <div style="margin-top:auto">
-        <a href="#" onclick="logoutUser()" class="n-item" style="color:#ef4444"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="user-prof">
+      <div style="text-align:right">
+        <div style="font-weight:600;font-size:.88rem" id="nav-user-name">Loading...</div>
+        <div style="font-size:.73rem;color:var(--muted)">LinkPoint Member</div>
+      </div>
+      <img src="mercy.png" alt="Profile" id="user-avatar" onerror="this.src='logo.jpg'">
     </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== HOME PANEL ===== -->
+    <div class="panel active" id="panel-home">
+      <div class="page-header">
+        <h1 id="dash-greeting">Welcome back 👋</h1>
+        <p>Here's what's happening with your LinkPoint account today.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card" onclick="showPanel('saved')">
+          <div class="stat-icon" style="background:rgba(255,107,53,.15);color:var(--primary)"><i class="fas fa-heart"></i></div>
+          <div class="stat-info"><h4>Saved Places</h4><h2>12</h2></div>
+        </div>
+        <div class="stat-card" onclick="showPanel('bookings')">
+          <div class="stat-icon" style="background:rgba(16,185,129,.15);color:#10b981"><i class="fas fa-calendar-check"></i></div>
+          <div class="stat-info"><h4>Active Bookings</h4><h2>1</h2></div>
+        </div>
+        <div class="stat-card" onclick="showPanel('messages')">
+          <div class="stat-icon" style="background:rgba(59,130,246,.15);color:#3b82f6"><i class="fas fa-envelope"></i></div>
+          <div class="stat-info"><h4>New Messages</h4><h2>2</h2></div>
+        </div>
+      </div>
+
+      <h3 class="sec-title"><i class="fas fa-star"></i> Recommended For You</h3>
+      <div class="prop-grid" id="rec-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <h3 class="sec-title"><i class="fas fa-clock"></i> Recently Viewed</h3>
+      <div class="prop-grid" id="recent-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ===== SAVED PANEL ===== -->
+    <div class="panel" id="panel-saved">
+      <div class="page-header">
+        <h1>Saved Properties ❤️</h1>
+        <p>Properties you've bookmarked for later</p>
+      </div>
+      <div class="prop-grid" id="saved-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ===== MESSAGES PANEL ===== -->
+    <div class="panel" id="panel-messages">
+      <div class="page-header">
+        <h1>Messages 💬</h1>
+        <p>Your conversations with agents and property owners</p>
+      </div>
+      <div class="msg-list">
+        <div class="msg-item unread" onclick="openMessage('Brian Otieno', 'Kilimani Agent')">
+          <img src="brian.png" class="msg-avatar" onerror="this.src='logo.jpg'" alt="Brian">
+          <div class="msg-info">
+            <h4>Brian Otieno <span style="font-size:.72rem;color:var(--primary);font-weight:700">• Agent</span></h4>
+            <p>Hello! The 2BR apartment in Kilimani is still available. Would you like to schedule a viewing this week?</p>
+          </div>
+          <div class="msg-meta">
+            <span>10:32 AM</span>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+        <div class="msg-item unread" onclick="openMessage('Mercy Njiru', 'BnB Host')">
+          <img src="mercy.png" class="msg-avatar" onerror="this.src='logo.jpg'" alt="Mercy">
+          <div class="msg-info">
+            <h4>Mercy Njiru <span style="font-size:.72rem;color:#10b981;font-weight:700">• Host</span></h4>
+            <p>Your BnB booking for Diani Beach has been confirmed! Check-in is Saturday at 2PM. 🌴</p>
+          </div>
+          <div class="msg-meta">
+            <span>Yesterday</span>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+        <div class="msg-item" onclick="openMessage('James Kamau', 'Seller')">
+          <img src="james.png" class="msg-avatar" onerror="this.src='logo.jpg'" alt="James">
+          <div class="msg-info">
+            <h4>James Kamau <span style="font-size:.72rem;color:var(--muted);font-weight:600">• Seller</span></h4>
+            <p>Thank you for your interest in the Ruiru property. The price is negotiable. Let's talk!</p>
+          </div>
+          <div class="msg-meta">
+            <span>Mon</span>
+          </div>
+        </div>
+        <div class="msg-item" onclick="openMessage('LinkPoint Support', 'Support')">
+          <div class="msg-avatar" style="background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem">L</div>
+          <div class="msg-info">
+            <h4>LinkPoint Support <span style="font-size:.72rem;color:#a78bfa;font-weight:700">• Official</span></h4>
+            <p>Welcome to LinkPoint! Your account is verified and ready. Browse 12,000+ properties.</p>
+          </div>
+          <div class="msg-meta">
+            <span>Apr 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BOOKINGS PANEL ===== -->
+    <div class="panel" id="panel-bookings">
+      <div class="page-header">
+        <h1>My Bookings 📅</h1>
+        <p>Track your property viewings and BnB reservations</p>
+      </div>
+      <h3 class="sec-title"><i class="fas fa-circle" style="color:#34d399;font-size:.6rem"></i> Active</h3>
+      <div class="booking-list">
+        <div class="booking-card">
+          <div class="booking-img" style="background-image:url('bnb.png')"></div>
+          <div style="flex:1">
+            <div class="booking-info">
+              <h4>Diani Beach BnB — Sunny Villa</h4>
+              <p><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Diani, Kwale County</p>
+              <p style="margin-top:.3rem"><i class="fas fa-calendar" style="color:#a78bfa"></i> Apr 19 – Apr 21, 2026 &nbsp;|&nbsp; <i class="fas fa-moon" style="color:#fbbf24"></i> 2 nights</p>
+            </div>
+            <div class="booking-actions">
+              <button class="bk-btn primary" onclick="showToast('success','WhatsApp opened for Diani BnB host')"><i class="fab fa-whatsapp"></i> Contact Host</button>
+              <button class="bk-btn" onclick="showToast('success','Directions opened in Maps')"><i class="fas fa-directions"></i> Directions</button>
+              <button class="bk-btn" onclick="confirmCancel()"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+          </div>
+          <span class="booking-status status-active">Confirmed ✓</span>
+        </div>
+      </div>
+
+      <h3 class="sec-title" style="margin-top:2rem"><i class="fas fa-clock"></i> Pending Viewings</h3>
+      <div class="booking-list">
+        <div class="booking-card">
+          <div class="booking-img" style="background-image:url('kenyan_apartment.png')"></div>
+          <div style="flex:1">
+            <div class="booking-info">
+              <h4>2BR Luxury Apartment — Kilimani</h4>
+              <p><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Kilimani, Nairobi</p>
+              <p style="margin-top:.3rem"><i class="fas fa-calendar" style="color:#a78bfa"></i> Apr 17, 2026 at 11:00 AM</p>
+            </div>
+            <div class="booking-actions">
+              <button class="bk-btn primary" onclick="showToast('success','Agent contacted via WhatsApp')"><i class="fas fa-phone"></i> Call Agent</button>
+              <button class="bk-btn" onclick="showToast('success','Viewing rescheduled')"><i class="fas fa-redo"></i> Reschedule</button>
+            </div>
+          </div>
+          <span class="booking-status status-pending">Pending</span>
+        </div>
+      </div>
+
+      <h3 class="sec-title" style="margin-top:2rem"><i class="fas fa-check-double"></i> Past</h3>
+      <div class="booking-list">
+        <div class="booking-card" style="opacity:.7">
+          <div class="booking-img" style="background-image:url('kenya_house.png')"></div>
+          <div style="flex:1">
+            <div class="booking-info">
+              <h4>3BR Bungalow — Ruiru</h4>
+              <p><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ruiru, Kiambu County</p>
+              <p style="margin-top:.3rem"><i class="fas fa-calendar"></i> Mar 5, 2026</p>
+            </div>
+            <div class="booking-actions">
+              <button class="bk-btn" onclick="showToast('success','Booking again — contact agent')"><i class="fas fa-redo"></i> Book Again</button>
+            </div>
+          </div>
+          <span class="booking-status status-done">Completed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROFILE PANEL ===== -->
+    <div class="panel" id="panel-profile">
+      <div class="page-header">
+        <h1>Profile Settings ⚙️</h1>
+        <p>Manage your account information and preferences</p>
+      </div>
+      <div class="profile-grid">
+        <div class="profile-card full">
+          <div class="profile-avatar-wrap">
+            <img src="mercy.png" class="profile-avatar" id="profile-avatar-img" onerror="this.src='logo.jpg'" alt="Profile">
+            <div class="profile-avatar-info">
+              <h3 id="profile-display-name">Loading...</h3>
+              <p id="profile-display-email">Loading...</p>
+              <button class="change-photo-btn" onclick="document.getElementById('avatar-upload').click()"><i class="fas fa-camera"></i> Change Photo</button>
+              <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="changeAvatar(this)">
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <h3 class="sec-title" style="margin-bottom:1.2rem"><i class="fas fa-user"></i> Personal Info</h3>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-input" id="pf-name" placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" class="form-input" id="pf-email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" class="form-input" id="pf-phone" placeholder="07XX XXX XXX">
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" class="form-input" id="pf-location" placeholder="e.g. Nairobi, Kenya">
+          </div>
+          <button class="save-btn" onclick="saveProfile()"><i class="fas fa-save"></i> Save Changes</button>
+        </div>
+
+        <div class="profile-card">
+          <h3 class="sec-title" style="margin-bottom:1.2rem"><i class="fas fa-lock"></i> Security</h3>
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" class="form-input" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" class="form-input" id="new-pass">
+          </div>
+          <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" class="form-input" id="confirm-pass">
+          </div>
+          <button class="save-btn" onclick="changePassword()"><i class="fas fa-shield-alt"></i> Update Password</button>
+
+          <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--gb)">
+            <h4 style="font-size:.88rem;margin-bottom:.8rem;color:var(--muted)">Danger Zone</h4>
+            <button class="bk-btn" style="color:#ef4444;border-color:rgba(239,68,68,.3)" onclick="showToast('error','Please contact support to delete your account')"><i class="fas fa-trash"></i> Delete Account</button>
+          </div>
+        </div>
+
+        <div class="profile-card full">
+          <h3 class="sec-title" style="margin-bottom:1.2rem"><i class="fas fa-bell"></i> Notification Preferences</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">
+            <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.85rem;background:var(--glass);border-radius:12px;border:1px solid var(--gb)">
+              <input type="checkbox" checked style="accent-color:var(--primary);width:16px;height:16px">
+              <span style="font-size:.88rem">New property matches</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.85rem;background:var(--glass);border-radius:12px;border:1px solid var(--gb)">
+              <input type="checkbox" checked style="accent-color:var(--primary);width:16px;height:16px">
+              <span style="font-size:.88rem">Booking reminders</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.85rem;background:var(--glass);border-radius:12px;border:1px solid var(--gb)">
+              <input type="checkbox" style="accent-color:var(--primary);width:16px;height:16px">
+              <span style="font-size:.88rem">Promotional offers</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.85rem;background:var(--glass);border-radius:12px;border:1px solid var(--gb)">
+              <input type="checkbox" checked style="accent-color:var(--primary);width:16px;height:16px">
+              <span style="font-size:.88rem">New messages</span>
+            </label>
+          </div>
+          <button class="save-btn" style="margin-top:1.2rem" onclick="showToast('success','Notification preferences saved!')"><i class="fas fa-check"></i> Save Preferences</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTIFICATIONS PANEL ===== -->
+    <div class="panel" id="panel-notifications">
+      <div class="page-header">
+        <h1>Notifications 🔔</h1>
+        <p>Your recent alerts and updates</p>
+      </div>
+      <div class="msg-list">
+        <div class="msg-item" style="border-color:rgba(255,107,53,.25)">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,107,53,.15);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0"><i class="fas fa-heart"></i></div>
+          <div class="msg-info"><h4>New Match Found!</h4><p>A 3BR apartment in Westlands matches your saved search criteria.</p></div>
+          <div class="msg-meta"><span>Just now</span></div>
+        </div>
+        <div class="msg-item">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(16,185,129,.15);display:flex;align-items:center;justify-content:center;color:#34d399;font-size:1.1rem;flex-shrink:0"><i class="fas fa-calendar-check"></i></div>
+          <div class="msg-info"><h4>Booking Confirmed</h4><p>Your Diani Beach BnB booking for Apr 19–21 is confirmed.</p></div>
+          <div class="msg-meta"><span>2h ago</span></div>
+        </div>
+        <div class="msg-item">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;color:#60a5fa;font-size:1.1rem;flex-shrink:0"><i class="fas fa-tag"></i></div>
+          <div class="msg-info"><h4>Price Drop Alert</h4><p>A property you saved in Kilimani dropped by KSh 5,000/mo.</p></div>
+          <div class="msg-meta"><span>Yesterday</span></div>
+        </div>
+        <div class="msg-item">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(167,139,250,.15);display:flex;align-items:center;justify-content:center;color:#a78bfa;font-size:1.1rem;flex-shrink:0"><i class="fas fa-shield-check"></i></div>
+          <div class="msg-info"><h4>Account Verified</h4><p>Your LinkPoint account is fully verified. Enjoy premium access!</p></div>
+          <div class="msg-meta"><span>Apr 1</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-area -->
+
+<!-- MESSAGE MODAL -->
+<div class="modal-ov" id="msg-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('msg-modal')"><i class="fas fa-times"></i></button>
+    <div style="display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem">
+      <div style="width:46px;height:46px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900">B</div>
+      <div><h3 id="modal-msg-name" style="font-size:1rem;font-weight:700"></h3><p id="modal-msg-role" style="font-size:.78rem;color:var(--muted)"></p></div>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:1rem;margin-bottom:1.2rem;font-size:.88rem;color:var(--muted);line-height:1.6" id="modal-msg-body">
+      Message content here.
+    </div>
+    <div style="display:flex;gap:.7rem">
+      <input type="text" class="form-input" placeholder="Type a reply..." id="msg-reply-input" style="flex:1">
+      <button class="save-btn" style="padding:.78rem 1.2rem" onclick="sendReply()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- CANCEL MODAL -->
+<div class="modal-ov" id="cancel-modal">
+  <div class="modal-box" style="text-align:center">
+    <button class="modal-close" onclick="closeModal('cancel-modal')"><i class="fas fa-times"></i></button>
+    <i class="fas fa-exclamation-triangle" style="font-size:2.5rem;color:#fbbf24;margin-bottom:1rem"></i>
+    <h3 style="margin-bottom:.5rem">Cancel Booking?</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1.5rem">Are you sure you want to cancel your Diani Beach BnB booking for Apr 19–21?</p>
+    <div style="display:flex;gap:.75rem;justify-content:center">
+      <button class="bk-btn" style="padding:.65rem 1.5rem" onclick="closeModal('cancel-modal')">Keep Booking</button>
+      <button class="save-btn" style="background:#ef4444;box-shadow:none" onclick="cancelBooking()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div class="modal-ov" id="prop-modal">
+  <div class="modal-box" style="max-width:500px">
+    <button class="modal-close" onclick="closeModal('prop-modal')"><i class="fas fa-times"></i></button>
+    <div id="prop-modal-img" style="height:200px;background-size:cover;background-position:center;border-radius:12px;margin-bottom:1.2rem"></div>
+    <h3 id="prop-modal-title" style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.3rem"></h3>
+    <p id="prop-modal-price" style="font-size:1.2rem;font-weight:800;color:var(--primary);margin-bottom:.5rem"></p>
+    <p id="prop-modal-loc" style="font-size:.84rem;color:var(--muted);margin-bottom:1rem"></p>
+    <p id="prop-modal-desc" style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem"></p>
+    <div style="display:flex;gap:.75rem">
+      <button class="save-btn" style="flex:1" onclick="showToast('success','Agent contacted via WhatsApp!');closeModal('prop-modal')"><i class="fab fa-whatsapp"></i> Contact Agent</button>
+      <button class="bk-btn" style="flex:1;padding:.85rem" onclick="showToast('success','Viewing scheduled!');closeModal('prop-modal')"><i class="fas fa-calendar-plus"></i> Book Viewing</button>
+    </div>
+  </div>
 </div>
 
 <script>
-function logoutUser() {
-    localStorage.clear();
-    window.location.href = "index.html";
+// ==================
+// NAVIGATION
+// ==================
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.n-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const nav = document.getElementById('nav-' + id);
+  if(nav) nav.classList.add('active');
 }
+
+// ==================
+// USER DATA
+// ==================
 window.addEventListener('DOMContentLoaded', () => {
-    const uName = localStorage.getItem('user_name');
-    if(uName) {
-        document.getElementById('nav-user-name').innerText = uName;
-        const greeting = document.getElementById('dash-greeting');
-        if(greeting) {
-            greeting.innerHTML = `Welcome back, ${uName.split(' ')[0]} 👋 <br><span>Looking for a place in Nairobi?</span>`;
-        }
-    }
+  const name = localStorage.getItem('user_name') || 'Guest User';
+  const email = localStorage.getItem('user_email') || '';
+  document.getElementById('nav-user-name').textContent = name;
+  document.getElementById('dash-greeting').textContent = `Welcome back, ${name.split(' ')[0]} 👋`;
+  document.getElementById('profile-display-name').textContent = name;
+  document.getElementById('profile-display-email').textContent = email || 'No email saved';
+  document.getElementById('pf-name').value = name !== 'Guest User' ? name : '';
+  document.getElementById('pf-email').value = email;
+  fetchRealProperties();
 });
+
+// ==================
+// PROPERTY CARDS
+// ==================
+let properties = [];
+let savedIds = JSON.parse(localStorage.getItem('saved_props') || '[]');
+
+async function fetchRealProperties() {
+    try {
+        const res = await fetch('/api/listings');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+            properties = data.map(p => ({
+                title: p.title,
+                price: 'KSh ' + p.price.toLocaleString(),
+                per: p.type.toLowerCase().includes('rent') || p.type.toLowerCase().includes('bnb') ? (p.type.toLowerCase().includes('bnb') ? '/night' : '/mo') : '',
+                loc: p.location,
+                type: p.type.toUpperCase(),
+                img: p.image_url || 'kenyan_apartment.png',
+                desc: p.description || 'Verified property on LinkPoint.',
+                badge: p.type.toUpperCase() === 'FOR SALE' ? '#ef4444' : (p.type.toUpperCase() === 'BNB' ? '#f59e0b' : '#10b981')
+            }));
+            
+            // Update Stats
+            document.querySelectorAll('.stat-info h2')[0].textContent = savedIds.length;
+            document.querySelectorAll('.stat-info h2')[1].textContent = properties.filter(p => p.type === 'BNB').length || 1;
+            
+            loadProperties();
+        }
+    } catch (e) {
+        console.error("Dashboard fetch error:", e);
+    }
+}
+
+function propCard(p, idx, showFav=true) {
+  const isSaved = savedIds.includes(idx);
+  return `<div class="pc" onclick="openProp(${idx})">
+    <div class="pi" style="background-image:url('${p.img}')">
+      <div class="pbadge" style="background:${p.badge}">${p.type}</div>
+      ${showFav ? `<button class="fav-btn ${isSaved?'active':''}" onclick="toggleSave(event,${idx})" title="Save"><i class="fas fa-heart"></i></button>` : ''}
+    </div>
+    <div class="pbd">
+      <div class="ppr">${p.price} <span>${p.per}</span></div>
+      <div class="ptit">${p.title}</div>
+      <div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.loc}</div>
+      <div class="pfeats">
+        <div class="pfe"><i class="fas fa-check-circle"></i> Verified</div>
+        <div class="pfe"><i class="fas fa-shield-alt"></i> Secure</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function loadProperties() {
+  document.getElementById('rec-grid').innerHTML = properties.slice(0,3).map((p,i) => propCard(p,i)).join('');
+  document.getElementById('recent-grid').innerHTML = properties.slice(3,5).map((p,i) => propCard(p,i+3)).join('');
+  document.getElementById('saved-grid').innerHTML = savedIds.length
+    ? savedIds.map(i => propCard(properties[i], i)).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-heart"></i><h3>No saved properties yet</h3><p>Tap the heart icon on any listing to save it here.</p></div>`;
+}
+
+function toggleSave(e, idx) {
+  e.stopPropagation();
+  if(savedIds.includes(idx)) {
+    savedIds = savedIds.filter(i => i !== idx);
+    showToast('success','Removed from saved properties');
+  } else {
+    savedIds.push(idx);
+    showToast('success','Property saved! ❤️');
+  }
+  localStorage.setItem('saved_props', JSON.stringify(savedIds));
+  loadProperties();
+}
+
+function openProp(idx) {
+  const p = properties[idx];
+  document.getElementById('prop-modal-img').style.backgroundImage = `url('${p.img}')`;
+  document.getElementById('prop-modal-title').textContent = p.title;
+  document.getElementById('prop-modal-price').textContent = p.price + ' ' + p.per;
+  document.getElementById('prop-modal-loc').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.loc}`;
+  document.getElementById('prop-modal-desc').textContent = p.desc;
+  document.getElementById('prop-modal').classList.add('open');
+}
+
+// ==================
+// MESSAGES
+// ==================
+const msgBodies = {
+  'Brian Otieno': 'Hello! The 2BR apartment in Kilimani is still available. Would you like to schedule a viewing this week? The rent is KSh 65,000/mo inclusive of service charge.',
+  'Mercy Njiru': 'Your BnB booking for Diani Beach has been confirmed! Check-in is Saturday at 2PM. I\'ll send you the gate code and directions. 🌴',
+  'James Kamau': 'Thank you for your interest in the Ruiru property. The asking price is KSh 8.5M but is negotiable. Let me know when you\'re available for a site visit!',
+  'LinkPoint Support': 'Welcome to LinkPoint! Your account is verified and ready. You can now browse 12,000+ verified listings, save properties, book viewings, and much more.'
+};
+
+function openMessage(name, role) {
+  document.getElementById('modal-msg-name').textContent = name;
+  document.getElementById('modal-msg-role').textContent = role;
+  document.getElementById('modal-msg-body').textContent = msgBodies[name] || '';
+  document.getElementById('msg-modal').classList.add('open');
+}
+
+function sendReply() {
+  const val = document.getElementById('msg-reply-input').value.trim();
+  if(!val) return;
+  showToast('success','Message sent!');
+  document.getElementById('msg-reply-input').value = '';
+  closeModal('msg-modal');
+}
+
+// ==================
+// PROFILE
+// ==================
+function saveProfile() {
+  const name = document.getElementById('pf-name').value.trim();
+  const email = document.getElementById('pf-email').value.trim();
+  const phone = document.getElementById('pf-phone').value.trim();
+  if(!name) { showToast('error','Please enter your name'); return; }
+  localStorage.setItem('user_name', name);
+  localStorage.setItem('user_email', email);
+  document.getElementById('nav-user-name').textContent = name;
+  document.getElementById('profile-display-name').textContent = name;
+  document.getElementById('profile-display-email').textContent = email;
+  document.getElementById('dash-greeting').textContent = `Welcome back, ${name.split(' ')[0]} 👋`;
+  showToast('success','Profile updated successfully!');
+}
+
+function changePassword() {
+  const np = document.getElementById('new-pass').value;
+  const cp = document.getElementById('confirm-pass').value;
+  if(!np) { showToast('error','Enter a new password'); return; }
+  if(np.length < 8) { showToast('error','Password must be at least 8 characters'); return; }
+  if(np !== cp) { showToast('error','Passwords do not match'); return; }
+  showToast('success','Password updated successfully!');
+  document.getElementById('new-pass').value = '';
+  document.getElementById('confirm-pass').value = '';
+}
+
+function changeAvatar(input) {
+  if(!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('profile-avatar-img').src = e.target.result;
+    document.getElementById('user-avatar').src = e.target.result;
+    showToast('success','Profile photo updated!');
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// ==================
+// BOOKINGS
+// ==================
+function confirmCancel() {
+  document.getElementById('cancel-modal').classList.add('open');
+}
+function cancelBooking() {
+  closeModal('cancel-modal');
+  showToast('success','Booking cancelled. Refund processed within 3-5 days.');
+}
+
+// ==================
+// SEARCH
+// ==================
+function dashSearch(val) {
+  if(!val) { loadProperties(); return; }
+  const filtered = properties.filter(p =>
+    p.title.toLowerCase().includes(val.toLowerCase()) ||
+    p.loc.toLowerCase().includes(val.toLowerCase()) ||
+    p.type.toLowerCase().includes(val.toLowerCase())
+  );
+  showPanel('saved');
+  document.getElementById('panel-saved').querySelector('.page-header h1').textContent = `Search: "${val}"`;
+  document.getElementById('saved-grid').innerHTML = filtered.length
+    ? filtered.map((p,i) => propCard(p, properties.indexOf(p))).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><h3>No results</h3><p>No properties match "${val}".</p></div>`;
+}
+
+// ==================
+// MODALS & UTILS
+// ==================
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+document.querySelectorAll('.modal-ov').forEach(m => {
+  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); });
+});
+
+function showToast(type, msg) {
+  const existing = document.querySelector('.toast');
+  if(existing) existing.remove();
+  const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = '/';
+}
 </script>
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bn-item active" id="bn-home" onclick="showPanel('home');setActiveBottomNav('bn-home')"><i class="fas fa-home"></i><span>Home</span></button>
+  <button class="bn-item" id="bn-saved" onclick="showPanel('saved');setActiveBottomNav('bn-saved')"><i class="fas fa-heart"></i><span>Saved</span></button>
+  <button class="bn-item" id="bn-messages" onclick="showPanel('messages');setActiveBottomNav('bn-messages')"><i class="fas fa-envelope"></i><span>Messages</span></button>
+  <button class="bn-item" id="bn-bookings" onclick="showPanel('bookings');setActiveBottomNav('bn-bookings')"><i class="fas fa-calendar-alt"></i><span>Bookings</span></button>
+  <button class="bn-item" id="bn-profile" onclick="showPanel('profile');setActiveBottomNav('bn-profile')"><i class="fas fa-user-circle"></i><span>Profile</span></button>
+</nav>
 
-<div class="main-area">
-    <div class="top-bar">
-        <div class="search-bar">
-            <i class="fas fa-search" style="color:var(--muted)"></i>
-            <input type="text" placeholder="Quick search for location or property...">
-        </div>
-        <div class="user-prof">
-            <div style="text-align:right">
-                <div style="font-weight:600; font-size:0.9rem" id="nav-user-name">Jane Doe</div>
-                <div style="font-size:0.75rem; color:var(--muted)">User Explorer</div>
-            </div>
-            <img src="mercy.png" alt="Profile" onerror="this.src='logo.jpg'">
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="dash-title" id="dash-greeting">
-            Welcome back, Jane 👋
-            <span>Looking for a place in Nairobi?</span>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon"><i class="fas fa-heart"></i></div>
-                <div class="stat-info"><h4>Saved Places</h4><h2>12</h2></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:rgba(16,185,129,0.15);color:#10b981"><i class="fas fa-calendar-check"></i></div>
-                <div class="stat-info"><h4>Active Bookings</h4><h2>1</h2></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6"><i class="fas fa-history"></i></div>
-                <div class="stat-info"><h4>Recently Viewed</h4><h2>28</h2></div>
-            </div>
-        </div>
-
-        <h3 class="section-title"><i class="fas fa-star"></i> Recommended Listings</h3>
-        <div class="rec-grid">
-            <div class="pc"><div class="pi" style="background-image:url('kenyan_apartment.png')"><div class="pbadge" style="background:#10b981">FOR RENT</div></div><div class="pbd"><div class="ppr">KSh 65,000 <span> /mo</span></div><div class="ptit">Luxury 2BR Apartment</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Kilimani, Nairobi</div></div></div>
-            <div class="pc"><div class="pi" style="background-image:url('bnb.png')"><div class="pbadge">BNB</div></div><div class="pbd"><div class="ppr">KSh 8,500 <span> /night</span></div><div class="ptit">Sunny Vacation BnB</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Diani Beach</div></div></div>
-            <div class="pc"><div class="pi" style="background-image:url('kenya_house.png')"><div class="pbadge" style="background:#ef4444">FOR SALE</div></div><div class="pbd"><div class="ppr">KSh 8,500,000</div><div class="ptit">Cozy 3BR Bungalow</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ruiru, Kiambu</div></div></div>
-        </div>
-
-        <h3 class="section-title"><i class="fas fa-history"></i> Recently Viewed</h3>
-        <div class="rec-grid">
-            <!-- Add 2 recent items -->
-            <div class="pc" style="opacity:0.8"><div class="pi" style="background-image:url('apartment.png')"><div class="pbadge" style="background:#10b981">FOR RENT</div></div><div class="pbd"><div class="ppr">KSh 25,000 <span> /mo</span></div><div class="ptit">Studio Haven</div><div class="ploc"><i class="fas fa-map-marker-alt"></i> Roysambu</div></div></div>
-        </div>
-    </div>
-</div>
-
-<script src="linkpoint-3d.js"></script>
+<script>
+function setActiveBottomNav(id) {
+  document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+</script>
 </body>
 </html>
