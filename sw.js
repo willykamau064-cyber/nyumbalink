@@ -1,4 +1,4 @@
-const CACHE_NAME = 'linkpoint-v3';
+const CACHE_NAME = 'linkpoint-v4-no3d';
 const ASSETS = [
   '/',
   '/index.html',
@@ -15,7 +15,6 @@ const ASSETS = [
   '/icon-512.png',
   '/paystack.js',
   '/mpesa.js',
-  '/linkpoint-3d.js',
   '/nairobi360.png',
   '/kenya_house.png',
   '/kenyan_apartment.png',
@@ -31,7 +30,7 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(ASSETS.map(url => new Request(url, { mode: 'no-cors' })));
-    }).catch(() => {})
+    }).catch(() => { })
   );
   self.skipWaiting();
 });
