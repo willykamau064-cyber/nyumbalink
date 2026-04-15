@@ -423,11 +423,11 @@ async function supaLogin(email, password) {
   return r.json();
 }
 
-async function supaRegister(email, password) {
+async function supaRegister(email, password, name, phone) {
   const r = await fetch(`${SUPA_URL}/auth/v1/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password, data: { name: name, full_name: name, phone: phone } })
   });
   return r.json();
 }
@@ -550,10 +550,11 @@ async function handleReg() {
 
     if (!success) {
       // Try Supabase direct
-      const data = await supaRegister(email, pass);
+      const data = await supaRegister(email, pass, name, phone);
       if (data.id || data.user?.id) { success = true; }
-      else if (data.error) {
-        showMsg('msg-reg', '❌ ' + (data.msg || data.error || 'Registration failed.'), false);
+      else {
+        const errMsg = data.msg || data.message || data.error_description || (typeof data.error === 'string' ? data.error : '') || 'Registration failed. This email may already be in use.';
+        showMsg('msg-reg', '❌ ' + errMsg, false);
         setBtnLoading('reg-btn', false, '<i class="fas fa-user-plus"></i> Create Account');
         return;
       }
