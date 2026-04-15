@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcrypt";
 import axios from "axios";
+import AfricasTalking from "africastalking";
 
 dotenv.config();
 
@@ -28,6 +29,34 @@ app.use(express.json());
 // Serve ALL assets and pages from the root directly (LinkPoint Pro structure)
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ============================
+// 📩 SMS NOTIFICATIONS (Africa's Talking)
+// ============================
+const at = AfricasTalking({
+    username: process.env.AT_USERNAME || "sandbox",
+    apiKey: process.env.AT_API_KEY || "your_api_key"
+});
+const sms = at.SMS;
+
+async function sendSMS(phone, message) {
+    if(!phone) return;
+    try {
+        // Ensure Kenyan format if not already present
+        let cleanPhone = phone.trim();
+        if(cleanPhone.startsWith("0")) cleanPhone = "+254" + cleanPhone.substring(1);
+        if(!cleanPhone.startsWith("+")) cleanPhone = "+" + cleanPhone;
+        
+        console.log(`📩 Attempting to send SMS to ${cleanPhone}...`);
+        const result = await sms.send({
+            to: [cleanPhone],
+            message: message
+        });
+        console.log("✅ SMS sent successfully:", result);
+    } catch (error) {
+        console.error("❌ SMS Error:", error.message);
+    }
+}
 
 // ============================
 // 🔐 AUTHENTICATION
@@ -79,6 +108,14 @@ app.post(["/api/login", "/login"], async (req, res) => {
             token: data.session.access_token, 
             user: { id: data.user.id, email: data.user.email, name: data.user.user_metadata?.full_name } 
         });
+
+        // 📩 Trigger SMS Notification Asynchronously
+        const userPhone = data.user.user_metadata?.phone;
+        const userName = data.user.user_metadata?.full_name || "Client";
+        if(userPhone) {
+            sendSMS(userPhone, `Hello ${userName}, thank you for logging in to LinkPoint Kenya! We're glad to have you back.`);
+        }
+        
     } catch(e) {
         console.error("Login error:", e.message);
         res.status(500).json({ success: false, message: e.message.includes("timed out") ? "⚠️ Connection to database timed out. Please check your Supabase keys in .env" : "Server error during login. Try again." });
