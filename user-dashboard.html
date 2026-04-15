@@ -562,13 +562,20 @@ function showPanel(id) {
 // USER DATA
 // ==================
 window.addEventListener('DOMContentLoaded', () => {
-  const name = localStorage.getItem('user_name') || 'Guest User';
+  let name = localStorage.getItem('user_name');
   const email = localStorage.getItem('user_email') || '';
+  
+  // High quality fallback if name is missing or generic
+  if(!name || name === 'Guest User') {
+    const fallback = email.split('@')[0] || 'Guest';
+    name = fallback.charAt(0).toUpperCase() + fallback.slice(1);
+  }
+  
   document.getElementById('nav-user-name').textContent = name;
   document.getElementById('dash-greeting').textContent = `Welcome back, ${name.split(' ')[0]} 👋`;
   document.getElementById('profile-display-name').textContent = name;
   document.getElementById('profile-display-email').textContent = email || 'No email saved';
-  document.getElementById('pf-name').value = name !== 'Guest User' ? name : '';
+  document.getElementById('pf-name').value = (name && name !== 'Guest User' && name !== 'Guest') ? name : '';
   document.getElementById('pf-email').value = email;
   fetchRealProperties();
 });

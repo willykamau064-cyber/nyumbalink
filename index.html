@@ -389,22 +389,8 @@ function showPayMethodModal(amount, desc) {
 function doMpesa(amt, desc, ov) { if(ov) ov.remove(); if(typeof openMpesa==='function') openMpesa(amt, desc); }
 function doPaystack(amt, desc, ov) { if(ov) ov.remove(); if(typeof openPaystack==='function') openPaystack(amt, desc); }
 </script>
-<script>
-window.onerror = function(m,u,l){ console.error("JS ERROR:", m, "at", u, ":", l); };
-window.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token');
-    const uName = localStorage.getItem('user_name');
-    if(token && uName) {
-        const btn = document.getElementById('auth-btn');
-        if(btn) {
-            btn.href = "user-dashboard.html";
-            btn.innerHTML = `<i class="fas fa-home"></i> ${uName.split(' ')[0]}'s Dashboard`;
-            btn.style.color = "var(--primary)";
-            btn.style.borderColor = "var(--primary)";
-        }
-    }
-});
-</script>
+<script src="shared-auth.js"></script>
+<script src="paystack.js"></script>
 <script src="paystack.js"></script>
 </body></html>
 

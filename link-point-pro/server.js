@@ -2,11 +2,8 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import { Buffer } from "node:buffer";
-import sqlite3 from "sqlite3";
-import bcrypt from "bcrypt";
-
-const db = new sqlite3.Database("linkpoint.db");
-db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT)");
+const SUPABASE_URL = "https://laqcnqhyhvtawzvmxlkw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_xV0mj5rXsvJb9qgW2fSANQ_5D4OJaFz";
 const CONSUMER_KEY = "S9TnrELYZPAXhpSs2uM0cVO2wUAAKeyNfTAuEsAtEQ3hdZO5";
 const CONSUMER_SECRET = "1SsB13hn8uoaGYLANpg0bhG29XzXMKcazIz5XqbOgKHZLQBaMCs8KNKppmrrAiuN";
 
@@ -40,7 +37,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // AUTH & STATIC FILES (RESTORED TO DB)
+    // AUTH VIA SUPABASE
     if (req.method === "POST" && (req.url === "/api/register" || req.url === "/signup")) {
         let body = ""; for await (const chunk of req) body += chunk;
         const user = JSON.parse(body || "{}");
@@ -49,19 +46,30 @@ const server = http.createServer(async (req, res) => {
             res.end(JSON.stringify({ success: false, message: "Missing credentials" })); return;
         }
         const userName = user.name || user.fullname || user.email.split('@')[0];
-        bcrypt.hash(user.password, 10, (err, hash) => {
-            if (err) { res.writeHead(500); res.end(); return; }
-            db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [userName, user.email, hash], function(err) {
-                if (err) {
-                    res.writeHead(400, {"Content-Type":"application/json"});
-                    res.end(JSON.stringify({ success: false, message: "Email already exists" })); return;
-                }
-                res.writeHead(200, {"Content-Type":"application/json"});
-                res.end(JSON.stringify({ success: true, message: "Account registered successfully!", token: "tok_" + this.lastID }));
+        try {
+            const r = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+                method: "POST",
+                headers: { "apikey": SUPABASE_KEY, "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email, password: user.password, data: { name: userName } })
             });
-        });
+            const data = await r.json();
+            if (!r.ok) {
+                let msg = data.msg || data.message || data.error_description || "Registration failed";
+                if (msg.includes("weak_password") || msg.toLowerCase().includes("password should contain")) {
+                    msg = "Password too weak. Please use at least 8 characters, a number, and a symbol.";
+                }
+                res.writeHead(400, {"Content-Type":"application/json"});
+                res.end(JSON.stringify({ success: false, message: msg })); return;
+            }
+            res.writeHead(200, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: true, message: "Registration successful! Please check your email to confirm if required.", token: data.access_token || "pending_verification" }));
+        } catch(e) {
+            res.writeHead(500, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: false, message: "Server error connecting to Supabase" }));
+        }
         return;
     }
+
     if (req.method === "POST" && (req.url === "/api/login" || req.url === "/login")) {
         let body = ""; for await (const chunk of req) body += chunk;
         const user = JSON.parse(body || "{}");
@@ -69,21 +77,29 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(400, {"Content-Type":"application/json"});
             res.end(JSON.stringify({ success: false, message: "Missing credentials" })); return;
         }
-        db.get("SELECT * FROM users WHERE email = ?", [user.email], (err, row) => {
-            if (err || !row) {
-                res.writeHead(401, {"Content-Type":"application/json"});
-                res.end(JSON.stringify({ success: false, message: "Invalid email or password" })); return;
-            }
-            bcrypt.compare(user.password, row.password, (err, result) => {
-                if (result) {
-                    res.writeHead(200, {"Content-Type":"application/json"});
-                    res.end(JSON.stringify({ success: true, message: "Login successful!", token: "tok_" + row.id, user: { name: row.name, email: row.email } }));
-                } else {
-                    res.writeHead(401, {"Content-Type":"application/json"});
-                    res.end(JSON.stringify({ success: false, message: "Invalid email or password" }));
-                }
+        try {
+            const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+                method: "POST",
+                headers: { "apikey": SUPABASE_KEY, "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email, password: user.password })
             });
-        });
+            const data = await r.json();
+            if (!r.ok) {
+                let msg = data.error_description || data.msg || data.message || "Invalid credentials";
+                if (msg.toLowerCase().includes("email not confirmed")) {
+                    msg = "Please confirm your email address before logging in.";
+                } else if (msg.toLowerCase().includes("invalid login credentials")) {
+                    msg = "Wrong credentials. Please check your email and password, and ensure your email is verified.";
+                }
+                res.writeHead(401, {"Content-Type":"application/json"});
+                res.end(JSON.stringify({ success: false, message: msg })); return;
+            }
+            res.writeHead(200, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: true, message: "Login successful!", token: data.access_token, user: { email: user.email, name: data.user?.user_metadata?.name || user.email.split('@')[0] } }));
+        } catch(e) {
+            res.writeHead(500, {"Content-Type":"application/json"});
+            res.end(JSON.stringify({ success: false, message: "Server error connecting to Supabase" }));
+        }
         return;
     }
 

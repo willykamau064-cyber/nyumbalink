@@ -468,9 +468,11 @@ async function handleLogin() {
   if (local && local.success) {
     localStorage.setItem('token', local.token || 'lp-session');
     if (local.user) {
-      localStorage.setItem('user_name', local.user.name || local.user.email);
+      const fallbackName = (local.user.name || local.user.email || '').split('@')[0];
+      const capName = fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1);
+      localStorage.setItem('user_name', capName);
       localStorage.setItem('user_email', local.user.email);
-      localStorage.setItem('LinkPointUser', JSON.stringify(local.user));
+      localStorage.setItem('LinkPointUser', JSON.stringify({ ...local.user, name: capName }));
     }
     showMsg('msg-login', '✅ Login successful! Redirecting...', true);
     setTimeout(() => window.location.href = 'user-dashboard.html', 900);
@@ -483,10 +485,11 @@ async function handleLogin() {
     if (data.access_token) {
       localStorage.setItem('token', data.access_token);
       const user = data.user || {};
-      const name = user.user_metadata?.name || user.email || email;
-      localStorage.setItem('user_name', name);
+      const fallbackName = (user.user_metadata?.name || user.user_metadata?.full_name || email.split('@')[0]);
+      const capName = fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1);
+      localStorage.setItem('user_name', capName);
       localStorage.setItem('user_email', user.email || email);
-      localStorage.setItem('LinkPointUser', JSON.stringify({ name, email: user.email || email, id: user.id }));
+      localStorage.setItem('LinkPointUser', JSON.stringify({ name: capName, email: user.email || email, id: user.id }));
       showMsg('msg-login', '✅ Login successful! Redirecting...', true);
       setTimeout(() => window.location.href = 'user-dashboard.html', 900);
     } else {
@@ -562,10 +565,11 @@ async function handleReg() {
       if (autoLogin.access_token) {
         localStorage.setItem('token', autoLogin.access_token);
         const u = autoLogin.user || {};
-        const uname = u.user_metadata?.name || name || email;
-        localStorage.setItem('user_name', uname);
+        const rawName = u.user_metadata?.name || name || email.split('@')[0];
+        const capName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        localStorage.setItem('user_name', capName);
         localStorage.setItem('user_email', u.email || email);
-        localStorage.setItem('LinkPointUser', JSON.stringify({ name: uname, email: u.email || email, id: u.id }));
+        localStorage.setItem('LinkPointUser', JSON.stringify({ name: capName, email: u.email || email, id: u.id }));
         showMsg('msg-reg', '✅ Account created & logged in! Redirecting...', true);
         setTimeout(() => window.location.href = 'user-dashboard.html', 1200);
       } else {
