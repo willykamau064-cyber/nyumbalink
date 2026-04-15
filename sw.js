@@ -1,4 +1,4 @@
-const CACHE_NAME = 'linkpoint-v4-no3d';
+const CACHE_NAME = 'linkpoint-v5-authfix';
 const ASSETS = [
   '/',
   '/index.html',
