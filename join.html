@@ -490,8 +490,27 @@ async function handleLogin() {
       showMsg('msg-login', '✅ Login successful! Redirecting...', true);
       setTimeout(() => window.location.href = 'user-dashboard.html', 900);
     } else {
-      const errMsg = data.error_description || data.msg || 'Invalid email or password.';
-      showMsg('msg-login', '❌ ' + errMsg, false);
+      let errMsg = data.error_description || data.msg || 'Invalid email or password.';
+      const errLower = errMsg.toLowerCase();
+      if (errLower.includes('invalid login credentials') || errLower.includes('invalid_credentials')) {
+        errMsg = '❌ Wrong email or password. If you just registered, please check your inbox and confirm your email first, then try again.';
+      } else if (errLower.includes('email not confirmed') || errLower.includes('not confirmed')) {
+        errMsg = '📧 Please check your email inbox and click the confirmation link we sent you, then try logging in again.';
+      } else if (errLower.includes('too many requests')) {
+        errMsg = '⏳ Too many attempts. Please wait a minute and try again.';
+      }
+      showMsg('msg-login', errMsg, false);
+      // Show a resend confirmation button
+      const msgEl = document.getElementById('msg-login');
+      if (errLower.includes('invalid login credentials') || errLower.includes('email not confirmed')) {
+        const emailVal = document.getElementById('l-email').value.trim();
+        if (emailVal) {
+          const resendBtn = document.createElement('div');
+          resendBtn.style = 'margin-top:.6rem;text-align:center';
+          resendBtn.innerHTML = `<a href="javascript:void(0)" onclick="resendConfirmation('${emailVal}')" style="color:var(--primary);font-size:.82rem;font-weight:700;text-decoration:underline;">📩 Resend confirmation email</a>`;
+          msgEl.appendChild(resendBtn);
+        }
+      }
       setBtnLoading('login-btn', false, '<i class="fas fa-sign-in-alt"></i> Sign In');
     }
   } catch (err) {
@@ -538,13 +557,38 @@ async function handleReg() {
     }
 
     if (success) {
-      showMsg('msg-reg', '✅ Account created! Check your email to confirm, then sign in.', true);
-      setTimeout(() => switchTab('login'), 2800);
+      // Try to immediately auto-login (works if email confirmation is disabled in Supabase)
+      const autoLogin = await supaLogin(email, pass);
+      if (autoLogin.access_token) {
+        localStorage.setItem('token', autoLogin.access_token);
+        const u = autoLogin.user || {};
+        const uname = u.user_metadata?.name || name || email;
+        localStorage.setItem('user_name', uname);
+        localStorage.setItem('user_email', u.email || email);
+        localStorage.setItem('LinkPointUser', JSON.stringify({ name: uname, email: u.email || email, id: u.id }));
+        showMsg('msg-reg', '✅ Account created & logged in! Redirecting...', true);
+        setTimeout(() => window.location.href = 'user-dashboard.html', 1200);
+      } else {
+        showMsg('msg-reg', '✅ Account created! Please check your email inbox to confirm your account, then sign in.', true);
+        setTimeout(() => switchTab('login'), 3000);
+      }
     }
   } catch (err) {
     showMsg('msg-reg', '⚠️ Cannot connect to server. Try again.', false);
   }
   setBtnLoading('reg-btn', false, '<i class="fas fa-user-plus"></i> Create Account');
+}
+
+/* ── RESEND CONFIRMATION EMAIL ── */
+async function resendConfirmation(email) {
+  try {
+    await fetch(`${SUPA_URL}/auth/v1/resend`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON },
+      body: JSON.stringify({ type: 'signup', email })
+    });
+  } catch {}
+  showMsg('msg-login', '📩 Confirmation email resent! Check your inbox (and spam folder), then try logging in.', true);
 }
 
 /* ── FORGOT PASSWORD ── */
