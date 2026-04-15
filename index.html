@@ -222,10 +222,24 @@ async function loadLiveFeed() {
         const data3 = listings;
         const imgs = ['kenya_house.png', 'kenyan_apartment.png', 'kenya_shop.png', 'kenya_bnb.png'];
         listings.forEach((p, i) => {
-            const img = imgs[i % imgs.length];
+            // Use real image if available, else fallback to Kenyan samples
+            const img = (Array.isArray(p.images) && p.images[0]) ? p.images[0] : imgs[i % imgs.length];
             const newEl = document.createElement('div');
             newEl.className = 'pc reveal';
-            newEl.innerHTML = `<div class="pi" style="background-image:url('${img}')"><div class="pbadge" style="background:${p.property_type?.includes('Rent') ? '#10b981' : '#ef4444'}">${p.property_type?.toUpperCase() || 'NEW LISTING'}</div></div><div class="pbd"><div class="ppr">KSh ${p.price?.toLocaleString()} <span> neg.</span></div><div class="ptit">${p.title}</div><div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.location}</div><div class="pfeats"><div class="pfe"><i class="fas fa-check-circle"></i> Verified</div><div class="amenity-btn" onclick="openAmenities('Neighbourhood')"><i class="fas fa-map-signs"></i> View Amenities</div></div></div>`;
+            newEl.innerHTML = `
+                <div class="pi" style="background-image:url('${img}')">
+                    <div class="pbadge" style="background:${p.status === 'FOR SALE' ? '#ef4444' : '#10b981'}">${p.status || p.type?.toUpperCase()}</div>
+                </div>
+                <div class="pbd">
+                    <div class="ppr">KSh ${p.price?.toLocaleString()} <span> neg.</span></div>
+                    <div class="ptit">${p.title}</div>
+                    <div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.location}</div>
+                    <div class="pfeats">
+                        <div class="pfe"><i class="fas fa-bed"></i> ${p.beds || 0} Beds</div>
+                        <div class="pfe"><i class="fas fa-bath"></i> ${p.baths || 0} Baths</div>
+                        <div class="pfe"><i class="fas fa-check-circle"></i> Verified</div>
+                    </div>
+                </div>`;
             grid.appendChild(newEl);
             if(window.obs) window.obs.observe(newEl);
         });

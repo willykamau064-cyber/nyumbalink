@@ -323,50 +323,60 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
 async function triggerPay() {
-    const phone = document.querySelector("#mov input[type=tel]").value;
-    if(!phone || phone.length < 10) { alert("Please enter a valid phone number!"); return; }
+    const phone = document.querySelector("#mov input[type=tel]")?.value;
+    const pt = document.getElementById("p_title")?.value.trim();
+    const pl = document.getElementById("p_loc")?.value.trim();
+    const ppr = document.getElementById("p_price")?.value.trim();
+    
+    if(!pt || !pl || !ppr) { alert("⚠️ Please fill in all required property details first!"); return; }
     
     // UI Update
-    const btn = document.querySelector("#mov .btn");
+    const btn = document.querySelector("#mov .btn") || document.getElementById('submitBtn');
     const oldHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Requesting Payment...";
+    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Processing...";
 
     try {
-        // 1. Send Property Data to Supabase first (or after payment, but first ensures data isn't lost)
-        const pt = document.getElementById("p_title")?.value;
-        const pl = document.getElementById("p_loc")?.value;
-        const ppr = document.getElementById("p_price")?.value;
+        // Collect all media previews
+        const images = Array.from(document.querySelectorAll('#media-preview img')).map(img => img.src);
+        if(images.length === 0) images.push('kenyan_apartment.png'); // Fallback
+
         const type = typeof curDesc !== "undefined" ? curDesc : "Listing";
+        const cleanAmt = typeof curAmt === 'string' ? curAmt.replace(/,/g, '') : '2000';
 
-        // Collect first media preview as primary image (demo simplification)
-        const firstImg = document.querySelector('#media-preview img')?.src || 'kenyan_apartment.png';
-
+        // 1. Kick off Payment (Paystack is our primary official gateway)
+        // We save the listing AFTER successful payment or simultaneously
+        await openPaystack(cleanAmt, type);
+        
+        // 2. Save Property Data to Supabase 
         const saveRes = await fetch("/api/properties", { 
             method: "POST", 
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ title: pt, location: pl, price: ppr, type: type, image_url: firstImg }) 
+            body: JSON.stringify({ 
+                title: pt, 
+                location: pl, 
+                price: ppr, 
+                type: type, 
+                images: images,
+                description: "Listed via premium sell portal.",
+                status: type.toLowerCase().includes('sale') ? 'FOR SALE' : 'FOR RENT'
+            }) 
         });
         const saveData = await saveRes.json();
         
         if(!saveData.success) throw new Error("Database error: " + saveData.message);
 
-        // 2. Kick off M-Pesa STK Push / Payment Gateway
-        const payRes = await fetch("/api/pay", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ phone: phone, amount: 1 }) // Amount in KSh
-        });
-        const payData = await payRes.json();
-
-        alert("🚀 SUCCESS! \n\n" + (payData.message || "Request sent. Your listing has been saved to the database!"));
-        window.location.href = 'user-dashboard.html';
+        // Success message handled by paystack.js or here
         
     } catch(e) {
-        alert("⚠️ System Notification: " + e.message);
+        if(!e.message.includes('closed')) {
+            alert("⚠️ System Notification: " + e.message);
+        }
     } finally {
-        btn.disabled = false;
-        btn.innerHTML = oldHtml;
+        if(btn) {
+            btn.disabled = false;
+            btn.innerHTML = oldHtml;
+        }
     }
 }
 </script>

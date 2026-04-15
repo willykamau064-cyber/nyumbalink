@@ -65,7 +65,13 @@ app.post(["/api/login", "/login"], async (req, res) => {
         const loginRequest = supabase.auth.signInWithPassword({ email, password });
         const { data, error } = await Promise.race([loginRequest, timeout]);
 
-        if (error || !data.user) return res.status(401).json({ success: false, message: error ? error.message : "Invalid login credentials." });
+        if (error || !data.user) {
+            let msg = error ? error.message : "Invalid login credentials.";
+            if (msg.includes("Invalid login credentials") || msg.includes("Email not confirmed")) {
+                msg = "Login failed: Incorrect email/password, OR you need to confirm your email address. Please check your inbox.";
+            }
+            return res.status(401).json({ success: false, message: msg });
+        }
         
         res.json({ 
             success: true, 
@@ -93,13 +99,28 @@ app.get(["/api/listings", "/listings", "/api/properties"], async (req, res) => {
 
 app.post(["/api/properties", "/api/listings"], async (req, res) => {
     try {
-        const { title, location, price, type, image_url, description } = req.body;
+        const { title, location, price, type, images, description, beds, baths, status } = req.body;
+        
+        // Ensure images is an array
+        const finalImages = Array.isArray(images) ? images : (images ? [images] : []);
+
         const { data, error } = await supabase.from("properties").insert([
-            { title, location, price: parseFloat(price), type, image_url, description, verified: false }
+            { 
+                title, 
+                location, 
+                price: parseFloat(price) || 0, 
+                type: type || "Property", 
+                status: status || (type?.toLowerCase().includes("sale") ? "FOR SALE" : "FOR RENT"),
+                beds: parseInt(beds) || 0,
+                baths: parseInt(baths) || 0,
+                images: finalImages,
+                description: description || "",
+                verified: false 
+            }
         ]).select();
         
         if (error) throw error;
-        res.json({ success: true, message: "Listing saved successfully", data: data[0] });
+        res.json({ success: true, message: "🚀 Property listed successfully!", data: data[0] });
     } catch(e) {
         console.error("Save listing error:", e.message);
         res.status(500).json({ success: false, message: e.message });

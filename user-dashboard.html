@@ -586,13 +586,16 @@ async function fetchRealProperties() {
         if (Array.isArray(data)) {
             properties = data.map(p => ({
                 title: p.title,
-                price: 'KSh ' + p.price.toLocaleString(),
-                per: p.type.toLowerCase().includes('rent') || p.type.toLowerCase().includes('bnb') ? (p.type.toLowerCase().includes('bnb') ? '/night' : '/mo') : '',
+                price: 'KSh ' + (p.price || 0).toLocaleString(),
+                per: p.type?.toLowerCase().includes('rent') || p.type?.toLowerCase().includes('bnb') ? (p.type?.toLowerCase().includes('bnb') ? '/night' : '/mo') : '',
                 loc: p.location,
-                type: p.type.toUpperCase(),
-                img: p.image_url || 'kenyan_apartment.png',
+                type: p.type?.toUpperCase() || 'PROPERTY',
+                img: (Array.isArray(p.images) && p.images[0]) ? p.images[0] : (p.image_url || 'kenyan_apartment.png'),
                 desc: p.description || 'Verified property on LinkPoint.',
-                badge: p.type.toUpperCase() === 'FOR SALE' ? '#ef4444' : (p.type.toUpperCase() === 'BNB' ? '#f59e0b' : '#10b981')
+                beds: p.beds || 0,
+                baths: p.baths || 0,
+                status: p.status || 'ACTIVE',
+                badge: p.status === 'FOR SALE' ? '#ef4444' : (p.type?.toUpperCase() === 'BNB' ? '#f59e0b' : '#10b981')
             }));
             
             // Update Stats
