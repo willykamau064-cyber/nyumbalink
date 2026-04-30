@@ -326,7 +326,7 @@ h3, h4, h5, .btn, .nav-link, input, select, button, body, p {
 </style>
 
 <link rel="manifest" href="manifest.json">
-<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -364,8 +364,8 @@ function openPayment(propertyId, customAmount, customTitle) {
     
     let amountInCents = amount * 100;
 
-    let handler = PaystackPop.setup({
-        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+    let handler = FlutterwaveCheckout({
+        key: 'FLWPUBK_TEST-SANDBOXDEMOKEY-X',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -1128,8 +1128,8 @@ async function openPayment(propertyId, customAmount, customTitle) {
     
     let amountInCents = amount * 100;
 
-    let handler = PaystackPop.setup({
-        key: 'pk_test_924a4eff52a8a9bfcc9c2185fe8d6ddbd46d0466',
+    let handler = FlutterwaveCheckout({
+        key: 'FLWPUBK_TEST-SANDBOXDEMOKEY-X',
         email: email,
         amount: amountInCents,
         currency: 'KES',
