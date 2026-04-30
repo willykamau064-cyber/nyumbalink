@@ -48,7 +48,8 @@
         footer{padding:4rem 5% 2rem;margin-top:4rem;border-top:1px solid var(--glass-border);background:rgba(3,7,18,0.5);backdrop-filter:blur(10px)}
         .footer-bottom{text-align:center;color:var(--text-dim);font-size:0.8rem}
     </style>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
+<script src="intasend.js"></script>
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -87,7 +88,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'FLWPUBK_TEST-SANDBOXDEMOKEY-X',
+        key: 'INTASEND_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',

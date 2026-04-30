@@ -326,7 +326,8 @@ h3, h4, h5, .btn, .nav-link, input, select, button, body, p {
 </style>
 
 <link rel="manifest" href="manifest.json">
-<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
+<script src="intasend.js"></script>
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -365,7 +366,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'FLWPUBK_TEST-SANDBOXDEMOKEY-X',
+        key: 'INTASEND_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -1139,7 +1140,7 @@ async function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'FLWPUBK_TEST-SANDBOXDEMOKEY-X',
+        key: 'INTASEND_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
