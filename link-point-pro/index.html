@@ -3,6 +3,7 @@
 <meta name="theme-color" content="#FF6B35">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <title>LinkPoint | Kenya's Premier Real Estate Hub</title>
 <meta name="description" content="Kenya's most trusted real estate platform for rentals, sales, BnBs, and commercial spaces.">
 <style>
@@ -83,6 +84,85 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     #reg-view { display: none; }
     .auth-box.registering #login-view { display: none; }
     .auth-box.registering #reg-view { display: block; }
+    /* 3D Hero Canvas */
+    #hero-3d-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        cursor: grab;
+    }
+    #hero-3d-canvas:active { cursor: grabbing; }
+    .hero-vignette {
+        position: absolute; inset: 0; z-index: 1; pointer-events: none;
+        background: radial-gradient(ellipse at 50% 60%, transparent 20%, rgba(8,13,26,0.75) 100%);
+    }
+    /* Hotspots */
+    .hotspot {
+        position: absolute; width: 34px; height: 34px;
+        background: linear-gradient(135deg, var(--primary), #ff8f60);
+        border: 3px solid rgba(255,255,255,0.5); border-radius: 50%;
+        cursor: pointer; z-index: 10; display: flex; align-items: center;
+        justify-content: center; color: #fff; font-size: 13px;
+        box-shadow: 0 0 24px rgba(255,107,53,0.4), 0 4px 12px rgba(0,0,0,0.4);
+        transition: transform 0.25s, box-shadow 0.25s;
+        transform: translate(-50%, -50%);
+    }
+    .hotspot::before {
+        content: ''; position: absolute; inset: -12px;
+        border: 1.5px solid rgba(255,107,53,0.5); border-radius: 50%;
+        animation: hPulse 2.2s ease-out infinite;
+    }
+    @keyframes hPulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.8);opacity:0} }
+    .hotspot:hover { transform: translate(-50%,-50%) scale(1.25); }
+    .hotspot-label {
+        position: absolute; left: 50px; top: 50%; transform: translateY(-50%);
+        background: rgba(10,16,32,0.92); backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,107,53,0.35); padding: 0.65rem 1.1rem;
+        border-radius: 14px; white-space: nowrap; opacity: 0;
+        pointer-events: none; transition: opacity 0.28s, left 0.28s;
+        z-index: 11; font-size: 0.82rem; font-weight: 600; line-height: 1.4;
+    }
+    .hotspot:hover .hotspot-label { opacity: 1; left: 60px; }
+    .hotspot-label strong { color: var(--primary); display: block; font-size: 0.9rem; }
+    /* Fireflies */
+    .firefly {
+        position: absolute; width: 3px; height: 3px;
+        background: var(--primary); border-radius: 50%;
+        filter: blur(1px); box-shadow: 0 0 12px var(--primary);
+        pointer-events: none; z-index: 3;
+        animation: fly 18s infinite linear;
+    }
+    @keyframes fly {
+        0%{transform:translate(0,0) scale(0);opacity:0}
+        15%{opacity:1;transform:scale(1)}
+        85%{opacity:.8}
+        100%{transform:translate(var(--dx,120px),var(--dy,-140px)) scale(0);opacity:0}
+    }
+    /* Scroll hint */
+    .scroll-hint{
+        position:absolute; bottom:6rem; left:50%; transform:translateX(-50%);
+        z-index:4; display:flex; flex-direction:column; align-items:center;
+        gap:.4rem; animation:bounce 2s ease-in-out infinite; opacity:.6;
+    }
+    .scroll-hint span{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+    /* Explode button */
+    #explode-btn {
+        position: absolute; bottom: 7rem; right: 5%;
+        z-index: 20; background: rgba(10,16,32,0.85);
+        backdrop-filter: blur(14px); border: 1px solid rgba(255,107,53,0.5);
+        color: #fff; padding: 0.7rem 1.4rem; border-radius: 100px;
+        font-size: 0.82rem; font-weight: 700; cursor: pointer;
+        display: flex; align-items: center; gap: 0.5rem;
+        font-family: var(--sans); transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(255,107,53,0.2);
+    }
+    #explode-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+    /* Glowing orbs */
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:1;animation:drift 10s ease-in-out infinite alternate}
+    .orb1{width:600px;height:600px;background:rgba(255,107,53,0.1);top:-200px;left:-200px;animation-delay:0s}
+    .orb2{width:400px;height:400px;background:rgba(37,99,235,0.07);bottom:-100px;right:-100px;animation-delay:-4s}
+    @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,30px) scale(1.08)}}
 </style>
 <style>
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -108,6 +188,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     .auth-box.registering #login-view { display: none; }
     .auth-box.registering #reg-view { display: block; }
 </style>
+
 </head><body>
 <nav id="nav">
   <div style="display:flex;align-items:center;gap:1rem">
@@ -125,24 +206,48 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <a href="about.html" class="nl">About Us</a>
   </div>
   <div class="na">
-    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html#listform" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
-<section class="hero">
-  <style>@keyframes pan360 { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } } .pano-bg { position: absolute; inset: 0; background-image: url('nairobi360.png'); background-size: cover; background-repeat: no-repeat; animation: pan360 60s linear infinite; z-index: 0; opacity: 0.65; }    #reg-view { display: none; }
-    .auth-box.registering #login-view { display: none; }
-    .auth-box.registering #reg-view { display: block; }
-</style><div class="pano-bg"></div>
-  <div class="hov" style="background:linear-gradient(160deg,rgba(8,13,26,.75),rgba(8,13,26,.4) 50%,rgba(255,107,53,.12))"></div>
-  <div class="hc">
-    <div class="hbadge"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i>&nbsp;<b>Kenya's #1</b>&nbsp;Real Estate Platform</div>
-    <h1 class="ht">Find Your Perfect<br><em>Space in Kenya</em></h1>
-    <p class="hs">We don’t just list properties — we connect you to quality, verified, and valuable opportunities across all 47 counties.</p>
-    <div class="hb">
-      <a href="rentals.html" class="btn bp blg"><i class="fas fa-search"></i> Find a Property</a>
-      <a href="sell.html" class="btn bg blg"><i class="fas fa-home"></i> List Your Property</a>
+<section class="hero" id="hero-3d" style="height:100vh;min-height:640px">
+  <div id="hero-3d-canvas"></div>
+  <div class="hero-vignette"></div>
+  <div id="hotspot-container" style="position:absolute;inset:0;z-index:10;pointer-events:none"></div>
+  <div id="fireflies-container" style="position:absolute;inset:0;z-index:3;pointer-events:none"></div>
+  <!-- Glowing orbs -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <!-- Gradient overlays -->
+  <div class="hov" style="background:linear-gradient(180deg,rgba(8,13,26,0.6) 0%,rgba(8,13,26,0.0) 50%,rgba(8,13,26,0.92) 100%);z-index:1"></div>
+  <div class="hov" style="background:linear-gradient(90deg,rgba(8,13,26,0.7) 0%,transparent 60%);z-index:1"></div>
+  <div class="hc" style="position:relative;z-index:4;width:100%;max-width:1280px;padding:0 5%;display:flex;align-items:center;justify-content:flex-start">
+    <div style="max-width:560px;text-align:left">
+      <div class="hbadge" style="justify-content:flex-start">
+        <i class="fas fa-certificate" style="color:var(--primary)"></i>&nbsp;
+        <b>Kenya's #1</b>&nbsp;Real Estate Platform&nbsp;&nbsp;·&nbsp;&nbsp;<span style="color:#10b981">✓ Verified</span>
+      </div>
+      <h1 class="ht" style="text-align:left;font-size:clamp(2.8rem,6vw,5rem);line-height:1.0;margin-bottom:1.2rem">
+        Discover Your<br><em>Dream Home</em><br>
+        <span style="font-size:55%;color:rgba(255,255,255,0.85);font-style:normal;font-weight:600">in the Heart of Nairobi</span>
+      </h1>
+      <p class="hs" style="text-align:left;margin:0 0 2.2rem">Kenya's most trusted marketplace — luxury penthouses, bungalows, BnBs &amp; commercial spaces. Verified listings. Secure M-Pesa payments.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <a href="rentals.html" class="btn bp" style="padding:1rem 2.2rem;font-size:1rem;border-radius:14px;box-shadow:0 8px 28px rgba(255,107,53,0.4)">
+          <i class="fas fa-search"></i> Explore Properties
+        </a>
+        <a href="sell.html" class="btn bg" style="padding:1rem 2rem;font-size:1rem;border-radius:14px;backdrop-filter:blur(14px);border-color:rgba(255,255,255,0.3)">
+          <i class="fas fa-plus-circle"></i> List Property
+        </a>
+      </div>
     </div>
   </div>
+  <!-- Explode View Button -->
+  <button id="explode-btn" onclick="window._lp3d_explode && window._lp3d_explode()">
+    <i class="fas fa-layer-group"></i> Explore Floor Plan
+  </button>
+  <!-- Scroll hint -->
+  <div class="scroll-hint"><span>Scroll</span><i class="fas fa-chevron-down" style="color:var(--primary)"></i></div>
+  <!-- Stats Bar -->
   <div class="stats-bar">
     <div class="stat"><span>12,400+</span><p>Active Listings</p></div><div class="sdiv"></div>
     <div class="stat"><span>3,200+</span><p>Verified Agents</p></div><div class="sdiv"></div>
@@ -167,7 +272,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     <p class="ss">Whether you're renting, buying, investing or hosting — LinkPoint has a dedicated portal built just for you.</p>
   </div>
   <div class="grid7">
-    <a href="rentals.html" class="scard reveal"><div class="sci" style="background-image:url('kenyan_apartment.png')"><div class="scbadge">Tenants</div></div><div class="scb"><div class="scicon" style="background:rgba(59,130,246,.18);color:#60a5fa"><i class="fas fa-search-location"></i></div><div class="sct">Find a Rental</div><p class="scd">Start viewing verified apartments today via Paystack escrow.</p><div class="sca">Explore Rentals <i class="fas fa-arrow-right"></i></div></div></a>
+    <a href="rentals.html" class="scard reveal"><div class="sci" style="background-image:url('kenyan_apartment.png')"><div class="scbadge">Tenants</div></div><div class="scb"><div class="scicon" style="background:rgba(59,130,246,.18);color:#60a5fa"><i class="fas fa-search-location"></i></div><div class="sct">Find a Rental</div><p class="scd">Start viewing verified apartments today via Pay via M-Pesa escrow.</p><div class="sca">Explore Rentals <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="buy.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Buyers</div></div><div class="scb"><div class="scicon" style="background:rgba(16,185,129,.18);color:#34d399"><i class="fas fa-home"></i></div><div class="sct">Buy a Home</div><p class="scd">Verified homes ready for ownership across Nairobi and beyond.</p><div class="sca">Browse for Sale <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="sell.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Sellers</div></div><div class="scb"><div class="scicon" style="background:rgba(245,158,11,.18);color:#fbbf24"><i class="fas fa-tags"></i></div><div class="sct">Sell Your Property</div><p class="scd">List in minutes, reach 50,000+ buyers with unlimited media.</p><div class="sca">Start Selling <i class="fas fa-arrow-right"></i></div></div></a>
     <a href="bnb.html" class="scard reveal"><div class="sci" style="background-image:url('nairobi_street.png')"><div class="scbadge">Short Stay</div></div><div class="scb"><div class="scicon" style="background:rgba(239,68,68,.18);color:#f87171"><i class="fas fa-umbrella-beach"></i></div><div class="sct">BnB & Short Stay</div><p class="scd">Unique getaways at Diani Beach, Lamu, and Nairobi.</p><div class="sca">Book a Stay <i class="fas fa-arrow-right"></i></div></div></a>
@@ -221,8 +326,8 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
 <section style="padding:5rem 5%;background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(255,107,53,.04));border-top:1px solid rgba(255,107,53,.2);border-bottom:1px solid rgba(255,107,53,.2);text-align:center" class="reveal">
   <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.9rem">Ready to Find Your<em style="color:var(--primary);font-style:italic"> Perfect Space?</em></h2>
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
-    <button class="btn bp blg" onclick="openPaystack('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
-    <button class="btn bg blg" onclick="openPaystack('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Access Rentals (KSh 400)</button>
+    <button class="btn bp blg" onclick="showPayMethodModal('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
+    <button class="btn bg blg" onclick="showPayMethodModal('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Access Rentals (KSh 400)</button>
   </div>
 </section>
 <button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
@@ -231,7 +336,7 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Pay via M-Pesa escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -391,8 +496,8 @@ document.getElementById("btn-biometric").onclick = handleBiometric;
 
 document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
 
-function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
-function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
+
+
 document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
 
 
@@ -434,8 +539,8 @@ document.getElementById('installBtn').addEventListener('click', async () => {
 </style>
 
 <script>
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+
 document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
@@ -459,7 +564,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-<script src="intasend.js"></script>
+
+<script src="shared-ui.js"></script>
 </body></html>
 
 

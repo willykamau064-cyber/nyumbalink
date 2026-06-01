@@ -52,10 +52,10 @@
         @keyframes slidein{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
         @media(max-width:768px){.nav-links{display:none}}
     </style>
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
-// ── Paystack + Listing Submission ──────────────────────────────────────
+// ── Pay via M-Pesa + Listing Submission ──────────────────────────────────────
 const BACKEND = window.location.origin; // auto-points to localhost or production
 const LISTING_FEE = 2500; // KES
 
@@ -138,7 +138,7 @@ function handleSellSubmit(e) {
     }
 
     const handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email || 'guest@linkpoint.co.ke',
         amount: LISTING_FEE * 100, // kobo/cents
         currency: 'KES',
@@ -279,7 +279,7 @@ function handleSellSubmit(e) {
                 <i class="fas fa-shield-alt" style="color:var(--accent);font-size:1.5rem"></i>
                 <div>
                     <div style="font-family:var(--ui);font-size:0.78rem;font-weight:700;color:var(--text)">Listing fee: <span style="color:var(--accent)">KES 2,500</span></div>
-                    <div style="font-family:var(--ui);font-size:0.72rem;color:var(--muted);margin-top:2px">Paid securely via Paystack. Your listing goes live within 24 hrs after review. 6.5% commission applies on successful sale.</div>
+                    <div style="font-family:var(--ui);font-size:0.72rem;color:var(--muted);margin-top:2px">Paid securely via Pay via M-Pesa. Your listing goes live within 24 hrs after review. 6.5% commission applies on successful sale.</div>
                 </div>
             </div>
             <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:1.15rem;font-size:0.95rem;margin-top:1.5rem">
@@ -307,5 +307,6 @@ function handleSellSubmit(e) {
 <div id="notif"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>AOS.init({duration:850,once:true});function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.getElementById('notif').appendChild(t);setTimeout(()=>t.remove(),3000)}</script>
+<script src="shared-ui.js"></script>
 </body>
 </html>

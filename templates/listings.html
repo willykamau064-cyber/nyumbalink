@@ -326,8 +326,8 @@ h3, h4, h5, .btn, .nav-link, input, select, button, body, p {
 </style>
 
 <link rel="manifest" href="manifest.json">
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -366,7 +366,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -770,7 +770,7 @@ function openPayment(propertyId, customAmount, customTitle) {
 
 
     <div style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999;">
-        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #011b33, #00d382); border: none; border-radius: 50%; color: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 211, 130, 0.4); display: flex; align-items: center; justify-content: center;" title="Paystack Payment">
+        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #011b33, #00d382); border: none; border-radius: 50%; color: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 211, 130, 0.4); display: flex; align-items: center; justify-content: center;" title="Pay via M-Pesa Payment">
             <i class="fas fa-credit-card"></i>
         </button>
         <button onclick="document.getElementById('agentVerification').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); display: flex; align-items: center; justify-content: center;" title="Verify Agent">
@@ -974,7 +974,7 @@ async function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -1058,4 +1058,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="shared-ui.js"></script>
 </body>\n</html>

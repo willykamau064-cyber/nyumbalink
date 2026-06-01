@@ -20,7 +20,7 @@ async function executeSTK(amt) {
     const btn = document.querySelector("#mpesa-modal button");
     btn.innerHTML = "<i class='fas fa-circle-notch fa-spin'></i> Sending STK Push...";
     try {
-        const r = await fetch("http://localhost:5000/api/stkpush", {
+        const r = await fetch("/api/stkpush", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ phone, amount: amt })

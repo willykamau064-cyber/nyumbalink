@@ -82,6 +82,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 
 @media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
 </style>
+
 </head><body>
 <nav id="nav">
   <div style="display:flex;align-items:center;gap:1rem">
@@ -100,7 +101,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   </div>
   <div class="na">
     <a href="join.html" class="btn bg"><i class="fas fa-user-circle"></i> Login</a>
-    <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="sell.html#listform" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
 <section class="hero" style="min-height:50vh;height:50vh">
@@ -116,9 +117,9 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 <section class="sec reveal" style="padding-top:2rem">
   <div class="sh"><div class="stag">Simple Process</div><h2 class="st">How LinkPoint Works</h2></div>
   <div class="steps">
-    <div class="step reveal"><div class="stepn">1</div><h4>Search &amp; Unlock</h4><p>Browse listings and pay a small Paystack viewing fee (e.g. KSh 400 for rentals) to unlock instant verified contacts.</p></div>
+    <div class="step reveal"><div class="stepn">1</div><h4>Search &amp; Unlock</h4><p>Browse listings and pay a small Pay via M-Pesa viewing fee (e.g. KSh 400 for rentals) to unlock instant verified contacts.</p></div>
     <div class="step reveal"><div class="stepn">2</div><h4>Connect with Agent</h4><p>Unlock verified contacts and schedule property tours safely.</p></div>
-    <div class="step reveal"><div class="stepn">3</div><h4>Pay via Paystack</h4><p>Secure deposits and setup fees via our Paystack escrow system directly in the platform.</p></div>
+    <div class="step reveal"><div class="stepn">3</div><h4>Pay via Pay via M-Pesa</h4><p>Secure deposits and setup fees via our Pay via M-Pesa escrow system directly in the platform.</p></div>
     <div class="step reveal"><div class="stepn">4</div><h4>Move In!</h4><p>Get your keys and enjoy! We take a standard 6.5% commission only on successful house sales.</p></div>
   </div>
 </section>
@@ -137,7 +138,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Pay via M-Pesa escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -152,7 +153,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
     </div>
     <div class="fc"><h4>Browse</h4><ul class="fls"><li><a href="rentals.html">Find a Rental</a></li><li><a href="buy.html">Buy a Home</a></li><li><a href="bnb.html">BnB Stays</a></li><li><a href="commercial.html">Commercial Spaces</a></li></ul></div>
     <div class="fc"><h4>Owners</h4><ul class="fls"><li><a href="sell.html">Sell Your Home</a></li><li><a href="sell.html">List a Rental</a></li><li><a href="sell.html">List a BnB</a></li><li><a href="agents.html">For Agents</a></li><li><a href="pricing.html">Pricing Plans</a></li></ul></div>
-    <div class="fc"><h4>Company</h4><ul class="fls"><li><a href="about.html">About Us</a></li><li><a href="about.html">How it Works</a></li><li><a href="agents.html">Our Agents</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul class="fls"><li><a href="about.html">About Us</a></li><li><a href="about.html">How it Works</a></li><li><a href="agents.html">Our Agents</a></li><li><a href="admin">Admin Portal</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
   </div>
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
@@ -178,12 +179,12 @@ function openAuth(){document.getElementById('aov').classList.add('open');documen
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
 
-function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
-function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
+
+
 document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
 
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+
 document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
@@ -209,7 +210,8 @@ document.getElementById('installBtn')?.addEventListener('click', async () => {
 });
 </script>
 <script src="shared-auth.js"></script>
-<script src="intasend.js"></script>
+
+<script src="shared-ui.js"></script>
 </body></html>
 
 <!-- Live Chat Modal -->

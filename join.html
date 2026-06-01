@@ -150,14 +150,15 @@ html, body { height: 100%; font-family: var(--sans); background: var(--navy); co
 /* ── Show password button ── */
 .pw-eye {
   position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
-  background: rgba(255,107,53,0.12);
-  border: 1px solid rgba(255,107,53,0.25);
-  border-radius: 8px;
-  color: var(--primary); cursor: pointer;
-  font-size: .82rem; padding: .32rem .55rem;
-  transition: all .2s; line-height: 1;
+  background: rgba(255,107,53,0.2);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  color: #fff; cursor: pointer;
+  font-size: 1.1rem; padding: .5rem .7rem;
+  transition: all 0.2s; line-height: 1;
+  z-index: 5;
 }
-.pw-eye:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.pw-eye:hover { background: var(--primary); transform: scale(1.05); }
 
 /* ── Password strength bar ── */
 .pw-strength { height: 4px; border-radius: 4px; margin-top: .5rem; transition: all .4s; }
@@ -209,6 +210,7 @@ html, body { height: 100%; font-family: var(--sans); background: var(--navy); co
   .right { width: 100%; min-width: unset; border-left: none; padding: 2rem 1.4rem; }
 }
 </style>
+
 </head>
 <body>
 <div class="page">
@@ -226,7 +228,7 @@ html, body { height: 100%; font-family: var(--sans); background: var(--navy); co
     <div class="floater f3"></div>
     <div class="left-content">
       <div class="left-tagline">"Your Dream Home<br>Starts Here"</div>
-      <p class="left-sub">Kenya's most trusted real estate ecosystem. Verified listings, secure M-Pesa & Paystack payments, and premium support — all in one place.</p>
+      <p class="left-sub">Kenya's most trusted real estate ecosystem. Verified listings, secure M-Pesa & Pay via M-Pesa payments, and premium support — all in one place.</p>
       <div class="left-stats">
         <div class="stat-item"><h3>2,400+</h3><p>Properties Listed</p></div>
         <div class="stat-item"><h3>98%</h3><p>Verified Listings</p></div>
@@ -472,6 +474,7 @@ async function handleLogin() {
       const capName = fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1);
       localStorage.setItem('user_name', capName);
       localStorage.setItem('user_email', local.user.email);
+      localStorage.setItem('user_phone', local.user.phone || '');
       localStorage.setItem('LinkPointUser', JSON.stringify({ ...local.user, name: capName }));
     }
     showMsg('msg-login', '✅ Login successful! Redirecting...', true);
@@ -489,7 +492,8 @@ async function handleLogin() {
       const capName = fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1);
       localStorage.setItem('user_name', capName);
       localStorage.setItem('user_email', user.email || email);
-      localStorage.setItem('LinkPointUser', JSON.stringify({ name: capName, email: user.email || email, id: user.id }));
+      localStorage.setItem('user_phone', user.user_metadata?.phone || '');
+      localStorage.setItem('LinkPointUser', JSON.stringify({ name: capName, email: user.email || email, id: user.id, phone: user.user_metadata?.phone }));
       showMsg('msg-login', '✅ Login successful! Redirecting...', true);
       setTimeout(() => window.location.href = 'user-dashboard.html', 900);
     } else {
@@ -625,5 +629,7 @@ window.addEventListener('beforeinstallprompt', e => {
   deferredPrompt = e;
 });
 </script>
+
+<script src="shared-ui.js"></script>
 </body>
 </html>

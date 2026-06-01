@@ -4,6 +4,7 @@
 // Supports: M-Pesa, Visa, Mastercard, Google Pay
 // Docs: https://developers.intasend.com
 // =============================================
+console.log('💳 IntaSend Library Loaded');
 
 // Inject IntaSend SDK if not already loaded
 (function() {
@@ -84,6 +85,7 @@ function openPaystack(amount, desc) {
 // Main function — programmatically trigger checkout
 // -----------------------------------------------
 function openIntaSend(amount, desc) {
+    console.log('💳 openIntaSend triggered for:', amount, desc);
     const user  = JSON.parse(localStorage.getItem('LinkPointUser') || '{}');
     const email = user.email || localStorage.getItem('user_email') || '';
     const name  = user.name  || user.full_name || '';

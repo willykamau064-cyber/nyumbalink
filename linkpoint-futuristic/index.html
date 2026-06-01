@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPoint | Cinematic 3D Real Estate Platform</title>
+    <meta name="description" content="Immersive 3D real estate platform. Explore properties via cinematic scroll-bound cityscape flyovers, virtual walkthroughs, and interactive maps.">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Three.js Library (loaded early for 3D background) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Cinematic Noise Grain Overlay -->
+    <div class="noise-grain-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+    <div class="custom-cursor-ring" id="cursor-ring"></div>
+
+    <!-- Unified Fixed Background 3D Canvas removed to remove black background -->
+    <!-- <div id="canvas-3d-main-container"></div> -->
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <a href="#" class="logo">
+            <div class="logo-icon">L</div>
+            <span class="logo-text">Link<span>Point</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Home</a>
+            <a href="#rentals" class="nav-link">Find a Rental</a>
+            <a href="#buy" class="nav-link">Buy a Home</a>
+            <a href="#sell" class="nav-link">Sell a Property</a>
+            <a href="#bnbs" class="nav-link">BnBs and Short Stay</a>
+            <a href="#commercial" class="nav-link">Commercial Spaces</a>
+        </div>
+        <div class="nav-actions">
+            <a href="tel:+254112012816" class="btn btn-glass" style="font-family:var(--font-data); font-size:0.8rem">
+                <i class="fab fa-whatsapp" style="color:#25D366"></i> Contact Support
+            </a>
+            <a href="#listings" class="btn btn-primary">Launch Portal</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero Section (with Parallax Text) -->
+    <header class="hero" id="hero-trigger">
+        <div class="section-bg-wrapper">
+            <div class="section-bg-image anim-kb-pan" style="background-image: url('./nairobi_aerial.jpg'); width: 100%; height: 100%; background-size: cover; background-position: center;"></div>
+            <div class="section-bg-overlay" style="background: rgba(13,13,13,0.6); position: absolute; inset: 0;"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-tag scroll-reveal-word">
+                    <i class="fas fa-bolt"></i> Next-Gen Cinematic Experience
+                </div>
+                <h1 class="hero-title scroll-reveal-word" id="hero-parallax-title">
+                    FIND PROPERTY<br><em>DIFFERENTLY</em>
+                </h1>
+                <p class="hero-subtitle scroll-reveal-word">
+                    Scroll to fly through our 3D dark city, step into luxury interiors, and explore interactive grid systems in real-time.
+                </p>
+                <div class="hero-actions scroll-reveal-word">
+                    <a href="#walkthrough" class="btn btn-primary btn-lg">Begin Fly-Through <i class="fas fa-chevron-down"></i></a>
+                    <a href="#listings" class="btn btn-glass btn-lg">Browse Grid</a>
+                </div>
+
+                <!-- Mini Search Console -->
+                <div class="hero-search-console scroll-reveal-word">
+                    <div class="hsc-field">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <select id="filter-location">
+                            <option value="all">All Cities</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Diani">Diani</option>
+                        </select>
+                    </div>
+                    <div class="hsc-divider"></div>
+                    <div class="hsc-field">
+                        <i class="fas fa-building"></i>
+                        <select id="filter-type">
+                            <option value="all">Any Type</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Villa">Villa</option>
+                            <option value="Penthouse">Penthouse</option>
+                            <option value="Office">Office</option>
+                        </select>
+                    </div>
+                    <div class="hsc-divider"></div>
+                    <div class="hsc-field">
+                        <i class="fas fa-tag"></i>
+                        <select id="filter-price">
+                            <option value="all">Any Budget</option>
+                            <option value="under-15m">Under KSh 15M</option>
+                            <option value="15m-30m">KSh 15M – 30M</option>
+                            <option value="30m-60m">KSh 30M – 60M</option>
+                            <option value="over-60m">Over KSh 60M</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary hsc-search" id="btn-search">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+            <!-- Visual is handled by fixed 3D canvas behind -->
+            <div class="hero-visual-empty"></div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </header>
+
+    <!-- Section 2: Stats Band (Editorial Typography) -->
+    <section class="stats-band">
+        <div class="section-bg-wrapper">
+            <div class="section-bg-image anim-kb-zoom" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=3840&q=100')"></div>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">12K+</span>
+                <span class="stat-label">Active Listings</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Escrow Verified</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">3D</span>
+                <span class="stat-label">Virtual Tours</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Counties Cover</span>
+            </div>
+        </div>
+    </section>
+
+        <!-- Section: Find a Rental -->
+    <section class="sec" id="rentals">
+        <div class="section-bg-wrapper">
+            <div class="section-bg-image anim-kb-zoom" style="background-image: url('./apartment.png'); width: 100%; height: 100%; background-size: cover; background-position: center;"></div>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Rentals</div>
+            <h2 class="st">Find a <em>Rental</em></h2>
+            <p class="ss">Discover premium apartments and homes for rent with verified listings and secure escrow deposits.</p>
+        </div>
+        <div class="listings-grid" id="rentals-grid">
+            <div class="property-card" style="margin: 0 auto; max-width: 400px; text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Browse Rentals</h3>
+                <p style="margin-top: 1rem; color: #aaa;">Explore our curated selection of high-end rentals.</p>
+                <button class="btn btn-primary" style="margin-top: 1.5rem; margin-left: auto; margin-right: auto;">View All Rentals</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Buy a Home -->
+    <section class="sec" id="buy">
+        <div class="section-bg-wrapper">
+            <video class="section-bg-image anim-kb-zoom" autoplay loop muted playsinline style="object-fit: cover; width: 100%; height: 100%;"><source src="./video3.mp4" type="video/mp4"></video>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Ownership</div>
+            <h2 class="st">Buy a <em>Home</em></h2>
+            <p class="ss">Invest in your future with our exclusive portfolio of homes for sale across prime locations.</p>
+        </div>
+        <div class="listings-grid" id="buy-grid">
+             <div class="property-card" style="margin: 0 auto; max-width: 400px; text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Browse Homes</h3>
+                <button class="btn btn-primary" style="margin-top: 1.5rem; margin-left: auto; margin-right: auto;">View Properties</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Sell a Property -->
+    <section class="sec" id="sell">
+        <div class="section-bg-wrapper">
+            <video class="section-bg-image anim-kb-zoom" autoplay loop muted playsinline style="object-fit: cover; width: 100%; height: 100%;"><source src="./video4.mp4" type="video/mp4"></video>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Listing Hub</div>
+            <h2 class="st">Sell a <em>Property</em></h2>
+            <p class="ss">List your property with LinkPoint to reach qualified buyers through our cinematic real estate platform.</p>
+        </div>
+        <div class="listings-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 2rem auto 0; padding: 0 5%;">
+            <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff;">List Your Property</h3>
+                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%; justify-content: center;">Start Listing</button>
+            </div>
+            <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff;">List Your BnB</h3>
+                <button class="btn btn-glass" style="margin-top: 1rem; width: 100%; justify-content: center;">Add Your BnB</button>
+            </div>
+            <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff;">List Your Office</h3>
+                <button class="btn btn-glass" style="margin-top: 1rem; width: 100%; justify-content: center;">Add Office Space</button>
+            </div>
+            <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff;">List Your Rental Shop</h3>
+                <button class="btn btn-glass" style="margin-top: 1rem; width: 100%; justify-content: center;">Add Retail Space</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: BnBs and Short Stay -->
+    <section class="sec" id="bnbs">
+        <div class="section-bg-wrapper">
+            <video class="section-bg-image anim-kb-zoom" autoplay loop muted playsinline style="object-fit: cover; width: 100%; height: 100%;"><source src="./video2.mp4" type="video/mp4"></video>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Vacation Rentals</div>
+            <h2 class="st">BnBs and <em>Short Stay</em></h2>
+            <p class="ss">Find the perfect fully-furnished short stay apartment or boutique BnB for your trip.</p>
+        </div>
+        <div class="listings-grid" id="bnb-grid">
+             <div class="property-card" style="margin: 0 auto; max-width: 400px; text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Browse Short Stays</h3>
+                <button class="btn btn-primary" style="margin-top: 1.5rem; margin-left: auto; margin-right: auto;">View Short Stays</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Commercial Spaces -->
+    <section class="sec" id="commercial">
+        <div class="section-bg-wrapper">
+            <video class="section-bg-image anim-kb-zoom" autoplay loop muted playsinline style="object-fit: cover; width: 100%; height: 100%;"><source src="./video1.mp4" type="video/mp4"></video>
+            <div class="section-bg-overlay"></div>
+        </div>
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Business Hub</div>
+            <h2 class="st">Commercial <em>Spaces</em></h2>
+            <p class="ss">Elevate your business with premium office spaces, retail storefronts, and commercial properties.</p>
+        </div>
+        <div class="listings-grid" id="commercial-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 2rem auto 0; padding: 0 5%;">
+             <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Looking for Office to Rent</h3>
+                <p style="margin-top: 1rem; color: #aaa;">Premium corporate spaces</p>
+                <button class="btn btn-primary" style="margin-top: 1.5rem; width: 100%; justify-content: center;">Browse Offices</button>
+            </div>
+             <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Looking for Shop to Rent</h3>
+                <p style="margin-top: 1rem; color: #aaa;">High-traffic retail spaces</p>
+                <button class="btn btn-primary" style="margin-top: 1.5rem; width: 100%; justify-content: center;">Browse Shops</button>
+            </div>
+             <div class="property-card" style="text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #fff;">Other Commercial</h3>
+                <p style="margin-top: 1rem; color: #aaa;">Warehouses & industrial</p>
+                <button class="btn btn-glass" style="margin-top: 1.5rem; width: 100%; justify-content: center;">View All</button>
+            </div>
+        </div>
+    </section>
+
+<!-- Section 7: How It Works Section (4 Steps) -->
+    <section class="sec" id="how-it-works">
+        <div class="sh scroll-reveal-word">
+            <div class="stag">Telemetry Workflow</div>
+            <h2 class="st">How It <em>Works</em></h2>
+            <p class="ss">LinkPoint streamlines high-end real estate searches into a cinematic, fully verified transaction.</p>
+        </div>
+        
+        <div class="steps-grid">
+            <div class="step-card scroll-reveal-word">
+                <div class="step-number">01</div>
+                <h3 class="step-title">Select Portal Space</h3>
+                <p class="step-desc">Filter properties using our cybernetic search console, or browse buildings directly on the 3D neighborhood map.</p>
+            </div>
+            <div class="step-card scroll-reveal-word">
+                <div class="step-number">02</div>
+                <h3 class="step-title">Immersive Virtual Tour</h3>
+                <p class="step-desc">Walk inside rooms using the 360° interactive engine. Explore layouts, check materials, and map out neighborhoods virtually.</p>
+            </div>
+            <div class="step-card scroll-reveal-word">
+                <div class="step-number">03</div>
+                <h3 class="step-title">Neural Engine Match</h3>
+                <p class="step-desc">Leverage our AI Matching Orb to filter listings based on yield, solar exposure, and local neighborhood metrics.</p>
+            </div>
+            <div class="step-card scroll-reveal-word">
+                <div class="step-number">04</div>
+                <h3 class="step-title">Escrow Checkout</h3>
+                <p class="step-desc">Lock down properties with direct Kenyan M-Pesa compliance validation and transparent transaction oversight.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: CTA Band -->
+    <section class="mw reveal" style="max-width: 1200px; width: 90%; margin: 4rem auto 0; position: relative; z-index: 10;">
+        <div class="cta-gradient-panel">
+            <h2 class="cta-title">READY TO DISCOVER YOUR PERFECT SPACE?</h2>
+            <p class="cta-subtitle">Begin your cinematic property experience today or initialize direct escrow booking.</p>
+            <div class="cta-actions">
+                <a href="#listings" class="btn btn-primary btn-lg" style="color:#000">Initialize Escrow Portal</a>
+                <a href="tel:+254112012816" class="btn btn-glass btn-lg"><i class="fab fa-whatsapp"></i> Chat with Support</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon">L</div>
+                    <span class="logo-text">Link<span>Point</span></span>
+                </a>
+                <p>High-end cinematic property marketplace.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/254112012816" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="mailto:linkpoint04@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>System Nodes</h4>
+                <ul class="footer-links">
+                    <li><a href="#walkthrough">Walkthrough Scene</a></li>
+                    <li><a href="#map">Neighborhood Coordinates</a></li>
+                    <li><a href="#ai-match">Neural Engine Match</a></li>
+                    <li><a href="#listings">Property Registry</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Integrations</h4>
+                <ul class="footer-links">
+                    <li><a href="https://findit.co.ke" target="_blank">FindIt Partner Hub</a></li>
+                    <li><a href="#">M-Pesa Escrow API</a></li>
+                    <li><a href="#">GSAP ScrollTrigger</a></li>
+                    <li><a href="#">Three.js Shaders</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Synced</h4>
+                <p>Register to get immediate email updates when new 3D city segments load.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to LinkPoint telemetry feed!');">
+                    <input type="email" placeholder="agent@linkpoint.com" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 LinkPoint Hub. Engineered with ❤️ for Wilson Kiarie.</span>
+            <span>FindIt.co.ke Strategic Partner · SSL Secure Channels</span>
+        </div>
+    </footer>
+
+    <!-- GSAP & ScrollTrigger Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+
+    <!-- Hero Cityscape & Cursor -->
+    <script src="linkpoint3d.js"></script>
+    <!-- App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

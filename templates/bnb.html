@@ -54,8 +54,8 @@
         @keyframes slidein{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
         @media(max-width:768px){.nav-links{display:none}}
     </style>
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -94,7 +94,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -188,5 +188,6 @@ function openPayment(propertyId, customAmount, customTitle) {
 <div id="notif"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>AOS.init({duration:850,once:true});function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.getElementById('notif').appendChild(t);setTimeout(()=>t.remove(),3000)}</script>
+<script src="shared-ui.js"></script>
 </body>
 </html>

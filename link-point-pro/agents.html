@@ -239,6 +239,7 @@
         }
 
 </style>
+
 </head>
 <body style="padding-top: 80px;">
 
@@ -413,7 +414,7 @@ function updateUIAfterLogin() {
         if (!userData) return;
         const user = JSON.parse(userData);
         if (user && user.email) {
-            const loginBtn = document.querySelector('button[onclick="openPaystack('1,500', 'Secure Escrow Payment')"]');
+            const loginBtn = document.querySelector('button[onclick="showPayMethodModal('1,500', 'Secure Escrow Payment')"]');
             if (loginBtn) {
                 loginBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email.split('@')[0]}`;
                 loginBtn.onclick = () => {
@@ -791,7 +792,7 @@ window.addEventListener('load', function() {
 
     <div style="display: flex; gap: 1rem; align-items: center;">
         <button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; color: inherit;"><i class="fas fa-moon" id="themeIcon"></i></button>
-        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem;" onclick="openPaystack('1,500', 'Secure Escrow Payment')">Sign In</button>
+        <button class="btn btn-primary" style="padding: 0.75rem 2rem; border-radius: 100px; font-size: 0.9rem;" onclick="showPayMethodModal('1,500', 'Secure Escrow Payment')">Sign In</button>
     </div>
 </nav>
 
@@ -1305,7 +1306,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     </div>
 </section>
     <div style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999;">
-        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #00a650, #00c853); border: none; border-radius: 50%; color: var(--text-main); font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.4); display: flex; align-items: center; justify-content: center;" title="Paystack Payment">
+        <button onclick="openPayment()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #00a650, #00c853); border: none; border-radius: 50%; color: var(--text-main); font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.4); display: flex; align-items: center; justify-content: center;" title="Pay via M-Pesa Payment">
             <i class="fas fa-mobile-alt"></i>
         </button>
         <button onclick="document.getElementById('agentVerification').scrollIntoView({behavior: 'smooth'})" style="width: 60px; height: 60px; background: var(--bg-card); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border: 2px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); display: flex; align-items: center; justify-content: center;" title="Verify Agent">
@@ -1450,8 +1451,8 @@ function executeModalSearch() {
 </style>
 
 <script>
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+
 document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
@@ -1459,7 +1460,8 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 </script>
 
 <script src="linkpoint-3d.js"></script>
-<script src="intasend.js"></script>
+
+<script src="shared-ui.js"></script>
 </body>
 </html>
 

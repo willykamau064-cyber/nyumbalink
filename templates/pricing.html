@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing & Payments | LinkPoint</title>
-    <meta name="description" content="Transparent pricing for all LinkPoint services. Pay securely via Paystack — Africa's most trusted payment gateway.">
+    <meta name="description" content="Transparent pricing for all LinkPoint services. Pay securely via Pay via M-Pesa — Africa's most trusted payment gateway.">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -120,7 +120,7 @@
             color: var(--text); box-shadow: none; }
         .price-pay-btn.outline:hover { background: rgba(255,255,255,0.06); border-color: var(--shine); box-shadow: none; }
 
-        /* PAYSTACK PAYMENT SECTION */
+        /* M-PESA PAYMENT SECTION */
         .paystack-section { max-width: 720px; margin: 0 auto 6rem; padding: 0 5%; }
         .glass-card { padding: 3rem; border-radius: 28px; position: relative; overflow: hidden;
             background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
@@ -222,8 +222,8 @@
         .pulsing { animation: pulse 1.5s ease-in-out infinite; }
         @media (max-width: 768px) { .nav-links { display: none; } }
     </style>
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -262,7 +262,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -311,13 +311,13 @@ function openPayment(propertyId, customAmount, customTitle) {
 <div class="page-hero" data-aos="zoom-out">
     <div class="eyebrow">SECTION 07 — PAYMENTS</div>
     <h1>Simple, <em>Transparent</em> Pricing</h1>
-    <p>One-time listing fees. No hidden charges. Pay via Card or Paystack securely directly from this page.</p>
+    <p>One-time listing fees. No hidden charges. Pay via Card or Pay via M-Pesa securely directly from this page.</p>
 </div>
 
 <!-- PRICING TIERS -->
 <div class="section">
     <div class="section-title" data-aos="fade-up">Our Service Plans</div>
-    <div class="section-sub" data-aos="fade-up">Choose the plan that matches your need. Activate instantly via Paystack.</div>
+    <div class="section-sub" data-aos="fade-up">Choose the plan that matches your need. Activate instantly via Pay via M-Pesa.</div>
 
     <div class="pricing-grid">
 
@@ -338,7 +338,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp support</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 400, 'Find a Rental')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
@@ -360,7 +360,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> WhatsApp notifications</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 2000, 'List for Rent')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
@@ -381,7 +381,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day search window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 1500, 'Buy a Home')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
@@ -404,7 +404,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-circle" style="font-size:0.5rem"></i> Note: 6.5% commission upon sale</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 2500, 'Sell a Home')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
@@ -425,7 +425,7 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> Calendar availability</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 500, 'Host a BnB')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
@@ -446,21 +446,21 @@ function openPayment(propertyId, customAmount, customTitle) {
                 <li><i class="fas fa-check-circle"></i> 90-day active window</li>
             </ul>
             <button class="price-pay-btn" onclick="openPayment(null, 1300, 'Office / Shop')">
-                <i class="fas fa-credit-card"></i> Pay via Paystack
+                <i class="fas fa-credit-card"></i> Pay via Pay via M-Pesa
             </button>
         </div>
 
     </div>
 </div>
 
-<!-- PAYSTACK PAYMENT FORM -->
+<!-- M-PESA PAYMENT FORM -->
 <div class="paystack-section" id="payment-section">
     <div class="glass-card" data-aos="fade-up">
         <div class="paystack-header">
             <div class="paystack-logo"><i class="fas fa-credit-card"></i></div>
             <div class="payment-header">
                 <h2>Complete Secure Payment</h2>
-                <p>Select your tier and checkout quickly and securely via Paystack</p>
+                <p>Select your tier and checkout quickly and securely via Pay via M-Pesa</p>
             </div>
         </div>
 
@@ -491,14 +491,14 @@ function openPayment(propertyId, customAmount, customTitle) {
         <!-- Name Label Hidden -->
         <input type="text" class="f-input" id="payerName" style="display:none" placeholder="Used for payment receipt">
 
-        <button class="stk-btn" id="stkBtn" onclick="startPaystackFromForm()">
+        <button class="stk-btn" id="stkBtn" onclick="startPay via M-PesaFromForm()">
             <i class="fas fa-credit-card"></i> Pay Securely Now
         </button>
 
         <div class="stk-status pending" id="statusPending">
             <i class="fas fa-spinner fa-spin pulsing"></i>
             <h3>Waiting for Payment…</h3>
-            <p>Please complete the payment in the Paystack portal that opened.</p>
+            <p>Please complete the payment in the Pay via M-Pesa portal that opened.</p>
         </div>
         <div class="stk-status success" id="statusSuccess">
             <i class="fas fa-check-circle"></i>
@@ -513,7 +513,7 @@ function openPayment(propertyId, customAmount, customTitle) {
 
         <div class="security-row">
             <div class="sec-badge"><i class="fas fa-shield-alt"></i> 256-bit Encrypted</div>
-            <div class="sec-badge"><i class="fas fa-lock"></i> Paystack Secure</div>
+            <div class="sec-badge"><i class="fas fa-lock"></i> Pay via M-Pesa Secure</div>
             <div class="sec-badge"><i class="fas fa-receipt"></i> Instant Receipt</div>
         </div>
     </div>
@@ -526,11 +526,11 @@ function openPayment(propertyId, customAmount, customTitle) {
 
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">Is my payment secure? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">Yes. All payments are processed via Paystack's official secure gateway with 256-bit encryption. LinkPoint never stores your card details or PINs.</div>
+        <div class="faq-a">Yes. All payments are processed via Pay via M-Pesa's official secure gateway with 256-bit encryption. LinkPoint never stores your card details or PINs.</div>
     </div>
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">What happens after I pay? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">Your listing is activated immediately after payment confirmation from Paystack. You'll receive an email confirming your plan is live.</div>
+        <div class="faq-a">Your listing is activated immediately after payment confirmation from Pay via M-Pesa. You'll receive an email confirming your plan is live.</div>
     </div>
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">Can I get a refund? <i class="fas fa-chevron-down"></i></div>
@@ -542,7 +542,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     </div>
     <div class="faq-item" data-aos="fade-up" onclick="toggleFaq(this)">
         <div class="faq-q">What payment methods are supported? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and Mobile Money (M-Pesa) via Paystack's secure checkout.</div>
+        <div class="faq-a">We support All major credit/debit cards (Visa, Mastercard) and Mobile Money (M-Pesa) via Pay via M-Pesa's secure checkout.</div>
     </div>
 </div>
 
@@ -579,7 +579,7 @@ function selectPlan(name, amount) {
 }
 
 
-function startPaystackFromForm() {
+function startPay via M-PesaFromForm() {
     const val = document.getElementById('selectedPlan').value;
     const planName = document.getElementById('selectedPlan').options[document.getElementById('selectedPlan').selectedIndex].text.split(' — ')[0];
     openPayment(null, parseInt(val), planName);
@@ -610,5 +610,6 @@ function toggleFaq(el) {
     el.classList.toggle('open');
 }
 </script>
+<script src="shared-ui.js"></script>
 </body>
 </html>

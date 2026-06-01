@@ -155,8 +155,8 @@
         
         .pwa-btn { margin-left: auto; display: none; }
     </style>
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -195,7 +195,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -408,7 +408,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     <h4>Our Trusted Partners</h4>
     <div style="display:flex; justify-content:center; gap:3rem; align-items:center; flex-wrap:wrap">
         <a href="https://findit.co.ke" target="_blank" class="partner-logo">FINDIT.CO.KE</a>
-        <span class="partner-logo">PAYSTACK</span>
+        <span class="partner-logo">M-PESA</span>
     </div>
 </div>
 
@@ -487,5 +487,6 @@ function openPayment(propertyId, customAmount, customTitle) {
 
     <script src="/linkpoint-3d.js"></script>
 
+<script src="shared-ui.js"></script>
 </body>
 </html>

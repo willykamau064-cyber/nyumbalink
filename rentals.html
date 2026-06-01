@@ -80,6 +80,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
 .acl{position:absolute;top:1.1rem;right:1.1rem;background:var(--glass);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.86rem}
 @media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
 </style>
+
 </head><body>
 <nav id="nav">
   <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
@@ -95,7 +96,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2re
   <div class="na">
     <button id="installBtn" class="btn bg" style="display:none"><i class="fas fa-download"></i> Install App</button>
     <a href="join.html" class="btn bg"><i class="fas fa-user"></i> Login</a>
-    <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="sell.html#listform" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
 <section class="hero">
@@ -183,7 +184,7 @@ function handlePayment(amt, desc) {
         window.location.href = 'join.html';
         return;
     }
-    openPaystack(amt, desc);
+    showPayMethodModal(amt, desc);
 }
 </script>
 
@@ -193,7 +194,7 @@ function handlePayment(amt, desc) {
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Pay via M-Pesa escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -208,7 +209,7 @@ function handlePayment(amt, desc) {
     </div>
     <div class="fc"><h4>Browse</h4><ul class="fls"><li><a href="rentals.html">Find a Rental</a></li><li><a href="buy.html">Buy a Home</a></li><li><a href="bnb.html">BnB Stays</a></li><li><a href="commercial.html">Commercial Spaces</a></li></ul></div>
     <div class="fc"><h4>Owners</h4><ul class="fls"><li><a href="sell.html">Sell Your Home</a></li><li><a href="sell.html">List a Rental</a></li><li><a href="sell.html">List a BnB</a></li><li><a href="agents.html">For Agents</a></li><li><a href="pricing.html">Pricing Plans</a></li></ul></div>
-    <div class="fc"><h4>Company</h4><ul class="fls"><li><a href="about.html">About Us</a></li><li><a href="about.html">How it Works</a></li><li><a href="agents.html">Our Agents</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul class="fls"><li><a href="about.html">About Us</a></li><li><a href="about.html">How it Works</a></li><li><a href="agents.html">Our Agents</a></li><li><a href="admin">Admin Portal</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
   </div>
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
@@ -228,8 +229,8 @@ document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
 function openAuth(){ window.location.href = 'join.html'; }
 
-function openRate(){document.getElementById('rov').classList.add('open');document.body.style.overflow='hidden';}
-function closeRate(){document.getElementById('rov').classList.remove('open');document.body.style.overflow='';}
+
+
 document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
 
 
@@ -268,8 +269,8 @@ document.getElementById('installBtn').addEventListener('click', async () => {
 </style>
 
 <script>
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+
 document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
@@ -278,7 +279,8 @@ document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.t
 
 
 <script src="shared-auth.js"></script>
-<script src="intasend.js"></script>
+
+<script src="shared-ui.js"></script>
 </body></html>
 
 

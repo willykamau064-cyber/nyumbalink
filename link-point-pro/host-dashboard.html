@@ -92,6 +92,7 @@ tr:hover { background: rgba(255,255,255,0.02); }
 .withdraw-btn:hover { background:#059669; transform:translateY(-2px); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
 
 </style>
+
 </head>
 <body>
 
@@ -278,12 +279,12 @@ tr:hover { background: rgba(255,255,255,0.02); }
                      <div class="wallet-icon"><i class="fas fa-shield-alt"></i></div>
                      <div class="wallet-lbl">Available Escrow Balance</div>
                      <div class="wallet-bal">KSh 125,000</div>
-                     <p style="color:var(--muted); font-size:0.8rem; margin-bottom:1.5rem; line-height:1.5">Your funds are securely held in escrow. Withdraw directly to your connected M-Pesa number or Paystack account.</p>
+                     <p style="color:var(--muted); font-size:0.8rem; margin-bottom:1.5rem; line-height:1.5">Your funds are securely held in escrow. Withdraw directly to your connected M-Pesa number or Pay via M-Pesa account.</p>
                      
                      <button class="withdraw-btn" onclick="alert('Initiating direct M-Pesa transfer to registered number...')">
                          <i class="fas fa-mobile-alt"></i> Withdraw to M-Pesa
                      </button>
-                     <p style="font-size:0.7rem; color:var(--dim); margin-top:1rem"><i class="fas fa-lock"></i> Secured by Safaricom & Paystack TLS</p>
+                     <p style="font-size:0.7rem; color:var(--dim); margin-top:1rem"><i class="fas fa-lock"></i> Secured by Safaricom & Pay via M-Pesa TLS</p>
                  </div>
             </div>
         </div>
@@ -291,5 +292,7 @@ tr:hover { background: rgba(255,255,255,0.02); }
     </div>
 </div>
 
+
+<script src="shared-ui.js"></script>
 </body>
 </html>

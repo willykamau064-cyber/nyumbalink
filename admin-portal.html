@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | LinkPoint Kenya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080d1a; --card: #111827; --primary: #FF6B35; --success: #25D366;
+            --text: #ffffff; --muted: rgba(255,255,255,0.6); --border: rgba(255,255,255,0.1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+        
+        header { padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(17,24,39,0.5); backdrop-filter: blur(10px); sticky; top:0; z-index:100; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: #fff; text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+        .logo span { color: var(--primary); }
+        .stats { display: flex; gap: 2rem; }
+        .stat-card { text-align: center; }
+        .stat-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .stat-lab { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        main { padding: 3rem 5%; max-width: 1200px; margin: 0 auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+        .listing-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .listing-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        .tag { position: absolute; top: 1.2rem; right: 1.2rem; background: rgba(255,107,53,0.1); color: var(--primary); padding: .4rem .8rem; border-radius: 100px; font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+        
+        .l-title { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; color: #fff; }
+        .l-loc { font-size: .9rem; color: var(--muted); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .4rem; }
+        .l-price { font-size: 1.5rem; font-weight: 800; color: var(--success); margin-bottom: 1.5rem; }
+        
+        .meta-box { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 1rem; margin-bottom: 1.5rem; }
+        .meta-row { display: flex; justify-content: space-between; margin-bottom: .5rem; font-size: .85rem; }
+        .meta-row:last-child { margin-bottom: 0; }
+        .meta-key { color: var(--muted); }
+        .meta-val { color: #fff; font-weight: 600; }
+
+        .btn-approve { width: 100%; background: var(--success); color: #fff; border: none; padding: 1rem; border-radius: 14px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .6rem; transition: all 0.3s ease; }
+        .btn-approve:hover { filter: brightness(1.1); transform: scale(1.02); }
+        .btn-approve:disabled { background: var(--muted); cursor: not-allowed; }
+
+        .empty { text-align: center; padding: 5rem 0; grid-column: 1 / -1; }
+        .empty i { font-size: 4rem; color: var(--border); margin-bottom: 1.5rem; }
+        .empty p { color: var(--muted); font-size: 1.1rem; }
+
+        .loader { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 2rem auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-box { background: rgba(248,113,113,0.1); border: 1px solid #f87171; color: #f87171; padding: 1.5rem; border-radius: 16px; text-align: center; margin: 2rem 0; display: none; }
+        .error-box button { background: #f87171; color: #fff; border: none; padding: .5rem 1rem; border-radius: 8px; margin-top: 1rem; cursor: pointer; font-weight: 700; }
+
+        /* Toast Notifications */
+        #toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--card); border-left: 4px solid var(--success); padding: 1rem 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; }
+        #toast.show { transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Link<span>Point</span> Admin</a>
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-val" id="pendingCount">0</div>
+            <div class="stat-lab">Pending</div>
+        </div>
+        <div style="display:flex;gap:.5rem">
+            <button onclick="window.location.reload(true)" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);color:#fff;padding:.5rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;font-size:.8rem">
+                <i class="fas fa-sync-alt"></i> Force Refresh
+            </button>
+            <button onclick="showTestTool()" style="background:rgba(255,107,53,0.1);border:1px solid var(--primary);color:var(--primary);padding:.5rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;font-size:.8rem">
+                <i class="fas fa-vial"></i> Test Automation
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Test Tool Modal -->
+<div id="testTool" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:var(--card);padding:2rem;border-radius:20px;width:400px;border:1px solid var(--primary)">
+        <h3>🧪 Simulate M-Pesa SMS</h3>
+        <p style="font-size:.8rem;color:var(--muted);margin:1rem 0">This will send a fake M-Pesa SMS to your server to test the auto-activation.</p>
+        <input type="text" id="testPhone" placeholder="Phone Number (e.g. 0712345678)" style="width:100%;padding:.8rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;color:#fff;margin-bottom:1rem">
+        <button onclick="runTest()" style="width:100%;background:var(--primary);color:#fff;border:none;padding:1rem;border-radius:10px;font-weight:700;cursor:pointer">Send Fake SMS</button>
+        <button onclick="hideTestTool()" style="width:100%;background:transparent;color:var(--muted);border:none;padding:.5rem;margin-top:.5rem;cursor:pointer">Cancel</button>
+    </div>
+</div>
+
+<main>
+    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Pending Verifications</h1>
+        <button onclick="fetchPending()" style="background:transparent; border:1px solid var(--border); color:var(--muted); padding:.5rem 1rem; border-radius:10px; cursor:pointer"><i class="fas fa-sync"></i> Refresh</button>
+    </div>
+    
+    <div id="loader" class="loader"></div>
+    <div id="errorBox" class="error-box">
+        <p id="errorMsg">Something went wrong.</p>
+        <button onclick="fetchPending()">Try Again</button>
+    </div>
+    
+    <div id="grid" class="grid">
+        <!-- Listings will appear here -->
+    </div>
+</main>
+
+<div id="toast">✅ Approved! SMS Sent.</div>
+
+<script>
+    async function fetchPending() {
+        const loader = document.getElementById('loader');
+        const errorBox = document.getElementById('errorBox');
+        const grid = document.getElementById('grid');
+        
+        loader.style.display = 'block';
+        errorBox.style.display = 'none';
+        grid.innerHTML = '';
+
+        try {
+            const res = await fetch('/api/admin/pending');
+            if (res.status === 504) throw new Error("The database is taking too long to respond. Try refreshing.");
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error || `Server Error ${res.status}`);
+            }
+            
+            const data = await res.json();
+            loader.style.display = 'none';
+            renderListings(data);
+        } catch (e) {
+            loader.style.display = 'none';
+            errorBox.style.display = 'block';
+            document.getElementById('errorMsg').innerText = "⚠️ Connection Error: " + e.message;
+            console.error(e);
+        }
+    }
+
+    function renderListings(listings) {
+        const grid = document.getElementById('grid');
+        document.getElementById('pendingCount').innerText = listings.length;
+        
+        if (listings.length === 0) {
+            document.getElementById('loader').style.display = 'none';
+            grid.innerHTML = `<div class="empty">
+                <i class="fas fa-check-circle"></i>
+                <p>All listings are verified! Go enjoy a coffee. ☕</p>
+            </div>`;
+            return;
+        }
+
+        grid.innerHTML = listings.map(l => `
+            <div class="listing-card" id="card-${l.id}">
+                <div class="tag">${l.type}</div>
+                <h3 class="l-title">${l.title}</h3>
+                <p class="l-loc"><i class="fas fa-map-marker-alt"></i> ${l.location}</p>
+                <div class="l-price">KSh ${l.price.toLocaleString()}</div>
+                
+                <div class="meta-box">
+                    <div class="meta-row">
+                        <span class="meta-key">Listed On:</span>
+                        <span class="meta-val">${new Date(l.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Owner Phone:</span>
+                        <span class="meta-val">${l.status || '0112012816'}</span>
+                    </div>
+                </div>
+
+                <button class="btn-approve" onclick="approveListing('${l.id}', '${l.status || '0112012816'}', '${l.title.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-check"></i> Approve & Send SMS
+                </button>
+            </div>
+        `).join('');
+    }
+
+    async function approveListing(id, phone, title) {
+        const btn = document.querySelector(`#card-${id} .btn-approve`);
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        try {
+            const res = await fetch(\`/api/admin/approve/\${id}\`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, title })
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                showToast();
+                document.getElementById(\`card-\${id}\`).style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById(\`card-\${id}\`).remove();
+                    const count = document.getElementById('pendingCount');
+                    count.innerText = parseInt(count.innerText) - 1;
+                    if (count.innerText === "0") renderListings([]);
+                }, 400);
+            }
+        } catch (e) {
+            alert('Error approving listing: ' + e.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Approve & Send SMS';
+        }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg || '✅ Approved! SMS Sent.';
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // --- TEST TOOLS ---
+    function showTestTool() { document.getElementById('testTool').style.display = 'flex'; }
+    function hideTestTool() { document.getElementById('testTool').style.display = 'none'; }
+
+    async function runTest() {
+        const phone = document.getElementById('testPhone').value;
+        if(!phone) return alert('Enter a phone number');
+        
+        const fakeSMS = `RKJ93K8S Confirmed. Ksh 2,000.00 received from TEST USER ${phone} on 30/4/26 at 9:30 PM. New M-PESA balance is Ksh 5,420.00. Transaction cost, Ksh 0.00. Amount you can transact of your current limit is 499,900.00.`;
+        
+        try {
+            const res = await fetch('/api/mpesa/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: fakeSMS })
+            });
+            const data = await res.json();
+            if(data.success) {
+                showToast('🚀 Automation Worked! Listing Activated.');
+                hideTestTool();
+                fetchPending(); // Refresh list
+            } else {
+                alert('Automation Failed: ' + data.message);
+            }
+        } catch(e) { alert('Error: ' + e.message); }
+    }
+
+    fetchPending();
+</script>
+
+</body>
+</html>

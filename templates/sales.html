@@ -53,8 +53,8 @@
         footer{padding:4rem 5% 2rem;margin-top:4rem;border-top:1px solid var(--glass-border);background:rgba(3,7,18,0.5);backdrop-filter:blur(10px)}
         .footer-bottom{text-align:center;color:var(--text-dim);font-size:0.8rem}
     </style>
-<script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-<script src="intasend.js"></script>
+
+
 <script>
 function openPayment(propertyId, customAmount, customTitle) {
     let email = "user@example.com";
@@ -93,7 +93,7 @@ function openPayment(propertyId, customAmount, customTitle) {
     let amountInCents = amount * 100;
 
     let handler = FlutterwaveCheckout({
-        key: 'INTASEND_KEY_REPLACED',
+        key: 'M-PESA_KEY_REPLACED',
         email: email,
         amount: amountInCents,
         currency: 'KES',
@@ -244,5 +244,6 @@ function switchTab(tab){document.getElementById('tab-seek').style.display=tab===
 function notify(msg){const n=document.createElement('div');n.style.cssText='background:var(--accent);color:var(--bg-deep);padding:1rem 2rem;border-radius:14px;margin-top:0.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:slideIn 0.3s ease;font-family:var(--font-ui);font-size:0.9rem;font-weight:600';n.innerText=msg;document.getElementById('notifications').appendChild(n);setTimeout(()=>n.remove(),3000)}
 </script>
 <style>@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}</style>
+<script src="shared-ui.js"></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+{
+  "name": "linkpoint-futuristic",
+  "version": "1.0.0",
+  "description": "Futuristic Prop-Tech Real Estate Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

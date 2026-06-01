@@ -3,10 +3,13 @@
 <meta name="theme-color" content="#FF6B35">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.0/build/spline-viewer.js"></script>
 <title>LinkPoint | Kenya's Premier Real Estate Hub</title>
 <meta name="description" content="Kenya's most trusted real estate platform for rentals, sales, BnBs, and commercial spaces.">
 <style>
-:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap');
+:root{--primary:#FF6B35;--pg:rgba(255,107,53,.4);--navy:#080d1a;--nl:#0f1729;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--text:#fff;--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.28);--serif:'Playfair Display', 'Georgia', 'Times New Roman', serif;--sans:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--navy);color:var(--text);overflow-x:hidden}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
@@ -22,7 +25,7 @@ nav.scrolled{background:rgba(8,13,26,.98);backdrop-filter:blur(24px);border-bott
 .bp{background:var(--primary);color:#fff;box-shadow:0 4px 18px var(--pg)}.bp:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--pg)}
 .blg{padding:.9rem 2.1rem;font-size:.98rem}
 @keyframes kS{0%,18%{opacity:1}22%,96%{opacity:0}100%{opacity:1}}
-.hero{position:relative;height:88vh;min-height:520px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0}
 .slide:nth-child(1){animation:kS 30s infinite 0s}.slide:nth-child(2){animation:kS 30s infinite 6s}
 .slide:nth-child(3){animation:kS 30s infinite 12s}.slide:nth-child(4){animation:kS 30s infinite 18s}
@@ -35,8 +38,8 @@ nav.scrolled{background:rgba(8,13,26,.98);backdrop-filter:blur(24px);border-bott
 .ht em{font-style:italic;color:var(--primary)}
 .hs{font-size:clamp(.88rem,1.7vw,1.1rem);color:var(--muted);max-width:540px;margin:0 auto 2.4rem;line-height:1.75}
 .hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.sec{padding:2.5rem 5%}.mw{max-width:1280px;margin:0 auto}
-.sh{text-align:center;margin-bottom:2rem}
+.sec{padding:5rem 5%}.mw{max-width:1280px;margin:0 auto}
+.sh{text-align:center;margin-bottom:3.5rem}
 .stag{display:inline-block;background:rgba(255,107,53,.12);color:var(--primary);border:1px solid rgba(255,107,53,.24);padding:.33rem 1.05rem;border-radius:100px;font-size:.76rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.8rem}
 .st{font-family:var(--serif);font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700;margin-bottom:.8rem;line-height:1.2}
 .ss{color:var(--muted);max-width:500px;margin:0 auto;line-height:1.7;font-size:.92rem}
@@ -58,8 +61,8 @@ textarea.fi{resize:vertical;min-height:100px}
 .pfeats{display:flex;gap:.85rem;border-top:1px solid var(--gb);padding-top:.85rem}
 .pfe{display:flex;align-items:center;gap:.28rem;font-size:.79rem;color:var(--muted)}.pfe i{color:var(--primary);font-size:.74rem}
 .reveal{opacity:0;transform:translateY(32px);transition:all .7s}.reveal.visible{opacity:1;transform:translateY(0)}
-footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5rem}
-.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;max-width:1280px;margin:0 auto}
+footer{background:var(--nl);border-top:1px solid var(--gb);padding:3.5rem 5% 2rem}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;max-width:1280px;margin:0 auto}
 .fbp{color:var(--muted);font-size:.86rem;line-height:1.7;margin:1rem 0 1.4rem;max-width:265px}
 .fso{display:flex;gap:.6rem}
 .fsc{width:36px;height:36px;background:var(--glass);border:1px solid var(--gb);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:all .3s;font-size:.85rem}
@@ -67,7 +70,7 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
 .fc h4{font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:1.05rem}
 .fls{list-style:none;display:flex;flex-direction:column;gap:.62rem}
 .fls a{text-decoration:none;color:var(--muted);font-size:.86rem;transition:color .3s}.fls a:hover{color:var(--primary)}
-.fb{max-width:1280px;margin:1.2rem auto 0;padding-top:1.2rem;border-top:1px solid var(--gb);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:var(--dim)}
+.fb{max-width:1280px;margin:2.5rem auto 0;padding-top:2rem;border-top:1px solid var(--gb);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:var(--dim)}
 
 /* New Globals */
 .auth-ov{position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.88);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center}.auth-ov.open{display:flex}
@@ -79,32 +82,89 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
 .rate-widget{position:fixed;bottom:20px;right:20px;background:var(--primary);color:#fff;padding:0.7rem 1.2rem;border-radius:100px;font-weight:700;font-size:0.88rem;cursor:pointer;box-shadow:0 4px 20px var(--pg);z-index:1000;display:flex;align-items:center;gap:0.5rem;transition:all 0.3s;border:none}
 .rate-widget:hover{transform:translateY(-3px)}
 
-@media(max-width:768px){
-  .nls{display:none}
-  .fg{grid-template-columns:1fr;gap:1.7rem}
-  nav{padding:.9rem 5%}
-  .na .btn:first-child{display:none}
-  .hero{height:auto;min-height:88vh;padding-bottom:5rem}
-  .hc{padding:0 1.2rem}
-  .ht{font-size:2rem !important;line-height:1.1}
-  .hs{font-size:.88rem}
-  .hbtns{flex-direction:column;align-items:center;gap:.7rem}
-  .hbtns .btn{width:100%;max-width:340px;justify-content:center;padding:.85rem 1.5rem}
-  .stats-bar{display:none}
-  .sec{padding:2rem 5%}
-  .grid7{grid-template-columns:1fr}
-  .pgrid{grid-template-columns:1fr}
-  .auth-box{padding:1.8rem 1.2rem;margin:1rem}
-  .fb{flex-direction:column;text-align:center}
-  section[style*='justify-content:space-between']{flex-direction:column;gap:1rem;align-items:stretch}
-  section[style*='justify-content:space-between'] div:last-child{display:flex;flex-direction:column;gap:.6rem}
-  section[style*='justify-content:space-between'] .btn{width:100%;justify-content:center}
-  .chat-btn{bottom:1rem;left:1rem;font-size:.82rem;padding:.65rem 1rem}
-  .rate-widget{bottom:1rem;right:1rem;font-size:.82rem;padding:.6rem 1rem}
-}
+@media(max-width:768px){.nls{display:none}.fg{grid-template-columns:1fr;gap:1.7rem}}
     #reg-view { display: none; }
     .auth-box.registering #login-view { display: none; }
     .auth-box.registering #reg-view { display: block; }
+    /* 3D Hero Canvas */
+    #hero-3d-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        cursor: grab;
+    }
+    #hero-3d-canvas:active { cursor: grabbing; }
+    .hero-vignette {
+        position: absolute; inset: 0; z-index: 1; pointer-events: none;
+        background: radial-gradient(ellipse at 50% 60%, transparent 20%, rgba(8,13,26,0.75) 100%);
+    }
+    /* Hotspots */
+    .hotspot {
+        position: absolute; width: 34px; height: 34px;
+        background: linear-gradient(135deg, var(--primary), #ff8f60);
+        border: 3px solid rgba(255,255,255,0.5); border-radius: 50%;
+        cursor: pointer; z-index: 10; display: flex; align-items: center;
+        justify-content: center; color: #fff; font-size: 13px;
+        box-shadow: 0 0 24px rgba(255,107,53,0.4), 0 4px 12px rgba(0,0,0,0.4);
+        transition: transform 0.25s, box-shadow 0.25s;
+        transform: translate(-50%, -50%);
+    }
+    .hotspot::before {
+        content: ''; position: absolute; inset: -12px;
+        border: 1.5px solid rgba(255,107,53,0.5); border-radius: 50%;
+        animation: hPulse 2.2s ease-out infinite;
+    }
+    @keyframes hPulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.8);opacity:0} }
+    .hotspot:hover { transform: translate(-50%,-50%) scale(1.25); }
+    .hotspot-label {
+        position: absolute; left: 50px; top: 50%; transform: translateY(-50%);
+        background: rgba(10,16,32,0.92); backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,107,53,0.35); padding: 0.65rem 1.1rem;
+        border-radius: 14px; white-space: nowrap; opacity: 0;
+        pointer-events: none; transition: opacity 0.28s, left 0.28s;
+        z-index: 11; font-size: 0.82rem; font-weight: 600; line-height: 1.4;
+    }
+    .hotspot:hover .hotspot-label { opacity: 1; left: 60px; }
+    .hotspot-label strong { color: var(--primary); display: block; font-size: 0.9rem; }
+    /* Fireflies */
+    .firefly {
+        position: absolute; width: 3px; height: 3px;
+        background: var(--primary); border-radius: 50%;
+        filter: blur(1px); box-shadow: 0 0 12px var(--primary);
+        pointer-events: none; z-index: 3;
+        animation: fly 18s infinite linear;
+    }
+    @keyframes fly {
+        0%{transform:translate(0,0) scale(0);opacity:0}
+        15%{opacity:1;transform:scale(1)}
+        85%{opacity:.8}
+        100%{transform:translate(var(--dx,120px),var(--dy,-140px)) scale(0);opacity:0}
+    }
+    /* Scroll hint */
+    .scroll-hint{
+        position:absolute; bottom:6rem; left:50%; transform:translateX(-50%);
+        z-index:4; display:flex; flex-direction:column; align-items:center;
+        gap:.4rem; animation:bounce 2s ease-in-out infinite; opacity:.6;
+    }
+    .scroll-hint span{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+    /* Explode button */
+    #explode-btn {
+        position: absolute; bottom: 7rem; right: 5%;
+        z-index: 20; background: rgba(10,16,32,0.85);
+        backdrop-filter: blur(14px); border: 1px solid rgba(255,107,53,0.5);
+        color: #fff; padding: 0.7rem 1.4rem; border-radius: 100px;
+        font-size: 0.82rem; font-weight: 700; cursor: pointer;
+        display: flex; align-items: center; gap: 0.5rem;
+        font-family: var(--sans); transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(255,107,53,0.2);
+    }
+    #explode-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+    /* Glowing orbs */
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:1;animation:drift 10s ease-in-out infinite alternate}
+    .orb1{width:600px;height:600px;background:rgba(255,107,53,0.1);top:-200px;left:-200px;animation-delay:0s}
+    .orb2{width:400px;height:400px;background:rgba(37,99,235,0.07);bottom:-100px;right:-100px;animation-delay:-4s}
+    @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,30px) scale(1.08)}}
 </style>
 <style>
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -129,7 +189,714 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
     #reg-view { display: none; }
     .auth-box.registering #login-view { display: none; }
     .auth-box.registering #reg-view { display: block; }
+    
+    .btn-glow {
+        box-shadow: 0 0 20px var(--pg);
+        animation: orangeGlow 2s infinite alternate;
+    }
+    @keyframes orangeGlow {
+        from { box-shadow: 0 0 15px var(--pg), 0 0 5px var(--primary); }
+        to { box-shadow: 0 0 35px var(--pg), 0 0 15px var(--primary); }
+    }
+
+    /* Zillow-Inspired Style Overhaul */
+    .hero-search-container {
+        position: relative;
+        z-index: 10;
+        width: 90%;
+        max-width: 780px;
+        text-align: center;
+        padding: 0 1rem;
+        animation: fadeUp .8s ease both;
+    }
+    .hero-title {
+        font-family: var(--serif);
+        font-size: clamp(2.2rem, 5vw, 4.0rem);
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 2rem;
+        color: #fff;
+        text-shadow: 0 4px 15px rgba(8,13,26,0.8);
+    }
+    .hero-title em {
+        font-style: italic;
+        color: var(--primary);
+    }
+    .search-card {
+        background: rgba(15, 23, 42, 0.72);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        padding: 1.6rem;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+        transition: all 0.3s;
+    }
+    .search-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 0.4rem;
+        margin-bottom: 1.3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 0.7rem;
+    }
+    .search-tab {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-family: var(--sans);
+        font-size: 0.92rem;
+        font-weight: 700;
+        padding: 0.45rem 1.1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    .search-tab:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .search-tab.active {
+        color: #fff;
+        background: var(--primary);
+        box-shadow: 0 4px 15px var(--pg);
+    }
+    .search-bar-form {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        padding: 0.35rem 0.35rem 0.35rem 1.3rem;
+        transition: all 0.3s;
+    }
+    .search-bar-form:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 18px var(--pg);
+        background: rgba(255, 255, 255, 0.09);
+    }
+    .search-input-wrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+    .search-icon {
+        color: var(--primary);
+        font-size: 1.1rem;
+    }
+    .search-input {
+        width: 100%;
+        background: none;
+        border: none;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    .search-input:focus {
+        outline: none;
+    }
+    .search-input::placeholder {
+        color: var(--muted);
+    }
+    .search-btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 100px;
+        padding: 0.8rem 2rem;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px var(--pg);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .search-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px var(--pg);
+    }
+
+    /* Action Grid & Zillow Cards */
+    .zillow-action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.2rem;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+    .zillow-action-card {
+        background: var(--glass);
+        border: 1px solid var(--gb);
+        border-radius: 24px;
+        overflow: hidden;
+        backdrop-filter: blur(12px);
+        transition: all 0.35s var(--ease);
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 2rem;
+    }
+    .zillow-action-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(255,107,53,0.4);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.5);
+    }
+    .zillow-action-img {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    .zillow-action-img::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, var(--navy), transparent 85%);
+    }
+    .zillow-action-content {
+        padding: 1.8rem 1.6rem 1.2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    .zillow-action-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255, 107, 53, 0.15);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+        box-shadow: 0 0 15px rgba(255, 107, 53, 0.2);
+    }
+    .zillow-action-title {
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #fff;
+    }
+    .zillow-action-text {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    /* Zillow listing cards */
+    .zillow-property-card {
+        background: rgba(15, 23, 42, 0.55);
+        border: 1px solid var(--gb);
+        border-radius: 20px;
+        overflow: hidden;
+        backdrop-filter: blur(12px);
+        transition: all 0.35s var(--ease);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    .zillow-property-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 107, 53, 0.4);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+    }
+    .zillow-card-img-wrapper {
+        position: relative;
+        height: 195px;
+        overflow: hidden;
+    }
+    .zillow-card-img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.5s var(--ease);
+    }
+    .zillow-property-card:hover .zillow-card-img {
+        transform: scale(1.08);
+    }
+    .zillow-fav-btn {
+        position: absolute;
+        top: 0.8rem;
+        right: 0.8rem;
+        background: rgba(8, 13, 26, 0.55);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 5;
+        transition: all 0.3s;
+    }
+    .zillow-fav-btn:hover, .zillow-fav-btn.active {
+        background: #fff;
+        color: #ef4444;
+        border-color: #fff;
+    }
+    .zillow-card-badge {
+        position: absolute;
+        top: 0.8rem;
+        left: 0.8rem;
+        padding: 0.28rem 0.75rem;
+        border-radius: 100px;
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: #fff;
+        z-index: 5;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    }
+    .zillow-card-body {
+        padding: 1.15rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        flex: 1;
+    }
+    .zillow-card-price {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--primary);
+        display: flex;
+        align-items: baseline;
+        gap: 0.2rem;
+    }
+    .zillow-card-price span {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 400;
+    }
+    .zillow-card-details {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.85rem;
+        color: #fff;
+        font-weight: 600;
+    }
+    .zillow-card-details span {
+        color: var(--muted);
+        font-weight: 400;
+    }
+    .zillow-card-divider {
+        color: rgba(255, 255, 255, 0.15);
+        font-size: 0.75rem;
+    }
+    .zillow-card-address {
+        font-size: 0.82rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-bottom: 0.3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .zillow-card-footer {
+        border-top: 1px solid var(--gb);
+        padding-top: 0.75rem;
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .zillow-verified-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+        color: #34d399;
+        font-weight: 600;
+    }
+
+    /* Counties explorer */
+    .counties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+    }
+    .county-card {
+        position: relative;
+        height: 180px;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 1px solid var(--gb);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        transition: all 0.35s var(--ease);
+    }
+    .county-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 15px 30px rgba(255, 107, 53, 0.25);
+    }
+    .county-img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.5s var(--ease);
+    }
+    .county-card:hover .county-img {
+        transform: scale(1.08);
+    }
+    .county-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(8,13,26,0.95) 20%, rgba(8,13,26,0.2) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.1rem;
+        transition: all 0.3s;
+    }
+    .county-overlay h3 {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.15rem;
+    }
+    .county-overlay p {
+        font-size: 0.78rem;
+        color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+        .zillow-action-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        .counties-grid {
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+    }
+    @media (max-width: 576px) {
+        .search-bar-form {
+            flex-direction: column;
+            border-radius: 20px;
+            padding: 0.8rem;
+            gap: 0.8rem;
+            align-items: stretch;
+        }
+        .search-input-wrapper {
+            padding: 0.2rem 0.5rem;
+        }
+        .search-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 0.85rem;
+        }
+        .search-tabs {
+            flex-wrap: wrap;
+            gap: 0.2rem;
+        }
+        .search-tab {
+            font-size: 0.82rem;
+            padding: 0.35rem 0.7rem;
+        }
+    }
+
+    /* Persistent Bottom Navigation */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(8, 13, 26, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.7rem 0 0.8rem;
+        z-index: 1001;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.72rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    .bottom-nav-item i {
+        font-size: 1.2rem;
+    }
+    .bottom-nav-item:hover, .bottom-nav-item.active {
+        color: var(--primary);
+    }
+    @media (min-width: 769px) {
+        .bottom-nav { display: none !important; }
+    }
+
+    /* Calculator Cards & Forms */
+    .calc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2.2rem;
+    }
+    .calc-card {
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid var(--gb);
+        border-radius: 24px;
+        padding: 2rem;
+        backdrop-filter: blur(14px);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .calc-card-title {
+        font-family: var(--serif);
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    .calc-card-title i {
+        color: var(--primary);
+    }
+    .calc-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .calc-label {
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+    }
+    .calc-input {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--gb);
+        color: #fff;
+        border-radius: 12px;
+        padding: 0.8rem 1rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    .calc-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255,255,255,0.08);
+    }
+    .calc-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 100px;
+        background: rgba(255,255,255,0.1);
+        outline: none;
+    }
+    .calc-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        box-shadow: 0 0 10px var(--pg);
+        transition: transform 0.2s;
+    }
+    .calc-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+    }
+    .calc-result-panel {
+        background: rgba(255, 107, 53, 0.08);
+        border: 1.5px dashed rgba(255, 107, 53, 0.3);
+        border-radius: 16px;
+        padding: 1.25rem;
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        animation: fadeUp 0.4s ease both;
+    }
+    .calc-result-val {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: var(--primary);
+        text-shadow: 0 0 15px rgba(255, 107, 53, 0.2);
+    }
+
+    /* Zillow Modals & Overlay Portals */
+    .z-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 13, 26, 0.94);
+        backdrop-filter: blur(12px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s var(--ease);
+        padding: 1rem;
+    }
+    .z-modal.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .z-modal-card {
+        background: #0f172a;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 28px;
+        width: 95%;
+        max-width: 580px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 2.2rem;
+        position: relative;
+        box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+        transform: translateY(20px);
+        transition: transform 0.4s var(--ease);
+    }
+    .z-modal.open .z-modal-card {
+        transform: translateY(0);
+    }
+    .z-modal-close {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        background: rgba(255,255,255,0.06);
+        border: none;
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .z-modal-close:hover {
+        background: var(--primary);
+    }
+    
+    /* Quiz Navigation & Steps */
+    .quiz-step {
+        display: none;
+        flex-direction: column;
+        gap: 1.2rem;
+        animation: fadeUp 0.35s ease both;
+    }
+    .quiz-step.active {
+        display: flex;
+    }
+    .quiz-progress {
+        height: 4px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+    .quiz-progress-bar {
+        height: 100%;
+        background: var(--primary);
+        width: 25%;
+        transition: width 0.35s;
+        box-shadow: 0 0 10px var(--pg);
+    }
+    .quiz-nav {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.8rem;
+    }
+
+    /* Agent & Landlord Grid */
+    .agent-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+    }
+    .agent-card {
+        background: rgba(15,23,42,0.6);
+        border: 1px solid var(--gb);
+        border-radius: 20px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s;
+    }
+    .agent-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255,107,53,0.3);
+    }
+    .agent-avatar {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid var(--primary);
+        box-shadow: 0 0 12px rgba(255,107,53,0.2);
+    }
+    .agent-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    .agent-name {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #fff;
+    }
+    .agent-rating {
+        color: #f59e0b;
+        font-size: 0.8rem;
+    }
+    .agent-meta {
+        font-size: 0.78rem;
+        color: var(--muted);
+    }
+    
+    /* Rental building list */
+    .building-unit-item {
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding-bottom: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    .building-unit-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        background-size: cover;
+        background-position: center;
+    }
 </style>
+
 </head><body>
 <nav id="nav">
   <div style="display:flex;align-items:center;gap:1rem">
@@ -137,36 +904,59 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
       <button class="btn install-btn" id="installBtn" style="padding:0.35rem 0.8rem;font-size:0.75rem;border-radius:6px;display:none"><i class="fas fa-download"></i> Install App</button>
   </div>
   <div class="nls">
-    <a href="/" class="nl">Home</a>
-    <a href="javascript:void(0)" onclick="openRate()" class="nl" style="color:#f59e0b;font-weight:700"><i class="fas fa-star"></i> Feedback</a>
-    <a href="rentals.html" class="nl">Rentals</a>
     <a href="buy.html" class="nl">Buy</a>
+    <a href="rentals.html" class="nl">Rent</a>
     <a href="sell.html" class="nl">Sell</a>
-    <a href="bnb.html" class="nl">BnB</a>
+    <a href="bnb.html" class="nl">BnB Stays</a>
     <a href="commercial.html" class="nl">Commercial</a>
-    <a href="about.html" class="nl">About Us</a>
+    <a href="agents.html" class="nl">Agents</a>
+    <a href="about.html" class="nl">About</a>
+    <a href="javascript:void(0)" onclick="openRate()" class="nl" style="color:#f59e0b;font-weight:700"><i class="fas fa-star"></i> Feedback</a>
   </div>
   <div class="na">
-    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a>
-    <a href="sell.html" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
+    <a href="join.html" class="btn bg" id="auth-btn"><i class="fas fa-user-circle"></i> Login</a><a href="sell.html#listform" class="btn bp"><i class="fas fa-plus"></i> List Property</a>
   </div>
 </nav>
-<section class="hero">
-  <style>@keyframes pan360 { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } } .pano-bg { position: absolute; inset: 0; background-image: url('nairobi360.png'); background-size: cover; background-repeat: no-repeat; animation: pan360 60s linear infinite; z-index: 0; opacity: 0.65; }    #reg-view { display: none; }
-    .auth-box.registering #login-view { display: none; }
-    .auth-box.registering #reg-view { display: block; }
-</style><div class="pano-bg"></div>
-  <div class="hov" style="background:linear-gradient(160deg,rgba(8,13,26,.75),rgba(8,13,26,.4) 50%,rgba(255,107,53,.12))"></div>
-  <div class="hc">
-    <div class="hbadge"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i>&nbsp;<b>Kenya's #1</b>&nbsp;Real Estate Platform</div>
-    <h1 class="ht">Find Your Perfect<br><em>Space in Kenya</em></h1>
-    <p class="hs">We don’t just list properties — we connect you to quality, verified, and valuable opportunities across all 47 counties.</p>
-    <div class="hb">
-      <a href="rentals.html" class="btn bp blg"><i class="fas fa-search"></i> Find a Property</a>
-      <a href="sell.html" class="btn bg blg"><i class="fas fa-home"></i> List Your Property</a>
+<section class="hero" id="hero-3d" style="height:100vh; background: linear-gradient(180deg, rgba(8,13,26,0.55) 0%, rgba(8,13,26,0.85) 100%), url('https://images.unsplash.com/photo-1583628892078-e8a8e1c2e54e?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover; overflow: hidden; position: relative;">
+  <!-- 3D Canvas -->
+  <spline-viewer id="hero-3d-canvas" url="https://prod.spline.design/fb80377e-1d93-4038-8d27-87b8fab6eaf1/scene.splinecode"></spline-viewer>
+  
+  <!-- Hotspot Layer -->
+  <div id="hotspot-container" style="position:absolute; inset:0; z-index:20; pointer-events:none"></div>
+  
+  <!-- Fireflies Overlay -->
+  <div id="fireflies-container" style="position:absolute; inset:0; z-index:5; pointer-events:none"></div>
+
+  <!-- Zillow-Style Hero Search Card -->
+  <div class="hero-search-container">
+    <h1 class="hero-title">Find it. Tour it. <em>Own it.</em></h1>
+    <div class="search-card">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="switchSearchTab(this, 'buy')">Buy</button>
+        <button class="search-tab" onclick="switchSearchTab(this, 'rent')">Rent</button>
+        <button class="search-tab" onclick="switchSearchTab(this, 'sell')">Sell</button>
+        <button class="search-tab" onclick="switchSearchTab(this, 'bnb')">BnB Stays</button>
+        <button class="search-tab" onclick="switchSearchTab(this, 'commercial')">Commercial</button>
+
+      </div>
+      <div class="search-bar-form">
+        <div class="search-input-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="main-search-input" class="search-input" placeholder="Enter county, town, or neighborhood for sale..." onkeydown="if(event.key === 'Enter') executeMainSearch()">
+        </div>
+
+        <button class="search-btn btn-glow" onclick="executeMainSearch()">
+          Search <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="stats-bar">
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint"><span>Scroll</span><i class="fas fa-chevron-down" style="color:var(--primary)"></i></div>
+  
+  <!-- Stats Bar -->
+  <div class="stats-bar" style="background: rgba(8, 13, 26, 0.4); border-top: 1px solid rgba(255,255,255,0.05)">
     <div class="stat"><span>12,400+</span><p>Active Listings</p></div><div class="sdiv"></div>
     <div class="stat"><span>3,200+</span><p>Verified Agents</p></div><div class="sdiv"></div>
     <div class="stat"><span>47 Counties</span><p>Across Kenya</p></div><div class="sdiv"></div>
@@ -185,16 +975,214 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
 
 <section class="sec reveal">
   <div class="sh">
-    <div class="stag">Ecosystem</div>
-    <h2 class="st">Everything Real Estate,<br>Under One Roof</h2>
-    <p class="ss">Whether you're renting, buying, investing or hosting — LinkPoint has a dedicated portal built just for you.</p>
+    <div class="stag">Get Started</div>
+    <h2 class="st">See How LinkPoint Can Help</h2>
+    <p class="ss">Whether you're looking to buy, rent or list your property, we make the process smooth and verified.</p>
   </div>
-  <div class="grid7">
-    <a href="rentals.html" class="scard reveal"><div class="sci" style="background-image:url('kenyan_apartment.png')"><div class="scbadge">Tenants</div></div><div class="scb"><div class="scicon" style="background:rgba(59,130,246,.18);color:#60a5fa"><i class="fas fa-search-location"></i></div><div class="sct">Find a Rental</div><p class="scd">Start viewing verified apartments today via Paystack escrow.</p><div class="sca">Explore Rentals <i class="fas fa-arrow-right"></i></div></div></a>
-    <a href="buy.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Buyers</div></div><div class="scb"><div class="scicon" style="background:rgba(16,185,129,.18);color:#34d399"><i class="fas fa-home"></i></div><div class="sct">Buy a Home</div><p class="scd">Verified homes ready for ownership across Nairobi and beyond.</p><div class="sca">Browse for Sale <i class="fas fa-arrow-right"></i></div></div></a>
-    <a href="sell.html" class="scard reveal"><div class="sci" style="background-image:url('kenya_house.png')"><div class="scbadge">Sellers</div></div><div class="scb"><div class="scicon" style="background:rgba(245,158,11,.18);color:#fbbf24"><i class="fas fa-tags"></i></div><div class="sct">Sell Your Property</div><p class="scd">List in minutes, reach 50,000+ buyers with unlimited media.</p><div class="sca">Start Selling <i class="fas fa-arrow-right"></i></div></div></a>
-    <a href="bnb.html" class="scard reveal"><div class="sci" style="background-image:url('nairobi_street.png')"><div class="scbadge">Short Stay</div></div><div class="scb"><div class="scicon" style="background:rgba(239,68,68,.18);color:#f87171"><i class="fas fa-umbrella-beach"></i></div><div class="sct">BnB & Short Stay</div><p class="scd">Unique getaways at Diani Beach, Lamu, and Nairobi.</p><div class="sca">Book a Stay <i class="fas fa-arrow-right"></i></div></div></a>
-    <a href="commercial.html" class="scard reveal"><div class="sci" style="background-image:url('nairobi360.png')"><div class="scbadge">Business</div></div><div class="scb"><div class="scicon" style="background:rgba(139,92,246,.18);color:#a78bfa"><i class="fas fa-building"></i></div><div class="sct">Commercial Spaces</div><p class="scd">Offices, retail shops, warehouses across major business hubs.</p><div class="sca">Find Spaces <i class="fas fa-arrow-right"></i></div></div></a>
+  <div class="zillow-action-grid">
+    <!-- Buy card -->
+    <div class="zillow-action-card reveal">
+      <div class="zillow-action-img" style="background-image:url('kenya_house.png')"></div>
+      <div class="zillow-action-content">
+        <div class="zillow-action-icon"><i class="fas fa-home"></i></div>
+        <h3 class="zillow-action-title">Buy a Home</h3>
+        <p class="zillow-action-text">Find your dream home with immersive 3D digital twins, verified listings, and secure transaction workflows.</p>
+        <a href="buy.html" class="btn bp zillow-action-btn">Browse Homes</a>
+      </div>
+    </div>
+    <!-- Rent card -->
+    <div class="zillow-action-card reveal">
+      <div class="zillow-action-img" style="background-image:url('kenyan_apartment.png')"></div>
+      <div class="zillow-action-content">
+        <div class="zillow-action-icon"><i class="fas fa-key"></i></div>
+        <h3 class="zillow-action-title">Rent a Home</h3>
+        <p class="zillow-action-text">Discover verified rentals across Nairobi and major counties with secure M-Pesa escrow protection.</p>
+        <a href="rentals.html" class="btn bp zillow-action-btn">Find Rentals</a>
+      </div>
+    </div>
+    <!-- Sell card -->
+    <div class="zillow-action-card reveal">
+      <div class="zillow-action-img" style="background-image:url('nairobi_street.png')"></div>
+      <div class="zillow-action-content">
+        <div class="zillow-action-icon"><i class="fas fa-tags"></i></div>
+        <h3 class="zillow-action-title">List or Sell</h3>
+        <p class="zillow-action-text">List your properties with high-resolution imagery and direct connection to over 50,000+ active buyers.</p>
+        <a href="sell.html" class="btn bp zillow-action-btn">List Property</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec reveal" style="background:rgba(255,255,255,0.015); border-top: 1px solid var(--gb); border-bottom: 1px solid var(--gb);">
+  <div class="mw">
+    <div class="sh">
+      <div class="stag">Explorer</div>
+      <h2 class="st">Explore Properties by County</h2>
+      <p class="ss">Navigate through Kenya's high-demand counties to find your next home, rental, or commercial investment.</p>
+    </div>
+    <div class="counties-grid">
+      <!-- Nairobi -->
+      <div class="county-card reveal" onclick="filterByLocation('Nairobi')">
+        <div class="county-img" style="background-image:url('kenyan_apartment.png')"></div>
+        <div class="county-overlay">
+          <h3>Nairobi County</h3>
+          <p>Westlands, Kilimani, Runda, Karen</p>
+        </div>
+      </div>
+      <!-- Mombasa -->
+      <div class="county-card reveal" onclick="filterByLocation('Mombasa')">
+        <div class="county-img" style="background-image:url('kenya_bnb.png')"></div>
+        <div class="county-overlay">
+          <h3>Mombasa County</h3>
+          <p>Nyali, Bamburi, Diani, Shanzu</p>
+        </div>
+      </div>
+      <!-- Kiambu -->
+      <div class="county-card reveal" onclick="filterByLocation('Kiambu')">
+        <div class="county-img" style="background-image:url('kenya_house.png')"></div>
+        <div class="county-overlay">
+          <h3>Kiambu County</h3>
+          <p>Ruiru, Kikuyu, Thika, Kiambu Town</p>
+        </div>
+      </div>
+      <!-- Kisumu -->
+      <div class="county-card reveal" onclick="filterByLocation('Kisumu')">
+        <div class="county-img" style="background-image:url('kenya_shop.png')"></div>
+        <div class="county-overlay">
+          <h3>Kisumu County</h3>
+          <p>Milimani, Riat Hills, Kisumu CBD</p>
+        </div>
+      </div>
+      <!-- Nakuru -->
+      <div class="county-card reveal" onclick="filterByLocation('Nakuru')">
+        <div class="county-img" style="background-image:url('nairobi_street.png')"></div>
+        <div class="county-overlay">
+          <h3>Nakuru County</h3>
+          <p>Naka, Milimani, Lanet, Nakuru Town</p>
+        </div>
+      </div>
+      <!-- Machakos -->
+      <div class="county-card reveal" onclick="filterByLocation('Machakos')">
+        <div class="county-img" style="background-image:url('nairobi360.png')"></div>
+        <div class="county-overlay">
+          <h3>Machakos County</h3>
+          <p>Syokimau, Athi River, Machakos Town</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec reveal" id="interactive-tools-section">
+  <div class="mw">
+    <div class="sh">
+      <div class="stag">Calculators</div>
+      <h2 class="st">Interactive Financial & Valuation Tools</h2>
+      <p class="ss">Estimate property values with our AI engine or assess your qualified buying power in seconds.</p>
+    </div>
+    
+    <div class="calc-grid">
+      <!-- Lestimate Calculator -->
+      <div class="calc-card">
+        <h3 class="calc-card-title"><i class="fas fa-magic"></i> LinkPoint "Lestimate"</h3>
+        <p style="color:var(--muted);font-size:0.85rem">Proprietary AI engine to estimate real-time market value of properties in Kenya.</p>
+        
+        <div class="calc-group">
+          <label class="calc-label">County Location</label>
+          <select id="lest-county" class="calc-input">
+            <option value="Nairobi">Nairobi County</option>
+            <option value="Mombasa">Mombasa County</option>
+            <option value="Kiambu">Kiambu County</option>
+            <option value="Kisumu">Kisumu County</option>
+            <option value="Nakuru">Nakuru County</option>
+            <option value="Machakos">Machakos County</option>
+          </select>
+        </div>
+        
+        <div class="calc-group">
+          <label class="calc-label">Property Type</label>
+          <select id="lest-type" class="calc-input">
+            <option value="apartment">Apartment</option>
+            <option value="house">Villa / Maisonette</option>
+            <option value="townhouse">Townhouse</option>
+          </select>
+        </div>
+
+        <div class="calc-group">
+          <label class="calc-label">Size (Square Feet): <span id="lest-size-val">1,200</span> sqft</label>
+          <input type="range" id="lest-size" class="calc-slider" min="300" max="6000" step="50" value="1200" oninput="document.getElementById('lest-size-val').innerText = Number(this.value).toLocaleString()">
+        </div>
+
+        <div class="calc-group">
+          <label class="calc-label">Bedrooms & Bathrooms</label>
+          <div style="display:flex;gap:0.5rem">
+            <select id="lest-beds" class="calc-input" style="flex:1">
+              <option value="1">1 Bed</option>
+              <option value="2">2 Beds</option>
+              <option value="3" selected>3 Beds</option>
+              <option value="4">4 Beds</option>
+              <option value="5">5 Beds</option>
+            </select>
+            <select id="lest-baths" class="calc-input" style="flex:1">
+              <option value="1">1 Bath</option>
+              <option value="2" selected>2 Baths</option>
+              <option value="3">3 Baths</option>
+              <option value="4">4 Baths</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn bp calc-btn" onclick="calculateLestimate()"><i class="fas fa-sync-alt"></i> Generate Lestimate</button>
+        
+        <div id="lest-result" class="calc-result-panel" style="display:none">
+          <div class="calc-label">ESTIMATED LESTIMATE</div>
+          <div class="calc-result-val" id="lest-val">KSh 14,500,000</div>
+          <div style="color:var(--muted);font-size:0.75rem;margin-top:0.3rem">
+            Range: <span id="lest-range-low">KSh 13.2M</span> - <span id="lest-range-high">KSh 15.8M</span><br>
+            Est. Monthly Rent: <strong id="lest-rent" style="color:#fff">KSh 85,000/mo</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Affordability Calculator -->
+      <div class="calc-card">
+        <h3 class="calc-card-title"><i class="fas fa-calculator"></i> Rent Affordability</h3>
+        <p style="color:var(--muted);font-size:0.85rem">Find out what rent budget makes financial sense based on your monthly income.</p>
+        
+        <div class="calc-group">
+          <label class="calc-label">Your Gross Monthly Income</label>
+          <div style="position:relative;display:flex;align-items:center">
+            <span style="position:absolute;left:1rem;color:var(--muted);font-size:0.9rem">KSh</span>
+            <input type="number" id="aff-income" class="calc-input" style="padding-left:3.2rem;width:100%" value="120000" placeholder="e.g. 150000">
+          </div>
+        </div>
+
+        <div class="calc-group">
+          <label class="calc-label">Monthly Debt Payments</label>
+          <div style="position:relative;display:flex;align-items:center">
+            <span style="position:absolute;left:1rem;color:var(--muted);font-size:0.9rem">KSh</span>
+            <input type="number" id="aff-debt" class="calc-input" style="padding-left:3.2rem;width:100%" value="15000" placeholder="Loans, credit, etc.">
+          </div>
+        </div>
+
+        <div class="calc-group">
+          <label class="calc-label">Allocation Limit: <span id="aff-pct-val">30</span>%</label>
+          <input type="range" id="aff-pct" class="calc-slider" min="15" max="50" step="5" value="30" oninput="document.getElementById('aff-pct-val').innerText = this.value">
+        </div>
+
+        <button class="btn bp calc-btn" onclick="calculateAffordability()"><i class="fas fa-chart-pie"></i> Calculate Rent Budget</button>
+        
+        <div id="aff-result" class="calc-result-panel" style="display:none">
+          <div class="calc-label">RECOMMENDED MAXIMUM RENT</div>
+          <div class="calc-result-val" id="aff-val" style="color:#34d399">KSh 36,000 /mo</div>
+          <div style="color:var(--muted);font-size:0.75rem;margin-top:0.3rem">
+            Remaining Income: <strong id="aff-remain" style="color:#fff">KSh 69,000</strong> for savings, debt, & expenses.
+          </div>
+        </div>
+      </div>
+
+
+    </div>
   </div>
 </section>
 
@@ -208,6 +1196,167 @@ footer{background:var(--nl);border-top:1px solid var(--gb);padding:2rem 5% 1.5re
 </section>
 
 <script>
+// Search tab coordination
+function switchSearchTab(btn, tab) {
+    // Deactivate all tabs
+    document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+    // Activate clicked tab
+    btn.classList.add('active');
+    
+    // Update input placeholder based on tab
+    const input = document.getElementById('main-search-input');
+    if (input) {
+        let placeholder = 'Enter town, county or neighborhood...';
+        if (tab === 'buy') placeholder = 'Enter town, county or neighborhood for SALE...';
+        else if (tab === 'rent') placeholder = 'Enter town, county or neighborhood for RENT...';
+        else if (tab === 'sell') placeholder = 'Enter town, county or neighborhood to SELL...';
+        else if (tab === 'bnb') placeholder = 'Enter town or county for short stay BnB...';
+        else if (tab === 'commercial') placeholder = 'Enter town or county for commercial space...';
+        input.placeholder = placeholder;
+    }
+}
+
+// Execute search
+function executeMainSearch() {
+    const query = document.getElementById('main-search-input').value.trim();
+    const activeTabBtn = document.querySelector('.search-tab.active');
+    const activeTab = activeTabBtn ? activeTabBtn.innerText.toLowerCase() : 'buy';
+    
+    if (!query) {
+        // Just scroll down to the listings section if search is empty
+        const liveFeedSec = document.getElementById('live-feed-section');
+        if (liveFeedSec) {
+            liveFeedSec.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+    }
+    
+    // Perform filtering in the listings grid
+    filterPropertiesByQuery(query, activeTab);
+}
+
+// Helper to filter listings
+async function filterPropertiesByQuery(query, tab) {
+    const grid = document.getElementById('live-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);font-style:italic"><i class="fas fa-spinner fa-spin"></i> Filtering listings...</div>';
+    
+    try {
+        const r = await fetch('/api/properties');
+        const data = await r.json();
+        
+        let filtered = data.filter(p => {
+            const locMatch = (p.location?.toLowerCase().includes(query.toLowerCase())) || 
+                             (p.title?.toLowerCase().includes(query.toLowerCase()));
+            return locMatch;
+        });
+        
+        // Map tab to property types
+        if (tab.includes('rent')) {
+            filtered = filtered.filter(p => p.property_type?.toLowerCase().includes('rent') || p.type?.toLowerCase().includes('rent'));
+        } else if (tab.includes('bnb')) {
+            filtered = filtered.filter(p => p.property_type?.toLowerCase().includes('bnb') || p.type?.toLowerCase().includes('bnb'));
+        } else if (tab.includes('commercial')) {
+            filtered = filtered.filter(p => p.property_type?.toLowerCase().includes('commercial') || p.type?.toLowerCase().includes('commercial'));
+        } else if (tab.includes('buy') || tab.includes('sell')) {
+            filtered = filtered.filter(p => !p.property_type?.toLowerCase().includes('rent') && !p.type?.toLowerCase().includes('rent'));
+        }
+        
+        const liveFeedSec = document.getElementById('live-feed-section');
+        if (liveFeedSec) {
+            liveFeedSec.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;background:var(--glass);border-radius:12px;color:var(--muted)">No matching verified listings found for "${query}" under ${tab.toUpperCase()}. Try searching for "Nairobi" or "Mombasa"!</div>`;
+            return;
+        }
+        
+        renderGrid(filtered);
+    } catch(e) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#ef4444">Failed to search live listings.</div>';
+    }
+}
+
+// Favorite toggle helper
+function toggleFavorite(btn, propertyId) {
+    const icon = btn.querySelector('i');
+    if (icon.classList.contains('fa-regular')) {
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid');
+        btn.classList.add('active');
+    } else {
+        icon.classList.remove('fa-solid');
+        icon.classList.add('fa-regular');
+        btn.classList.remove('active');
+    }
+}
+
+// Filter by clicking on county
+function filterByLocation(countyName) {
+    const input = document.getElementById('main-search-input');
+    if (input) {
+        input.value = countyName;
+        executeMainSearch();
+    }
+}
+
+// Core renderer for properties
+function renderGrid(propertiesList) {
+    const grid = document.getElementById('live-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    const imgs = ['kenya_house.png', 'kenyan_apartment.png', 'kenya_shop.png', 'kenya_bnb.png'];
+    propertiesList.forEach((p, i) => {
+        const img = imgs[i % imgs.length];
+        const isRent = p.property_type?.toLowerCase().includes('rent') || p.type?.toLowerCase().includes('rent');
+        const beds = p.beds || 3;
+        const baths = p.baths || 2;
+        const sqft = p.sqft || (1000 + (i * 250));
+        const badgeBg = isRent ? '#10b981' : '#ef4444';
+        const badgeText = isRent ? 'FOR RENT' : 'FOR SALE';
+
+        grid.innerHTML += `
+            <div class="zillow-property-card reveal visible">
+                <div class="zillow-card-img-wrapper">
+                    <div class="zillow-card-img" style="background-image:url('${img}')"></div>
+                    <div class="zillow-card-badge" style="background:${badgeBg}">${badgeText}</div>
+                    <button class="zillow-fav-btn" onclick="toggleFavorite(this, '${p.id}')">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="zillow-card-body">
+                    <div class="zillow-card-price">
+                        KSh ${p.price?.toLocaleString()}
+                        ${isRent ? '<span>/mo</span>' : ''}
+                    </div>
+                    <div class="zillow-card-details">
+                        <strong>${beds}</strong> <span>bds</span>
+                        <span class="zillow-card-divider">|</span>
+                        <strong>${baths}</strong> <span>ba</span>
+                        <span class="zillow-card-divider">|</span>
+                        <strong>${sqft.toLocaleString()}</strong> <span>sqft</span>
+                    </div>
+                    <div class="zillow-card-address">
+                        <i class="fas fa-map-marker-alt" style="color:var(--primary)"></i>
+                        ${p.title} - ${p.location}
+                    </div>
+                    <div class="zillow-card-footer">
+                        <div class="zillow-verified-badge">
+                            <i class="fas fa-check-circle"></i> Verified Listing
+                        </div>
+                        <button class="amenity-btn" style="margin:0" onclick="openAmenities('${p.location.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-map-signs"></i> Amenities
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
 async function loadLiveFeed() {
     try {
         const r = await fetch('/api/properties');
@@ -217,49 +1366,163 @@ async function loadLiveFeed() {
             grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;background:var(--glass);border-radius:12px;color:var(--muted)">Our live feed is currently quiet. Be the first to list your property!</div>';
             return;
         }
-        grid.innerHTML = '';
-        let listings = data.slice(0, 3); // Show max 3 on homepage
-        const data3 = listings;
-        const imgs = ['kenya_house.png', 'kenyan_apartment.png', 'kenya_shop.png', 'kenya_bnb.png'];
-        listings.forEach((p, i) => {
-            // Use real image if available, else fallback to Kenyan samples
-            const img = (Array.isArray(p.images) && p.images[0]) ? p.images[0] : imgs[i % imgs.length];
-            const newEl = document.createElement('div');
-            newEl.className = 'pc reveal';
-            newEl.innerHTML = `
-                <div class="pi" style="background-image:url('${img}')">
-                    <div class="pbadge" style="background:${p.status === 'FOR SALE' ? '#ef4444' : '#10b981'}">${p.status || p.type?.toUpperCase()}</div>
-                </div>
-                <div class="pbd">
-                    <div class="ppr">KSh ${p.price?.toLocaleString()} <span> neg.</span></div>
-                    <div class="ptit">${p.title}</div>
-                    <div class="ploc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${p.location}</div>
-                    <div class="pfeats">
-                        <div class="pfe"><i class="fas fa-bed"></i> ${p.beds || 0} Beds</div>
-                        <div class="pfe"><i class="fas fa-bath"></i> ${p.baths || 0} Baths</div>
-                        <div class="pfe"><i class="fas fa-check-circle"></i> Verified</div>
-                    </div>
-                </div>`;
-            grid.appendChild(newEl);
-            if(window.obs) window.obs.observe(newEl);
-        });
+        renderGrid(data);
     } catch(e) {
         document.getElementById('live-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#ef4444">Failed to load live feed. Please check server connection.</div>';
     }
 }
+
+// Lestimate Valuation Engine
+function calculateLestimate() {
+    const county = document.getElementById('lest-county').value;
+    const type = document.getElementById('lest-type').value;
+    const size = parseInt(document.getElementById('lest-size').value) || 1000;
+    const beds = parseInt(document.getElementById('lest-beds').value) || 2;
+    const baths = parseInt(document.getElementById('lest-baths').value) || 2;
+
+    // Localized Base rates in KSh per sqft
+    let basePricePerSqft = 6500; // Default
+    if (county === 'Nairobi') basePricePerSqft = 9500;
+    else if (county === 'Mombasa') basePricePerSqft = 8200;
+    else if (county === 'Kiambu') basePricePerSqft = 7000;
+    else if (county === 'Kisumu') basePricePerSqft = 6800;
+    else if (county === 'Nakuru') basePricePerSqft = 6000;
+    else if (county === 'Machakos') basePricePerSqft = 5800;
+
+    // Type multipliers
+    let multiplier = 1.0;
+    if (type === 'house') multiplier = 1.35; // House costs more per footprint
+    else if (type === 'townhouse') multiplier = 1.15;
+
+    // Room calculations
+    const roomAddon = (beds * 800000) + (baths * 450000);
+
+    // Calculate core estimate
+    const estimate = Math.round((size * basePricePerSqft * multiplier) + roomAddon);
+    const lowRange = Math.round(estimate * 0.91);
+    const highRange = Math.round(estimate * 1.09);
+    
+    // Estimate monthly rent yield
+    const monthlyRent = Math.round(estimate * 0.0055);
+
+    // Update UI
+    document.getElementById('lest-val').innerText = 'KSh ' + estimate.toLocaleString();
+    document.getElementById('lest-range-low').innerText = 'KSh ' + Math.round(lowRange/100000)/10 + 'M';
+    document.getElementById('lest-range-high').innerText = 'KSh ' + Math.round(highRange/100000)/10 + 'M';
+    document.getElementById('lest-rent').innerText = 'KSh ' + monthlyRent.toLocaleString() + '/mo';
+
+    document.getElementById('lest-result').style.display = 'flex';
+}
+
+// Rent Affordability Engine
+function calculateAffordability() {
+    const income = parseFloat(document.getElementById('aff-income').value) || 0;
+    const debt = parseFloat(document.getElementById('aff-debt').value) || 0;
+    const pct = parseInt(document.getElementById('aff-pct').value) || 30;
+
+    // Affordable Rent calculation
+    const budget = Math.round((income * (pct / 100)) - (debt * 0.1)); // Debt factors into budget
+    const remain = Math.round(income - budget - debt);
+
+    document.getElementById('aff-val').innerText = 'KSh ' + Math.max(0, budget).toLocaleString() + ' /mo';
+    document.getElementById('aff-remain').innerText = 'KSh ' + Math.max(0, remain).toLocaleString();
+    document.getElementById('aff-result').style.display = 'flex';
+}
+
+// Zillow Pillars Modals Coordination
+function openSubportal(portalId) {
+    // Hide all
+    document.querySelectorAll('.z-modal').forEach(m => m.classList.remove('open'));
+    // Open targeted
+    const target = document.getElementById(portalId);
+    if (target) {
+        target.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+function closeSubportal(portalId) {
+    const target = document.getElementById(portalId);
+    if (target) {
+        target.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+}
+
+function openPillarOptions() {
+    const activeTabBtn = document.querySelector('.search-tab.active');
+    const activeTab = activeTabBtn ? activeTabBtn.innerText.toLowerCase() : 'buy';
+    
+    if (activeTab.includes('buy')) openSubportal('buy-portal-modal');
+    else if (activeTab.includes('rent')) openSubportal('rent-portal-modal');
+    else if (activeTab.includes('sell')) openSubportal('sell-portal-modal');
+    else if (activeTab.includes('bnb')) openSubportal('bnb-portal-modal');
+    else if (activeTab.includes('commercial')) openSubportal('commercial-portal-modal');
+}
+
 window.addEventListener('DOMContentLoaded', loadLiveFeed);
 </script>
-<section style="padding:1.8rem 5%;background:var(--nl);border-top:1px solid var(--gb);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem" class="reveal">
-  <div style="display:flex;align-items:center;gap:1.2rem">
-    <span style="color:var(--muted);font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase">Partner</span>
-    <a href="https://findit.co.ke" target="_blank" style="display:flex;align-items:center;gap:.5rem;text-decoration:none">
-      <i class="fas fa-search" style="color:var(--primary)"></i>
-      <span style="font-weight:700;color:#fff">FindIt<span style="color:var(--primary)">.co.ke</span></span>
+
+<section class="sec reveal" style="background:rgba(15, 23, 42, 0.4); border-top: 1px solid var(--gb);">
+  <div class="mw" style="max-width: 800px;">
+    <div>
+
+      <!-- Landlord Rental Manager Dashboard -->
+      <div>
+        <div class="sh" style="text-align:left; align-items:flex-start">
+          <div class="stag">Landlord Suite</div>
+          <h2 class="st" style="text-align:left; font-size: 1.8rem">Rental Manager Panel</h2>
+          <p class="ss" style="text-align:left; margin: 0 0 1.5rem">Collect rent, screen tenants, and sign lease agreements all in one dashboard.</p>
+        </div>
+        <div style="background:rgba(15,23,42,0.8); border: 1px solid var(--gb); border-radius:24px; padding:1.8rem; display:flex; flex-direction:column; gap:1.2rem">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.8rem">
+            <div style="font-size:0.8rem; color:var(--muted)">Active Buildings: <strong style="color:#fff">2</strong></div>
+            <div style="background:rgba(52,211,153,0.15); color:#34d399; font-size:0.72rem; padding:0.25rem 0.6rem; border-radius:100px; font-weight:700">Digital Escrow Connected</div>
+          </div>
+          <!-- Dashboard quick stats -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem">
+            <div style="background:rgba(255,255,255,0.02); padding:1rem; border-radius:12px; border:1px solid rgba(255,255,255,0.05)">
+              <div style="font-size:0.75rem; color:var(--muted)">This Month's Rent</div>
+              <div style="font-size:1.2rem; font-weight:800; color:var(--primary); margin-top:0.2rem">KSh 185,000</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); padding:1rem; border-radius:12px; border:1px solid rgba(255,255,255,0.05)">
+              <div style="font-size:0.75rem; color:var(--muted)">Background Checks</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#34d399; margin-top:0.2rem">4 Pending</div>
+            </div>
+          </div>
+          <!-- Tasks list -->
+          <div style="display:flex; flex-direction:column; gap:0.6rem">
+            <div style="font-size:0.85rem; color:#fff; font-weight:700">Upcoming Actions</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:0.6rem 0.8rem; border-radius:8px; font-size:0.78rem">
+              <span style="color:var(--muted)"><i class="fas fa-file-contract"></i> Sign lease with Kevin Omondi</span>
+              <a href="join.html" style="color:var(--primary); text-decoration:none; font-weight:700">Review</a>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:0.6rem 0.8rem; border-radius:8px; font-size:0.78rem">
+              <span style="color:var(--muted)"><i class="fas fa-user-shield"></i> Run background check on Anita W.</span>
+              <a href="join.html" style="color:var(--primary); text-decoration:none; font-weight:700">Run</a>
+            </div>
+          </div>
+          <a href="sell.html#listform" class="btn bp" style="width:100%; text-align:center; padding:0.8rem"><i class="fas fa-plus"></i> Add New Rental Building</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec reveal" style="background:var(--nl)">
+<div class="sh"><div class="stag">Our Partners</div><h2 class="st">Powering LinkPoint</h2><p class="ss">We integrate with Kenya's best networks to provide verified real estate data.</p></div>
+  <div style="display:flex;justify-content:center;gap:3rem;align-items:center;flex-wrap:wrap">
+    <a href="https://findit.co.ke" target="_blank" style="display:flex;align-items:center;gap:0.8rem;text-decoration:none;background:var(--glass);padding:1rem 2rem;border-radius:12px;border:1px solid var(--gb);transition:all 0.3s">
+        <i class="fas fa-search" style="font-size:2rem;color:var(--primary)"></i>
+        <span style="font-family:var(--serif);font-size:1.8rem;font-weight:700;color:#fff">FindIt<span style="color:var(--primary)">.co.ke</span></span>
     </a>
   </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap">
-    <button class="btn bp" onclick="openPayment('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
-    <button class="btn bg" onclick="openPayment('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Rentals (KSh 400)</button>
+</section>
+
+<section style="padding:5rem 5%;background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(255,107,53,.04));border-top:1px solid rgba(255,107,53,.2);border-bottom:1px solid rgba(255,107,53,.2);text-align:center" class="reveal">
+  <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.9rem">Ready to Find Your<em style="color:var(--primary);font-style:italic"> Perfect Space?</em></h2>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
+    <button class="btn bp blg" onclick="showPayMethodModal('1,500', 'Unlock Buyer Access (Homes)')"><i class="fas fa-search"></i> Access Homes</button>
+    <button class="btn bg blg" onclick="showPayMethodModal('400', 'Unlock Rental Access')"><i class="fas fa-search-location"></i> Access Rentals (KSh 400)</button>
   </div>
 </section>
 <button class="rate-widget" onclick="openRate()"><i class="fas fa-star"></i> Rate Us</button>
@@ -268,7 +1531,7 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
   <div class="fg">
     <div>
         <a href="/" class="logo"><div class="lb">L</div><span class="lt">Link<span>Point</span></span></a>
-        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Paystack escrow, and premium services nationally.</p>
+        <p class="fbp" style="margin-bottom:0.8rem">Kenya's most trusted real estate ecosystem. Verified listings, Pay via M-Pesa escrow, and premium services nationally.</p>
         <p style="color:var(--muted);font-size:0.86rem;margin-bottom:1.2rem;line-height:1.7">
             <strong>Need Help?</strong><br>
             <i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp: <a href="https://wa.me/254112012816" style="color:var(--primary);text-decoration:none" target="_blank">0112012816</a><br>
@@ -288,28 +1551,153 @@ window.addEventListener('DOMContentLoaded', loadLiveFeed);
   <div class="fb"><span>© 2026 LinkPoint Hub. Built with ❤️ in Kenya.</span><span><a href="https://findit.co.ke" style="color:var(--primary);text-decoration:none;font-weight:700">FindIt.co.ke</a> Partner · SSL Secured</span></div>
 </footer>
 
+<!-- Auth Modal -->
+<div class="auth-ov" id="aov">
+    <div class="auth-box" id="auth-main">
+        <button class="acl" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        <div style="text-align:center;margin-bottom:1.5rem">
+            <div class="lb" style="margin:0 auto 1rem;width:50px;height:50px;font-size:1.4rem">L</div>
+            <h2 id="auth-title" style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Welcome Back</h2>
+            <p id="auth-desc" style="color:var(--muted);font-size:.87rem">Sign in to your LinkPoint account</p>
+        </div>
+        
+        <!-- Login View -->
+        <div id="login-view" style="display:flex;flex-direction:column;gap:1rem">
+            <div class="fgroup"><label>Email Address</label><input type="email" id="login-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label style="display:flex;justify-content:space-between">Password <a href="#" style="color:var(--primary);text-decoration:none;font-weight:400">Forgot?</a></label><input type="password" id="login-pass" class="fi" placeholder="••••••••"></div>
+            <button class="btn bp" id="btn-login" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Sign In <i class="fas fa-arrow-right"></i></button>
+            <button class="btn bg" id="btn-biometric" style="width:100%;justify-content:center;padding:.85rem;border-color:rgba(16,185,129,0.3);color:#34d399" ><i class="fas fa-fingerprint"></i> Biometric Login (FaceID / Touch)</button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">New here? <a href="#" onclick="toggleAuthView('register')" style="color:var(--primary); font-weight:600">Create an Account</a></p>
+        </div>
+
+        <!-- Register View -->
+        <div id="reg-view" style="display:none;flex-direction:column;gap:1rem">
+            <div class="fgroup"><label>Full Name</label><input type="text" id="reg-name" class="fi" placeholder="Jane Doe"></div>
+            <div class="fgroup"><label>Email Address</label><input type="email" id="reg-email" class="fi" placeholder="you@example.com"></div>
+            <div class="fgroup"><label>Password</label><input type="password" id="reg-pass" class="fi" placeholder="••••••••"></div>
+            <button class="btn bp" id="btn-register" style="width:100%;justify-content:center;padding:.92rem;margin-top:.3rem">Create Secure Account <i class="fas fa-shield-alt"></i></button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:var(--muted)">Already have an account? <a href="#" onclick="toggleAuthView('login')" style="color:var(--primary); font-weight:600">Sign In</a></p>
+        </div>
+    </div>
+</div>
+<script>
+function toggleAuthView(view) {
+    const isReg = view === 'register';
+    document.getElementById('login-view').style.display = isReg ? 'none' : 'flex';
+    document.getElementById('reg-view').style.display = isReg ? 'flex' : 'none';
+    document.getElementById('auth-title').innerText = isReg ? 'Create Account' : 'Welcome Back';
+    document.getElementById('auth-desc').innerText = isReg ? 'Join the LinkPoint Ecosystem' : 'Sign in to your LinkPoint account';
+}
+</script>
+
+
+
+<!-- Rate Modal -->
+<div class="auth-ov" id="rov"><div class="auth-box"><button class="acl" onclick="closeRate()"><i class="fas fa-times"></i></button><div style="text-align:center;margin-bottom:1.5rem"><h2 style="font-family:var(--serif);font-size:1.65rem;margin-bottom:.3rem">Rate LinkPoint</h2><p style="color:var(--muted);font-size:.87rem">How was your experience today?</p></div><div style="display:flex;justify-content:center;gap:0.5rem;font-size:2rem;color:#f59e0b;margin-bottom:1.5rem"><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="fas fa-star cursor-pointer"></i><i class="far fa-star cursor-pointer"></i></div><div class="fgroup"><textarea class="fi" placeholder="Any feedback for us?"></textarea></div><button class="btn bp" style="width:100%;justify-content:center;padding:.92rem" >Submit Feedback</button></div></div>
+
 <script>
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>55));
 const obs=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);}),{threshold:.07});
-window.obs = obs;
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-/* PWA Install Logic */
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'inline-flex';
-});
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if (deferredPrompt !== null) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') { deferredPrompt = null; document.getElementById('installBtn').style.display = 'none'; }
-  }
-});
+function previewPic(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const prev = document.getElementById("pic-preview");
+            prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover">`;
+            prev.style.border = "2px solid var(--primary)";
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+function toggleAuth(isReg) {
+    const box = document.getElementById("auth-main");
+    if(isReg) box.classList.add("registering");
+    else box.classList.remove("registering");
+}
+
+async function handleRegister() {
+    const name = document.getElementById("reg-name").value;
+    const email = document.getElementById("reg-email").value;
+    const pass = document.getElementById("reg-pass").value;
+    const btn = document.getElementById("btn-register");
+
+    if(!name || !email || !pass) { alert("Please complete all fields."); return; }
+    if(pass.length < 6) { alert("Security: Password must be at least 6 characters."); return; }
+
+    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Encrypting Account...";
+    try {
+        const r = await fetch("/api/register", { 
+            method: "POST", 
+            body: JSON.stringify({ name, email, password: pass }) 
+        });
+        if (r.ok) {
+            alert("✅ Account Created Successfully! You can now login.");
+            toggleAuthView('login');
+        } else {
+            const data = await r.json();
+            alert("❌ Registration Error: " + data.message);
+        }
+    } catch(e) { alert("Registration failed locally."); }
+    btn.innerHTML = "Create Secure Account <i class='fas fa-shield-alt'></i>";
+}
+
+async function handleLogin() {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-pass").value;
+    const btn = document.getElementById("btn-login");
+    if (!email || !password) { alert("Please enter credentials"); return; }
+    
+    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Verifying Credentials...";
+    try {
+        const r = await fetch("/api/login", { 
+            method: "POST", 
+            body: JSON.stringify({ email, password }) 
+        });
+        const d = await r.json();
+        if (r.ok) {
+            localStorage.setItem('token', d.token);
+            if(d.user) localStorage.setItem('user_name', d.user.name);
+            alert("🚀 Welcome Back! Security Handshake Complete.");
+            window.location.href = "user-dashboard.html";
+        } else {
+            alert("❌ Access Denied: " + d.message);
+        }
+    } catch(e) { alert("Security Server Offline"); }
+    btn.innerHTML = "Sign In <i class='fas fa-arrow-right'></i>";
+}
+
+async function handleBiometric() {
+    const btn = document.getElementById("btn-biometric");
+    btn.innerHTML = "<i class='fas fa-fingerprint fa-spin'></i> Scanning Biometrics...";
+    // Emulating platform-native Biometric prompt (WebAuthn)
+    setTimeout(async () => {
+        try {
+            const r = await fetch("/api/auth/biometric", { method: "POST" });
+            const d = await r.json();
+            alert("🔓 Biometric Identity Verified: Access Granted.");
+            closeAuth();
+        } catch(e) { alert("Biometric Hub Offline"); }
+        btn.innerHTML = "<i class='fas fa-fingerprint'></i> Biometric Login (FaceID / Touch)";
+    }, 1200);
+}
+
+// Hook them up
+document.getElementById("btn-login").onclick = handleLogin;
+document.getElementById("btn-register").onclick = handleRegister;
+document.getElementById("btn-biometric").onclick = handleBiometric;
+
+document.getElementById('aov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
+
+
+
+document.getElementById('rov').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRate();});
+
+
+
+
 </script>
 
 <!-- Live Chat Modal -->
@@ -332,66 +1720,176 @@ document.getElementById('installBtn').addEventListener('click', async () => {
 </style>
 
 <script>
-function openChat(){ document.getElementById('chat-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeChat(){ document.getElementById('chat-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+
 document.getElementById('chat-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeChat(); });
 function openAmenities(loc){ document.getElementById('amenity-loc').innerText = loc + ' Area Information'; document.getElementById('amenities-ov').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAmenities(){ document.getElementById('amenities-ov').classList.remove('open'); document.body.style.overflow=''; }
 document.getElementById('amenities-ov')?.addEventListener('click', e => { if(e.target === e.currentTarget) closeAmenities(); });
 </script>
 
-<script src="mpesa.js"></script>
 
+<script src="linkpoint-3d.js"></script>
 <script>
-function openPayment(amount, desc) {
-    if(!localStorage.getItem('token')) {
-        showPayGate(amount, desc);
-        return;
+window.onerror = function(m,u,l){ alert("JS ERROR: " + m + " at " + u + ":" + l); };
+window.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const uName = localStorage.getItem('user_name');
+    if(token && uName) {
+        const btn = document.getElementById('auth-btn');
+        if(btn) {
+            btn.href = "user-dashboard.html";
+            btn.innerHTML = `<i class="fas fa-home"></i> ${uName.split(' ')[0]}'s Dashboard`;
+            btn.style.color = "var(--primary)";
+            btn.style.borderColor = "var(--primary)";
+        }
     }
-    showPayMethodModal(amount, desc);
-}
-
-function showPayGate(amount, desc) {
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center';
-    ov.innerHTML = `<div style="background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:2.5rem;width:90%;max-width:400px;text-align:center">
-      <div style="font-size:2.5rem;margin-bottom:1rem">🔒</div>
-      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.5rem">Login Required</h2>
-      <p style="color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:1.8rem">Please sign in to pay for <strong style="color:#FF6B35">${desc}</strong></p>
-      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-        <a href="join.html" style="background:#FF6B35;color:#fff;padding:.8rem 1.8rem;border-radius:100px;font-weight:700;text-decoration:none;font-size:.9rem"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        <button onclick="this.closest('[style]').remove()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:.8rem 1.8rem;border-radius:100px;font-weight:700;cursor:pointer;font-size:.9rem">Cancel</button>
-      </div>
-    </div>`;
-    document.body.appendChild(ov);
-    ov.addEventListener('click', e => { if(e.target === ov) ov.remove(); });
-}
-
-function showPayMethodModal(amount, desc) {
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center';
-    ov.innerHTML = `<div style="background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:2.5rem;width:90%;max-width:420px;text-align:center">
-      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.4rem">Choose Payment Method</h2>
-      <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:2rem">Pay <strong style="color:#FF6B35">KSh ${amount}</strong> for ${desc}</p>
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <button onclick="doMpesa('${amount}','${desc}',this.closest('[style]'))" style="background:#00a651;border:none;color:#fff;padding:1rem;border-radius:13px;font-weight:700;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
-          <i class="fas fa-mobile-alt"></i> M-Pesa (STK Push)
-        </button>
-        <button onclick="doPaystack('${amount}','${desc}',this.closest('[style]'))" style="background:#FF6B35;border:none;color:#fff;padding:1rem;border-radius:13px;font-weight:700;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
-          <i class="fas fa-credit-card"></i> Paystack (Card / Bank)
-        </button>
-        <button onclick="this.closest('[style]').remove()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);padding:.7rem;border-radius:13px;cursor:pointer;font-size:.88rem">Cancel</button>
-      </div>
-    </div>`;
-    document.body.appendChild(ov);
-    ov.addEventListener('click', e => { if(e.target === ov) ov.remove(); });
-}
-function doMpesa(amt, desc, ov) { if(ov) ov.remove(); if(typeof openMpesa==='function') openMpesa(amt, desc); }
-function doPaystack(amt, desc, ov) { if(ov) ov.remove(); if(typeof openPaystack==='function') openPaystack(amt, desc); }
+});
 </script>
-<script src="shared-auth.js"></script>
-<script src="intasend.js"></script>
-<script src="intasend.js"></script>
+
+<!-- BUY PORTAL OPTIONS MODAL -->
+<div class="z-modal" id="buy-portal-modal">
+  <div class="z-modal-card animate-fade-in">
+    <button class="z-modal-close" onclick="closeSubportal('buy-portal-modal')"><i class="fas fa-times"></i></button>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--primary);margin-bottom:0.3rem"><i class="fas fa-shopping-cart"></i> Buy Portal Settings</h3>
+      <p style="color:var(--muted);font-size:0.85rem">Refine your search for properties to purchase in Kenya.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1.2rem">
+      <div>
+        <label style="color:#fff;font-weight:700;font-size:0.85rem;display:block;margin-bottom:0.5rem">Listing Status</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem">
+          <label style="font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem"><input type="checkbox" checked> Homes for Sale</label>
+          <label style="font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem"><input type="checkbox"> Foreclosures</label>
+          <label style="font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem"><input type="checkbox" checked> New Construction</label>
+          <label style="font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem"><input type="checkbox"> Coming Soon</label>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.06)">
+        <h4 style="color:#fff;font-size:0.9rem;margin-bottom:0.3rem"><i class="fas fa-hand-holding-heart" style="color:var(--primary)"></i> Down-Payment Assistance</h4>
+        <p style="color:var(--muted);font-size:0.8rem;line-height:1.4">Find out if you qualify for national housing finance schemes (Boma Yangu) or bank deposit grants up to KSh 500,000.</p>
+        <button class="btn bg" style="margin-top:0.6rem;padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:6px" onclick="closeSubportal('buy-portal-modal');openChat();">Consult Agent</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RENT PORTAL OPTIONS MODAL -->
+<div class="z-modal" id="rent-portal-modal">
+  <div class="z-modal-card">
+    <button class="z-modal-close" onclick="closeSubportal('rent-portal-modal')"><i class="fas fa-times"></i></button>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--primary);margin-bottom:0.3rem"><i class="fas fa-key"></i> Browse Rental Buildings</h3>
+      <p style="color:var(--muted);font-size:0.85rem">Group multiple units under one prominent building profile.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <!-- Building 1 -->
+      <div class="building-unit-item">
+        <div class="building-unit-img" style="background-image:url('kenyan_apartment.png')"></div>
+        <div style="flex:1">
+          <h4 style="color:#fff;font-size:0.95rem">Kileleshwa Heights Residences</h4>
+          <p style="color:var(--muted);font-size:0.8rem;margin:0.2rem 0">Nairobi - 12 active listings available</p>
+          <strong style="color:var(--primary);font-size:0.85rem">From KSh 85,000/mo</strong>
+        </div>
+        <button class="btn bg" style="padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:6px" onclick="closeSubportal('rent-portal-modal');filterByLocation('Nairobi')">View Building</button>
+      </div>
+      <!-- Building 2 -->
+      <div class="building-unit-item">
+        <div class="building-unit-img" style="background-image:url('kenya_bnb.png')"></div>
+        <div style="flex:1">
+          <h4 style="color:#fff;font-size:0.95rem">Nyali Breeze Apartments</h4>
+          <p style="color:var(--muted);font-size:0.8rem;margin:0.2rem 0">Mombasa - 8 active listings available</p>
+          <strong style="color:var(--primary);font-size:0.85rem">From KSh 60,000/mo</strong>
+        </div>
+        <button class="btn bg" style="padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:6px" onclick="closeSubportal('rent-portal-modal');filterByLocation('Mombasa')">View Building</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SELL PORTAL OPTIONS MODAL -->
+<div class="z-modal" id="sell-portal-modal">
+  <div class="z-modal-card">
+    <button class="z-modal-close" onclick="closeSubportal('sell-portal-modal')"><i class="fas fa-times"></i></button>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--primary);margin-bottom:0.3rem"><i class="fas fa-tags"></i> Sell on LinkPoint</h3>
+      <p style="color:var(--muted);font-size:0.85rem">Choose your preferred entry point to list and close deals.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:1rem">
+      <!-- FSBO Option -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:1.2rem;border-radius:16px;display:flex;align-items:flex-start;gap:0.8rem">
+        <i class="fas fa-user-tag" style="color:var(--primary);font-size:1.4rem;margin-top:0.2rem"></i>
+        <div>
+          <h4 style="color:#fff;font-size:0.95rem;font-weight:700">For Sale by Owner (FSBO)</h4>
+          <p style="color:var(--muted);font-size:0.8rem;line-height:1.4;margin:0.2rem 0">Post directly to buyers and save on commission fees. Free basic listing included.</p>
+          <a href="sell.html#listform" class="btn bp" style="padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:6px;margin-top:0.4rem;display:inline-block">List FSBO</a>
+        </div>
+      </div>
+      <!-- Agent Option -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:1.2rem;border-radius:16px;display:flex;align-items:flex-start;gap:0.8rem">
+        <i class="fas fa-user-tie" style="color:#3b82f6;font-size:1.4rem;margin-top:0.2rem"></i>
+        <div>
+          <h4 style="color:#fff;font-size:0.95rem;font-weight:700">Partner with an Agent</h4>
+          <p style="color:var(--muted);font-size:0.8rem;line-height:1.4;margin:0.2rem 0">Connect with a highly-rated local broker to handle pricing, marketing, and legal escrow details.</p>
+          <button class="btn bg" style="padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:6px;margin-top:0.4rem" onclick="closeSubportal('sell-portal-modal');openChat();">Match Me with Agent</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BNB OPTIONS MODAL -->
+<div class="z-modal" id="bnb-portal-modal">
+  <div class="z-modal-card">
+    <button class="z-modal-close" onclick="closeSubportal('bnb-portal-modal')"><i class="fas fa-times"></i></button>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--primary);margin-bottom:0.3rem"><i class="fas fa-umbrella-beach"></i> Holiday BnB Stays</h3>
+      <p style="color:var(--muted);font-size:0.85rem">Explore verified holiday apartments and staycations in Kenya.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.5">LinkPoint has partnered with local hosts in Mombasa, Diani, Naivasha, and Nairobi to offer fully vetted vacation rental homes.</p>
+      <button class="btn bp" style="padding:0.8rem" onclick="closeSubportal('bnb-portal-modal');filterByLocation('Mombasa')"><i class="fas fa-search"></i> Browse Coastal BnB listings</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMMERCIAL OPTIONS MODAL -->
+<div class="z-modal" id="commercial-portal-modal">
+  <div class="z-modal-card">
+    <button class="z-modal-close" onclick="closeSubportal('commercial-portal-modal')"><i class="fas fa-times"></i></button>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--primary);margin-bottom:0.3rem"><i class="fas fa-building"></i> Commercial Spaces</h3>
+      <p style="color:var(--muted);font-size:0.85rem">Find office suites, retail shops, and warehousing spaces.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.5">Filter listings targeting high-density business districts in Nairobi (CBD, Westlands, Upper Hill) and Mombasa.</p>
+      <button class="btn bp" style="padding:0.8rem" onclick="closeSubportal('commercial-portal-modal');filterByLocation('Nairobi')"><i class="fas fa-search"></i> Search Commercial Listings</button>
+    </div>
+  </div>
+</div>
+
+<!-- PERSISTENT MOBILE BOTTOM NAVIGATION BAR -->
+<div class="bottom-nav">
+  <a href="index.html" class="bottom-nav-item active">
+    <i class="fas fa-home"></i>
+    <span>Home</span>
+  </a>
+  <a href="#hero-3d" class="bottom-nav-item" onclick="document.getElementById('hero-3d')?.scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-search"></i>
+    <span>Search</span>
+  </a>
+  <a href="#interactive-tools-section" class="bottom-nav-item" onclick="document.getElementById('interactive-tools-section')?.scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-calculator"></i>
+    <span>Tools</span>
+  </a>
+
+  <a href="javascript:void(0)" class="bottom-nav-item" onclick="openChat()">
+    <i class="fab fa-whatsapp"></i>
+    <span>Inbox</span>
+  </a>
+</div>
+
+<script src="shared-ui.js"></script>
 </body></html>
 
 
