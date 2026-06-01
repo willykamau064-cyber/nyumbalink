@@ -247,6 +247,22 @@ body{font-family:var(--sans);background:var(--navy);color:var(--text);display:fl
         </div>
       </div>
 
+      <!-- MY LANDLORD SECTION -->
+      <h3 class="sec-title"><i class="fas fa-key"></i> My Current Lease & Landlord</h3>
+      <div class="profile-card" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold;">J</div>
+            <div>
+                <h4 style="font-size: 1.1rem; font-weight: 700;">James Kamau</h4>
+                <p style="color: var(--muted); font-size: 0.85rem;">Landlord • Joined LinkPoint: March 2023</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+            <button class="bk-btn primary" onclick="showToast('success','WhatsApp opened for Landlord')"><i class="fab fa-whatsapp"></i> Chat</button>
+            <button class="bk-btn" onclick="showToast('success','Payment portal opened')"><i class="fas fa-file-invoice-dollar"></i> Pay Rent</button>
+        </div>
+      </div>
+
       <h3 class="sec-title"><i class="fas fa-star"></i> Recommended For You</h3>
       <div class="prop-grid" id="rec-grid">
         <!-- Populated by JS -->
